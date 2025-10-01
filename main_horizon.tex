@@ -86,6 +86,12 @@
 % For placeholder text
 \usepackage{lipsum}
 
+% --- TABLE AND CURRENCY PACKAGES ---
+\usepackage{booktabs} % For professional looking tables
+\usepackage{longtable} % For tables that may span multiple pages
+\usepackage{siunitx} % For aligning numbers in tables
+\usepackage{eurosym} % For the EUR symbol
+
 \title{A Causal, Counterfactual Framework for Modeling Longitudinal Prostate Cancer Progression}
 \author{}
 \date{}
@@ -191,6 +197,9 @@ The project is structured into seven Work Packages (WPs) spanning 36 months. WPs
     \label{fig:gantt_chart}
 \end{figure}
 
+\section{Budget and Resources}
+\input{budget.tex}
+
 Our vision is ambitious and high-risk, but the confluence of recent breakthroughs makes it achievable. Advances in generative modeling (VAEs, Diffusion Models), continuous-time dynamics (Neural ODEs), and the availability of rich, multimodal datasets, including from the innovative use of Lutetium-PSMA therapy, provide the necessary tools. This project will leverage these advances to create a foundational model for European oncology, with the potential for future integration into platforms like the European Cancer Imaging Initiative.
 
 \begin{figure}[H]
@@ -246,6 +255,25 @@ Prostate cancer evolution is not a series of disconnected snapshots. It is a con
 
 \subsection{Respecting the Ordinality of Clinical Scores}
 Clinical and pathological scoring systems like Gleason Score or PI-RADS are not arbitrary categories; they represent an ordered scale of biological aggressiveness and risk. Treating them as simple classes ignores this vital information. Our supervisor models (WP2) will be trained with \textbf{differential ordinal loss functions}. This forces the model to understand that misclassifying a PI-RADS 2 lesion as a 3 is a small error, while misclassifying it as a 5 is a major one. This embeds a fundamental aspect of clinical knowledge into the model's feature space, leading to more robust and clinically relevant representations.
+
+\section{Compliance with the EU Artificial Intelligence Act}
+The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
+
+\begin{itemize}
+    \item \textbf{Risk Management System (Article 9):} Our project management (WP7) includes a continuous, iterative risk management process that will be maintained throughout the AI system's lifecycle. This involves identifying, analyzing, and mitigating known and reasonably foreseeable risks to health, safety, and fundamental rights.
+
+    \item \textbf{Data and Data Governance (Article 10):} WP1 is entirely dedicated to establishing data governance practices that meet the quality criteria of Article 10. We will use relevant, representative, and error-free datasets. We will proactively implement measures to detect and mitigate potential biases. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5).
+
+    \item \textbf{Transparency and Provision of Information (Article 13):} A cornerstone of our project is to overcome the "black box" problem. The framework's ability to generate counterfactual explanations is a direct implementation of the transparency requirements of Article 13. The system is designed so that its operations are sufficiently transparent to enable deployers to interpret its output and use it appropriately.
+
+    \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
+
+    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies. We will implement robust cybersecurity measures to protect against vulnerabilities specific to AI, including data poisoning and adversarial attacks, as mandated by Article 15.
+
+    \item \textbf{Technical Documentation and Record-Keeping (Articles 11 \& 12):} We commit to creating and maintaining comprehensive technical documentation as specified in Annex IV of the AI Act and implementing logging capabilities to ensure traceability, in compliance with Article 12.
+\end{itemize}
+
+This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
 
 \section{Methodology: A Multi-Stage Causal Framework}
 To ensure stability and manage the complexity of multimodal data, the model is constructed using a sequential, multi-stage training framework. This approach decomposes the overall task into a series of manageable sub-problems, where each stage builds upon the foundations laid by the previous one. A visual overview of the proposed framework is presented in Figure \ref{fig:ml_framework}.

@@ -1,0 +1,80 @@
+\section*{Budget Justification and Allocation}
+
+The total requested budget for the CausalPCa project is \textbf{\EUR{2,673,750}} over a period of 36 months. This budget is designed to provide the necessary resources to achieve the ambitious objectives outlined in this proposal. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
+
+\subsection*{A. Direct Costs}
+
+\subsubsection*{A.1 Personnel Costs}
+Personnel costs represent the largest portion of the budget, reflecting the highly skilled, interdisciplinary team required for this project. Costs are estimated based on standard institutional rates for the Magdeburg area, including social security contributions. A total of \textbf{288 person-months (PMs)} are budgeted.
+
+\begin{itemize}
+    \item \textbf{Principal Investigator (PI) / Senior Researcher (1 FTE, 36 PMs):} The PI will dedicate 100% of their time to the project, providing scientific leadership, coordinating all WPs, and leading dissemination activities (WP6, WP7).
+    \item \textbf{Postdoctoral Researchers (2 FTEs, 72 PMs):} Two postdoctoral researchers will form the core of the technical development team, leading tasks in WP2 (Supervisor Models), WP3 (Causal VAE), and WP4 (Temporal Modeling).
+    \item \textbf{PhD Students (3 FTEs, 108 PMs):} Three PhD students will support all technical WPs, focusing on model implementation, data curation, and experimental validation. Their work will form the basis of their doctoral theses.
+    \item \textbf{Project Manager (0.5 FTE, 18 PMs):} A part-time project manager will handle administrative, financial, and reporting duties, ensuring the project runs smoothly and meets all EC requirements (WP7).
+    \item \textbf{Data Scientist/Engineer (1 FTE, 36 PMs):} A dedicated data engineer will manage the complex data curation, harmonization, and storage pipeline in WP1 and support the data requirements of subsequent WPs.
+    \item \textbf{Clinical Research Assistant (0.5 FTE, 18 PMs):} A part-time research assistant will support the clinical validation and workflow integration studies in WP5.
+\end{itemize}
+
+\textbf{Total Estimated Personnel Costs: \EUR{1,740,000}}
+
+\subsubsection*{A.2 Equipment Costs}
+The primary equipment cost is for access to high-performance computing (HPC) resources, which are essential for training the large-scale generative models proposed in WP3 and WP4.
+\begin{itemize}
+    \item \textbf{GPU Cluster / Cloud Computing Credits:} We request a budget for dedicated access to a GPU cluster or equivalent cloud computing credits (e.g., AWS, GCP). This is critical for training deep learning models on large 3D medical imaging datasets. The estimated cost is based on the required computational power for training multiple VAEs and a Neural Jump ODE over the project's duration.
+\end{itemize}
+
+\textbf{Total Estimated Equipment Costs: \EUR{300,000}}
+
+\subsubsection*{A.3 Travel Costs}
+The travel budget is allocated for consortium meetings and dissemination of project results at leading international conferences.
+\begin{itemize}
+    \item \textbf{Consortium Meetings (3):} Budget for travel and accommodation for all partners to attend a kick-off meeting (M1 in Magdeburg), a mid-term review meeting (M18 in Halle), and a final project meeting (M36 in Magdeburg).
+    \item \textbf{International Conferences (6):} Budget to allow key personnel (PI, Postdocs, PhDs) to present project findings at major international conferences such as RSNA, ECR, MICCAI, and NeurIPS. This is crucial for WP6 (Dissemination).
+\end{itemize}
+
+\textbf{Total Estimated Travel Costs: \EUR{65,000}}
+
+\subsubsection*{A.4 Other Direct Costs}
+This category includes costs for publications and other minor expenses.
+\begin{itemize}
+    \item \textbf{Open Access Publication Fees:} To comply with Horizon Europe's open science mandate, we have budgeted for Article Processing Charges (APCs) for an estimated 10 high-impact journal publications.
+    \item \textbf{Consumables:} Minor costs for software licenses and data storage solutions.
+\end{itemize}
+
+\textbf{Total Estimated Other Direct Costs: \EUR{34,000}}
+
+\subsection*{B. Indirect Costs (Overheads)}
+Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with Horizon Europe rules. These costs cover general institutional overheads such as administration, utilities, and office space that support the research activities.
+
+\textbf{Total Direct Costs (A): \EUR{2,139,000}} \\
+\textbf{Indirect Costs (B = 25\% of A): \EUR{534,750}}
+
+\subsection*{C. Total Project Budget}
+The total requested funding is the sum of total direct and indirect costs.
+
+\textbf{Total Estimated Project Cost (A + B): \EUR{2,673,750}}
+
+\subsection*{Budget Allocation per Work Package (in EUR)}
+
+\begin{table}[H]
+\centering
+\caption{Estimated Budget Allocation per Work Package}
+\label{tab:budget_wp}
+\sisetup{group-separator={,}}
+\begin{tabular}{lS[table-format=7.0]S[table-format=7.0]S[table-format=7.0]}
+\toprule
+\textbf{Work Package} & \textbf{Direct Costs} & \textbf{Indirect Costs} & \textbf{Total Cost} \\
+\midrule
+WP1: Data Curation & 380000 & 95000 & 475000 \\
+WP2: Supervisor Models & 450000 & 112500 & 562500 \\
+WP3: Causal VAE & 550000 & 137500 & 687500 \\
+WP4: Temporal Modeling & 400000 & 100000 & 500000 \\
+WP5: Validation & 150000 & 37500 & 187500 \\
+WP6: Dissemination & 109000 & 27250 & 136250 \\
+WP7: Project Management & 100000 & 25000 & 125000 \\
+\midrule
+\textbf{Total} & \textbf{2139000} & \textbf{534750} & \textbf{2673750} \\
+\bottomrule
+\end{tabular}
+\end{table}
