@@ -108,7 +108,16 @@ The management of prostate cancer is at a tipping point. Clinicians are inundate
 
 This project puts forward a radical new vision: to move beyond simple prediction and pioneer a new generation of Causal AI that can reason about prostate cancer. We aim to build not just a predictive tool, but a dynamic, interactive "digital twin" of a patient's disease trajectory. Our goal is to create a model that understands the intricate cause-and-effect relationships driving cancer progression, can simulate future outcomes under different treatment scenarios, and can explain its reasoning through clinically intuitive counterfactuals. By asking "what if...?"—what if this tumour were benign? what if this patient had not received therapy?—we empower clinicians with a tool that augments, rather than replaces, their own reasoning process.
 
-This is a high-risk, high-gain endeavour. The ambition to model causality from complex, heterogeneous, and incomplete observational data represents a grand challenge at the frontier of AI research. The risk lies in the profound scientific and technical hurdles that must be overcome. The gain, however, is transformative: a foundational, trustworthy AI framework that could revolutionize personalized oncology, establish a new European standard for explainable clinical AI, and ultimately lead to profoundly better outcomes for millions of men worldwide. This project does not aim to incrementally improve existing methods; it aims to define the technology-to-come. Our consortium is uniquely positioned to succeed, possessing not only the requisite multimodal data but also a proven track record in developing and deploying advanced AI models in a clinical setting, including for synthetic image generation, predictive modeling, and structured reporting.
+This project does not aim to incrementally improve existing methods; it aims to define the technology-to-come.
+
+\subsection{Consortium and Clinic Expertise}
+Our consortium is uniquely positioned to succeed in this high-risk, high-gain endeavor. The applicant clinic, the Universitätsklinik für Radiologie und Nuklearmedizin, possesses not only the requisite multimodal data but also a proven track record in developing and deploying advanced AI models in a clinical setting. Our team has successfully executed projects involving:
+\begin{itemize}
+    \item \textbf{Synthetic Image Generation:} We have hands-on experience in generating synthetic CT scans from PET data, a foundational skill for the generative components of this proposal.
+    \item \textbf{Predictive Modeling:} Our team has developed and validated models for predicting disease progression by fusing clinical and imaging data, directly relevant to the core of this project.
+    \item \textbf{Clinical Application Development:} We have created a user-friendly GUI for structured reporting and developed an LLM-based support application for thyroid cancer guidelines, demonstrating our ability to translate research into practical clinical tools.
+\end{itemize}
+Crucially, the project will be led by a Principal Investigator who possesses a rare dual expertise in both clinical radiology and artificial intelligence. This unique leadership ensures a seamless bridge between the complex technical development and the real-world clinical needs and validation requirements, a critical success factor for a project of this ambition. The collaboration with the Abteilung für Nuklearmedizin at Universitätsmedizin Halle and the private practice of Dr. Christian Wybrański further strengthens our consortium, providing diverse data and clinical perspectives.
 
 \subsection{Objectives}
 This project is guided by a set of clear, ambitious, and interconnected objectives designed to realize our vision of a causal AI for prostate cancer, directly aligning with the Pathfinder's goal of developing foundational, high-impact technologies. The primary objectives are:
@@ -125,7 +134,7 @@ This project is guided by a set of clear, ambitious, and interconnected objectiv
 \end{enumerate}
 
 \subsection{Concept and Methodology}
-Our methodology is founded on a novel, multi-stage causal AI framework designed to deconstruct the complex problem of prostate cancer progression into a series of manageable, interconnected tasks. This modular approach, which leverages our consortium's extensive experience in synthetic image generation (CT from PET) and predictive modeling, ensures training stability, enhances interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases, guiding the model to learn the true underlying causal mechanisms of the disease. The entire framework is illustrated in Figure \ref{fig:ml_framework}.
+Our methodology is a direct answer to the profound challenges of building trustworthy clinical AI. We have designed a novel, four-stage causal framework that deconstructs the immense complexity of prostate cancer progression into a series of well-defined, manageable tasks. This modular approach is the key to our project's feasibility: it ensures training stability, enhances model interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases. This guides the model to learn the true underlying causal mechanisms of the disease, rather than superficial correlations. This design leverages our consortium's extensive experience in synthetic image generation (CT from PET) and predictive modeling, and is illustrated in Figure \ref{fig:ml_framework}.
 
 \begin{figure}[H]
     \centering
@@ -134,16 +143,16 @@ Our methodology is founded on a novel, multi-stage causal AI framework designed 
     \label{fig:ml_framework}
 \end{figure}
 
-\subsubsection{Stage 1: Training Foundational Supervisor Models}
-The first stage involves training a suite of specialized "supervisor" models. These models act as expert guides, providing strong, clinically-validated signals that will enforce a valid structure on the more complex generative models in subsequent stages. Our team's prior success in developing predictive models from fused clinical and imaging data provides a strong foundation for this work package.
+\subsubsection{Stage 1: Building the Bedrock of Clinical Validity with Supervisor Models}
+The first stage builds a suite of specialized "supervisor" models. These models act as expert guides, providing strong, clinically-validated signals that will enforce a valid structure on the more complex generative models in subsequent stages. Our team's prior success in developing predictive models from fused clinical and imaging data provides a strong foundation for this work package.
 \begin{itemize}
     \item \textbf{Ordinal Classifiers:} For clinical scores with an inherent order (e.g., PI-RADS, TNM stage), standard categorical classifiers are suboptimal. We will implement a \textbf{differential ordinal learning framework} that explicitly encodes the ordered structure by combining a standard categorical loss with a differential ordinal loss, ensuring the model understands that a higher grade implies a worse prognosis \cite{LeeByeon2025, GrisiKartasalo2025}.
     \item \textbf{Censored Survival Regressor:} To predict time-to-progression (TTP), we will train a survival model that properly handles right-censored data. This will be achieved using a censored regression loss (e.g., Logistic Hazard) combined with a ranking loss regularizer (e.g., SurvRNC) to ensure correct risk ordering in the learned feature representation \cite{GaoLi2019, RivailVogl2023, ShahinZhao2023}.
     \item \textbf{Anatomical and Confounder Models:} We will fine-tune a pre-trained TotalSegmentator model to provide anatomical ground truth. Furthermore, we will train dedicated regressors and classifiers to predict patient age, BMI, and technical confounders (e.g., scanner type, dosage), allowing us to explicitly model and isolate these non-disease-related sources of variation \cite{PuglisiAlexander2025, ZhangHager2025}.
 \end{itemize}
 
-\subsubsection{Stage 2: Per-Modality Causal Representation Learning}
-For each imaging modality, we will train a separate hierarchical Variational Autoencoder (VAE) to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function.
+\subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
+At the heart of our solution to data heterogeneity is a hierarchical Variational Autoencoder (VAE) trained for each imaging modality to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function:
 $$ \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{VAE}} + \lambda_A \mathcal{L}_{\text{Anatomy}} + \lambda_D \mathcal{L}_{\text{Disease}} + \lambda_I \mathcal{L}_{\text{Disentangle}} $$
 The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. Our loss function will explicitly penalize the \textbf{Total Correlation (TC)} between latent dimensions and minimize the \textbf{Mutual Information (MI)} between causally independent subspaces (e.g., Disease $Z_D$ and Style $Z_S$) \cite{FragemannArdizzone2022, AbbasiMonadjemi2018, FayCobos2023}. This ensures the learned disease representation is invariant to scanner-specific artifacts while preserving reconstruction quality. The entire data curation and preprocessing pipeline is visualized in Figure \ref{fig:data_curation}.
 
@@ -154,8 +163,8 @@ The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. 
     \label{fig:data_curation}
 \end{figure}
 
-\subsubsection{Stage 3: Temporal Trajectory Modeling with Neural Jump ODEs}
-This stage addresses the critical challenge of modeling disease evolution from sparse and irregularly-sampled clinical data. Our solution is a \textbf{Neural Jump Differential Equation (NJDE)} framework \cite{GwakSim2020}. NODEs are powerful because they model system dynamics in continuous time, but their computational cost is prohibitive for high-dimensional 3D images \cite{WiewelBecher2018, DavisChoromanski2020}. Our approach mitigates this by operating exclusively on the low-dimensional, disentangled disease latent space ($Z_D$) from Stage 2. The NJDE learns the rules of disease evolution by modeling two phenomena:
+\subsubsection{Stage 3: Capturing Disease Dynamics with Neural Jump ODEs}
+This stage confronts the critical challenge of modeling disease evolution from sparse and irregularly-sampled clinical data. Our solution is a \textbf{Neural Jump Differential Equation (NJDE)} framework \cite{GwakSim2020}. While Neural Ordinary Differential Equations (NODEs) are powerful for modeling continuous-time dynamics, their computational cost is prohibitive for high-dimensional 3D images \cite{WiewelBecher2018, DavisChoromanski2020}. Our approach mitigates this by operating exclusively on the low-dimensional, disentangled disease latent space ($Z_D$) from Stage 2. The NJDE learns the rules of disease evolution by modeling two phenomena:
 \begin{itemize}
     \item \textbf{Continuous Evolution (The NODE):} Between clinical events, the disease state evolves smoothly, modeled by a classic NODE that learns the underlying dynamics \cite{BergHasenclever2018}.
     \item \textbf{Discrete Jumps (The Interventions):} At the time of a clinical intervention (e.g., prostatectomy), the continuous evolution is interrupted by a discrete "jump," modeled by a separate neural network \cite{CuchieroLarsson2019, AbushaqraXue2022}.
@@ -169,7 +178,7 @@ This hybrid approach, illustrated in the context of the natural history of prost
     \label{fig:prostate_evolution}
 \end{figure}
 
-\subsubsection{Stage 4: Generative Synthesis and Clinical Outputs}
+\subsubsection{Stage 4: Translating Insight into Action: Generative Synthesis and Structured Reporting}
 The final stage translates the model's learned representations into clinically actionable outputs. This includes generating high-fidelity images for any time point (past, present, or future) and for any counterfactual scenario. Crucially, the model will generate structured radiological reports and tumor board recommendations using a Transformer-based decoder. This directly addresses the clinical need for clear, consistent, and efficient documentation, a major benefit of structured reporting \cite{JorgHalfmann2023, SacoranskyKwan2024}. Our consortium's experience in creating LLM-based support apps and GUIs from structured reports ensures the successful implementation of this stage. The entire clinical workflow is depicted in Figure \ref{fig:workflow}.
 
 \begin{figure}[H]
