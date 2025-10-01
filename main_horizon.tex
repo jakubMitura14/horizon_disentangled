@@ -86,6 +86,12 @@
 % For placeholder text
 \usepackage{lipsum}
 
+% --- TABLE AND CURRENCY PACKAGES ---
+\usepackage{booktabs} % For professional looking tables
+\usepackage{longtable} % For tables that may span multiple pages
+\usepackage{siunitx} % For aligning numbers in tables
+\usepackage{eurosym} % For the EUR symbol
+
 \title{A Causal, Counterfactual Framework for Modeling Longitudinal Prostate Cancer Progression}
 \author{}
 \date{}
@@ -190,6 +196,9 @@ The project is structured into seven Work Packages (WPs) spanning 36 months. WPs
     \caption{Gantt chart outlining the project timeline and work packages over 36 months.}
     \label{fig:gantt_chart}
 \end{figure}
+
+\section{Budget and Resources}
+\input{budget.tex}
 
 Our vision is ambitious and high-risk, but the confluence of recent breakthroughs makes it achievable. Advances in generative modeling (VAEs, Diffusion Models), continuous-time dynamics (Neural ODEs), and the availability of rich, multimodal datasets, including from the innovative use of Lutetium-PSMA therapy, provide the necessary tools. This project will leverage these advances to create a foundational model for European oncology, with the potential for future integration into platforms like the European Cancer Imaging Initiative.
 
