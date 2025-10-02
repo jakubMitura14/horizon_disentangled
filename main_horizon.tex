@@ -466,6 +466,39 @@ This is an ambitious, high-risk project at the frontier of AI research. We have 
 \end{itemize}
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
+\subsubsection{Cybersecurity and Model Integrity}
+Securing a multimodal health AI application requires a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance. The integration of image diagnostics and clinical text analytics in AI models introduces complex vulnerabilities, as Convolutional Neural Networks (CNNs) are susceptible to image-based adversarial attacks, while models processing textual EHR data can also be manipulated. Here are the critical strategies for securing such a multimodal AI application:
+
+\paragraph{1. Enhancing AI Model Robustness and Integrity}
+To defend the integrity and reliability of the machine learning models against malicious inputs and training manipulations:
+\begin{itemize}
+    \item \textbf{Implement Adversarial Defense Mechanisms:} Adopting defensive strategies significantly increases model resilience. This includes methods like adversarial training, defensive distillation, and hybrid defenses.
+    \item \textbf{Mitigate Data Poisoning:} Proactive scans will be implemented to identify corrupted data and protect training pipelines from data poisoning attacks.
+    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate the model's robustness under adversarial inputs and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range.
+    \item \textbf{Data Quality Assessment:} We will perform thorough checks on training datasets for completeness, consistency, and correctness to avoid low performance.
+\end{itemize}
+
+\paragraph{2. Ensuring Data Confidentiality and Privacy}
+Given that the application handles sensitive patient data, robust measures must be in place to prevent privacy violations:
+\begin{itemize}
+    \item \textbf{Federated Learning (FL):} We will utilize FL frameworks to allow collaborative training of AI models across distributed healthcare nodes without transferring raw patient data.
+    \item \textbf{Differential Privacy (DP):} We will integrate DP mechanisms to introduce calculated noise into computations, providing a guaranteed maximum privacy loss.
+    \item \textbf{Encryption and Secure Protocols:} We will employ end-to-end encryption and use secure cloud storage solutions that adhere to standards like HIPAA and GDPR.
+    \item \textbf{Minimize Data Leakage:} We will address the vulnerability of deep learning models to inadvertently expose sensitive training data, using techniques like disentangled representations.
+\end{itemize}
+
+\paragraph{3. Operational, Transparency, and Regulatory Frameworks}
+Securing the application also requires comprehensive governance:
+\begin{itemize}
+    \item \textbf{Multi-layered Security Architecture:} We will adopt a holistic strategy across the system architecture, integrating security at the edge, fog, and cloud layers.
+    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous model monitoring to identify anomalous model behaviours in real-time.
+    \item \textbf{eXplainable Artificial Intelligence (XAI):} Mechanisms such as SHAP or LIME will be integrated to explain how the AI model generates its output.
+    \item \textbf{Audit Trail:} We will maintain a complete audit trail that logs every user action, system access, and prediction.
+    \item \textbf{Human Oversight (Clinicians Double-Check):} We will implement mechanisms that require confirmation by the healthcare professional before sending a clinical case to the AI system.
+    \item \textbf{Bias Check and Fairness:} We will explicitly check for and mitigate algorithmic bias inherited from training datasets.
+    \item \textbf{Regulatory Compliance and AI Passport:} We will ensure the application adheres strictly to standards like the NIST Cybersecurity Framework, HIPAA, and GDPR, and maintain an AI Passport documenting the system's purpose, training, and potential biases.
+\end{itemize}
+
 
 \bibliographystyle{unsrt}
 \bibliography{bibl}
