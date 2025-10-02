@@ -6,119 +6,183 @@
 <title>Project Gantt Chart</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background-color: #ffffff;
+        color: #333;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
         margin: 0;
-        padding: 40px; /* Increased padding */
-        background-color: #f9f9f9;
     }
-    .gantt-chart {
+    .gantt-container {
         width: 100%;
-        border-collapse: collapse;
+        max-width: 1200px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        padding: 25px;
     }
-    .gantt-chart th, .gantt-chart td {
-        border: 1px solid #ddd;
-        padding: 12px; /* Increased padding */
-        text-align: left;
+    h2 {
+        text-align: center;
+        color: #0A369D; /* Primary Blue */
+        margin-bottom: 25px;
+        font-weight: 600;
     }
-    .gantt-chart th {
-        background-color: #f2f2f2;
+    .gantt-grid {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        border-top: 1px solid #e0e0e0;
     }
-    .bar-container {
+    .gantt-header, .gantt-row {
+        display: contents;
+    }
+    .gantt-header-label, .gantt-task-name, .gantt-timeline {
+        padding: 15px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+    }
+    .gantt-task-name {
+        font-weight: 600;
+        font-size: 0.9em;
+        background-color: #f9fafb;
+        border-right: 1px solid #e0e0e0;
+    }
+    .gantt-header-label {
+        font-weight: bold;
+        background-color: #f2f5f9;
+        border-right: 1px solid #e0e0e0;
+        justify-content: center;
+    }
+    .gantt-timeline-header {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        text-align: center;
+        font-size: 0.8em;
+        color: #555;
+        background-color: #f2f5f9;
+    }
+    .gantt-timeline-header > div {
+        padding: 5px 0;
+        border-left: 1px solid #e0e0e0;
+    }
+    .gantt-timeline-header > div:first-child {
+        border-left: none;
+    }
+    .gantt-timeline {
         position: relative;
-        width: 100%;
-        height: 30px; /* Increased height */
+        background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px);
+        background-size: calc(100% / 36) 100%;
     }
     .bar {
         position: absolute;
-        height: 100%;
-        background-color: #4CAF50;
-        border-radius: 3px;
+        top: 10px;
+        height: 25px;
+        border-radius: 5px;
+        background: linear-gradient(145deg, #4472CA, #0A369D); /* Gradient from secondary to primary blue */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.75em;
+        font-weight: bold;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .bar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
     .milestone {
         position: absolute;
-        top: -5px;
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 15px solid #f44336;
-    }
-    h2 {
-        margin-bottom: 20px; /* Added margin */
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        width: 18px;
+        height: 18px;
+        background-color: #f44336;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        z-index: 10;
     }
 </style>
 </head>
 <body>
 
-<h2>Project Gantt Chart</h2>
+<div class="gantt-container">
+    <h2>Project Gantt Chart</h2>
+    <div class="gantt-grid">
+        <!-- Header -->
+        <div class="gantt-header">
+            <div class="gantt-header-label">Work Package</div>
+            <div class="gantt-timeline-header">
+                <div>M3</div><div>M6</div><div>M9</div><div>M12</div><div>M15</div><div>M18</div><div>M21</div><div>M24</div><div>M27</div><div>M30</div><div>M33</div><div>M36</div>
+            </div>
+        </div>
 
-<table class="gantt-chart">
-    <thead>
-        <tr>
-            <th>Work Package</th>
-            <th>Timeline (Months)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>WP1: Data Curation & Harmonization</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 0%; width: 91.67%;"></div>
-                    <div class="milestone" style="left: 91.67%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP2: Supervisor Models</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 2.78%; width: 36.11%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP3: Causal VAE</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 25%; width: 41.67%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP4: Temporal Modeling</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 47.22%; width: 36.11%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP5: Validation</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 66.67%; width: 33.33%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP6: Dissemination</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 0%; width: 100%;"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>WP7: Project Management</td>
-            <td>
-                <div class="bar-container">
-                    <div class="bar" style="left: 0%; width: 100%;"></div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        <!-- WP1: Data Curation & Harmonization -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP1: Data Curation</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 0%; width: 91.67%;" title="Months 1-33">WP1</div>
+                <div class="milestone" style="left: 91.67%;" title="D1.1: Curated Dataset"></div>
+            </div>
+        </div>
+
+        <!-- WP2: Supervisor Models -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP2: Supervisor Models</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 2.78%; width: 38.89%; background: linear-gradient(145deg, #5E8B7E, #3b6b5e);" title="Months 2-15">WP2</div>
+            </div>
+        </div>
+
+        <!-- WP3: Causal VAE -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP3: Causal VAE</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 25%; width: 41.67%;" title="Months 10-24">WP3</div>
+            </div>
+        </div>
+
+        <!-- WP4: Temporal Modeling -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP4: Temporal Modeling</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 47.22%; width: 36.11%; background: linear-gradient(145deg, #5E8B7E, #3b6b5e);" title="Months 18-30">WP4</div>
+            </div>
+        </div>
+
+        <!-- WP5: Validation -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP5: Validation</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 66.67%; width: 33.33%;" title="Months 25-36">WP5</div>
+            </div>
+        </div>
+
+        <!-- WP6: Dissemination -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP6: Dissemination</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 0%; width: 100%; background: #ccc;" title="Months 1-36"></div>
+            </div>
+        </div>
+
+        <!-- WP7: Project Management -->
+        <div class="gantt-row">
+            <div class="gantt-task-name">WP7: Project Management</div>
+            <div class="gantt-timeline">
+                <div class="bar" style="left: 0%; width: 100%; background: #ccc;" title="Months 1-36"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
