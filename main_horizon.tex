@@ -106,7 +106,16 @@
 \subsection{Vision: A Paradigm Shift from Prediction to Causal Understanding}
 Prostate cancer (PCa) represents a paramount public health challenge, ranking as the second most common cancer in men worldwide \cite{CaraccioloCastello2024,DulleaOSullivan2025}. In 2020 alone, over 1.4 million new cases were diagnosed globally, and it stands as the fifth leading cause of cancer-related death among men, responsible for approximately 375,000 deaths that year \cite{CereserEvangelista2023,GammelSolari2024,DharCendejasGomez2024}. The epidemiological trajectory is alarming, with projections indicating that the number of cases will more than double to 2.9 million by 2040, driven largely by an aging global population \cite{UdovicichJia2025,SungFerlay2021}.
 
-The management of PCa is fraught with complexity, stemming from the dual risks of overdiagnosis and undertreatment. Widespread screening with prostate-specific antigen (PSA) has led to the frequent detection of indolent, clinically insignificant cancers, resulting in overtreatment and significant morbidity \cite{PadhaniSchoots2023,JenaTaneja2018,CaraccioloCastello2022}. Conversely, many PCa deaths are due to the late diagnosis of aggressive or metastatic disease \cite{PadhaniSchoots2023}. The stakes of misstaging are incredibly high; the distinction between localized and metastatic disease carries profound prognostic implications, with the 5-year survival rate dropping from nearly 100\% to as low as 30-40\% \cite{WangODwyer2024,CereserEvangelista2023}.
+The management of PCa is fraught with complexity, stemming from the dual risks of overdiagnosis and undertreatment. The natural history of the disease, as illustrated in Figure \ref{fig:prostate_evolution}, is a complex, multi-stage process influenced by the tumor's biological state (TNM stage), the patient's individual characteristics, and the impact of clinical interventions. Clinicians must synthesize information from a wide range of sources—including clinical data, histopathology, and various imaging modalities—to make critical decisions about diagnosis and treatment.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pe.png}
+    \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on TNM stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities.}
+    \label{fig:prostate_evolution}
+\end{figure}
+
+Widespread screening with prostate-specific antigen (PSA) has led to the frequent detection of indolent, clinically insignificant cancers, resulting in overtreatment and significant morbidity \cite{PadhaniSchoots2023,JenaTaneja2018,CaraccioloCastello2022}. Conversely, many PCa deaths are due to the late diagnosis of aggressive or metastatic disease \cite{PadhaniSchoots2023}. The stakes of misstaging are incredibly high; the distinction between localized and metastatic disease carries profound prognostic implications, with the 5-year survival rate dropping from nearly 100\% to as low as 30-40\% \cite{WangODwyer2024,CereserEvangelista2023}.
 
 This diagnostic dilemma is exacerbated by the limitations of current AI models. While they have shown promise, they operate as sophisticated but dangerously opaque "black boxes." They excel at identifying statistical correlations but fundamentally lack a true understanding of the underlying causal biology of the disease. This critical gap fosters mistrust and creates a barrier to clinical adoption, as models can be easily misled by spurious correlations—such as scanner artifacts, site-specific protocols, or population biases—leading to predictions that are brittle, unexplainable, and potentially unsafe.
 
@@ -192,22 +201,8 @@ The NJDE learns the rules of disease evolution by modeling two phenomena \cite{G
 \end{itemize}
 This hybrid approach, which explicitly separates the continuous disease course from the rapid, external impacts of clinical interventions, is critical for accurately modeling a patient's journey \cite{GwakSim2020}. The model is trained using a \textbf{leave-one-out strategy} for each patient's time series: given all but one time point, its goal is to predict the complete state vector for the held-out time point. To handle the pervasive missing data, we employ a \textbf{masked loss function}. The loss is calculated only by comparing the predicted values to the ground truth for those elements of the state vector that were actually available (non-zero) at the target time point. This forces the model to learn a probable evolution for every data type, even from a highly incomplete dataset.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{pe.png}
-    \caption{The natural history of prostate cancer, illustrating the stages our model will learn.}
-    \label{fig:prostate_evolution}
-\end{figure}
-
 \subsubsection{Stage 4: Translating Insight into Action: Generative Synthesis and Structured Reporting}
 The final stage translates the model's learned representations into clinically actionable outputs. This includes generating high-fidelity images for any time point (past, present, or future) and for any counterfactual scenario, with a lightweight Diffusion Model used as a final post-processing step to add high-frequency detail and ensure clinical realism. Crucially, the model will generate structured radiological reports and tumor board recommendations using a \textbf{Transformer-based decoder}. This directly addresses the clinical need for clear, consistent, and efficient documentation, which is a major benefit of structured reporting that improves report quality, clarity, and standardization \cite{JorgHalfmann2023, SacoranskyKwan2024}. Our consortium's experience in creating LLM-based support apps and GUIs from structured reports ensures the successful implementation of this stage. The entire clinical workflow is depicted in Figure \ref{fig:workflow}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{wf.png}
-    \caption{The Multidisciplinary Workflow of Prostate Cancer Diagnosis: A complex, iterative process requiring multimodal data fusion and expert collaboration.}
-    \label{fig:workflow}
-\end{figure}
 
 \subsection{Ambition}
 The ambition of this project extends far beyond advancing the state-of-the-art in predictive modeling. We aim to establish a new paradigm for trustworthy AI in clinical medicine, shifting the focus from correlation to causation. By developing a model that can reason, simulate, and explain, we are creating a foundational technology with the potential for profound impact. This project will not only deliver a powerful tool for prostate cancer management but will also provide a blueprint for developing causal AI models in other complex disease areas. Our work will pioneer new methods for disentanglement, longitudinal modeling, and counterfactual reasoning that will be of immense value to the wider AI research community. The successful completion of this project will represent a significant step towards the realization of truly intelligent clinical decision support systems, paving the way for a future of more personalized, more effective, and more explainable medicine.
