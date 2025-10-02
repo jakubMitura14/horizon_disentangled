@@ -10,6 +10,9 @@ To compile the grant proposal documents, you will need the following software in
 *   **A full LaTeX distribution:** This is required to compile the `.tex` files into PDFs. A comprehensive distribution like `TeX Live` is recommended. On Debian-based systems, you can install it with:
     ```bash
     sudo apt-get update && sudo apt-get install -y texlive-full
+    sudo apt install texlive-latex-recommended texlive-latex-extra
+    sudo apt update
+    sudo apt -y install texlive-science
     ```
 *   **Playwright Browsers:** The `html_to_png.py` script requires browser binaries to be installed by Playwright.
 
