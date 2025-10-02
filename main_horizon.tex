@@ -429,14 +429,23 @@ A key feature for clinical trust is the model's ability to quantify its own unce
 \end{itemize}
 
 \subsubsection{Clinical Plausibility and Workflow Integration Study}
-Beyond quantitative metrics, we will conduct a human-grounded study with radiologists and oncologists to assess the model's real-world utility.
+Beyond quantitative metrics, a practical, clinician-in-the-loop study is essential to assess the model's real-world utility and trustworthiness.
 \begin{itemize}
-    \item \textbf{Assessing Counterfactual Plausibility:} Clinicians will score model-generated counterfactuals on Likert scales for clinical plausibility and usefulness for explanation \cite{GuoDeng2024, RossiLopez2024}.
-    \item \textbf{Measuring Workflow Improvement:} We will perform a comparative study measuring efficiency (time-to-task), accuracy, and user satisfaction when clinicians use the system's automated structured reports versus traditional methods \cite{UnknownAuthor2020}.
+    \item \textbf{Assessing Counterfactual Plausibility and Usefulness:} To evaluate the quality of our generated explanations, we will conduct a human-grounded study with radiologists and oncologists. Clinicians will be presented with a series of cases, each including an original image and its corresponding model-generated counterfactual (e.g., an image of a tumorous prostate and its benign-looking counterfactual). They will score the counterfactuals on a Likert scale for:
+    \begin{itemize}
+        \item \textbf{Clinical Plausibility:} Does the generated image appear realistic and anatomically sound?
+        \item \textbf{Usefulness for Explanation:} Does the visual difference between the original and counterfactual image provide a clear and understandable reason for the model's prediction?
+    \end{itemize}
+    \item \textbf{Measuring Workflow Improvement with Structured Reports:} To assess the impact of the automated reports, we will perform a comparative workflow study. A control group of clinicians will review patient cases using traditional free-text reports and standard image viewers. An experimental group will review the same cases using our system's auto-generated structured reports and prognostic visualizations. We will measure:
+    \begin{itemize}
+        \item \textbf{Efficiency:} Time taken to extract key information (e.g., TNM stage, PI-RADS score, presence of key findings) required for treatment planning.
+        \item \textbf{Accuracy and Concordance:} Inter-rater agreement and accuracy of the extracted information compared to an expert-defined ground truth.
+        \item \textbf{User Satisfaction:} Clinicians' perceived efficiency, clarity, and confidence in their decisions will be assessed using a standardized questionnaire (e.g., the System Usability Scale).
+    \end{itemize}
 \end{itemize}
 
 \subsection{Risk Analysis, Mitigation, and AI Act Compliance}
-This is an ambitious, high-risk project at the frontier of AI research. We have identified the primary risks and have developed clear mitigation strategies that are intrinsically linked to our compliance with the EU AI Act. Our risk management process, as detailed in WP7, is continuous and iterative, designed to address risks to health, safety, and fundamental rights throughout the AI system's lifecycle, in direct alignment with \textbf{Article 9} of the Act.
+This is an ambitious, high-risk project at the frontier of AI research. We have identified the primary risks and have developed clear mitigation strategies that are intrinsically linked to our compliance with the EU AI Act. Our risk management process, as detailed in WP7, is continuous and iterative, designed to address risks to health, safety, and fundamental rights throughout the AI system's lifecycle, in direct alignment with \textbf{Article 9} of the Act. Furthermore, our methodology is designed to comply with the ‘do no significant harm’ principle as per Article 17 of the EU Taxonomy Regulation, ensuring our research does not negatively impact environmental objectives.
 
 \begin{itemize}
     \item \textbf{Risk 1: Training Instability and Data Scalability.} The complexity of the proposed model presents a risk of training instability, especially given the multi-modal, multi-stage nature of the framework.
