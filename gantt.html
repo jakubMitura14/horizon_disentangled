@@ -8,7 +8,7 @@
     body {
         font-family: Arial, sans-serif;
         margin: 0;
-        padding: 20px;
+        padding: 40px; /* Increased padding */
         background-color: #f9f9f9;
     }
     .gantt-chart {
@@ -17,7 +17,7 @@
     }
     .gantt-chart th, .gantt-chart td {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 12px; /* Increased padding */
         text-align: left;
     }
     .gantt-chart th {
@@ -26,7 +26,7 @@
     .bar-container {
         position: relative;
         width: 100%;
-        height: 20px;
+        height: 30px; /* Increased height */
     }
     .bar {
         position: absolute;
@@ -43,6 +43,9 @@
         border-right: 10px solid transparent;
         border-bottom: 15px solid #f44336;
     }
+    h2 {
+        margin-bottom: 20px; /* Added margin */
+    }
 </style>
 </head>
 <body>
@@ -58,11 +61,11 @@
     </thead>
     <tbody>
         <tr>
-            <td>WP1: Data Curation</td>
+            <td>WP1: Data Curation & Harmonization</td>
             <td>
                 <div class="bar-container">
-                    <div class="bar" style="left: 0%; width: 25%;"></div>
-                    <div class="milestone" style="left: 25%;"></div>
+                    <div class="bar" style="left: 0%; width: 91.67%;"></div>
+                    <div class="milestone" style="left: 91.67%;"></div>
                 </div>
             </td>
         </tr>
@@ -70,7 +73,7 @@
             <td>WP2: Supervisor Models</td>
             <td>
                 <div class="bar-container">
-                    <div class="bar" style="left: 8.3%; width: 33.3%;"></div>
+                    <div class="bar" style="left: 2.78%; width: 36.11%;"></div>
                 </div>
             </td>
         </tr>
@@ -78,7 +81,7 @@
             <td>WP3: Causal VAE</td>
             <td>
                 <div class="bar-container">
-                    <div class="bar" style="left: 25%; width: 41.7%;"></div>
+                    <div class="bar" style="left: 25%; width: 41.67%;"></div>
                 </div>
             </td>
         </tr>
@@ -86,7 +89,7 @@
             <td>WP4: Temporal Modeling</td>
             <td>
                 <div class="bar-container">
-                    <div class="bar" style="left: 41.7%; width: 41.7%;"></div>
+                    <div class="bar" style="left: 47.22%; width: 36.11%;"></div>
                 </div>
             </td>
         </tr>
@@ -94,7 +97,7 @@
             <td>WP5: Validation</td>
             <td>
                 <div class="bar-container">
-                    <div class="bar" style="left: 66.7%; width: 33.3%;"></div>
+                    <div class="bar" style="left: 66.67%; width: 33.33%;"></div>
                 </div>
             </td>
         </tr>
