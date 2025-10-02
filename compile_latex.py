@@ -24,7 +24,7 @@ def compile_latex(file_path):
     for i in range(3):
         print(f"Running pdflatex on {filename} (pass {i+1})...")
         process = subprocess.run(
-            ["/usr/bin/pdflatex", "-interaction=nonstopmode", "-output-directory", directory, filename],
+            ["pdflatex", "-interaction=nonstopmode", "-output-directory", directory, filename],
             capture_output=True,
             encoding='latin-1',
             errors='ignore'
@@ -39,7 +39,7 @@ def compile_latex(file_path):
     # Run bibtex to resolve citations
     print(f"Running bibtex on {base_name}...")
     process = subprocess.run(
-        ["/usr/bin/bibtex", os.path.join(directory, base_name)],
+        ["bibtex", os.path.join(directory, base_name)],
         capture_output=True,
         text=True
     )
@@ -53,7 +53,7 @@ def compile_latex(file_path):
     for i in range(2):
         print(f"Running pdflatex on {filename} (pass {i+4} for citations)...")
         process = subprocess.run(
-            ["/usr/bin/pdflatex", "-interaction=nonstopmode", "-output-directory", directory, filename],
+            ["pdflatex", "-interaction=nonstopmode", "-output-directory", directory, filename],
             capture_output=True,
             text=True
         )
