@@ -117,7 +117,7 @@ Our consortium is uniquely positioned to succeed in this high-risk, high-gain en
     \item \textbf{Predictive Modeling:} Our team has developed and validated models for predicting disease progression by fusing clinical and imaging data, directly relevant to the core of this project.
     \item \textbf{Clinical Application Development:} We have created a user-friendly GUI for structured reporting and developed an LLM-based support application for thyroid cancer guidelines, demonstrating our ability to translate research into practical clinical tools.
 \end{itemize}
-Crucially, the project will be led by a Principal Investigator who possesses a rare dual expertise in both clinical radiology and artificial intelligence. This unique leadership ensures a seamless bridge between the complex technical development and the real-world clinical needs and validation requirements, a critical success factor for a project of this ambition. The collaboration with the Abteilung für Nuklearmedizin at Universitätsmedizin Halle and the private practice of Dr. Christian Wybrański further strengthens our consortium, providing diverse data and clinical perspectives.
+Crucially, the project will be led by a Principal Investigator who possesses a rare dual expertise in both nuclear medicine and artificial intelligence. This unique leadership ensures a seamless bridge between the complex technical development and the real-world clinical needs and validation requirements, a critical success factor for a project of this ambition. The collaboration with the Abteilung für Nuklearmedizin at Universitätsmedizin Halle and the private practice of Dr. Christian Wybrański further strengthens our consortium, providing diverse data and clinical perspectives.
 
 \subsection{Objectives}
 This project is guided by a set of clear, ambitious, and interconnected objectives designed to realize our vision of a causal AI for prostate cancer, directly aligning with the Pathfinder's goal of developing foundational, high-impact technologies. The primary objectives are:
@@ -293,22 +293,39 @@ The project will be executed over 36 months, organized into seven interconnected
 \end{itemize}
 
 \subsection{Data Sources and Cohort}
-The foundation of this project is a unique, rich, and heterogeneous dataset that combines extensive proprietary clinical data with publicly available resources. This multi-pronged approach ensures the development of robust, generalizable models that are trained on real-world clinical diversity and validated against established international benchmarks.
+A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicants’ own clinical institutions and established collaborators. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
 
 \subsubsection{Proprietary Multi-Center Clinical Cohort}
-Our core dataset will be a retrospective cohort assembled from the clinical partners in this consortium, representing a diverse patient population from different care settings across Germany. This provides a unique opportunity to capture variability in imaging protocols, patient demographics, and treatment patterns, which is essential for building AI models that are resilient to real-world heterogeneity. The cohort will comprise:
 \begin{itemize}
-    \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin:} Approximately 100 studies of paired PSMA PET/CT with MRI, and 100 studies of paired Lutetium-177 SPECT/CT with PSMA PET/CT. This dataset is particularly rich in advanced molecular imaging and theranostic data, which is crucial for modeling response to innovative treatments like radioligand therapy.
-    \item \textbf{Abteilung für Nuklearmedizin | Universitätsmedizin Halle:} A similar volume of data to the Universitätsklinik, providing approximately 100 paired PSMA PET/CT with MRI and 100 paired Lutetium-177 SPECT/CT with PSMA PET/CT. This second university hospital site strengthens the cohort's academic rigor and diversity.
-    \item \textbf{Private Practice of Dr. Christian Wybrański (Magdeburg):} Approximately 200 paired MRI studies. This data from a private practice setting will introduce further variability, ensuring our models are not overfitted to academic medical center protocols and are generalizable to a wider range of clinical environments.
+    \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg):} As the lead applicant institution, the clinic will provide a rich dataset from its patient care archives. This includes:
+    \begin{itemize}
+        \item Approximately 150-200 longitudinal studies of patients with paired baseline PSMA-PET/CT and mpMRI scans for primary staging and follow-up.
+        \item A unique cohort of approximately 150 patients with advanced disease who have undergone Lutetium-177 PSMA radioligand therapy (RLT). For these patients, we have paired pre-therapy PSMA-PET/CT scans and post-therapy Lutetium SPECT/CT scans, which are essential for modeling treatment response.
+        \item A very unique cohort of interim therapy controls based on PSMA-PET/CT and CT –pairs from 40 patients.
+    \end{itemize}
+    \item \textbf{Abteilung für Nuklearmedizin | Universitätsmedizin Halle:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
+    \begin{itemize}
+        \item Approximately 100 additional paired PSMA-PET/CT and mpMRI studies.
+        \item Approximately 100 additional paired pre-therapy PSMA-PET/CT and post-therapy Lutetium SPECT/CT studies.
+    \end{itemize}
+    \item \textbf{Klinik für Nuklearmedizin | Universitätsmedizin Charite:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
+    \begin{itemize}
+        \item Approximately 100 additional paired PSMA-PET/CT and mpMRI studies.
+        \item Approximately 300 additional paired pre-therapy PSMA-PET/CT and post-therapy Lutetium SPECT/CT studies.
+    \end{itemize}
+    \item \textbf{Radiological Practice Rad. Sudenburg – ambulatory care (Magdeburg):} This collaboration provides access to a significant number of high-quality diagnostic scans from a external practice setting, further enhancing the dataset’s diversity.
+    \begin{itemize}
+        \item Approximately 200 CT and mpMRI studies for diagnosis and active surveillance.
+    \end{itemize}
 \end{itemize}
-In total, our proprietary cohort will consist of approximately 400 paired MRI studies and 200 paired molecular imaging studies, all linked to detailed longitudinal clinical data, including PSA values, biopsy results, and treatment histories.
+This combined proprietary cohort of over 1000 patients, with its unique inclusion of post-RLT SPECT/CT data, provides an unparalleled resource for training a model capable of understanding the entire spectrum of prostate cancer progression and treatment.
 
-\subsubsection{Integration of Public Datasets}
-To further enhance the scale, diversity, and validation of our models, we will integrate data from leading public archives. This aligns our project with international standards and initiatives like the European Cancer Imaging (EUCAIM) platform.
+\subsubsection{Integration with Public Datasets}
+To augment our proprietary data, enhance statistical power, and rigorously test the generalizability of our models, we will integrate several large, well-curated public datasets. These have been chosen to cover a wide range of clinical scenarios, imaging modalities, and patient populations.
 \begin{itemize}
-    \item \textbf{TCGA-PRAD (The Cancer Genome Atlas):} We will leverage the multi-modal imaging (MRI, CT, PET) and rich genomic data from TCGA-PRAD to explore the link between imaging phenotypes and underlying molecular drivers, providing a deeper biological grounding for our causal models.
-    \item \textbf{ProstateNET (via EUCAIM):} To align with European data ecosystems, we will utilize datasets from the ProstateNET platform, such as the UC8 active surveillance cohort. This will provide an external validation set and ensure our models perform well on data curated within the EUCAIM framework.
+    \item \textbf{The Cancer Genome Atlas Prostate Adenocarcinoma (TCGA-PRAD):} This will serve as a primary resource for linking our imaging-based models to underlying genomic data. Its rich, multi-modal imaging (MRI, CT, PET) and detailed clinical and genomic information are ideal for validating our model’s biological grounding.
+    \item \textbf{ProstateNET (EUCAIM):} Specifically, we will leverage the UC8 dataset for active surveillance, which contains longitudinal MRI and PSA data. This aligns with the European Union’s goal of fostering a shared cancer imaging infrastructure.
+    \item \textbf{NAF-PROSTATE:} This dataset provides systematic longitudinal PET/CT data for patients with bone metastases, which will be invaluable for validating the temporal modeling of our framework (WP4) in an advanced disease setting.
 \end{itemize}
 This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application. All data will be handled in strict compliance with GDPR and ethical guidelines, managed within a secure, federated learning-ready environment.
 
