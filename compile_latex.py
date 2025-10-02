@@ -1,5 +1,33 @@
 import subprocess
 import os
+import glob
+
+def generate_images():
+    """Finds all .html files and converts them to .png."""
+    print("--- Generating images from HTML files ---")
+    html_files = glob.glob('*.html')
+    if not html_files:
+        print("No HTML files found to convert.")
+        return
+
+    for html_file in html_files:
+        base_name = os.path.splitext(html_file)[0]
+        png_file = f"{base_name}.png"
+        print(f"Converting {html_file} to {png_file}...")
+
+        result = subprocess.run(
+            ["python3", "html_to_png.py", html_file, png_file],
+            capture_output=True,
+            text=True
+        )
+        if result.returncode != 0:
+            print(f"Error converting {html_file}:")
+            print(result.stdout)
+            print(result.stderr)
+        else:
+            print(f"Successfully converted {html_file} to {png_file}")
+    print("--- Image generation complete ---")
+
 
 def compile_latex(file_path):
     """
@@ -67,5 +95,6 @@ def compile_latex(file_path):
     print(f"Successfully compiled {filename} to {os.path.join(directory, base_name)}.pdf")
 
 if __name__ == "__main__":
+    generate_images()
     compile_latex("main_horizon.tex")
     compile_latex("budget_standalone.tex")
