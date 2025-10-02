@@ -35,6 +35,8 @@ To compile the grant proposal documents, you will need the following software in
 4.  **Install Playwright browser dependencies:**
     ```bash
     playwright install
+    sudo apt-get update && apt-get install -y texlive-full
+    sudo apt install texlive-latex-base
     ```
 
 ## Usage
