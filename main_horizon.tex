@@ -226,7 +226,33 @@ The proposed framework is designed from the ground up to align with the principl
 
     \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
 
-    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). We will implement robust cybersecurity measures to protect against vulnerabilities specific to AI, including data poisoning and adversarial attacks, as mandated by Article 15.
+    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). To comply with Article 15, we will implement a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance \cite{AlAttar2023,AlkanZakariyya2025}. Our approach is built on three pillars:
+
+\paragraph{1. Enhancing AI Model Robustness and Integrity}
+To defend against malicious inputs and training manipulations, we will:
+\begin{itemize}
+    \item \textbf{Implement Adversarial Defense Mechanisms:} We will adopt robust defensive strategies, including adversarial training, which is one of the most effective defenses against such attacks \cite{AlAttar2023,GoodfellowShlens2014}.
+    \item \textbf{Mitigate Data Poisoning:} We will implement proactive scans to identify and isolate corrupted data, protecting our training pipelines from data poisoning attacks that could impair model accuracy \cite{AlAttar2023,QayyumQadir2020,KhadkaEpiphaniou2025}.
+    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
+    \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
+\end{itemize}
+
+\paragraph{2. Ensuring Data Confidentiality and Privacy}
+To prevent privacy violations and data leakage, we will:
+\begin{itemize}
+    \item \textbf{Utilize Federated Learning (FL):} Our architecture will support FL frameworks, allowing collaborative model training across institutions without transferring raw patient data, ensuring compliance with HIPAA and GDPR \cite{AlkanZakariyya2025,JamesIjiga2024}.
+    \item \textbf{Integrate Differential Privacy (DP):} We will integrate DP mechanisms to add calculated noise into computations, providing a guaranteed maximum privacy loss during model training \cite{AlkanZakariyya2025,JamesIjiga2024}.
+    \item \textbf{Employ Encryption and Secure Protocols:} We will use end-to-end encryption for data-at-rest and in-transit and secure cloud storage solutions, with the future possibility of exploring homomorphic encryption \cite{AlAttar2023,GarcaGmezBlanesSelva2023,JamesIjiga2024}.
+\end{itemize}
+
+\paragraph{3. Operational, Transparency, and Regulatory Frameworks}
+To ensure accountability and long-term reliability, we will establish:
+\begin{itemize}
+    \item \textbf{A Multi-layered Security Architecture:} We will adopt a holistic security strategy across the edge, fog, and cloud layers of our system \cite{AlAttar2023,PadalaSundar2025}.
+    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
+    \item \textbf{eXplainable AI (XAI):} Our counterfactual explanation system is a core part of our XAI strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
+    \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
+\end{itemize}
 \end{itemize}
 
 This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
@@ -253,7 +279,7 @@ This project is poised to make fundamental contributions to the field of Artific
 \begin{itemize}
     \item \textbf{A New European Standard for Trustworthy Clinical AI:} We will pioneer a shift away from correlational "black-box" models towards truly causal and explainable AI. The development of a robust, generalizable framework for learning causal models from observational clinical data will represent a landmark achievement. This provides a blueprint for future research in a wide range of diseases and establishes a new European standard for the development and deployment of trustworthy AI systems in high-stakes environments, strengthening Europe's technological leadership.
     \item \textbf{Advancing the Frontier of Generative AI:} Our work on principled disentanglement, counterfactual generation, and longitudinal modeling with Neural Jump ODEs will push the boundaries of generative AI. By creating a model that can reason about cause and effect, we are developing a foundational technology with applications far beyond medicine, including in climate science, economics, and engineering. The novel techniques developed will be of immense value to the broader European AI community.
-    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} We are deeply committed to open science and Europe's digital sovereignty. We will make our code publicly available under a permissive open-source license. Crucially, we will contribute our curated, anonymized, and harmonized datasets to public repositories, with a specific focus on contributing to the \textbf{European Cancer Imaging (EUCAIM)} platform. This will not only foster further research and innovation across the EU but will also ensure that our work directly supports the development of a world-leading European data ecosystem for cancer research, reducing reliance on non-EU platforms.
+    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} We are deeply committed to open science and Europe's digital sovereignty. We will make our code publicly available under a permissive open-source license. To ensure compliance with all data protection laws, we will \textbf{attempt to contribute} our curated, anonymized, and harmonized datasets to the \textbf{European Cancer Imaging (EUCAIM)} platform. Alternatively, we will make data available to interested institutions via secure, bilateral data sharing agreements. This strategy ensures our work can foster further research and innovation across the EU while upholding the strictest data privacy standards.
 \end{itemize}
 
 \subsection{Societal and Clinical Impact}
@@ -268,7 +294,7 @@ The primary impact of this project will be the profound improvement in the manag
 We are committed to maximizing the impact of this project through a comprehensive dissemination, communication, and exploitation strategy designed to engage stakeholders at all levels and create new market opportunities.
 \begin{itemize}
     \item \textbf{High-Impact Scientific Publications:} We will publish our methodological advancements and clinical validation results in leading peer-reviewed journals (e.g., Nature Machine Intelligence, The Lancet Digital Health, Medical Image Analysis) and present at premier international conferences (e.g., MICCAI, NeurIPS, RSNA).
-    \item \textbf{Open Source and Open Data:} As stated, all code will be open-sourced via European platforms. Our curated, anonymized datasets will be contributed to public repositories, including a dedicated contribution to the \textbf{European Cancer Imaging (EUCAIM)} platform, to ensure our data legacy strengthens the European research community.
+    \item \textbf{Open Source and Open Data:} As stated, all code will be open-sourced via European platforms. In line with our data governance strategy, we will attempt to contribute our curated, anonymized datasets to the \textbf{European Cancer Imaging (EUCAIM)} platform or share them via secure bilateral agreements to ensure our data legacy strengthens the European research community while respecting data protection regulations.
     \item \textbf{Engagement with the Clinical and Patient Community:} We will actively engage with European clinical societies (e.g., EAU, ESMO) and patient advocacy groups (e.g., Europa Uomo) through workshops, webinars, and presentations. This ensures our work is aligned with real-world clinical needs and facilitates its translation into clinical practice across the EU.
     \item \textbf{Commercial Exploitation and Standardization:} We will explore pathways for commercial exploitation through partnerships with European medical imaging companies and health-tech startups, creating new market opportunities within the Union. Furthermore, we will actively participate in standardization bodies to promote the adoption of our structured reporting and causal AI frameworks as a new European standard for trustworthy clinical AI.
 \end{itemize}
@@ -286,8 +312,8 @@ The project will be executed over 36 months, organized into seven interconnected
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (Months 1-9).} Led by Universitätsklinik für Radiologie und Nuklearmedizin. This WP involves aggregating the proprietary multi-center cohort, integrating public datasets (TCGA-PRAD, ProstateNET), and performing rigorous data harmonization, including DICOM to NIFTI conversion, pseudonymization, and image normalization. \textit{(D1.1: Curated, harmonized dataset)}.
-    \item \textbf{WP2: Foundational Supervisor Model Training (Months 4-15).} This WP will focus on developing and validating the suite of expert supervisor models (ordinal classifiers, survival regressor, confounder models) that will provide the strong inductive biases for the main generative framework.
+    \item \textbf{WP1: Data Curation and Harmonization (Months 1-33).} Led by Universitätsklinik für Radiologie und Nuklearmedizin. This is an ongoing WP that involves the continuous aggregation of the proprietary multi-center cohort, integration of public datasets, and rigorous data harmonization, including DICOM to NIFTI conversion, pseudonymization, and image normalization. \textit{(D1.1: Curated, harmonized dataset)}.
+    \item \textbf{WP2: Foundational Supervisor Model Training (Months 1-15).} This WP will focus on developing and validating the suite of expert supervisor models (ordinal classifiers, survival regressor, confounder models). As the Magdeburg clinic already has a significant amount of initial data prepared, this work package can begin at the start of the project, running in parallel with the initial data curation efforts.
     \item \textbf{WP3: Causal VAE Development (Months 10-24).} The core of this WP is the training of the disentangled Variational Autoencoder, leveraging the supervisors from WP2 to enforce causal separation of anatomy, disease, and confounder latent spaces.
     \item \textbf{WP4: Temporal Trajectory Modeling (Months 18-30).} This WP will implement and train the Neural Jump ODE on the disentangled disease vectors from WP3 to model longitudinal patient trajectories, including the impact of interventions.
     \item \textbf{WP5: Validation and Clinical Integration (Months 25-36).} This WP will conduct the comprehensive evaluation of the final model, including quantitative metrics, uncertainty quantification, and the clinician-in-the-loop study to assess real-world utility and impact on workflow.
