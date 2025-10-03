@@ -3,235 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prostate Cancer Diagnostic Workflow</title>
+    <title>Illustrative Clinical Workflow: The CausalPCa Digital Twin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            -webkit-print-color-adjust: exact;
-            color-adjust: exact;
+            background-color: #f8fafc; /* A lighter, cleaner gray */
         }
-        /* A4 aspect ratio approximation for screen viewing */
-        .page-container {
-            width: 100%;
-            max-width: 1200px; /* Adjust for desired screen width */
-            margin: auto;
-            /* Aspect ratio for A4 is roughly 1:1.414 */
-            /* We will control height via content, but this helps guide the design */
-        }
-        .step-card {
-            border: 1px solid #E2E8F0;
-            transition: all 0.3s ease;
-        }
-        .step-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .arrow {
-            position: relative;
-            text-align: center;
-        }
-        .arrow-line {
-            height: 15px;
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 28px; /* Centered on the icon */
+            top: 56px;
+            bottom: -24px;
             width: 2px;
-            background-color: #4A5568;
-            margin: 0 auto;
+            background-color: #e2e8f0; /* Lighter line color */
+            z-index: 0;
         }
-        .arrow-head {
-            width: 0;
-            height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 10px solid #4A5568;
-            margin: 0 auto;
+        .timeline-item:last-child::before {
+            display: none;
         }
-        .icon {
-            width: 56px;
-            height: 56px;
-        }
-        .loop-container {
+        .timeline-icon-wrapper {
+            background-color: #f8fafc; /* Match body background */
+            padding: 4px;
+            border-radius: 9999px;
             position: relative;
-            padding: 1.5rem 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
+            z-index: 1;
         }
-        .loop-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
+        .card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease-in-out;
         }
-        .loop-line {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 160px;
-            height: 160px;
-            border: 2px dashed #9CA3AF;
-            border-radius: 50%;
-            animation: rotate 20s linear infinite;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
         }
-        @keyframes rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Print specific styles */
-        @media print {
-            body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .page-container {
-                width: 210mm;
-                min-height: 297mm;
-                padding: 10mm;
-                margin: 0;
-                box-shadow: none;
-            }
-            .no-print {
-                display: none;
-            }
+        .tech-box {
+            background-color: #f1f5f9;
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="antialiased text-gray-900">
 
-    <div class="page-container bg-white p-8 md:p-12 my-8 shadow-lg">
-
-        <!-- Header -->
-        <div class="text-center border-b-2 border-blue-600 pb-4 mb-6">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">The Multidisciplinary Workflow of Prostate Cancer Diagnosis</h1>
-            <p class="text-lg text-gray-600 mt-2">A complex, iterative process requiring multimodal data fusion and expert collaboration.</p>
+    <div class="container mx-auto px-4 py-16">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#0A369D] mb-3">The CausalPCa Digital Twin in Action</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">An interactive workflow demonstrating how our causal AI augments clinical decision-making.</p>
         </div>
 
-        <!-- Step 1: Patient Presentation -->
-        <div class="flex flex-col md:flex-row items-center gap-6 step-card bg-gray-50 rounded-xl p-6 mb-4">
-            <div class="flex-shrink-0">
-                <!-- SVG Icon for Patient Data -->
-                <svg class="icon text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">1. Patient Presentation & Initial Data</h2>
-                <p class="text-base text-gray-600 mt-2">The process begins with collecting foundational patient information, which forms the basis for all subsequent investigations.</p>
-                <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-base">
-                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-center">Risk Factors (Age, Genetics)</span>
-                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-center">Clinical & Patient History</span>
-                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-center">Lab Results (e.g., PSA)</span>
+        <!-- Timeline Container -->
+        <div class="max-w-5xl mx-auto">
+            <div class="space-y-16">
+
+                <!-- Step 1: Automated Data Synthesis -->
+                <div class="relative timeline-item">
+                    <div class="flex items-start space-x-8">
+                        <div class="flex flex-col items-center">
+                            <div class="timeline-icon-wrapper shadow-sm">
+                                <div class="w-14 h-14 bg-white border-2 border-[#0A369D] text-[#0A369D] rounded-full flex items-center justify-center">
+                                    <i data-lucide="layers"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <p class="text-sm font-semibold text-[#0A369D] tracking-wider">STEP 1: DATA SYNTHESIS</p>
+                            <h2 class="text-2xl font-bold mb-4">Automated Patient Record Summary</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Need</h3>
+                                    <p class="text-gray-600">Gain a rapid, comprehensive overview of a new patient's complex history.</p>
+                                </div>
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">CausalPCa Model Action</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Ingests and harmonizes all available data.</li>
+                                        <li>Generates a concise clinical summary.</li>
+                                        <li>Provides a draft structured radiological report.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
+                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-sm text-gray-700">The model fuses multimodal data (scans, labs, notes) into a unified, machine-readable format, preparing it for the causal engine.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="arrow">
-            <div class="arrow-line"></div>
-            <div class="arrow-head"></div>
-        </div>
-
-        <!-- Step 2: Investigation Loop -->
-        <div class="text-center my-4">
-            <h2 class="text-2xl font-bold text-gray-800">2. Multimodal Investigation Loop</h2>
-            <p class="text-base text-gray-600">Specialists perform various investigations. The order is not fixed and often depends on the initial findings, creating an iterative diagnostic loop.</p>
-        </div>
-
-        <div class="loop-container mb-4">
-             <!-- Central Fusion Hub -->
-            <div class="loop-center step-card bg-blue-600 text-white rounded-full p-6 w-56 h-56 flex flex-col items-center justify-center text-center shadow-2xl">
-                <svg class="w-12 h-12 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                </svg>
-                <h3 class="text-lg font-bold">Data Fusion Point</h3>
-                <p class="text-sm">All findings converge for synthesis.</p>
-            </div>
-            <div class="loop-line"></div>
-
-            <!-- Modality Cards -->
-            <div class="step-card bg-teal-50 rounded-xl p-6 text-center">
-                <h3 class="text-lg font-semibold text-teal-800">MRI</h3>
-                <p class="text-base text-teal-700 mt-1">Standard for local staging, detecting tumor extent, and capsular/seminal vesicle invasion.</p>
-            </div>
-            <div class="step-card bg-purple-50 rounded-xl p-6 text-center">
-                <h3 class="text-lg font-semibold text-purple-800">PSMA PET/CT</h3>
-                <p class="text-base text-purple-700 mt-1">Gold standard for detecting nodal and distant metastases with high sensitivity.</p>
-            </div>
-            <div class="step-card bg-green-50 rounded-xl p-6 text-center">
-                <h3 class="text-lg font-semibold text-green-800">Histopathology</h3>
-                <p class="text-base text-green-700 mt-1">Definitive diagnosis via biopsy, providing Gleason Score and confirming aggressive features.</p>
-            </div>
-             <div class="step-card bg-orange-50 rounded-xl p-6 text-center">
-                <h3 class="text-lg font-semibold text-orange-800">Contrast CT & Other</h3>
-                <p class="text-base text-orange-700 mt-1">Visualizes bone structure, assesses systemic risks (body composition) & post-therapy response (SPECT/CT).</p>
-            </div>
-        </div>
-
-        <div class="arrow">
-            <div class="arrow-line"></div>
-            <div class="arrow-head"></div>
-        </div>
-        
-        <!-- Step 3: Multidisciplinary Team Review -->
-        <div class="flex flex-col md:flex-row items-center gap-6 step-card bg-gray-50 rounded-xl p-6 my-4">
-            <div class="flex-shrink-0">
-                <!-- SVG Icon for Team -->
-                <svg class="icon text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.75-5.25T21 9.75v-3a3 3 0 0 0-3-3h-3.75a9.094 9.094 0 0 0-5.25 3.75T5.25 15v3a3 3 0 0 0 3 3h3.75a9.094 9.094 0 0 0 5.25-3.75Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15V9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9" />
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">3. Multidisciplinary Team (MDT) Review</h2>
-                <p class="text-base text-gray-600 mt-2">A "Tumor Board" of specialists convenes to synthesize all fused data, discuss findings, and formulate a consensus plan.</p>
-                <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
-                    <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-center">Radiologist</span>
-                    <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-center">Urologist</span>
-                    <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-center">Oncologist</span>
-                    <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-center">Pathologist</span>
+                <!-- Step 2: Prognostic Simulation -->
+                <div class="relative timeline-item">
+                    <div class="flex items-start space-x-8">
+                         <div class="flex flex-col items-center">
+                            <div class="timeline-icon-wrapper shadow-sm">
+                                <div class="w-14 h-14 bg-white border-2 border-[#4472CA] text-[#4472CA] rounded-full flex items-center justify-center">
+                                    <i data-lucide="line-chart"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <p class="text-sm font-semibold text-[#4472CA] tracking-wider">STEP 2: PROGNOSTIC SIMULATION</p>
+                            <h2 class="text-2xl font-bold mb-4">"What if we wait?" — Simulating the Future</h2>
+                             <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic">"Show the likely disease progression in 1 year without treatment."</p>
+                                </div>
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Digital Twin Prediction</h3>
+                                     <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Generates a future MRI scan showing tumor growth.</li>
+                                        <li>Predicts key biomarker changes (e.g., PSA to 18.0).</li>
+                                        <li>Outputs a prognostic report with quantified risk.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
+                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-sm text-gray-700">The Neural Jump ODE (NJDE) model integrates the patient's history and evolves their latent disease state ($Z_D$) forward in continuous time to predict a future outcome.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="arrow">
-            <div class="arrow-line"></div>
-            <div class="arrow-head"></div>
-        </div>
 
-        <!-- Step 4: Staging & Report Generation -->
-        <div class="flex flex-col md:flex-row items-center gap-6 step-card bg-blue-100 border-blue-200 rounded-xl p-6 mt-4">
-             <div class="flex-shrink-0">
-                <!-- SVG Icon for Report -->
-                <svg class="icon text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75c0-.231-.035-.454-.1-.664M6.75 7.5h4.5a.75.75 0 0 0 .75-.75c0-.231-.035-.454-.1-.664a48.424 48.424 0 0 0-1.123-.08M4.5 9h15v11.25A2.25 2.25 0 0 1 17.25 22.5h-10.5A2.25 2.25 0 0 1 4.5 20.25V9Z" />
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold text-blue-900">4. Comprehensive Staging & Report</h2>
-                <p class="text-base text-blue-800 mt-2">The final output is a detailed report providing a definitive diagnosis, precise cancer staging (TNM), risk stratification, and a recommended treatment plan.</p>
-            </div>
-        </div>
+                <!-- Step 3: Counterfactual Explanation -->
+                <div class="relative timeline-item">
+                    <div class="flex items-start space-x-8">
+                         <div class="flex flex-col items-center">
+                            <div class="timeline-icon-wrapper shadow-sm">
+                                <div class="w-14 h-14 bg-white border-2 border-[#5E8B7E] text-[#5E8B7E] rounded-full flex items-center justify-center">
+                                    <i data-lucide="brain-circuit"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <p class="text-sm font-semibold text-[#5E8B7E] tracking-wider">STEP 3: CAUSAL EXPLANATION</p>
+                            <h2 class="text-2xl font-bold mb-4">"Why is the risk high?" — Probing the Model's Logic</h2>
+                             <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic">"Explain the prognosis. What if this specific lesion were benign?"</p>
+                                </div>
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Counterfactual Explanation</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Generates a new, counterfactual scan of a benign lesion.</li>
+                                        <li>Revises prognosis to low-risk (PI-RADS 2).</li>
+                                        <li>Visually isolates the causal driver of the high-risk assessment.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
+                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-sm text-gray-700">The VAE performs a targeted intervention in the disentangled latent space, changing the "disease" component ($Z_D$) while keeping anatomy ($Z_A$) and patient state ($Z_P$) constant.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Footer -->
-        <div class="mt-8 pt-4 border-t border-dashed">
-             <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-6 text-center">
-                <h3 class="text-lg font-bold">A Significant Clinical Challenge</h3>
-                <p class="text-base mt-1">This entire workflow is intricate and labor-intensive. The need to integrate multiple data types across different specialties at various time points presents a major bottleneck, highlighting the demand for streamlined, intelligent solutions.</p>
+                <!-- Step 4: Treatment Simulation -->
+                <div class="relative timeline-item">
+                    <div class="flex items-start space-x-8">
+                        <div class="flex flex-col items-center">
+                           <div class="timeline-icon-wrapper shadow-sm">
+                                <div class="w-14 h-14 bg-white border-2 border-orange-500 text-orange-500 rounded-full flex items-center justify-center">
+                                    <i data-lucide="activity"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <p class="text-sm font-semibold text-orange-600 tracking-wider">STEP 4: TREATMENT SIMULATION</p>
+                            <h2 class="text-2xl font-bold mb-4">"What if we operate?" — Comparing Treatment Paths</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic">"Simulate a post-prostatectomy scan and predict the 6-month PSA."</p>
+                                </div>
+                                <div class="card p-5">
+                                    <h3 class="font-bold mb-2 text-gray-800">Treatment Path Simulation</h3>
+                                     <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Generates a realistic post-operative PET/CT scan.</li>
+                                        <li>Predicts a 6-month PSA of &lt;0.1 ng/mL.</li>
+                                        <li>Provides a comprehensive simulation of a positive outcome.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
+                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-sm text-gray-700">The NJDE applies a discrete "jump" intervention to the patient's latent state and transforms the anatomy vector ($Z_A$) to model the physical and biological effects of surgery.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
-<!-- 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1\textwidth]{wf.png}
-    \caption{The Multidisciplinary Workflow of Prostate Cancer Diagnosis: A complex, iterative process requiring multimodal data fusion and expert collaboration.}
-    \label{fig:workflow}
-\end{figure}
--->

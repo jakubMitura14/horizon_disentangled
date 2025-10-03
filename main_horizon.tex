@@ -226,24 +226,13 @@ The proposed framework is designed from the ground up to align with the principl
 \paragraph{1. Enhancing AI Model Robustness and Integrity}
 To defend against malicious inputs and training manipulations, we will:
 \begin{itemize}
-    \item \textbf{Implement Adversarial Defense Mechanisms:} We will adopt robust defensive strategies, including adversarial training, which is one of the most effective defenses against such attacks \cite{AlAttar2023,GoodfellowShlens2014}.
-    \item \textbf{Mitigate Data Poisoning:} We will implement proactive scans to identify and isolate corrupted data, protecting our training pipelines from data poisoning attacks that could impair model accuracy \cite{AlAttar2023,QayyumQadir2020,KhadkaEpiphaniou2025}.
     \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
     \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
 \end{itemize}
 
-\paragraph{2. Ensuring Data Confidentiality and Privacy}
-To prevent privacy violations and data leakage, we will:
-\begin{itemize}
-    \item \textbf{Utilize Federated Learning (FL):} Our architecture will support FL frameworks, allowing collaborative model training across institutions without transferring raw patient data, ensuring compliance with HIPAA and GDPR \cite{AlkanZakariyya2025,JamesIjiga2024}.
-    \item \textbf{Integrate Differential Privacy (DP):} We will integrate DP mechanisms to add calculated noise into computations, providing a guaranteed maximum privacy loss during model training \cite{AlkanZakariyya2025,JamesIjiga2024}.
-    \item \textbf{Employ Encryption and Secure Protocols:} We will use end-to-end encryption for data-at-rest and in-transit and secure cloud storage solutions, with the future possibility of exploring homomorphic encryption \cite{AlAttar2023,GarcaGmezBlanesSelva2023,JamesIjiga2024}.
-\end{itemize}
-
-\paragraph{3. Operational, Transparency, and Regulatory Frameworks}
+\paragraph{2. Operational, Transparency, and Regulatory Frameworks}
 To ensure accountability and long-term reliability, we will establish:
 \begin{itemize}
-    \item \textbf{A Multi-layered Security Architecture:} We will adopt a holistic security strategy across the edge, fog, and cloud layers of our system \cite{AlAttar2023,PadalaSundar2025}.
     \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
     \item \textbf{eXplainable AI (XAI):} Our counterfactual explanation system is a core part of our XAI strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
     \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
@@ -356,25 +345,14 @@ This combined data strategy provides an unparalleled foundation for this high-ri
 \textbf{Data Governance and AI Act Compliance (Article 10):} All data will be managed within a secure, federated learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act. The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system. All data will be handled in strict compliance with GDPR and ethical guidelines.
 
 \subsection{Illustrative Clinical Workflow}
-To make the vision concrete, consider the following illustrative workflow of a clinician using the fully trained CausalPCa tool for a new patient:
-\begin{enumerate}
-    \item \textbf{Automated Patient Summary:} The model ingests the patient's entire record—including scans, lab results, and notes—and generates a concise summary, including a draft structured report for the latest scan. This saves the clinician significant pre-reading time.
-    \item \textbf{Prognostic Inquiry:} The clinician, concerned about a suspicious lesion, asks the system via a simple interface, \textit{"Show prognosis in 1 year without treatment."}
-    \begin{itemize}
-        \item \textbf{Model Action:} The NJDE integrates the patient's history and solves its learned continuous differential equation forward in time to predict the disease state ($Z_D$) at $t+1$ year.
-        \item \textbf{Model Output:} The tool generates a future MRI showing likely tumor progression, a predicted PSA of 18.0 ng/mL, and an accompanying prognostic report highlighting the increased risk.
-    \end{itemize}
-    \item \textbf{Explainable Reasoning Inquiry:} To understand the basis for the high-risk prediction, the clinician probes the model's reasoning by asking, \textit{"What if the primary lesion were benign?"}
-    \begin{itemize}
-        \item \textbf{Model Action:} The model performs a targeted intervention on the latent space, setting the disease component corresponding to the lesion to a "healthy" state while keeping all other patient factors constant.
-        \item \textbf{Model Output:} It generates a new, counterfactual image where the lesion appears benign, along with a revised, low-risk prognostic report and a PI-RADS 2 classification. This visual and textual explanation gives the clinician confidence in the model's assessment.
-    \end{itemize}
-    \item \textbf{Treatment Planning Inquiry:} The clinician now considers surgery and asks, \textit{"Simulate a post-prostatectomy PET scan and predict the 6-month PSA."}
-    \begin{itemize}
-        \item \textbf{Model Action:} The model applies a "prostatectomy" intervention. This triggers a learned discrete \textbf{jump} in the NJDE to an immediate post-operative disease state. Simultaneously, a transformation is applied to the anatomy vector $Z_A$ to model the physical removal of the prostate. The NJDE then evolves this new state forward for 6 months.
-        \item \textbf{Model Output:} It generates a realistic post-operative PET/CT scan and and provides a predicted 6-month PSA value of <0.1 ng/mL, offering a comprehensive simulation of a positive treatment outcome.
-    \end{itemize}
-\end{enumerate}
+To make our vision concrete, Figure \ref{fig:workflow} illustrates the step-by-step workflow of a clinician interacting with the CausalPCa Digital Twin. This infographic demonstrates how the tool moves beyond simple prediction to become an interactive partner in clinical decision-making, seamlessly integrating data synthesis, prognostic simulation, causal explanation, and treatment planning into a single, intuitive interface.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{wf.png}
+    \caption{The CausalPCa Digital Twin in action. This workflow demonstrates how a clinician can interact with the AI to synthesize patient data, simulate future prognoses, ask "what-if" questions to understand causal drivers, and compare the outcomes of different treatment paths.}
+    \label{fig:workflow}
+\end{figure}
 
 \subsection{Evaluation and Validation}
 The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
@@ -435,39 +413,12 @@ This is an ambitious, high-risk project at the frontier of AI research. We have 
 \end{itemize}
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
-\subsubsection{Cybersecurity and Model Integrity}
-Securing a multimodal health AI application requires a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance. The integration of image diagnostics and clinical text analytics in AI models introduces complex vulnerabilities, as Convolutional Neural Networks (CNNs) are susceptible to image-based adversarial attacks, while models processing textual EHR data can also be manipulated. Here are the critical strategies for securing such a multimodal AI application:
+\section{Conclusions}
+This project represents a bold step towards a new frontier in clinical AI. We propose not an incremental improvement, but a foundational shift from correlational pattern recognition to causal, explainable, and trustworthy artificial intelligence. Our vision is to create a dynamic "digital twin" for prostate cancer that empowers clinicians with a tool that can reason, simulate, and explain—augmenting their expertise and enabling truly personalized medicine.
 
-\paragraph{1. Enhancing AI Model Robustness and Integrity}
-To defend the integrity and reliability of the machine learning models against malicious inputs and training manipulations:
-\begin{itemize}
-    \item \textbf{Implement Adversarial Defense Mechanisms:} Adopting defensive strategies significantly increases model resilience. This includes methods like adversarial training, defensive distillation, and hybrid defenses.
-    \item \textbf{Mitigate Data Poisoning:} Proactive scans will be implemented to identify corrupted data and protect training pipelines from data poisoning attacks.
-    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate the model's robustness under adversarial inputs and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range.
-    \item \textbf{Data Quality Assessment:} We will perform thorough checks on training datasets for completeness, consistency, and correctness to avoid low performance.
-\end{itemize}
+The CausalPCa framework is designed to tackle the immense complexity of prostate cancer by deconstructing it into manageable, causally-grounded stages. By pioneering novel methods in disentanglement, longitudinal modeling, and counterfactual generation, we will deliver a technology that is not only powerful but also robust, generalizable, and aligned with the highest standards of the EU AI Act.
 
-\paragraph{2. Ensuring Data Confidentiality and Privacy}
-Given that the application handles sensitive patient data, robust measures must be in place to prevent privacy violations:
-\begin{itemize}
-    \item \textbf{Federated Learning (FL):} We will utilize FL frameworks to allow collaborative training of AI models across distributed healthcare nodes without transferring raw patient data.
-    \item \textbf{Differential Privacy (DP):} We will integrate DP mechanisms to introduce calculated noise into computations, providing a guaranteed maximum privacy loss.
-    \item \textbf{Encryption and Secure Protocols:} We will employ end-to-end encryption and use secure cloud storage solutions that adhere to standards like HIPAA and GDPR.
-    \item \textbf{Minimize Data Leakage:} We will address the vulnerability of deep learning models to inadvertently expose sensitive training data, using techniques like disentangled representations.
-\end{itemize}
-
-\paragraph{3. Operational, Transparency, and Regulatory Frameworks}
-Securing the application also requires comprehensive governance:
-\begin{itemize}
-    \item \textbf{Multi-layered Security Architecture:} We will adopt a holistic strategy across the system architecture, integrating security at the edge, fog, and cloud layers.
-    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous model monitoring to identify anomalous model behaviours in real-time.
-    \item \textbf{eXplainable Artificial Intelligence (XAI):} Mechanisms such as SHAP or LIME will be integrated to explain how the AI model generates its output.
-    \item \textbf{Audit Trail:} We will maintain a complete audit trail that logs every user action, system access, and prediction.
-    \item \textbf{Human Oversight (Clinicians Double-Check):} We will implement mechanisms that require confirmation by the healthcare professional before sending a clinical case to the AI system.
-    \item \textbf{Bias Check and Fairness:} We will explicitly check for and mitigate algorithmic bias inherited from training datasets.
-    \item \textbf{Regulatory Compliance and AI Passport:} We will ensure the application adheres strictly to standards like the NIST Cybersecurity Framework, HIPAA, and GDPR, and maintain an AI Passport documenting the system's purpose, training, and potential biases.
-\end{itemize}
-
+This high-risk, high-gain endeavor will deliver a transformative tool for oncology, establish a new European standard for trustworthy AI, and provide a versatile, foundational technology with the potential to revolutionize how we understand and treat complex diseases. We are confident that our unique consortium, with its deep interdisciplinary expertise and access to unparalleled clinical data, is perfectly positioned to turn this ambitious vision into a reality, generating profound scientific, clinical, and societal impact for Europe.
 
 \bibliographystyle{unsrt}
 \bibliography{bibl}
