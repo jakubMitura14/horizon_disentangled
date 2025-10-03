@@ -6,20 +6,23 @@
     <title>Data Flow: A Biologically-Grounded Generative Framework for Prostate Cancer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
+            font-size: 16px; /* Increased base font size */
         }
         .infographic-container {
-            max-width: 1200px;
+            max-width: 1400px; /* Widened container */
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 2.5rem;
             background-color: white;
             border-radius: 1rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .stage-title {
+            font-size: 1.75rem; /* Increased font size */
             font-weight: 700;
             color: #1e3a8a;
             border-bottom: 2px solid #93c5fd;
@@ -29,22 +32,24 @@
             align-items: center;
         }
         .stage-title .icon {
-            margin-right: 0.75rem;
-            width: 2.5rem;
-            height: 2.5rem;
+            margin-right: 1rem;
+            width: 3rem;
+            height: 3rem;
             background-color: #dbeafe;
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #1e3a8a;
+            flex-shrink: 0;
         }
         .card {
             background-color: #f1f5f9;
             border-left: 4px solid #60a5fa;
             border-radius: 0.5rem;
-            padding: 1rem;
+            padding: 1.25rem;
             transition: all 0.3s ease;
+            height: 100%;
         }
         .card:hover {
             transform: translateY(-2px);
@@ -53,11 +58,15 @@
         .card-title {
             font-weight: 600;
             color: #1e3a8a;
+            font-size: 1.1rem; /* Increased font size */
+        }
+        .card ul {
+            font-size: 0.95rem; /* Increased font size */
         }
         .arrow {
             position: relative;
             text-align: center;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
         .arrow::after {
             content: '';
@@ -67,15 +76,15 @@
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 15px solid #60a5fa;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 18px solid #60a5fa;
         }
         .flow-line {
-            width: 2px;
+            width: 3px;
             background-color: #60a5fa;
             margin: 0 auto;
-            height: 2rem;
+            height: 2.5rem;
         }
         .disentangle-diagram {
             display: flex;
@@ -83,53 +92,15 @@
             justify-content: space-between;
             background: #f8fafc;
             border-radius: 0.75rem;
-            padding: 1.5rem;
-        }
-        .disentangle-input, .disentangle-output {
-            text-align: center;
-        }
-        .disentangle-process {
-            text-align: center;
-            font-weight: 600;
-            color: #1d4ed8;
+            padding: 2rem;
+            gap: 1rem;
         }
         .latent-space-card {
             background-color: white;
             border: 1px solid #e2e8f0;
         }
-        .timeline {
-            position: relative;
-            width: 100%;
-            height: 4px;
-            background-color: #93c5fd;
-            border-radius: 2px;
-            margin-top: 3rem;
-            margin-bottom: 3rem;
-        }
-        .timeline-event {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1rem;
-            height: 1rem;
-            background-color: #1e3a8a;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-        .timeline-label {
-            position: absolute;
-            top: -2rem;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #475569;
-            white-space: nowrap;
-        }
-        .timeline-jump {
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: #ef4444;
+        .latent-space-card p.font-semibold {
+            font-size: 1rem;
         }
         .output-card {
             border: 2px solid #93c5fd;
@@ -141,23 +112,21 @@
 
     <div class="infographic-container">
         <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-slate-800">A Biologically-Grounded Generative Framework for Prostate Cancer</h1>
-            <p class="text-slate-500 mt-2">Visualizing the Data Flow of a Multi-Stage Causal AI Model</p>
+        <header class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-slate-800">A Biologically-Grounded Generative Framework for Prostate Cancer</h1>
+            <p class="text-slate-500 mt-2 text-lg">Visualizing the Data Flow of a Multi-Stage Causal AI Model</p>
         </header>
 
         <!-- Section 1: Data Inputs -->
         <section id="inputs">
             <h2 class="stage-title">
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                </span>
+                <span class="icon"><i data-lucide="database"></i></span>
                 Data Inputs: Comprehensive Patient Data Collection
             </h2>
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-3 gap-8">
                 <div class="card">
                     <h3 class="card-title">Clinical & Lab Data</h3>
-                    <ul class="list-disc list-inside text-slate-600 text-sm mt-2">
+                    <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
                         <li>Patient Demographics (Age)</li>
                         <li>PSA Levels (at diagnosis & follow-up)</li>
                         <li>Histopathology (Gleason Score)</li>
@@ -167,20 +136,20 @@
                 </div>
                 <div class="card">
                     <h3 class="card-title">Imaging Data & Reports</h3>
-                     <ul class="list-disc list-inside text-slate-600 text-sm mt-2">
+                     <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
                         <li>Raw DICOMs (mpMRI, PSMA-PET/CT)</li>
                         <li>Post-therapy Scans (SPECT/CT)</li>
-                        <li>Scanner Metadata</li>
+                        <li>Scanner Metadata (Confounders)</li>
                         <li>Unstructured Radiological Reports</li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Longitudinal Outcomes</h3>
-                     <ul class="list-disc list-inside text-slate-600 text-sm mt-2">
+                     <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
                         <li>Time-to-Progression Data</li>
                         <li>Biochemical Recurrence (rising PSA)</li>
                         <li>Follow-up Imaging Results</li>
-                        <li>Survival Data</li>
+                        <li>Survival Data (Overall & PFS)</li>
                     </ul>
                 </div>
             </div>
@@ -191,18 +160,16 @@
         <!-- Section 2: Stage 1 -->
         <section id="stage1">
             <h2 class="stage-title">
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V4m0 16v-2M12 12l-2-2m2 2l2 2m2-2l-2 2m-2-2l2-2" /></svg>
-                </span>
+                <span class="icon"><i data-lucide="graduation-cap"></i></span>
                 Stage 1: Training Foundational "Supervisor" Models
             </h2>
-            <p class="text-slate-600 mb-6">A suite of specialized models are trained on specific tasks. These act as expert guides to enforce clinical and anatomical correctness in later stages.</p>
-            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-4 text-sm">
-                <div class="card text-center"><p>Ordinal Classifiers (TNM, PI-RADS)</p></div>
-                <div class="card text-center"><p>Censored Survival Regressor (Time-to-Progression)</p></div>
-                <div class="card text-center"><p>Anatomical Segmentator (Organ Masks)</p></div>
-                <div class="card text-center"><p>Patient State Regressor (Age)</p></div>
-                <div class="card text-center"><p>Confounder Classifiers (Scanner Type, etc.)</p></div>
+            <p class="text-slate-600 mb-6 text-base">A suite of specialized models are trained on specific tasks. These act as expert guides to enforce clinical and anatomical correctness in later stages.</p>
+            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-4 text-base">
+                <div class="card text-center p-4"><p>Ordinal Classifiers (TNM, PI-RADS)</p></div>
+                <div class="card text-center p-4"><p>Censored Survival Regressor (Time-to-Progression)</p></div>
+                <div class="card text-center p-4"><p>Anatomical Segmentator (Organ Masks)</p></div>
+                <div class="card text-center p-4"><p>Patient State Regressor (Age)</p></div>
+                <div class="card text-center p-4"><p>Confounder Classifiers (Scanner Type)</p></div>
             </div>
         </section>
 
@@ -211,39 +178,25 @@
         <!-- Section 3: Stage 2 -->
         <section id="stage2">
             <h2 class="stage-title">
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                </span>
+                <span class="icon"><i data-lucide="grip"></i></span>
                 Stage 2: Causal Representation Learning (Per Modality)
             </h2>
-            <p class="text-slate-600 mb-6">A hierarchical Variational Autoencoder (VAE) is trained for each imaging modality (e.g., MRI, PET). Guided by the Stage 1 supervisors, the VAE learns to disentangle the complex image data into four independent, meaningful components.</p>
+            <p class="text-slate-600 mb-6 text-base">A hierarchical Variational Autoencoder (VAE) is trained for each imaging modality (e.g., MRI, PET). Guided by the Stage 1 supervisors, the VAE learns to disentangle the complex image data into four independent, meaningful components.</p>
             <div class="disentangle-diagram">
-                <div class="disentangle-input">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1-1m-4-4l-1-1m6 6l1 1" /></svg>
-                    <p class="font-semibold mt-2">Input Image (e.g., MRI)</p>
+                <div class="text-center">
+                    <i data-lucide="image" class="h-20 w-20 mx-auto text-slate-400"></i>
+                    <p class="font-semibold mt-2 text-lg">Input Image</p>
                 </div>
-                <div class="disentangle-process">
+                <div class="text-center font-bold text-2xl text-blue-600">
                     <p>VAE Model</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto my-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <i data-lucide="arrow-right-circle" class="h-12 w-12 mx-auto my-4"></i>
                     <p>Disentanglement</p>
                 </div>
-                <div class="disentangle-output grid grid-cols-2 gap-4">
-                    <div class="card latent-space-card p-4 text-center">
-                        <p class="font-semibold text-sm text-blue-800">Anatomy (Z<sub>A</sub>)</p>
-                        <p class="text-xs text-slate-500">Patient's stable structure</p>
-                    </div>
-                     <div class="card latent-space-card p-4 text-center">
-                        <p class="font-semibold text-sm text-red-800">Disease (Z<sub>D</sub>)</p>
-                        <p class="text-xs text-slate-500">Pathological signals</p>
-                    </div>
-                     <div class="card latent-space-card p-4 text-center">
-                        <p class="font-semibold text-sm text-green-800">Patient State (Z<sub>P</sub>)</p>
-                        <p class="text-xs text-slate-500">Age, body composition</p>
-                    </div>
-                     <div class="card latent-space-card p-4 text-center">
-                        <p class="font-semibold text-sm text-gray-800">Style/Shortcut (Z<sub>S</sub>)</p>
-                        <p class="text-xs text-slate-500">Scanner artifacts, noise</p>
-                    </div>
+                <div class="grid grid-cols-2 gap-4 flex-grow">
+                    <div class="card latent-space-card p-4 text-center"><p class="font-semibold text-blue-800">Anatomy (Z<sub>A</sub>)</p><p class="text-sm text-slate-500">Patient's stable structure</p></div>
+                    <div class="card latent-space-card p-4 text-center bg-red-50 border-red-200"><p class="font-semibold text-red-800">Disease (Z<sub>D</sub>)</p><p class="text-sm text-slate-500">Pathological signals</p></div>
+                    <div class="card latent-space-card p-4 text-center bg-green-50 border-green-200"><p class="font-semibold text-green-800">Patient State (Z<sub>P</sub>)</p><p class="text-sm text-slate-500">Age, body composition</p></div>
+                    <div class="card latent-space-card p-4 text-center"><p class="font-semibold text-gray-800">Style/Shortcut (Z<sub>S</sub>)</p><p class="text-sm text-slate-500">Scanner artifacts, noise</p></div>
                 </div>
             </div>
         </section>
@@ -253,41 +206,21 @@
         <!-- Section 4: Stage 3 -->
         <section id="stage3">
             <h2 class="stage-title">
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                </span>
+                <span class="icon"><i data-lucide="area-chart"></i></span>
                 Stage 3: Temporal Trajectory Modeling
             </h2>
-            <p class="text-slate-600 mb-6">A Neural Jump Differential Equation (NJDE) models the patient's entire disease journey over time. It operates on the low-dimensional latent spaces (primarily the 'Disease' component Z<sub>D</sub>), handling sparse, irregularly-sampled data.</p>
+            <div class="text-center mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                <p class="text-slate-800 font-medium">To ensure training is stable and computationally feasible, the NJDE operates exclusively on the most relevant low-dimensional latent vectors: the <b class="text-red-700">Disease (Z<sub>D</sub>)</b> and <b class="text-green-700">Patient State (Z<sub>P</sub>)</b> components. This focuses the model on learning clinically meaningful dynamics while ignoring noise and confounders.</p>
+            </div>
+            <p class="text-slate-600 mb-6 text-base">A Neural Jump Differential Equation (NJDE) models the patient's entire disease journey over time, handling sparse, irregularly-sampled clinical events.</p>
             <div class="bg-slate-50 p-6 rounded-lg">
-                <p class="text-center font-medium text-slate-700">Patient Disease Trajectory Timeline</p>
-                <div class="relative w-full h-16">
-                    <div class="timeline">
-                        <div class="timeline-event" style="left: 10%;">
-                            <span class="timeline-label">Diagnosis (MRI + PSA)</span>
-                        </div>
-                        <div class="timeline-event" style="left: 40%;">
-                             <span class="timeline-label">Follow-up (PSA only)</span>
-                        </div>
-                        <div class="timeline-jump" style="left: 60%;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                            <span class="absolute top-8 transform -translate-x-1/2 font-bold text-red-600 text-sm">INTERVENTION</span>
-                            <span class="absolute top-12 transform -translate-x-1/2 text-red-600 text-xs">(e.g., Surgery)</span>
-                        </div>
-                        <div class="timeline-event" style="left: 85%;">
-                             <span class="timeline-label">Post-Op (PET + PSA)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-around text-center mt-4">
-                    <div>
-                        <p class="font-semibold text-blue-700">Continuous Evolution</p>
-                        <p class="text-sm text-slate-600">Learns disease dynamics between clinical visits.</p>
-                    </div>
-                     <div>
-                        <p class="font-semibold text-red-700">Discrete Jumps</p>
-                        <p class="text-sm text-slate-600">Models the immediate impact of treatments.</p>
-                    </div>
+                <p class="text-center font-medium text-slate-700 text-lg">Patient Disease Trajectory Timeline</p>
+                <div class="relative w-full h-24 mt-4">
+                    <div class="absolute top-1/2 left-0 w-full h-1 bg-blue-300 rounded"></div>
+                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 10%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Diagnosis</span></div>
+                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 40%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Follow-up</span></div>
+                    <div class="absolute top-1/2 transform -translate-x-1/2" style="left: 65%;"><i data-lucide="zap" class="w-10 h-10 text-red-500"></i><span class="absolute -bottom-14 transform -translate-x-1/2 text-sm font-bold text-red-600 w-24 text-center">Intervention (e.g., Surgery)</span></div>
+                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 90%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Post-Op</span></div>
                 </div>
             </div>
         </section>
@@ -297,17 +230,15 @@
         <!-- Section 5: Stage 4 & Outputs -->
         <section id="stage4">
             <h2 class="stage-title">
-                <span class="icon">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                </span>
+                <span class="icon"><i data-lucide="file-sliders"></i></span>
                 Stage 4: Generative Synthesis & Clinical Outputs
             </h2>
-            <p class="text-slate-600 mb-6">The fully trained model translates its internal understanding back into clinically useful and explainable outputs, enabling powerful "what-if" scenarios and predictions.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="text-slate-600 mb-6 text-base">The fully trained model translates its internal understanding back into clinically useful and explainable outputs, enabling powerful "what-if" scenarios and predictions.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="card output-card">
                     <h3 class="card-title">Image Generation</h3>
                     <p class="text-slate-600 text-sm mt-2">Synthesizes realistic images for any modality at any time point.</p>
-                    <ul class="list-disc list-inside text-slate-600 text-sm mt-2">
+                    <ul class="list-disc list-inside text-slate-600 text-sm mt-2 space-y-1">
                         <li><b>Prognostic:</b> "Show MRI in 1 year"</li>
                         <li><b>Counterfactual:</b> "What if the lesion were benign?"</li>
                         <li><b>Treatment Simulation:</b> "Post-prostatectomy PET scan"</li>
@@ -323,18 +254,14 @@
                 </div>
             </div>
         </section>
-
     </div>
-
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
 <!--
-LaTeX code for inclusion in the proposal:
+New, shorter LaTeX caption:
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{ml.png}
-\caption{Data flow diagram of the proposed multi-stage causal AI model. The process begins with comprehensive patient data, which is used to train foundational supervisor models. These guides inform a per-modality VAE to learn a disentangled latent space. A Neural Jump ODE then models the patient's temporal disease trajectory from these latent representations, culminating in generative outputs like prognostic images and structured reports.}
-\label{fig:ml_flow}
-\end{figure}
+\caption{The proposed multi-stage causal AI framework. 1) Foundational supervisor models are trained on specific clinical tasks. 2) A VAE, guided by the supervisors, learns a disentangled latent space for each imaging modality. 3) A Neural Jump ODE models the temporal evolution of the core disease and patient state vectors. 4) The model generates clinically actionable outputs like prognostic images and structured reports.}
 -->

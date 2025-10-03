@@ -18,45 +18,36 @@
             --stage-6-color: #b91c1c; /* red-700 */
             --intervention-color: #64748b; /* slate-500 */
         }
-
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8fafc;
             color: #334155;
             -webkit-print-color-adjust: exact;
         }
-
         .infographic-container {
             width: 100%;
             max-width: 1600px;
-            margin: 2rem auto;
-            padding: 2rem;
+            margin: 1rem auto;
+            padding: 1.5rem;
             position: relative;
         }
-
         h1, h2, h3 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
             color: #1e293b;
         }
-        
-        /* Main grid layout for each stage row */
         .stage-row-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 9fr;
-            gap: 1.5rem;
-            align-items: stretch; /* Ensures all items in a row have the same height */
+            gap: 1rem;
+            align-items: stretch;
         }
-        
-        /* Timeline Cell Styling */
         .timeline-cell {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        /* Vertical line segments for the timeline */
         .timeline-cell::before, .timeline-cell::after {
             content: '';
             position: absolute;
@@ -66,22 +57,10 @@
             background: #d1d5db;
             z-index: 1;
         }
-        .timeline-cell::before { /* Top segment */
-            top: 0;
-            bottom: 50%;
-            margin-bottom: 12px; /* half dot size */
-        }
-        .timeline-cell::after { /* Bottom segment */
-            top: 50%;
-            bottom: 0;
-            margin-top: 12px; /* half dot size */
-        }
-        
-        /* Hide ends of the timeline */
+        .timeline-cell::before { top: 0; bottom: 50%; margin-bottom: 12px; }
+        .timeline-cell::after { top: 50%; bottom: 0; margin-top: 12px; }
         .stage-row:first-child .timeline-cell::before { display: none; }
         .stage-row:last-child .timeline-cell::after { display: none; }
-
-
         .timeline-dot {
             width: 24px;
             height: 24px;
@@ -91,8 +70,6 @@
             position: relative;
             box-shadow: 0 0 0 4px;
         }
-
-        /* Stage Styling */
         .stage-card {
             text-align: right;
             position: relative;
@@ -100,25 +77,16 @@
             flex-direction: column;
             justify-content: center;
         }
-        .stage-card h3 {
-            font-size: 1.25rem;
-            line-height: 1.3;
-        }
-        .stage-card p {
-            font-size: 1rem;
-            color: #64748b;
-        }
-
-        /* Findings Column Styling */
+        .stage-card h3 { font-size: 1.1rem; line-height: 1.3; }
+        .stage-card p { font-size: 0.9rem; color: #64748b; }
         .findings-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
+            gap: 0.75rem;
         }
-
         .modality-header {
             text-align: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #475569;
             display: flex;
@@ -126,370 +94,158 @@
             justify-content: center;
             gap: 0.5rem;
         }
-        
         .finding-card {
             background-color: #ffffff;
             border-radius: 0.5rem;
-            padding: 0.85rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
             border-left: 4px solid;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
         }
-        
-        /* Connector lines SVG */
-        #connector-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        path.connector-line {
-            stroke-width: 1.5px;
-            fill: none;
-            stroke: #cbd5e1;
-        }
-        
-        /* Specific Stage Colors */
-        .finding-card.stage-1-border { border-color: var(--stage-1-color); }
-        .finding-card.stage-2-border { border-color: var(--stage-2-color); }
-        .finding-card.stage-3-border { border-color: var(--stage-3-color); }
-        .finding-card.stage-4-border { border-color: var(--stage-4-color); }
-        .finding-card.stage-5-border { border-color: var(--stage-5-color); }
-        .finding-card.stage-6-border { border-color: var(--stage-6-color); }
-
-        /* Intervention Section Styling */
         .intervention-card {
             background-color: #f1f5f9;
             border-radius: 0.75rem;
-            padding: 1.5rem;
+            padding: 1rem;
             border-top: 4px solid var(--intervention-color);
         }
-        .intervention-card h3 {
-            font-size: 1.5rem;
-            color: var(--intervention-color);
-        }
-         .intervention-card > p {
-            color: #64748b;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-        .findings-grid-intervention {
-            display: grid;
-            gap: 1.25rem;
-        }
+        .intervention-card h3 { font-size: 1.25rem; color: var(--intervention-color); }
+        .intervention-card > p { color: #64748b; margin-bottom: 1rem; font-size: 0.9rem; }
         .findings-grid-intervention h4 {
             font-weight: 700;
             color: #475569;
             margin-bottom: 0.25rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .findings-grid-intervention p {
-             font-size: 0.95rem;
-             line-height: 1.5;
-        }
-        
-        @media print {
-            body {
-                background-color: #ffffff;
-            }
-            .infographic-container {
-                margin: 0;
-                padding: 1cm;
-                box-shadow: none;
-            }
-            .finding-card, .intervention-card {
-                box-shadow: none;
-                border: 1px solid #e2e8f0;
-            }
-        }
+        .findings-grid-intervention p { font-size: 0.85rem; line-height: 1.5; }
     </style>
 </head>
 <body class="bg-slate-50">
 
     <div class="infographic-container">
-        <svg id="connector-svg"></svg>
-        
         <!-- Headers for the findings columns -->
-        <div class="stage-row-grid mb-4">
+        <div class="stage-row-grid mb-3">
             <div class="col-start-3">
                 <div class="findings-grid">
-                    <div class="modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                        Clinical & Lab
-                    </div>
-                    <div class="modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                        CT
-                    </div>
-                    <div class="modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>
-                        MRI
-                    </div>
-                    <div class="modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 01-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                        PSMA-PET
-                    </div>
-                    <div class="modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 4a3 3 0 11-6 0 3 3 0 016 0zM12 2a5 5 0 00-5 5c0 1.284.483 2.45 1.285 3.356L3.11 18.53A1.5 1.5 0 004.225 20h11.55a1.5 1.5 0 001.115-2.47l-5.175-8.174A4.978 4.978 0 0017 7a5 5 0 00-5-5z" /></svg>
-                        Histopathology
-                    </div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>Clinical & Lab</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>CT</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>MRI</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 01-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>PSMA-PET</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 4a3 3 0 11-6 0 3 3 0 016 0zM12 2a5 5 0 00-5 5c0 1.284.483 2.45 1.285 3.356L3.11 18.53A1.5 1.5 0 004.225 20h11.55a1.5 1.5 0 001.115-2.47l-5.175-8.174A4.978 4.978 0 0017 7a5 5 0 00-5-5z" /></svg>Histopathology</div>
                 </div>
             </div>
         </div>
 
-        <div class="stages-container space-y-8">
+        <div class="stages-container space-y-6">
             <!-- STAGE 1 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-1" class="stage-card">
-                    <h3>Risk Factors & Premalignant State</h3>
-                    <p>Cellular changes driven by risk factors</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-sky-300" style="box-shadow: 0 0 0 4px var(--stage-1-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Risk Factors & Premalignant</h3><p>Cellular changes driven by risk</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-sky-300" style="box-shadow: 0 0 0 4px var(--stage-1-color);"></div></div>
                 <div class="findings-grid">
-                    <div id="stage-1-clinical" class="finding-card stage-1-border"><strong>Asymptomatic.</strong> Family history, age, ethnicity. Baseline PSA, risk calculators.</div>
-                    <div id="stage-1-ct" class="finding-card stage-1-border">Cannot visualize tumor. Can quantify systemic risks: visceral fat, sarcopenia.</div>
-                    <div id="stage-1-mri" class="finding-card stage-1-border">Not typically used for risk factors alone. May show benign changes (BPH).</div>
-                    <div id="stage-1-pet" class="finding-card stage-1-border">Not indicated. No PSMA expression in precursor lesions.</div>
-                    <div id="stage-1-path" class="finding-card stage-1-border">Biopsy may show precursor lesions like High-Grade PIN or ASAP.</div>
+                    <div class="finding-card stage-1-border"><strong>Asymptomatic.</strong> Risk factors (age, family history). Baseline PSA.</div>
+                    <div class="finding-card stage-1-border">No tumor visible. Can quantify systemic risks (fat, sarcopenia).</div>
+                    <div class="finding-card stage-1-border">Not used for risk factors. May show benign changes like BPH.</div>
+                    <div class="finding-card stage-1-border">Not indicated. No PSMA expression.</div>
+                    <div class="finding-card stage-1-border">Biopsy may show precursors (HGPIN, ASAP).</div>
                 </div>
             </div>
             <!-- STAGE 2 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-2" class="stage-card">
-                     <h3>Organ-Confined Disease</h3>
-                    <p>Early cancer (T1/T2) within the prostate capsule</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-cyan-300" style="box-shadow: 0 0 0 4px var(--stage-2-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Organ-Confined Disease</h3><p>Cancer (T1/T2) in prostate</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-cyan-300" style="box-shadow: 0 0 0 4px var(--stage-2-color);"></div></div>
                 <div class="findings-grid">
-                    <div id="stage-2-clinical" class="finding-card stage-2-border"><strong>Asymptomatic.</strong> Elevated PSA is key. Post-RP, PSA should be undetectable.</div>
-                    <div id="stage-2-ct" class="finding-card stage-2-border">Cannot visualize organ-confined tumors. No role in local staging.</div>
-                    <div id="stage-2-mri" class="finding-card stage-2-border"><strong>Standard for detection.</strong> Shows tumor as low T2 signal, low ADC, and early enhancement.</div>
-                    <div id="stage-2-pet" class="finding-card stage-2-border">Visualizes primary tumor. High SUVmax & PSMA-TV correlate with aggressiveness.</div>
-                    <div id="stage-2-path" class="finding-card stage-2-border"><strong>Definitive diagnosis.</strong> Biopsy confirms adenocarcinoma & Gleason Score.</div>
+                    <div class="finding-card stage-2-border">Asymptomatic, but elevated PSA. Post-RP, PSA should be zero.</div>
+                    <div class="finding-card stage-2-border">Cannot visualize organ-confined tumors. No role in local staging.</div>
+                    <div class="finding-card stage-2-border"><strong>Standard for detection:</strong> low T2 signal, low ADC, early enhancement.</div>
+                    <div class="finding-card stage-2-border">Visualizes primary tumor. High SUVmax/PSMA-TV suggests aggressiveness.</div>
+                    <div class="finding-card stage-2-border"><strong>Definitive diagnosis</strong> via biopsy (adenocarcinoma, Gleason Score).</div>
                 </div>
             </div>
             <!-- STAGE 3 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-3" class="stage-card">
-                    <h3>Aggressive Histological Features</h3>
-                    <p>Transition to high-grade disease</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-red-300" style="box-shadow: 0 0 0 4px var(--stage-3-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Aggressive Histology</h3><p>Transition to high-grade</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-red-300" style="box-shadow: 0 0 0 4px var(--stage-3-color);"></div></div>
                 <div class="findings-grid">
-                    <div id="stage-3-clinical" class="finding-card stage-3-border">No unique symptoms. Often higher PSA, rapid PSA kinetics (short PSADT).</div>
-                    <div id="stage-3-ct" class="finding-card stage-3-border">Not directly visible. CT Perfusion may show increased angiogenesis (high Blood Flow).</div>
-                    <div id="stage-3-mri" class="finding-card stage-3-border">Progressively lower ADC values. Radiomics can quantify heterogeneity linked to cribriform pattern.</div>
-                    <div id="stage-3-pet" class="finding-card stage-3-border">High PSMA-TV on staging scans is predictive of cribriform pattern and LVI.</div>
-                    <div id="stage-3-path" class="finding-card stage-3-border"><strong>Gold Standard.</strong> Direct visualization of cribriform architecture or IDC-P (Gleason Pattern 4).</div>
+                    <div class="finding-card stage-3-border">No unique symptoms. High PSA, rapid kinetics (short PSADT).</div>
+                    <div class="finding-card stage-3-border">Not visible. CT Perfusion may show high Blood Flow (angiogenesis).</div>
+                    <div class="finding-card stage-3-border">Lower ADC values. Radiomics can quantify heterogeneity (cribriform).</div>
+                    <div class="finding-card stage-3-border">High PSMA-TV on staging predicts cribriform/LVI.</div>
+                    <div class="finding-card stage-3-border"><strong>Gold Standard:</strong> visualization of cribriform/IDC-P (Gleason 4).</div>
                 </div>
             </div>
             <!-- STAGE 4 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-4" class="stage-card">
-                    <h3>Local Invasion</h3>
-                    <p>Extracapsular Extension (T3/T4)</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-red-400" style="box-shadow: 0 0 0 4px var(--stage-4-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Local Invasion</h3><p>Extracapsular Extension (T3/T4)</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-red-400" style="box-shadow: 0 0 0 4px var(--stage-4-color);"></div></div>
                 <div class="findings-grid">
-                    <div id="stage-4-clinical" class="finding-card stage-4-border">Onset of local urinary/erectile symptoms. Rising PSA, short PSADT.</div>
-                    <div id="stage-4-ct" class="finding-card stage-4-border">Low sensitivity for microscopic ECE. Can depict gross extension (T3/T4) into fat/bladder.</div>
-                    <div id="stage-4-mri" class="finding-card stage-4-border"><strong>Crucial for staging.</strong> Shows capsular disruption, SVI. Length of capsular contact assesses risk.</div>
-                    <div id="stage-4-pet" class="finding-card stage-4-border">Can detect PSMA-avid tumor foci extending beyond the capsule, improving staging of ECE/SVI.</div>
-                    <div id="stage-4-path" class="finding-card stage-4-border"><strong>Definitive diagnosis on RP.</strong> Microscopic confirmation of tumor beyond capsule (ECE) or in seminal vesicles (SVI).</div>
+                    <div class="finding-card stage-4-border">Local symptoms (urinary/erectile). Rising PSA, short PSADT.</div>
+                    <div class="finding-card stage-4-border">Low sensitivity for micro ECE. Can show gross extension (T3/T4).</div>
+                    <div class="finding-card stage-4-border"><strong>Crucial for staging:</strong> shows capsular disruption, SVI.</div>
+                    <div class="finding-card stage-4-border">Detects PSMA-avid foci beyond capsule, improving ECE/SVI staging.</div>
+                    <div class="finding-card stage-4-border"><strong>Definitive via RP:</strong> confirms ECE or SVI microscopically.</div>
                 </div>
             </div>
             <!-- STAGE 5 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-5" class="stage-card">
-                    <h3>Regional Spread</h3>
-                    <p>Lymph Node Metastasis (N1)</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-red-500" style="box-shadow: 0 0 0 4px var(--stage-5-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Regional Spread</h3><p>Lymph Node Metastasis (N1)</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-red-500" style="box-shadow: 0 0 0 4px var(--stage-5-color);"></div></div>
                 <div class="findings-grid">
-                     <div id="stage-5-clinical" class="finding-card stage-5-border"><strong>Usually asymptomatic.</strong> Primary sign is Biochemical Recurrence (BCR) - rising PSA post-therapy.</div>
-                    <div id="stage-5-ct" class="finding-card stage-5-border">Standard for N-staging but low sensitivity. Relies on node size (>1cm), missing micrometastases.</div>
-                    <div id="stage-5-mri" class="finding-card stage-5-border">Better than CT. Detects suspicious nodes by size, shape, low ADC. Still limited for small nodes.</div>
-                    <div id="stage-5-pet" class="finding-card stage-5-border"><strong>New Gold Standard.</strong> High accuracy for detecting small, metastatic nodes based on molecular signature, not size.</div>
-                    <div id="stage-5-path" class="finding-card stage-5-border"><strong>Definitive confirmation.</strong> Histology of dissected nodes confirms number of positive nodes & extranodal extension (ENE).</div>
+                    <div class="finding-card stage-5-border">Asymptomatic. Main sign is BCR (rising PSA post-therapy).</div>
+                    <div class="finding-card stage-5-border">Low sensitivity N-staging; relies on size (>1cm), misses micro-mets.</div>
+                    <div class="finding-card stage-5-border">Better than CT; uses size, shape, low ADC. Still limited.</div>
+                    <div class="finding-card stage-5-border"><strong>New Gold Standard:</strong> high accuracy for small nodes via molecular signature.</div>
+                    <div class="finding-card stage-5-border"><strong>Definitive via histology:</strong> confirms positive nodes and ENE.</div>
                 </div>
             </div>
             <!-- STAGE 6 ROW -->
             <div class="stage-row stage-row-grid">
-                <div id="stage-6" class="stage-card">
-                     <h3>Distant Dissemination</h3>
-                    <p>Bone Metastasis (M1b)</p>
-                </div>
-                <div class="timeline-cell">
-                    <div class="timeline-dot bg-red-700" style="box-shadow: 0 0 0 4px var(--stage-6-color);"></div>
-                </div>
+                <div class="stage-card"><h3>Distant Dissemination</h3><p>Bone Metastasis (M1b)</p></div>
+                <div class="timeline-cell"><div class="timeline-dot bg-red-700" style="box-shadow: 0 0 0 4px var(--stage-6-color);"></div></div>
                 <div class="findings-grid">
-                    <div id="stage-6-clinical" class="finding-card stage-6-border"><strong>Symptomatic.</strong> Bone pain is most common. Elevated AP, anemia. Detectable CTCs.</div>
-                    <div id="stage-6-ct" class="finding-card stage-6-border"><strong>Excellent for visualization.</strong> Clearly shows high-density osteoblastic lesions and assesses fracture risk.</div>
-                    <div id="stage-6-mri" class="finding-card stage-6-border"><strong>Highly sensitive for early detection.</strong> Shows replacement of bright fatty marrow with dark tumor signal.</div>
-                    <div id="stage-6-pet" class="finding-card stage-6-border"><strong>Higher sensitivity than bone scan.</strong> Visualizes viable tumor cells and quantifies total metastatic burden.</div>
-                    <div id="stage-6-path" class="finding-card stage-6-border">Bone biopsy confirms metastatic adenocarcinoma, but not always required if imaging is clear.</div>
+                    <div class="finding-card stage-6-border">Symptomatic (bone pain). Elevated AP, anemia, detectable CTCs.</div>
+                    <div class="finding-card stage-6-border">Excellent for visualizing osteoblastic lesions and fracture risk.</div>
+                    <div class="finding-card stage-6-border">Highly sensitive for early detection (marrow replacement).</div>
+                    <div class="finding-card stage-6-border">More sensitive than bone scan; quantifies total tumor burden.</div>
+                    <div class="finding-card stage-6-border">Bone biopsy confirms mets, but not always needed if imaging is clear.</div>
                 </div>
             </div>
         </div>
 
         <!-- INTERVENTION SECTION -->
-        <div class="mt-16 pt-8 border-t-2 border-slate-200">
-            <header class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-slate-800">Therapeutic Interventions Altering Disease Evolution</h2>
+        <div class="mt-8 pt-6 border-t-2 border-slate-200">
+            <header class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">Therapeutic Interventions Altering Disease Evolution</h2>
             </header>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card for Radical Prostatectomy -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="intervention-card">
-                    <h3>Radical Prostatectomy</h3>
-                    <p>Removes the primary tumor in localized disease to prevent spread and provide definitive staging.</p>
-                    <div class="findings-grid-intervention">
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                                Clinical & Lab
-                            </h4>
-                            <p>Post-op PSA should become undetectable. A rising PSA (≥0.2 ng/ml) defines Biochemical Recurrence (BCR), the first sign of treatment failure.</p>
-                        </div>
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 4a3 3 0 11-6 0 3 3 0 016 0zM12 2a5 5 0 00-5 5c0 1.284.483 2.45 1.285 3.356L3.11 18.53A1.5 1.5 0 004.225 20h11.55a1.5 1.5 0 001.115-2.47l-5.175-8.174A4.978 4.978 0 0017 7a5 5 0 00-5-5z" /></svg>
-                                Histopathology
-                            </h4>
-                            <p><strong>Gold standard for prognosis.</strong> Provides definitive pathological stage (pT), Gleason Score, and confirms adverse features (ECE, SVI), margin status (PSM), and nodal status (pN).</p>
-                        </div>
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>
-                                Functional Outcomes
-                            </h4>
-                            <p>Prognosis also defined by Quality of Life. High rates of erectile dysfunction and urinary incontinence can occur, which must be balanced against oncological benefits.</p>
-                        </div>
+                    <h3>Radical Prostatectomy</h3><p>Surgical removal of primary tumor for localized disease.</p>
+                    <div class="findings-grid-intervention space-y-3">
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>Clinical & Lab</h4><p>Post-op PSA should be undetectable. Rising PSA (≥0.2) defines BCR.</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 4a3 3 0 11-6 0 3 3 0 016 0zM12 2a5 5 0 00-5 5c0 1.284.483 2.45 1.285 3.356L3.11 18.53A1.5 1.5 0 004.225 20h11.55a1.5 1.5 0 001.115-2.47l-5.175-8.174A4.978 4.978 0 0017 7a5 5 0 00-5-5z" /></svg>Histopathology</h4><p><strong>Gold standard for prognosis:</strong> provides pT, Gleason, margins, and nodal status.</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>Functional Outcomes</h4><p>Prognosis includes Quality of Life (ED, incontinence), balanced with oncological benefit.</p></div>
                     </div>
                 </div>
-                <!-- Card for Hormonal Therapy -->
                 <div class="intervention-card">
-                    <h3>Hormonal Therapy (ADT)</h3>
-                    <p>A systemic therapy for advanced disease that targets the androgen receptor (AR) signaling axis.</p>
-                    <div class="findings-grid-intervention">
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                                Clinical & Lab
-                            </h4>
-                            <p>Leads to initial sharp decline in PSA. Long-term prognosis is linked to PSA nadir (lowest level) and time-to-nadir; a high nadir or short time predicts earlier resistance.</p>
-                        </div>
-                         <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                                Imaging (CT/PET/MRI)
-                            </h4>
-                            <p>Causes body composition changes on CT (muscle loss, fat gain). PSMA-PET uptake decreases (but can flare initially). MRI can show reduced citrate, reflecting cell atrophy.</p>
-                        </div>
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414l-3-3z" clip-rule="evenodd" /></svg>
-                                Induced Evolution
-                            </h4>
-                            <p>Inevitably selects for resistance, leading to lethal Castration-Resistant PCa (CRPC) through AR-dependent or AR-independent (e.g., Neuroendocrine) pathways.</p>
-                        </div>
+                    <h3>Hormonal Therapy (ADT)</h3><p>Systemic therapy for advanced disease targeting androgen receptor.</p>
+                    <div class="findings-grid-intervention space-y-3">
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>Clinical & Lab</h4><p>Initial PSA decline. Prognosis linked to PSA nadir and time-to-nadir.</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>Imaging</h4><p>Causes body composition changes (CT). PSMA-PET uptake decreases. MRI shows reduced citrate.</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414l-3-3z" clip-rule="evenodd" /></svg>Induced Evolution</h4><p>Inevitably selects for resistance, leading to lethal CRPC via various pathways.</p></div>
                     </div>
                 </div>
-                 <!-- Card for Radioligand Therapy -->
                 <div class="intervention-card">
-                    <h3>Radioligand Therapy (RLT)</h3>
-                    <p>A targeted approach for advanced mCRPC, delivering radiation directly to PSMA-positive cancer cells.</p>
-                    <div class="findings-grid-intervention">
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15.5 2.5a2.5 2.5 0 00-3.536 0L9.243 5.222a2.5 2.5 0 000 3.536l2.277 2.277a2.5 2.5 0 003.536 0l2.722-2.722a2.5 2.5 0 000-3.536L15.5 2.5zM12.723 9.243a.5.5 0 010-.707l2.277-2.277a.5.5 0 01.707 0l2.277 2.277a.5.5 0 010 .707L15.5 11.52a.5.5 0 01-.707 0l-2.07-2.07zM4.5 12.5a2.5 2.5 0 00-3.536 0L.5 12.964a2.5 2.5 0 000 3.536l2.036 2.036a2.5 2.5 0 003.536 0l.464-.464a2.5 2.5 0 000-3.536L4.5 12.5z" /></svg>
-                                Mechanism of Action
-                            </h4>
-                            <p>Uses ligands (e.g., ¹⁷⁷Lu-PSMA-617) to deliver a radioactive isotope directly to tumor cells, causing targeted cell death with minimal collateral damage.</p>
-                        </div>
-                         <div>
-                            <h4>
-                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 01-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                                Imaging & Selection
-                            </h4>
-                            <p>PSMA-PET is essential to confirm high PSMA expression on tumors, identifying patients who are likely to respond to the therapy (a "theranostic" approach).</p>
-                        </div>
-                        <div>
-                            <h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>
-                                Prognostic Impact
-                            </h4>
-                            <p>Significantly prolongs survival and delays progression in heavily pre-treated mCRPC patients, altering the terminal course of the disease.</p>
-                        </div>
+                    <h3>Radioligand Therapy (RLT)</h3><p>Targeted radiation for advanced mCRPC via PSMA-positive cells.</p>
+                    <div class="findings-grid-intervention space-y-3">
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15.5 2.5a2.5 2.5 0 00-3.536 0L9.243 5.222a2.5 2.5 0 000 3.536l2.277 2.277a2.5 2.5 0 003.536 0l2.722-2.722a2.5 2.5 0 000-3.536L15.5 2.5zM12.723 9.243a.5.5 0 010-.707l2.277-2.277a.5.5 0 01.707 0l2.277 2.277a.5.5 0 010 .707L15.5 11.52a.5.5 0 01-.707 0l-2.07-2.07zM4.5 12.5a2.5 2.5 0 00-3.536 0L.5 12.964a2.5 2.5 0 000 3.536l2.036 2.036a2.5 2.5 0 003.536 0l.464-.464a2.5 2.5 0 000-3.536L4.5 12.5z" /></svg>Mechanism</h4><p>Uses ligands (e.g., ¹⁷⁷Lu-PSMA) to deliver radioisotope for targeted cell death.</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 01-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>Selection</h4><p>PSMA-PET is essential to select patients likely to respond ('theranostics').</p></div>
+                        <div><h4><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>Prognostic Impact</h4><p>Prolongs survival and delays progression in pre-treated mCRPC.</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function drawConnectingLines() {
-            const svg = document.getElementById('connector-svg');
-            const container = document.querySelector('.infographic-container');
-            if (!svg || !container) return;
-
-            svg.innerHTML = '';
-            const containerRect = container.getBoundingClientRect();
-
-            const connections = [
-                { from: '#stage-1', to: '#stage-1-clinical' },
-                { from: '#stage-2', to: '#stage-2-clinical' },
-                { from: '#stage-3', to: '#stage-3-clinical' },
-                { from: '#stage-4', to: '#stage-4-clinical' },
-                { from: '#stage-5', to: '#stage-5-clinical' },
-                { from: '#stage-6', to: '#stage-6-clinical' }
-            ];
-
-            connections.forEach(connection => {
-                const fromEl = document.querySelector(connection.from);
-                const toEl = document.querySelector(connection.to);
-                if (!fromEl || !toEl) return;
-
-                const fromRect = fromEl.getBoundingClientRect();
-                const toRect = toEl.getBoundingClientRect();
-
-                const startX = fromRect.right - containerRect.left;
-                const startY = fromRect.top + fromRect.height / 2 - containerRect.top;
-                const endX = toRect.left - containerRect.left;
-                const endY = toRect.top + toRect.height / 2 - containerRect.top;
-                
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                const controlPointX1 = startX + (endX - startX) * 0.3;
-                const controlPointX2 = startX + (endX - startX) * 0.7;
-                const d = `M ${startX} ${startY} C ${controlPointX1} ${startY}, ${controlPointX2} ${endY}, ${endX} ${endY}`;
-                
-                path.setAttribute('d', d);
-                path.setAttribute('class', 'connector-line');
-                svg.appendChild(path);
-            });
-        }
-        
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(drawConnectingLines, 100);
-        });
-        window.addEventListener('resize', drawConnectingLines);
-    </script>
 </body>
 </html>
