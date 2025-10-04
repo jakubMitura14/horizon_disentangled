@@ -309,6 +309,7 @@ A key strength of this proposal is the direct access to already preprocessed, ri
         \item Approximately 150-200 longitudinal studies of patients with paired baseline PSMA-PET/CT and mpMRI scans for primary staging and follow-up.
         \item A unique cohort of approximately 150 patients with advanced disease who have undergone Lutetium-177 PSMA radioligand therapy (RLT). For these patients, we have paired pre-therapy PSMA-PET/CT scans and post-therapy Lutetium SPECT/CT scans, which are essential for modeling treatment response.
         \item A very unique cohort of interim therapy controls based on PSMA-PET/CT and CT –pairs from 40 patients.
+        \item An additional cohort of 200 patients with PSMA PET/CT scans performed at two different time points.
     \end{itemize}
     \item \textbf{Abteilung für Nuklearmedizin | Universitätsmedizin Halle:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
     \begin{itemize}
@@ -404,6 +405,9 @@ This is an ambitious, high-risk project at the frontier of AI research. We have 
 
     \item \textbf{Risk 4: Clinical Trustworthiness and the "Black Box" Problem.} For any AI tool to be adopted, clinicians must trust its outputs and understand its reasoning.
     \item \textbf{Mitigation (AI Act Articles 13 \& 14):} Our primary strategy for building trust is \textbf{explainability through counterfactuals}. This mechanism allows clinicians to probe the model's reasoning by asking "what-if" questions, transforming it from an opaque oracle into an interactive and verifiable partner. This directly implements the transparency requirements of Article 13. The system is designed as a decision support tool, ensuring a clinician is always in control (\textbf{human oversight}, Article 14). The design, as shown in the "Illustrative Clinical Workflow," ensures the user can understand, override, and reverse the system's outputs.
+
+    \item \textbf{Risk 5: Model Drift and Performance Deterioration.} Performance of the AI algorithm could deteriorate over time ("model drift") due to changes in imaging equipment, protocols, or patient populations, a common challenge for clinical AI systems.
+    \item \textbf{Mitigation:} Our core strategy to combat model drift is to ground the AI in fundamental biological and clinical knowledge, rather than allowing it to rely on spurious correlations. By explicitly modeling and disentangling scanner-type information and other technical confounders (Stage 2), and by training on diverse, multi-center data (WP1), we force the model to learn the underlying disease mechanisms, making it inherently more robust to superficial changes in the data landscape. Continuous monitoring (as described in our compliance with Article 15) will provide an early warning system to detect and address any performance degradation.
 \end{itemize}
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
