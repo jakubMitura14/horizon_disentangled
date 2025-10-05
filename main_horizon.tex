@@ -285,27 +285,27 @@ We are committed to maximizing the impact of this project through a comprehensiv
 
 \section{Implementation}
 
-\subsection{Work Packages, Deliverables, and Milestones}
-The project will be executed over 36 months, organized into seven interconnected Work Packages (WPs). The relationships and timing are visualized in the Gantt chart (Figure \ref{fig:gantt}), which is presented alongside the list of project deliverables to provide a comprehensive overview of the project timeline and its key outputs. The following tables provide a detailed breakdown of the work plan.
+\subsection{Work Plan, Timeline, and Deliverables}
+The project is structured into seven interconnected Work Packages (WPs), detailed in Table~\ref{tab:wp_descriptions}. The overall project timeline is visualized in the Gantt chart in Figure~\ref{fig:gantt}, providing a clear roadmap for the project's execution over its 36-month duration.
 
 \begin{table}[H]
     \centering
     \caption{Work Package Descriptions and Person-Month Allocation.}
     \label{tab:wp_descriptions}
-    \small % Use smaller font for the table
-    \begin{tabular}{lp{4.5cm}lrrr}
+    \small
+    \begin{tabular}{lp{9cm}r}
         \toprule
-        \textbf{WP No.} & \textbf{Work Package Title} & \textbf{Lead} & \textbf{Start} & \textbf{End} & \textbf{Person-Months} \\
+        \textbf{WP No.} & \textbf{Work Package Title} & \textbf{Person-Months} \\
         \midrule
-        WP1 & Data Curation and Harmonization & Applicant & M1 & M33 & 30 \\
-        WP2 & Foundational Supervisor Model Training & Applicant & M1 & M15 & 50 \\
-        WP3 & Causal VAE Development & Applicant & M10 & M24 & 60 \\
-        WP4 & Temporal Trajectory Modeling & Applicant & M18 & M30 & 60 \\
-        WP5 & Validation and Clinical Integration & Applicant & M25 & M36 & 30 \\
-        WP6 & Dissemination, Communication, and Exploitation & Applicant & M1 & M36 & 10 \\
-        WP7 & Project Management & Applicant & M1 & M36 & 10 \\
+        WP1 & Data Curation and Harmonization & 30 \\
+        WP2 & Foundational Supervisor Model Training & 50 \\
+        WP3 & Causal VAE Development & 60 \\
+        WP4 & Temporal Trajectory Modeling & 60 \\
+        WP5 & Validation and Clinical Integration & 30 \\
+        WP6 & Dissemination, Communication, and Exploitation & 10 \\
+        WP7 & Project Management & 10 \\
         \midrule
-        \multicolumn{5}{l}{\textbf{Total}} & \textbf{250} \\
+        \multicolumn{2}{l}{\textbf{Total}} & \textbf{250} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -313,32 +313,36 @@ The project will be executed over 36 months, organized into seven interconnected
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{gantt.png}
-    \caption{Project Gantt Chart illustrating the timeline for Work Packages, Deliverables, and Milestones.}
+    \caption{Project Gantt Chart illustrating the timeline for Work Packages, Deliverables (D), and Milestones (M).}
     \label{fig:gantt}
 \end{figure}
+
+To monitor progress and ensure the timely completion of project objectives, a set of key deliverables is defined, as outlined in Table~\ref{tab:deliverables}. These outputs represent the tangible results of each work package.
 
 \begin{table}[H]
     \centering
     \caption{List of Project Deliverables.}
     \label{tab:deliverables}
     \small
-    \begin{tabular}{lp{4.5cm}lcccr}
+    \begin{tabular}{lp{5.5cm}lccr}
         \toprule
-        \textbf{Del. No.} & \textbf{Deliverable Name} & \textbf{WP} & \textbf{Lead} & \textbf{Type} & \textbf{Dissem.} & \textbf{Due} \\
+        \textbf{Del. No.} & \textbf{Deliverable Name} & \textbf{WP} & \textbf{Type} & \textbf{Dissem.} & \textbf{Due} \\
         \midrule
-        D1.1 & Curated, harmonized dataset (initial) & WP1 & App. & Data & CO & M12 \\
-        D2.1 & Validated supervisor models & WP2 & App. & Code & PU & M15 \\
-        D3.1 & Disentangled VAE models & WP3 & App. & Code & PU & M24 \\
-        D4.1 & Trained Neural Jump ODE model & WP4 & App. & Code & PU & M30 \\
-        D5.1 & Final validation report & WP5 & App. & R & PU & M36 \\
-        D6.1 & Project website and open-source repo & WP6 & App. & Web & PU & M3 \\
-        D6.2 & Mid-term dissemination report & WP6 & App. & R & PU & M18 \\
-        D6.3 & Final dissemination \& exploitation plan & WP6 & App. & R & PU & M36 \\
-        D7.1 & Project management handbook & WP7 & App. & R & CO & M2 \\
+        D1.1 & Curated, harmonized dataset (initial) & WP1 & Data & CO & M12 \\
+        D2.1 & Validated supervisor models & WP2 & Code & PU & M15 \\
+        D3.1 & Disentangled VAE models & WP3 & Code & PU & M24 \\
+        D4.1 & Trained Neural Jump ODE model & WP4 & Code & PU & M30 \\
+        D5.1 & Final validation report & WP5 & R & PU & M36 \\
+        D6.1 & Project website and open-source repo & WP6 & Web & PU & M3 \\
+        D6.2 & Mid-term dissemination report & WP6 & R & PU & M18 \\
+        D6.3 & Final dissemination \& exploitation plan & WP6 & R & PU & M36 \\
+        D7.1 & Project management handbook & WP7 & R & CO & M2 \\
         \bottomrule
-        \multicolumn{7}{p{14cm}}{\footnotesize \textbf{Type:} R=Report, Data=Dataset, Code=Software, Web=Website. \textbf{Dissem:} PU=Public, CO=Confidential.}
+        \multicolumn{6}{p{13cm}}{\footnotesize \textbf{Type:} R=Report, Data=Dataset, Code=Software, Web=Website. \textbf{Dissem:} PU=Public, CO=Confidential.}
     \end{tabular}
 \end{table}
+
+Complementing the deliverables, the project's progress will be assessed against the verifiable milestones listed in Table~\ref{tab:milestones}. These milestones serve as critical checkpoints to validate the achievement of the project's scientific and technical goals.
 
 \begin{table}[H]
     \centering
