@@ -989,3 +989,62 @@ Securing the application also requires comprehensive governance to ensure accoun
 • Human Oversight (Clinicians Double-Check): Implement mechanisms that require confirmation by the healthcare professional (user) before sending a clinical case to the AI system \cite{GarcaGmezBlanesSelva2023}. This ensures the clinician is aware of using an AI system and acknowledges its limitations \cite{GarcaGmezBlanesSelva2023}.
 • Bias Check and Fairness: Explicitly check for and mitigate algorithmic bias that may be inherited from training datasets (which may include imbalanced image or text records) \cite{GarcaGmezBlanesSelva2023}. The limitations due to training dataset bias should be reported in the system documentation \cite{GarcaGmezBlanesSelva2023}.
 • Regulatory Compliance and AI Passport: Ensure the application adheres strictly to standards like the NIST Cybersecurity Framework, HIPAA, and GDPR \cite{JamesIjiga2024,AlAttar2023}. Furthermore, maintain an AI Passport—a detailed statement documenting the AI system's purpose, context of use, training, evaluation details, and potential biases, dynamically updated with continuous performance results \cite{GarcaGmezBlanesSelva2023}.
+
+
+####################
+late stage 
+Late-stage prostate cancer, typically referred to as metastatic castration-resistant prostate cancer (mCRPC), is an incurable and fatal disease, despite substantial therapeutic advances \cite{FizaziHerrmann2023,HatanoNonomura2023}. Managing mCRPC is complex, focusing on extending life, delaying disease progression, and maintaining or improving health-related quality of life (HRQOL) \cite{FizaziHerrmann2023}.
+The systemic therapy options available for patients with mCRPC include established agents, newer targeted agents, and radioligand therapies:
+1. Established Systemic Therapies
+Several classes of therapy have been approved and shown to provide a survival benefit in patients with mCRPC since 2010 \cite{FizaziHerrmann2023}.
+Class of Therapy
+Specific Agents Mentioned
+Key Context/Role
+Citations
+Androgen Receptor Pathway Inhibitors (ARPIs) / Second-Generation Hormonal Therapy
+Abiraterone acetate
+Used to treat mCRPC, sometimes before chemotherapy \cite{FizaziHerrmann2023,HatanoNonomura2023}. \cite{FizaziHerrmann2023,HatanoNonomura2023}
+Enzalutamide
+Used to treat mCRPC, sometimes before chemotherapy \cite{FizaziHerrmann2023,HatanoNonomura2023}. \cite{FizaziHerrmann2023,HatanoNonomura2023}
+Apalutamide and Darolutamide
+Also listed among new treatment options for mCRPC \cite{HatanoNonomura2023,MaLi2022}. \cite{HatanoNonomura2023,MaLi2022}
+Chemotherapy (Taxanes)
+Docetaxel
+Historically became the standard therapy for mCRPC, demonstrating prolonged survival \cite{FizaziHerrmann2023,HatanoNonomura2023}. \cite{FizaziHerrmann2023,HatanoNonomura2023}
+Cabazitaxel
+Used for mCRPC progressing after docetaxel treatment \cite{FizaziHerrmann2023,HatanoNonomura2023}. It is considered a suitable treatment option for patients who progressed after docetaxel and an ARSI \cite{HatanoNonomura2023}. \cite{FizaziHerrmann2023,HatanoNonomura2023}
+Immunotherapy
+Sipuleucel-T
+Approved therapy shown to provide a survival benefit in mCRPC \cite{FizaziHerrmann2023,HatanoNonomura2023}. \cite{FizaziHerrmann2023,HatanoNonomura2023}
+Pembrolizumab
+A PD-1 inhibitor approved to treat prostate cancer \cite{MaLi2022,RamnaraignSartor2023}. \cite{MaLi2022,RamnaraignSartor2023}
+2. Prostate-Specific Membrane Antigen (PSMA)-Targeted Radioligand Therapy (RLT)
+Radioligand therapy (RLT) selectively targets cancer cells that overexpress Prostate-Specific Membrane Antigen (PSMA) \cite{FizaziHerrmann2023,MaLi2022}. PSMA is highly expressed in mCRPC cells, making it an ideal therapeutic target \cite{FizaziHerrmann2023,MaLi2022}.
+Lutetium-177 [$\text{^{177}Lu}$]Lu-PSMA-617 (Pluvicto$\text{^{TM}}$)
+$\text{^{177}Lu}$Lu-PSMA-617 is a small molecule radioligand therapy that delivers $\beta$ particle radiation specifically to PSMA-expressing cells \cite{FizaziHerrmann2023}. It received FDA approval in March 2022 for adult patients with PSMA-positive mCRPC who have previously been treated with androgen receptor pathway inhibition and taxane-based chemotherapy \cite{Keam2022,HennrichEder2022}.
+• Efficacy and Survival: The phase 3 VISION trial demonstrated that the addition of $\text{^{177}Lu}$Lu-PSMA-617 to protocol-permitted standard of care (SoC) significantly prolonged radiographic progression-free survival (rPFS) (median 8.7 months vs 3.4 months) and overall survival (OS) (median 15.3 months vs 11.3 months) compared with SoC alone \cite{FizaziHerrmann2023,HatanoNonomura2023}.
+• Comparison to Cabazitaxel: The phase 2 TheraP trial showed that $\text{^{177}Lu}$Lu-PSMA-617 (compared to cabazitaxel) resulted in a higher PSA response rate (66\\\\% vs 37\\\\%), longer progression-free survival, better patient-reported outcomes (PROs) and fewer grade 3–4 adverse events \cite{HatanoNonomura2023,SathekgeBruchertseifer2022}. TheraP data supports $\text{^{177}Lu}$Lu-PSMA-617 as a viable alternative to cabazitaxel in eligible patients with mCRPC \cite{SathekgeBruchertseifer2022,HofmanEmmett2024}.
+Other Lutetium-177 Agents
+• $\text{^{177}Lu}$Lu-PSMA-I&T is another PSMA ligand demonstrating promise for therapy in mCRPC \cite{SadaghianiSheikhbahaei2022,KarimzadehHeck2022}. Clinical experience suggests good antitumor activity in late-stage mCRPC \cite{KarimzadehHeck2022,PatellKurian2023}.
+Targeted Alpha Therapy (TAT)
+• Actinium-225 [$\text{^{225}Ac}$]PSMA-617 is a novel alpha-emitter RLT showing substantial antitumour effect and representing a viable therapy option, including in patients previously treated with approved agents (e.g., taxane chemotherapy, ARPIs, $\text{^{177}Lu}$-PSMA RLT, and radium-223 dichloride) \cite{ChandranFigg2022,SadaghianiSheikhbahaei2022}.
+• $\text{^{225}Ac}$-PSMA-617 is often considered for tumors resistant to standard treatments and has shown better responses than $\text{^{177}Lu}$-PSMA in some settings \cite{AlamSingh2022}.
+• Tandem/Augmented Therapy: Tandem therapy combining $\text{^{225}Ac}$-PSMA-617 and $\text{^{177}Lu}$-PSMA-617 has been investigated, particularly for mCRPC patients who progressed on $\text{^{177}Lu}$-PSMA-617 monotherapy \cite{AlamSingh2022,LingBlois2022}.
+Emerging Radionuclides
+• Terbium-161 [$\text{^{161}Tb}$]-PSMA-617 is being explored as a promising alternative to standard $\text{^{177}Lu}$-based RLT \cite{RosarMaus2023}. $\text{^{161}Tb}$ has physical properties that may be superior to $\text{^{177}Lu}$ (e.g., providing more coemitted Auger- and conversion electrons resulting in higher tumor-absorbed doses), especially in disseminated metastatic disease \cite{RosarMaus2023}.
+3. Precision/Targeted Therapies
+• PARP Inhibitors: Agents like olaparib and rucaparib are used for mCRPC that harbors gene alterations affecting homologous recombination repair (HRR), such as mutations in BRCA1 and BRCA2 \cite{HatanoNonomura2023,MaLi2022}. Companion diagnostics are used to identify eligible patients \cite{HatanoNonomura2023}.
+• Ipatasertib in combination with abiraterone was studied, although clinical data showed no significant OS difference in the intention-to-treat population in one trial \cite{HatanoNonomura2023}.
+• Cabozantinib has been studied and shown to delay the time to first symptomatic skeletal event in patients with mCRPC versus prednisone \cite{FizaziHerrmann2023}.
+4. Bone-Targeted Radionuclide and Modifying Agents
+Given that up to 90\\\\% of mCRPC patients have bone metastases \cite{FizaziHerrmann2023}, therapies aimed at controlling skeletal complications are essential.
+• Radium-223 ($\text{^{223}Ra}$)-dichloride: This is an alpha emitter and bone-targeted radionuclide therapy \cite{FizaziHerrmann2023,ChandranFigg2022}. It is approved for mCRPC patients with symptomatic bone metastases \cite{MaLi2022}. It improves overall survival and quality of life in patients with bone-predominant mCRPC \cite{RamnaraignSartor2023,RahbarEssler2022}.
+• Bone-Targeted Therapies: Bisphosphonates (e.g., zoledronic acid) and denosumab are key for preventing symptomatic skeletal events (SSEs), such as fracture, spinal cord compression, and pain, which severely impair HRQOL \cite{HatanoNonomura2023,SathekgeBruchertseifer2022}.
+5. Emerging Combination Strategies
+Ongoing clinical trials are actively investigating the use of PSMA-RLT earlier in the treatment sequence or in combination with other systemic therapies for mCRPC \cite{RamnaraignSartor2023,FizaziHerrmann2023}.
+• Combination with ARPIs: The ENZA-p trial (NCT04419402) is a randomized phase II trial combining $\text{^{177}Lu}$-PSMA-617 with enzalutamide \cite{PatellKurian2023,RamnaraignSartor2023}.
+• Combination with Chemotherapy: Trials are exploring combining $\text{^{177}Lu}$-PSMA-617 with cabazitaxel (LuCAB, NCT05340374) \cite{PatellKurian2023,RamnaraignSartor2023}.
+• Combination with Bone-Targeted Agents: The AlphaBet trial (NCT05383079) is a phase I/II study combining the alpha emitter $\text{^{223}Ra}$ with $\text{^{177}Lu}$Lu-PSMA-I&T \cite{PatellKurian2023,KostosButeau2022}.
+• Combination with PARP Inhibitors: The LuPARP trial (NCT03874884) is a phase I trial combining $\text{^{177}Lu}$-PSMA-617 with olaparib \cite{PatellKurian2023,RamnaraignSartor2023}.
+• Combination with Immunotherapy: Trials are combining $\text{^{177}Lu}$-PSMA with immunotherapy agents like pembrolizumab (NCT03805594, NCT03658447) or ipilimumab and nivolumab (EVOLUTION, NCT05150236) \cite{RamnaraignSartor2023,PatellKurian2023}.
+• PSMA RLT in Earlier Settings: Other phase 3 trials are assessing $\text{^{177}Lu}$Lu-PSMA-617 efficacy earlier in the sequence, such as PSMAfore (NCT04689828) comparing it to a change in ARPI in taxane-naïve mCRPC patients \cite{FizaziHerrmann2023,PatellKurian2023}.
