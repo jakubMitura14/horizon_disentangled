@@ -11,6 +11,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* A lighter, cleaner gray */
+            font-size: 16px; /* Larger base font */
         }
         .timeline-item::before {
             content: '';
@@ -49,15 +50,15 @@
 </head>
 <body class="antialiased text-gray-900">
 
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto px-4 py-16" style="max-width: 1200px;">
         <!-- Header Section -->
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#0A369D] mb-3">The CausalPCa Digital Twin in Action</h1>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">An interactive workflow demonstrating how our causal AI augments clinical decision-making.</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-[#0A369D] mb-3">The CausalPCa Digital Twin in Action</h1>
+            <p class="text-xl text-gray-600 max-w-4xl mx-auto">An interactive workflow demonstrating how our causal AI augments clinical decision-making.</p>
         </div>
 
         <!-- Timeline Container -->
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-6xl mx-auto">
             <div class="space-y-16">
 
                 <!-- Step 1: Automated Data Synthesis -->
@@ -71,16 +72,16 @@
                             </div>
                         </div>
                         <div class="flex-1 pt-2">
-                            <p class="text-sm font-semibold text-[#0A369D] tracking-wider">STEP 1: DATA SYNTHESIS</p>
-                            <h2 class="text-2xl font-bold mb-4">Automated Patient Record Summary</h2>
+                            <p class="text-lg font-semibold text-[#0A369D] tracking-wider">STEP 1: DATA SYNTHESIS</p>
+                            <h2 class="text-3xl font-bold mb-4">Automated Patient Record Summary</h2>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Need</h3>
-                                    <p class="text-gray-600">Gain a rapid, comprehensive overview of a new patient's complex history.</p>
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Clinician's Need</h3>
+                                    <p class="text-gray-600 text-lg">Gain a rapid, comprehensive overview of a new patient's complex history.</p>
                                 </div>
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">CausalPCa Model Action</h3>
-                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">CausalPCa Model Action</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 text-lg">
                                         <li>Ingests and harmonizes all available data.</li>
                                         <li>Generates a concise clinical summary.</li>
                                         <li>Provides a draft structured radiological report.</li>
@@ -88,8 +89,8 @@
                                 </div>
                             </div>
                             <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
-                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
-                                <p class="text-sm text-gray-700">The model fuses multimodal data (scans, labs, notes) into a unified, machine-readable format, preparing it for the causal engine.</p>
+                                <p class="text-sm font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-base text-gray-700">The model fuses multimodal data (scans, labs, notes) into a unified, machine-readable format, preparing it for the causal engine.</p>
                             </div>
                         </div>
                     </div>
@@ -106,16 +107,16 @@
                             </div>
                         </div>
                         <div class="flex-1 pt-2">
-                            <p class="text-sm font-semibold text-[#4472CA] tracking-wider">STEP 2: PROGNOSTIC SIMULATION</p>
-                            <h2 class="text-2xl font-bold mb-4">"What if we wait?" — Simulating the Future</h2>
+                            <p class="text-lg font-semibold text-[#4472CA] tracking-wider">STEP 2: PROGNOSTIC SIMULATION</p>
+                            <h2 class="text-3xl font-bold mb-4">"What if we wait?" — Simulating the Future</h2>
                              <div class="grid md:grid-cols-2 gap-6">
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
-                                    <p class="text-gray-600 italic">"Show the likely disease progression in 1 year without treatment."</p>
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic text-lg">"Show the likely disease progression in 1 year without treatment."</p>
                                 </div>
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Digital Twin Prediction</h3>
-                                     <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Digital Twin Prediction</h3>
+                                     <ul class="list-disc list-inside text-gray-600 space-y-1 text-lg">
                                         <li>Generates a future MRI scan showing tumor growth.</li>
                                         <li>Predicts key biomarker changes (e.g., PSA to 18.0).</li>
                                         <li>Outputs a prognostic report with quantified risk.</li>
@@ -123,8 +124,8 @@
                                 </div>
                             </div>
                              <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
-                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
-                                <p class="text-sm text-gray-700">The Neural Jump ODE (NJDE) model integrates the patient's history and evolves their latent disease state ($Z_D$) forward in continuous time to predict a future outcome.</p>
+                                <p class="text-sm font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-base text-gray-700">The Neural Jump ODE (NJDE) model integrates the patient's history and evolves their latent disease state ($Z_D$) forward in continuous time to predict a future outcome.</p>
                             </div>
                         </div>
                     </div>
@@ -141,16 +142,16 @@
                             </div>
                         </div>
                         <div class="flex-1 pt-2">
-                            <p class="text-sm font-semibold text-[#5E8B7E] tracking-wider">STEP 3: CAUSAL EXPLANATION</p>
-                            <h2 class="text-2xl font-bold mb-4">"Why is the risk high?" — Probing the Model's Logic</h2>
+                            <p class="text-lg font-semibold text-[#5E8B7E] tracking-wider">STEP 3: CAUSAL EXPLANATION</p>
+                            <h2 class="text-3xl font-bold mb-4">"Why is the risk high?" — Probing the Model's Logic</h2>
                              <div class="grid md:grid-cols-2 gap-6">
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
-                                    <p class="text-gray-600 italic">"Explain the prognosis. What if this specific lesion were benign?"</p>
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic text-lg">"Explain the prognosis. What if this specific lesion were benign?"</p>
                                 </div>
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Counterfactual Explanation</h3>
-                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Counterfactual Explanation</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 text-lg">
                                         <li>Generates a new, counterfactual scan of a benign lesion.</li>
                                         <li>Revises prognosis to low-risk (PI-RADS 2).</li>
                                         <li>Visually isolates the causal driver of the high-risk assessment.</li>
@@ -158,8 +159,8 @@
                                 </div>
                             </div>
                              <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
-                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
-                                <p class="text-sm text-gray-700">The VAE performs a targeted intervention in the disentangled latent space, changing the "disease" component ($Z_D$) while keeping anatomy ($Z_A$) and patient state ($Z_P$) constant.</p>
+                                <p class="text-sm font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-base text-gray-700">The VAE performs a targeted intervention in the disentangled latent space, changing the "disease" component ($Z_D$) while keeping anatomy ($Z_A$) and patient state ($Z_P$) constant.</p>
                             </div>
                         </div>
                     </div>
@@ -176,16 +177,16 @@
                             </div>
                         </div>
                         <div class="flex-1 pt-2">
-                            <p class="text-sm font-semibold text-orange-600 tracking-wider">STEP 4: TREATMENT SIMULATION</p>
-                            <h2 class="text-2xl font-bold mb-4">"What if we operate?" — Comparing Treatment Paths</h2>
+                            <p class="text-lg font-semibold text-orange-600 tracking-wider">STEP 4: TREATMENT SIMULATION</p>
+                            <h2 class="text-3xl font-bold mb-4">"What if we operate?" — Comparing Treatment Paths</h2>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Clinician's Question</h3>
-                                    <p class="text-gray-600 italic">"Simulate a post-prostatectomy scan and predict the 6-month PSA."</p>
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Clinician's Question</h3>
+                                    <p class="text-gray-600 italic text-lg">"Simulate a post-prostatectomy scan and predict the 6-month PSA."</p>
                                 </div>
                                 <div class="card p-5">
-                                    <h3 class="font-bold mb-2 text-gray-800">Treatment Path Simulation</h3>
-                                     <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <h3 class="font-bold text-lg mb-2 text-gray-800">Treatment Path Simulation</h3>
+                                     <ul class="list-disc list-inside text-gray-600 space-y-1 text-lg">
                                         <li>Generates a realistic post-operative PET/CT scan.</li>
                                         <li>Predicts a 6-month PSA of &lt;0.1 ng/mL.</li>
                                         <li>Provides a comprehensive simulation of a positive outcome.</li>
@@ -193,8 +194,8 @@
                                 </div>
                             </div>
                             <div class="tech-box mt-4 p-4 rounded-lg border border-gray-200">
-                                <p class="text-xs font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
-                                <p class="text-sm text-gray-700">The NJDE applies a discrete "jump" intervention to the patient's latent state and transforms the anatomy vector ($Z_A$) to model the physical and biological effects of surgery.</p>
+                                <p class="text-sm font-semibold text-gray-500 flex items-center"><i data-lucide="cpu" class="w-4 h-4 mr-2"></i>BEHIND THE SCENES</p>
+                                <p class="text-base text-gray-700">The NJDE applies a discrete "jump" intervention to the patient's latent state and transforms the anatomy vector ($Z_A$) to model the physical and biological effects of surgery.</p>
                             </div>
                         </div>
                     </div>
