@@ -132,7 +132,7 @@ The applicant institution is uniquely positioned to succeed in this high-risk, h
 \end{itemize}
 Crucially, the project's leadership team possesses a rare and powerful combination of interdisciplinary expertise. The team includes two medical doctors (MDs) with medical PhDs. One leader combines a specialization in nuclear medicine with a Master's degree in IT, providing a direct bridge between clinical application and technical implementation. The second leader holds a dual specialization in both nuclear medicine and radiology, offering an invaluable holistic perspective on the entire imaging pipeline. This unique blend of expertise, combined with our experience in managing patients through the entire spectrum of advanced therapies, ensures that the project is deeply grounded in both the clinical and technical domains—a critical success factor for this ambitious endeavor. The collaboration with external partners, including the Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg, will provide access to diverse data and clinical perspectives, further strengthening the project's foundation.
 
-This unique blend of expertise is complemented by the applicant's extensive, hands-on experience in managing patients through the entire spectrum of advanced mCRPC therapies. Our clinical practice routinely administers a wide array of treatments, including second-generation Androgen Receptor Pathway Inhibitors (ARPIs) like abiraterone and enzalutamide, taxane-based chemotherapies such as docetaxel and cabazitaxel, and cutting-edge radioligand therapies (RLT) including Lutetium-177 PSMA and bone-targeted agents like Radium-223. The complexity of these cases necessitates regular multidisciplinary tumor boards, where detailed treatment decisions and patient responses are meticulously documented. This rich, real-world documentation provides an unparalleled source of high-quality data, crucial for training a causal model that can accurately learn the effects of different therapeutic interventions.
+This unique blend of expertise is complemented by the applicant's clinic, which has extensive, hands-on experience in managing patients through the entire spectrum of advanced mCRPC therapies. Our clinical practice routinely administers a wide array of treatments, including second-generation Androgen Receptor Pathway Inhibitors (ARPIs) like abiraterone and enzalutamide, taxane-based chemotherapies such as docetaxel and cabazitaxel, and cutting-edge radioligand therapies (RLT) including Lutetium-177 PSMA and bone-targeted agents like Radium-223. The complexity of these cases necessitates regular multidisciplinary tumor boards, where detailed treatment decisions and patient responses are meticulously documented. This rich, real-world documentation provides an unparalleled source of high-quality data, crucial for training a causal model that can accurately learn the effects of different therapeutic interventions.
 
 A key strength of this project is its foundation in a cutting-edge clinical environment defined by the use of Lutetium-177 PSMA (${}^{177}\text{Lu-PSMA-617}$) theranostics, a revolutionary and modern approach for managing metastatic castration-resistant prostate cancer (mCRPC). This paradigm combines therapy ("thera") and diagnostics ("nostics") by using a single molecular target—the Prostate-Specific Membrane Antigen (PSMA)—for both imaging and treatment, representing a new and very promising therapy \cite{HennrichEder2022}. PSMA is a protein that is highly overexpressed (up to 1,000-fold) on the surface of prostate cancer cells, making it an ideal target \cite{HennrichEder2022, LingBlois2022}.
 
@@ -172,7 +172,7 @@ The first stage builds a suite of specialized "supervisor" models. These models 
 \begin{itemize}
     \item \textbf{Ordinal Classifiers:} For clinical scores with an inherent order (e.g., PI-RADS, TNM stage), standard categorical classifiers are suboptimal. We will implement a \textbf{differential ordinal learning framework} that explicitly encodes the ordered structure by combining a standard categorical loss with a differential ordinal loss, ensuring the model understands that a higher grade implies a worse prognosis \cite{LeeByeon2025, GrisiKartasalo2025}.
     \item \textbf{Censored Survival Regressor:} To predict time-to-progression (TTP), we will train a survival model that properly handles right-censored data. This will be achieved using a censored regression loss (e.g., Logistic Hazard) combined with a ranking loss regularizer (e.g., SurvRNC) to ensure correct risk ordering in the learned feature representation \cite{GaoLi2019, RivailVogl2023, SaeedRidzuan2024}.
-    \item \textbf{Anatomical and Confounder Models:} We will fine-tune a pre-trained TotalSegmentator model \cite{Wasserthal_2023} to provide anatomical ground truth. Furthermore, we will train dedicated models to predict technical confounders (e.g., scanner type, dosage, data source location) and biological factors like patient age and BMI. While age and BMI are related to the disease, they also independently influence imaging appearance. To improve the quality of our counterfactuals, we will partially disentangle these effects from the primary disease signal, allowing us to model their impact on imaging separately. This approach ensures the model generalizes well and produces more clinically plausible counterfactuals \cite{PuglisiAlexander2025, ZhangHager2025}.
+    \item \textbf{Anatomical and Confounder Models:} We will fine-tune a pre-trained TotalSegmentator model \cite{Wasserthal_2023} to provide anatomical ground truth. Furthermore, we will train dedicated models to predict technical confounders (e.g., scanner type, dosage, data source location) and biological factors like patient age and BMI. While age and BMI are related to the disease, they also independently influence imaging appearance. To improve the quality of our counterfactuals, we will partially disentangle these effects from the primary disease signal, allowing us to model their impact on imaging separately. This approach ensures the model generalizes well and produces more clinically plausible counterfactuals \cite{PuglisiAlexander2025, ZhangHager2025}. While sex as a biological variable is fixed for prostate cancer, the project will also investigate and mitigate potential data biases related to other demographic factors (e.g., age, ethnicity) to ensure the model's equity and generalizability.
 \end{itemize}
 
 \subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
@@ -291,15 +291,93 @@ The project will be executed over 36 months, organized into seven interconnected
     \label{fig:gantt}
 \end{figure}
 
-\begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (Months 1-33).} Led by Universitätsklinik für Radiologie und Nuklearmedizin. This is an ongoing WP that involves the continuous aggregation of the proprietary multi-center cohort, integration of public datasets, and rigorous data harmonization, including DICOM to NIFTI conversion, pseudonymization, and image normalization. \textit{(D1.1: Curated, harmonized dataset)}.
-    \item \textbf{WP2: Foundational Supervisor Model Training (Months 1-15).} This WP will focus on developing and validating the suite of expert supervisor models (ordinal classifiers, survival regressor, confounder models). As the Magdeburg clinic already has a significant amount of initial data prepared, this work package can begin at the start of the project, running in parallel with the initial data curation efforts.
-    \item \textbf{WP3: Causal VAE Development (Months 10-24).} The core of this WP is the training of the disentangled Variational Autoencoder, leveraging the supervisors from WP2 to enforce causal separation of anatomy, disease, and confounder latent spaces.
-    \item \textbf{WP4: Temporal Trajectory Modeling (Months 18-30).} This WP will implement and train the Neural Jump ODE on the disentangled disease vectors from WP3 to model longitudinal patient trajectories, including the impact of interventions.
-    \item \textbf{WP5: Validation and Clinical Integration (Months 25-36).} This WP will conduct the comprehensive evaluation of the final model, including quantitative metrics, uncertainty quantification, and the clinician-in-the-loop study to assess real-world utility and impact on workflow.
-    \item \textbf{WP6: Dissemination, Communication, and Exploitation (Months 1-36).} This continuous WP covers all project outreach, including publications, conference presentations, open-source code releases, and engagement with clinical and patient communities.
-    \item \textbf{WP7: Project Management (Months 1-36).} This WP ensures the smooth execution of the project, managing timelines, resources, and reporting. The project will be led by a principal investigator with dual expertise in clinical radiology and artificial intelligence, ensuring a seamless bridge between the technical and clinical aspects of the project.
-\end{itemize}
+\clearpage % Start tables on a new page for better layout
+
+\subsection{Work Packages, Deliverables, and Milestones}
+The project is structured into seven Work Packages (WPs), with their relationships and timing illustrated in the Gantt chart (Figure \ref{fig:gantt}). The following tables provide a detailed breakdown of the work plan, including descriptions of each WP, a list of key deliverables, verifiable milestones, and person-month allocation.
+
+\begin{table}[H]
+    \centering
+    \caption{Work Package Descriptions.}
+    \label{tab:wp_descriptions}
+    \small % Use smaller font for the table
+    \begin{tabular}{lp{5cm}lrr}
+        \toprule
+        \textbf{WP No.} & \textbf{Work Package Title} & \textbf{Lead} & \textbf{Start} & \textbf{End} \\
+        \midrule
+        WP1 & Data Curation and Harmonization & Applicant & M1 & M33 \\
+        WP2 & Foundational Supervisor Model Training & Applicant & M1 & M15 \\
+        WP3 & Causal VAE Development & Applicant & M10 & M24 \\
+        WP4 & Temporal Trajectory Modeling & Applicant & M18 & M30 \\
+        WP5 & Validation and Clinical Integration & Applicant & M25 & M36 \\
+        WP6 & Dissemination, Communication, and Exploitation & Applicant & M1 & M36 \\
+        WP7 & Project Management & Applicant & M1 & M36 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{List of Project Deliverables.}
+    \label{tab:deliverables}
+    \small
+    \begin{tabular}{lp{4.5cm}lcccr}
+        \toprule
+        \textbf{Del. No.} & \textbf{Deliverable Name} & \textbf{WP} & \textbf{Lead} & \textbf{Type} & \textbf{Dissem.} & \textbf{Due} \\
+        \midrule
+        D1.1 & Curated, harmonized dataset (initial) & WP1 & App. & Data & CO & M12 \\
+        D2.1 & Validated supervisor models & WP2 & App. & Code & PU & M15 \\
+        D3.1 & Disentangled VAE models & WP3 & App. & Code & PU & M24 \\
+        D4.1 & Trained Neural Jump ODE model & WP4 & App. & Code & PU & M30 \\
+        D5.1 & Final validation report & WP5 & App. & R & PU & M36 \\
+        D6.1 & Project website and open-source repo & WP6 & App. & Web & PU & M3 \\
+        D6.2 & Mid-term dissemination report & WP6 & App. & R & PU & M18 \\
+        D6.3 & Final dissemination \& exploitation plan & WP6 & App. & R & PU & M36 \\
+        D7.1 & Project management handbook & WP7 & App. & R & CO & M2 \\
+        \bottomrule
+        \multicolumn{7}{p{14cm}}{\footnotesize \textbf{Type:} R=Report, Data=Dataset, Code=Software, Web=Website. \textbf{Dissem:} PU=Public, CO=Confidential.}
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{List of Verifiable Milestones.}
+    \label{tab:milestones}
+    \small
+    \begin{tabular}{lp{5.5cm}lcp{5cm}}
+        \toprule
+        \textbf{MS No.} & \textbf{Milestone Name} & \textbf{WP} & \textbf{Due} & \textbf{Means of Verification} \\
+        \midrule
+        M1 & Project Kick-off and Risk Register established & WP7 & M1 & Kick-off meeting minutes; Initial Risk Register document available. \\
+        M2 & Supervisor models achieve >0.85 AUC on internal test set & WP2 & M15 & Validation report for supervisor models. \\
+        M3 & VAE models demonstrate successful disentanglement & WP3 & M24 & Report with quantitative disentanglement metrics and qualitative results. \\
+        M4 & NJDE model successfully predicts patient trajectories & WP4 & M30 & Report on temporal model performance with masked loss evaluation. \\
+        M5 & Final integrated model validated in clinical study & WP5 & M36 & Final validation report including clinical plausibility study results. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of Person-Months per Work Package.}
+    \label{tab:person_months}
+    \small
+    \begin{tabular}{llr}
+        \toprule
+        \textbf{WP No.} & \textbf{Work Package Title} & \textbf{Person-Months} \\
+        \midrule
+        WP1 & Data Curation and Harmonization & 30 \\
+        WP2 & Foundational Supervisor Model Training & 50 \\
+        WP3 & Causal VAE Development & 60 \\
+        WP4 & Temporal Trajectory Modeling & 60 \\
+        WP5 & Validation and Clinical Integration & 30 \\
+        WP6 & Dissemination, Communication, and Exploitation & 10 \\
+        WP7 & Project Management & 10 \\
+        \midrule
+        \multicolumn{2}{l}{\textbf{Total}} & \textbf{250} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{Data Sources and Cohort}
 A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
@@ -395,22 +473,37 @@ Beyond quantitative metrics, a practical, clinician-in-the-loop study is essenti
 \subsection{Risk Analysis, Mitigation, and AI Act Compliance}
 This is an ambitious, high-risk project at the frontier of AI research. We have identified the primary risks and have developed clear mitigation strategies that are intrinsically linked to our compliance with the EU AI Act. Our risk management process, as detailed in WP7, is continuous and iterative, designed to address risks to health, safety, and fundamental rights throughout the AI system's lifecycle, in direct alignment with \textbf{Article 9} of the Act. Furthermore, our methodology is designed to comply with the ‘do no significant harm’ principle as per Article 17 of the EU Taxonomy Regulation, ensuring our research does not negatively impact environmental objectives.
 
-\begin{itemize}
-    \item \textbf{Risk 1: Training Instability and Data Scalability.} The complexity of the proposed model presents a risk of training instability, especially given the multi-modal, multi-stage nature of the framework.
-    \item \textbf{Mitigation:} Our primary mitigation is the \textbf{sequential, multi-stage training framework}. By decomposing a single, intractable optimization problem into a series of manageable sub-problems, we enhance stability and improve data efficiency. This modularity, a cornerstone of our design, allows us to isolate and troubleshoot issues at specific stages, a process our team has successfully employed in past projects involving synthetic image generation and predictive modeling.
+The critical risks are summarized in Table \ref{tab:risks}.
 
-    \item \textbf{Risk 2: Generalizability and Overfitting to Spurious Correlations.} AI models are prone to learning shortcuts from site-specific or technical artifacts in the data, limiting their real-world performance and clinical trustworthiness.
-    \item \textbf{Mitigation (AI Act Articles 10 \& 15):} Our framework is built on \textbf{principled disentanglement}. By explicitly separating style and confounder variables ($Z_S$) from disease variables ($Z_D$) and embedding strong domain knowledge as inductive biases (e.g., ordinal losses), we guide the model to learn the true causal factors of the disease. This directly addresses the need for robustness and accuracy under Article 15. The multi-center nature of our dataset, combined with our data governance practices (see Data Sources and Cohort section), ensures we meet the data quality requirements of Article 10.
+\begin{longtable}{p{0.05\textwidth} p{0.25\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth}}
+    \caption{Critical Risks and Mitigation Strategies.}
+    \label{tab:risks} \\
+    \toprule
+    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
+    \midrule
+    \endfirsthead
+    \multicolumn{5}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \toprule
+    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
+    \midrule
+    \endhead
+    \midrule \multicolumn{5}{r}{{Continued on next page}} \\
+    \endfoot
+    \bottomrule
+    \endlastfoot
+    1 & Training Instability and Data Scalability & Medium & High & Sequential, multi-stage training framework to decompose complexity. Modular design allows for isolated troubleshooting. \\
+    \addlinespace
+    2 & Generalizability and Overfitting to Spurious Correlations & High & High & Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15. \\
+    \addlinespace
+    3 & Performance with Incomplete and Heterogeneous Data & Medium & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
+    \addlinespace
+    4 & Clinical Trustworthiness and the "Black Box" Problem & High & High & Explainability through counterfactuals allows clinicians to probe model reasoning. System is designed as a decision support tool, ensuring human oversight at all times. Compliant with AI Act Articles 13 \& 14. \\
+    \addlinespace
+    5 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
+\end{longtable}
 
-    \item \textbf{Risk 3: Performance with Incomplete and Heterogeneous Data.} Real-world clinical data is inherently "messy," with missing modalities and irregular time points, which can severely hamper model performance.
-    \item \textbf{Mitigation:} Our framework directly confronts this through its \textbf{Neural Jump ODE architecture}, which is inherently designed to handle sparse, irregularly sampled data. The use of a \textbf{masked loss function} during NJDE training is a key technique that allows the model to learn from all available data without being penalized for missingness, thereby turning the heterogeneity of the data from a weakness into a strength.
-
-    \item \textbf{Risk 4: Clinical Trustworthiness and the "Black Box" Problem.} For any AI tool to be adopted, clinicians must trust its outputs and understand its reasoning.
-    \item \textbf{Mitigation (AI Act Articles 13 \& 14):} Our primary strategy for building trust is \textbf{explainability through counterfactuals}. This mechanism allows clinicians to probe the model's reasoning by asking "what-if" questions, transforming it from an opaque oracle into an interactive and verifiable partner. This directly implements the transparency requirements of Article 13. The system is designed as a decision support tool, ensuring a clinician is always in control (\textbf{human oversight}, Article 14). The design, as shown in the "Illustrative Clinical Workflow," ensures the user can understand, override, and reverse the system's outputs.
-
-    \item \textbf{Risk 5: Model Drift and Performance Deterioration.} Performance of the AI algorithm could deteriorate over time ("model drift") due to changes in imaging equipment, protocols, or patient populations, a common challenge for clinical AI systems.
-    \item \textbf{Mitigation:} Our core strategy to combat model drift is to ground the AI in fundamental biological and clinical knowledge, rather than allowing it to rely on spurious correlations. By explicitly modeling and disentangling scanner-type information and other technical confounders (Stage 2), and by training on diverse, multi-center data (WP1), we force the model to learn the underlying disease mechanisms, making it inherently more robust to superficial changes in the data landscape. Continuous monitoring (as described in our compliance with Article 15) will provide an early warning system to detect and address any performance degradation.
-\end{itemize}
+Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
 \section{Conclusions}
