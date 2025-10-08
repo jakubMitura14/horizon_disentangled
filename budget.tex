@@ -33,7 +33,7 @@ The personnel budget is structured to support the project's ambitious goals thro
 \end{itemize}
 
 \subsubsection*{A.2 Equipment Costs}
-The requested budget of \EUR{570,992} for computational resources represents a strategic and indispensable investment in the core enabling technology of this project. This infrastructure is not an operational overhead but the central scientific instrument—the \textbf{primary discovery engine}—required to achieve the project's groundbreaking ambition. The amount is based on a detailed, bottom-up analysis of the project's workload and a rigorous due diligence of market options to ensure maximum value for money.
+The requested budget of \EUR{527,000} for computational resources represents a strategic, one-time capital investment in the core enabling technology of this project. This on-premise infrastructure is not an operational overhead but the central scientific instrument—the \textbf{primary discovery engine}—required to achieve the project's groundbreaking ambition. The amount is based on a detailed analysis of the project's workload and market pricing for state-of-the-art AI hardware.
 
 \begin{table}[H]
 \centering
@@ -44,41 +44,31 @@ The requested budget of \EUR{570,992} for computational resources represents a s
 \toprule
 \textbf{Cost Category} & {\textbf{Year 1 (€)}} & {\textbf{Year 2 (€)}} & {\textbf{Year 3 (€)}} & {\textbf{Total (€)}} \\
 \midrule
-GPU Compute (Reserved/CUD) & 91932 & 91932 & 91932 & 275796 \\
-GPU Compute (On-Demand) & 29980 & 29980 & 29980 & 89940 \\
-Storage - Hot Tier (40 TB) & 11305 & 11305 & 11305 & 33915 \\
-Storage - Cool Tier (60 TB) & 7373 & 7373 & 7373 & 22119 \\
-Storage - Archival Tier (100 TB) & 4915 & 4915 & 4915 & 14745 \\
-Data Operations \& Egress & 20000 & 20000 & 20000 & 60000 \\
+NVIDIA DGX B200 System & 480000 & 0 & 0 & 480000 \\
+300 TB Storage Solution & 28000 & 0 & 0 & 28000 \\
+Installation \& Integration & 19000 & 0 & 0 & 19000 \\
 \midrule
-\textbf{Subtotal} & \textbf{165505} & \textbf{165505} & \textbf{165505} & \textbf{496515} \\
-\midrule
-Contingency (15\%) & 24826 & 24826 & 24825 & 74477 \\
-\midrule
-\textbf{TOTAL} & \textbf{190331} & \textbf{190331} & \textbf{190330} & \textbf{570992} \\
+\textbf{TOTAL} & \textbf{527000} & \textbf{0} & \textbf{0} & \textbf{527000} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{1. Strategic Imperative: Positioning Compute as a Cornerstone of Pathfinder Innovation}
-The Pathfinder programme is explicitly designed to support visionary research that is too nascent or too radical for conventional funding streams. The proposed causal AI framework is a direct response to this mandate. It moves beyond current correlational machine learning models to build systems that can reason about cause and effect within biological systems—a true paradigm shift. Such an ambitious goal cannot be pursued with incremental resources. It demands an investment in computational power that is commensurate with the scale of the scientific challenge. The proposed computational infrastructure is not a utility, but \textbf{the central laboratory for this project}. The GPUs, storage, and networking fabric are the scientific instruments of this digital-first research programme. Denying the project these instruments would be equivalent to denying an astronomer access to a telescope; it would render the core scientific questions unanswerable.
+\paragraph{1. Strategic Imperative: An NVIDIA DGX B200 as the Project's Cornerstone}
+To pursue the project's visionary goal of creating a causal AI framework for medicine, an investment in computational power that is commensurate with the scale of the scientific challenge is required. The budget is therefore centered on the acquisition of an \textbf{NVIDIA DGX B200 system}. This is not a conventional server but a purpose-built, integrated AI supercomputer that directly addresses the primary technical risks of the project.
 
-\paragraph{2. Workload Quantification and Scientific Necessity}
-The project's scientific methodology is predicated on the development of several large-scale, state-of-the-art generative models, including 3D Variational Autoencoders (VAEs) and 3D Denoising Diffusion Models, trained on an extensive multimodal dataset (~200 TB). As established in contemporary research, training such models is a computationally intensive endeavour requiring sustained access to massively parallel computing infrastructure. Furthermore, the project's novel multi-stage framework, which integrates these generative models with causal inference engines like Neural Jump ODEs, creates a highly iterative and demanding research workflow. This involves not only initial model training but also numerous cycles of re-training, fine-tuning, and large-scale in-silico simulations to validate causal hypotheses. The requested resources are directly proportional to this workload and are essential for the scientific validity and success of Work Packages 2, 3, and 4.
+\paragraph{2. Justification for the DGX B200 Solution}
+The choice of the DGX B200 is driven by key technical requirements of the proposed research:
+\begin{itemize}
+    \item \textbf{Solving the VRAM Bottleneck:} The project's focus on high-resolution 3D medical imaging is severely limited by GPU memory (VRAM). The DGX B200 provides a massive \textbf{1.44 TB of unified, high-bandwidth GPU memory}, which is essential for training the large, complex 3D VAE and Diffusion Models at the heart of our methodology. This capability is critical to de-risk the core of the project.
+    \item \textbf{Powering Complex, Multi-Stage Workflows:} Our four-stage causal framework requires intensive, iterative re-training cycles. The DGX B200's architecture, with eight tightly interconnected GPUs, is engineered for exactly this kind of complex, distributed workload, ensuring maximum efficiency for model development.
+    \item \textbf{Turnkey Solution to Reduce Engineering Overhead:} As a fully integrated and validated platform, the DGX B200 allows the research team to focus immediately on scientific discovery rather than spending months on system integration and debugging. It includes the necessary NVIDIA AI Enterprise software and support, accelerating the timeline from deployment to discovery.
+    \item \textbf{High-Throughput Data Processing:} The system's architecture, including features like GPUDirect Storage, is optimized to handle the large-scale (~200-400 TB) multimodal datasets of this project, ensuring the powerful GPUs are never left "starved" for data.
+\end{itemize}
 
-\paragraph{3. Infrastructure Specification: VRAM as a Critical Bottleneck}
-To address the unique challenges of processing high-resolution 3D medical data, the budget specifies the use of compute instances equipped with top-tier GPUs, specifically the NVIDIA A100 80GB-class or its direct successor. The choice is driven by the critical need for large GPU memory (VRAM). Insufficient VRAM is a primary bottleneck in 3D deep learning, as it limits model size and data batch throughput, thereby hindering training performance and precluding the exploration of more powerful architectures necessary to achieve a breakthrough. The 80 GB capacity is not an over-specification but a \textbf{technically necessary choice} to de-risk the core research and development activities and accelerate the path to discovery.
+\paragraph{3. Storage and Integration}
+To complement the DGX B200, the budget includes a \textbf{300 TB enterprise storage solution} and the mandatory \textbf{professional installation and integration services}. This ensures the entire system is deployed correctly, validated, and ready to support the project's ambitious research agenda from day one. This on-premise solution provides a cost-effective and secure way to manage the project's large data assets without the variable ongoing costs of cloud storage. Should market conditions allow for the procurement of this hardware at a lower cost than budgeted, any remaining funds will be re-allocated to secure cloud solutions to further enhance the project's computational flexibility.
 
-\paragraph{4. Sourcing Strategy and Value for Money}
-The budget is the result of a comprehensive market analysis of major EU-based cloud providers (including AWS, GCP, and Azure). The proposed hybrid procurement strategy is designed to maximise value. Approximately 70\% of the required GPU compute hours will be secured through a long-term (3-year) commitment, which reduces the unit cost by up to 70\% compared to on-demand pricing. The remaining 30\% is budgeted as flexible, on-demand resources to provide the project with the agility to handle the unpredictable "burst" workloads inherent in pioneering research. This balanced approach ensures both cost-efficiency for baseline operations and the necessary flexibility for scientific exploration. To retain maximum flexibility in a fast-evolving market, these funds may be used for procuring either cloud computing resources or a dedicated on-premise GPU server, depending on which option offers the best value at the time of purchase.
-
-\paragraph{5. Data Management and its "Hidden Costs"}
-The costs associated with managing the project's ~200 TB data asset have been carefully optimised. A multi-tiered storage strategy will be employed, aligning data to hot, cool, or archival tiers based on access frequency. The budget also prudently includes allocations for "Data Operations \& Egress", accounting for the often-overlooked costs of API requests and data retrieval fees from cooler storage tiers. This foresight ensures that the project can operate without unexpected financial constraints, demonstrating a high level of project management maturity.
-
-\paragraph{6. Risk Mitigation and Contingency Planning}
-A contingency fund of 15\% (\EUR{74,477}) is included in the computational budget. In a high-risk/high-gain Pathfinder project, this is not budgetary padding but an essential tool for proactive risk management. This fund is specifically provisioned to empower the consortium to address unforeseen scenarios, such as algorithmic challenges requiring unplanned training runs or the emergence of promising but computationally expensive research directions, without jeopardising the project's timeline. This demonstrates a mature understanding of the nature of high-risk research and ensures the project has the resilience and agility to maximise its chances of success.
-
-\textbf{Total Estimated Equipment Costs: \EUR{570,992}}
+\textbf{Total Estimated Equipment Costs: \EUR{527,000}}
 
 \subsubsection*{A.3 Travel Costs}
 The travel budget is allocated for project meetings and dissemination of project results at leading international conferences.
@@ -103,14 +93,14 @@ This category includes costs for publications, dataset access, and other minor e
 \subsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{20\% of the total direct costs}, in accordance with Horizon Europe rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{2,703,266}}
+\textbf{Total Direct Costs (A): \EUR{2,659,274}}
 
-\textbf{Indirect Costs (B = 20\% of A): \EUR{540,653}}
+\textbf{Indirect Costs (B = 20\% of A): \EUR{531,855}}
 
 \subsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{3,243,919}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{3,191,129}
 
 \subsection*{Budget Allocation per Work Package (in EUR)}
 
@@ -124,14 +114,14 @@ The total requested funding is the sum of total direct and indirect costs.
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
 WP1: Data Curation & 450000 & 90000 & 540000 \\
-WP2: Supervisor Models & 535822 & 107164 & 642986 \\
-WP3: Causal VAE & 600000 & 120000 & 720000 \\
-WP4: Temporal Modeling & 535822 & 107164 & 642986 \\
+WP2: Supervisor Models & 520000 & 104000 & 624000 \\
+WP3: Causal VAE & 580000 & 116000 & 696000 \\
+WP4: Temporal Modeling & 520000 & 104000 & 624000 \\
 WP5: Validation & 200000 & 40000 & 240000 \\
 WP6: Dissemination & 110000 & 22000 & 132000 \\
-WP7: Project Management & 271622 & 54325 & 325947 \\
+WP7: Project Management & 279274 & 55855 & 335129 \\
 \midrule
-\textbf{Total} & {\textbf{2703266}} & {\textbf{540653}} & {\textbf{3243919}} \\
+\textbf{Total} & {\textbf{2659274}} & {\textbf{531855}} & {\textbf{3191129}} \\
 \bottomrule
 \end{tabular}
 \end{table}
