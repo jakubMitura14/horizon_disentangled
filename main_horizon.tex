@@ -92,6 +92,7 @@
 \usepackage{siunitx} % For aligning numbers in tables
 \usepackage{eurosym} % For the EUR symbol
 \usepackage{float} % to use [H]
+\usepackage{ragged2e} % For \RaggedRight in tables
 
 \title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
 \author{}
@@ -122,7 +123,7 @@ This project puts forward a radical new vision for clinical AI: a \textbf{paradi
 
 \paragraph{From Tool to Teammate, and from Lab to Ecosystem.} The super-agent orchestrates the agents to provide a coherent, explainable plan. We will conduct controlled proof-of-concept studies against standard-of-care with external validation and maintain continuous uncertainty calibration and bias audits. To maximize European added value, we will leverage and contribute to shared research assets (e.g., imaging archives) and will generate and share synthetic datasets to accelerate portfolio-wide benchmarking.
 
-\paragraph{Forging the Technology-to-Come.} This project is a high-risk, high-gain endeavor to create a \textbf{foundational causal framework} that: (1) integrates multi-scale evidence into robust, updatable decision processes; (2) monitors phenotype shifts and triggers timely therapy pivots with explicit uncertainty; and (3) establishes a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI in prostate cancer—while providing a template for other evolving, treatment-pressured malignancies.
+\paragraph{Forging the Technology-to-Come.} This project is a high-risk, high-gain endeavor to create a \textbf{foundational causal framework} that: (1) integrates multi-scale evidence into robust, updatable decision processes; (2) monitors phenotype shifts and triggers timely therapy pivots with explicit uncertainty; and (3) establishes a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI in prostate cancer—while providing a template for other evolving, treatment-pressured malignancies. The computational resources requested for this project are not an ancillary expense, but the foundational \textbf{discovery engine} upon which this entire scientific ambition rests.
 
 
 
@@ -143,12 +144,12 @@ The applicant institution is uniquely positioned to succeed in this high-risk, h
 Crucially, the project's leadership team possesses a rare and powerful combination of interdisciplinary expertise. The team includes two medical doctors (MDs) with medical PhDs. One leader combines a specialization in nuclear medicine with a Master's degree in IT, providing a direct bridge between clinical application and technical implementation. The second leader holds a dual specialization in both nuclear medicine and radiology, offering an invaluable holistic perspective on the entire imaging pipeline from initial sataging through monitoring to qualification to radioligand theraphies. The collaboration with external partners, including the Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg, will provide access to diverse data and clinical perspectives, further strengthening the project's foundation.
 
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=1\textwidth]{treat.png}
-        \caption{Algorithm of treatment in prostate cancer based on EAU Guidelines \cite{guidelines_uro_1, guidelines_uro_2}.}
-        \label{fig:prostate_treatment_algorithm}
-    \end{figure}
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[width=1\textwidth]{treat.png}
+    %     \caption{Algorithm of treatment in prostate cancer based on EAU Guidelines \cite{guidelines_uro_1, guidelines_uro_2}.}
+    %     \label{fig:prostate_treatment_algorithm}
+    % \end{figure}
 
 This unique blend of expertise is complemented by the applicant's clinic, which has extensive, hands-on experience in managing patients through the entire spectrum of prostate cancer therapies (as shown on Figure \ref{fig:prostate_treatment_algorithm}) including late-stage prostate cancer, that is  typically referred to as metastatic castration-resistant prostate cancer (mCRPC), is an incurable and fatal disease, despite substantial therapeutic advances \cite{FizaziHerrmann2023, HatanoNonomura2023}. Managing mCRPC is complex, focusing on extending life, delaying disease progression, and maintaining or improving health-related quality of life (HRQOL) \cite{FizaziHerrmann2023}. Our clinical practice routinely administers a wide array of treatments, including second-generation Androgen Receptor Pathway Inhibitors (ARPIs) like abiraterone, enzalutamide, apalutamide, and darolutamide \cite{FizaziHerrmann2023, HatanoNonomura2023, MaLi2022}; taxane-based chemotherapies such as docetaxel and cabazitaxel \cite{FizaziHerrmann2023, HatanoNonomura2023}; immunotherapy with checkpoint inhibitors like Pembrolizumab \cite{MaLi2022, RamnaraignSartor2023}; precision therapies such as PARP inhibitors (Olaparib) for patients with relevant genetic alterations \cite{HatanoNonomura2023, MaLi2022}; and cutting-edge radioligand therapies (RLT) including $^{\text{177}}\text{Lu-PSMA}$ and bone-targeted agents like Radium-223 \cite{FizaziHerrmann2023, ChandranFigg2022, Keam2022}. The complexity of these cases necessitates regular multidisciplinary tumor boards, where detailed treatment decisions and patient responses are meticulously documented. Our framework is explicitly designed to support and integrate data from multiple such tumour boards across our collaborating institutions, learning from the collective expertise. This rich, real-world documentation provides an unparalleled source of high-quality data, crucial for training a causal model that can accurately learn the effects of different therapeutic interventions.
 
@@ -386,28 +387,14 @@ The proprietary clinical cohort will serve as the cornerstone of this project, p
     \item \textbf{Omics Data:} The dataset will be enriched, when possible, with genetic data (e.g., from targeted sequencing panels for genes like BRCA1/2) and other omics data, including proteomics and radiomics features extracted from the imaging studies.
 \end{itemize}
 
-\begin{longtable}{>{\RaggedRight}p{0.4\textwidth} >{\RaggedRight}p{0.4\textwidth} >{\RaggedRight\arraybackslash}p{0.2\textwidth}}
-\caption{Summary of Data Sources and Cohorts}\\
+\begin{table}[H]
+\centering
+\caption{Summary of Data Sources and Cohorts}
 \label{tab:data}
-
+\begin{tabular}{p{0.4\textwidth} p{0.4\textwidth} p{0.2\textwidth}}
 \toprule
 \textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
 \midrule
-\endfirsthead
-
-\multicolumn{3}{c}%
-{{\tablename\ \thetable{} -- continued from previous page}} \\
-\toprule
-\textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
-\midrule
-\endhead
-
-\bottomrule
-\multicolumn{3}{r}{{Continued on next page}} \\
-\endfoot
-
-\endlastfoot
-
 \multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
 \midrule
 Paired $^{68}$Ga-PSMA PET/CT \& mpMRI & Magdeburg, Halle, Charite & 350 \\
@@ -430,7 +417,8 @@ Genomic, MRI, CT, PET Data & The Cancer Genome Atlas (TCGA-PRAD) \cite{zuley2016
 \cmidrule(lr){1-3}
 Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchive} & 297 \\
 \bottomrule
-\end{longtable}
+\end{tabular}
+\end{table}
 
 
 % \subsubsection{Proprietary Multi-Center Clinical Cohort}
