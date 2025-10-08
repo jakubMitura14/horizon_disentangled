@@ -1,23 +1,23 @@
 \section*{Budget Justification and Allocation}
 
-The total requested budget for the CausalPCa project is \textbf{\EUR{3,992,215}} over a period of 36 months. This budget is designed to provide the necessary resources to achieve the ambitious objectives outlined in this proposal. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
+The total requested budget for the CausalPCa project is \textbf{\EUR{3,243,919}} over a period of 36 months. This budget is the result of a rigorous planning process to ensure all necessary resources are allocated to achieve the ambitious objectives outlined in this proposal, while delivering maximum value for money. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
 
 \subsection*{A. Direct Costs}
 
 \subsubsection*{A.1 Personnel Costs}
-Personnel costs represent the largest portion of the budget, reflecting the highly skilled, interdisciplinary team required to tackle the complex, multi-faceted nature of this project. The successful integration of advanced imaging, clinical data, histopathology, and multi-omics data requires a diverse team with expertise spanning nuclear medicine, radiology, data science, mathematics, and software engineering. Costs are calculated for a 36-month project duration based on the provided institutional salary tables (TV-L), including all social security contributions. A total of \textbf{318 person-months (PMs)} are budgeted.
+Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required for this project. Integrating advanced imaging, clinical data, and multi-omics data requires a diverse team with expertise in nuclear medicine, radiology, data science, mathematics, and software engineering. Costs are calculated for a 36-month project duration based on institutional salary tables (TV-L), including all social security contributions. A total of \textbf{282 person-months (PMs)} are budgeted.
 
 \begin{itemize}
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - PI (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - PhD Student (3 FTEs, 108 PMs):} \EUR{789,423}
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - Mathematician (0.5 FTE, 18 PMs):} \EUR{131,571}
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - Data Scientist (1 FTE, 36 PMs):} \EUR{263,141}
-    \item \textbf{Technical Staff (Technischer Angestellter) - Programmer (3 FTEs, 108 PMs):} \EUR{608,949}
+    \item \textbf{Technical Staff (Technischer Angestellter) - Programmer (2 FTEs, 72 PMs):} \EUR{405,966}
     \item \textbf{Technical Staff (Technischer Angestellter) - Project Manager (0.5 FTE, 18 PMs):} \EUR{101,492}
     \item \textbf{Student/Research Assistant (Wissenschaftliche Hilfskraft) (40hrs/month, 36 months):} \EUR{33,040}
 \end{itemize}
 
-\textbf{Total Estimated Personnel Costs: \EUR{2,190,757}}
+\textbf{Total Estimated Personnel Costs: \EUR{1,987,774}}
 
 \subsubsection*{Personnel Justification}
 The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team. The justification for each role is as follows:
@@ -26,69 +26,59 @@ The personnel budget is structured to support the project's ambitious goals thro
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - PhD Student (3 FTEs, 108 PMs):} Three PhD students are critical for the project's execution. Their roles are multifaceted, involving the crucial tasks of data curation, cleaning, and annotation across all data modalities, including imaging, histopathology, and omics data. They will also be instrumental in implementing and training the AI models and conducting the rigorous experimental validation needed to ensure their robustness and accuracy. Their work will directly support the clinical teams in urology, nuclear medicine, radiology, and histopathology and will form the foundation of their doctoral theses.
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - Mathematician (0.5 FTE, 18 PMs):} A half-time mathematician is required to provide the essential theoretical support for the novel causal models being developed. This role will focus on ensuring the mathematical soundness of the framework, particularly the complex Neural Jump ODEs (WP4), and will contribute to the development of robust uncertainty quantification methods.
     \item \textbf{Scientific Staff (Wissenschaftlicher Mitarbeiter) - Data Scientist (1 FTE, 36 PMs):} A dedicated data scientist is vital for managing the project's complex and heterogeneous data. This role will oversee the entire data pipeline, from curation and harmonization (WP1) to secure storage and access, ensuring the integrity and usability of the data for all technical work packages.
-    \item \textbf{Technical Staff (Technischer Angestellter) - Programmer (3 FTEs, 108 PMs):} Three full-time programmers are required to build the robust, scalable, and production-ready software that forms the backbone of this project. They will be responsible for the end-to-end software engineering, including developing the data processing pipelines, implementing the AI models with a focus on efficiency and optimization, and creating the user-facing clinical validation tools. The number of programmers is justified by the need for parallel development on the different components of the multi-stage framework.
+    \item \textbf{Technical Staff (Technischer Angestellter) - Programmer (2 FTEs, 72 PMs):} Two full-time programmers are required to build the robust, scalable, and production-ready software that forms the backbone of this project. They will be responsible for the end-to-end software engineering, including developing the data processing pipelines, implementing the AI models with a focus on efficiency and optimization, and creating the user-facing clinical validation tools.
     \item \textbf{Technical Staff (Technischer Angestellter) - Project Manager (0.5 FTE, 18 PMs):} A part-time project manager is essential for the operational success of this multi-partner project. This role extends beyond standard administrative duties to include coordinating data sharing and harmonization between the collaborating clinics, managing the grant documentation and reporting to the EC, and actively tracking development logs to ensure all project activities are compatible with the principles and requirements of the EU AI Act (WP7).
     \item \textbf{Student/Research Assistant (Wissenschaftliche Hilfskraft) (40hrs/month, 36 months):} A part-time research assistant will provide essential support for the data collection efforts and the clinical validation studies in WP5, assisting with patient data management and study logistics.
     \item \textbf{Clinical Consultations:} A dedicated budget for small monthly consultations with external experts in urology, histopathology, and radiology is included to ensure that the project's development remains clinically relevant and grounded in real-world practice.
 \end{itemize}
 
 \subsubsection*{A.2 Equipment Costs}
+The requested budget of \EUR{570,992} for computational resources represents a strategic and indispensable investment in the core enabling technology of this project. This infrastructure is not an operational overhead but the central scientific instrument—the \textbf{primary discovery engine}—required to achieve the project's groundbreaking ambition. The amount is based on a detailed, bottom-up analysis of the project's workload and a rigorous due diligence of market options to ensure maximum value for money.
 
 \begin{table}[H]
 \centering
 \caption{The Revised Computational Resource Budget (3 Years)}
 \label{tab:computational_budget}
 \sisetup{group-separator={,}}
-\begin{tabular}{lS[table-format=7.0]S[table-format=7.0]S[table-format=7.0]S[table-format=7.0]}
+\begin{tabular}{lS[table-format=6.0]S[table-format=6.0]S[table-format=6.0]S[table-format=6.0]}
 \toprule
 \textbf{Cost Category} & {\textbf{Year 1 (€)}} & {\textbf{Year 2 (€)}} & {\textbf{Year 3 (€)}} & {\textbf{Total (€)}} \\
 \midrule
-GPU Compute (Reserved/CUD) & 183864 & 183864 & 183864 & 551592 \\
-GPU Compute (On-Demand) & 59960 & 59960 & 59960 & 179880 \\
+GPU Compute (Reserved/CUD) & 91932 & 91932 & 91932 & 275796 \\
+GPU Compute (On-Demand) & 29980 & 29980 & 29980 & 89940 \\
 Storage - Hot Tier (40 TB) & 11305 & 11305 & 11305 & 33915 \\
 Storage - Cool Tier (60 TB) & 7373 & 7373 & 7373 & 22119 \\
 Storage - Archival Tier (100 TB) & 4915 & 4915 & 4915 & 14745 \\
 Data Operations \& Egress & 20000 & 20000 & 20000 & 60000 \\
 \midrule
-\textbf{Subtotal} & \textbf{287417} & \textbf{287417} & \textbf{287417} & \textbf{862251} \\
+\textbf{Subtotal} & \textbf{165505} & \textbf{165505} & \textbf{165505} & \textbf{496515} \\
 \midrule
-Contingency (15\%) & 43113 & 43113 & 43113 & 129338 \\
+Contingency (15\%) & 24826 & 24826 & 24825 & 74477 \\
 \midrule
-\textbf{TOTAL} & \textbf{330530} & \textbf{330530} & \textbf{330530} & \textbf{991589} \\
+\textbf{TOTAL} & \textbf{190331} & \textbf{190331} & \textbf{190330} & \textbf{570992} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Equipment Costs Justification}
-The requested budget of \EUR{991,589} for computational resources represents a strategic and indispensable investment in the core enabling technology of this project. This infrastructure is not an operational overhead but the central scientific instrument required to achieve the project's groundbreaking ambition: to develop and validate a new paradigm of causal artificial intelligence for understanding complex disease trajectories. The amount is based on a detailed, bottom-up analysis of the project's workload and a rigorous due diligence of market options to ensure maximum value for money.
+\paragraph{1. Strategic Imperative: Positioning Compute as a Cornerstone of Pathfinder Innovation}
+The Pathfinder programme is explicitly designed to support visionary research that is too nascent or too radical for conventional funding streams. The proposed causal AI framework is a direct response to this mandate. It moves beyond current correlational machine learning models to build systems that can reason about cause and effect within biological systems—a true paradigm shift. Such an ambitious goal cannot be pursued with incremental resources. It demands an investment in computational power that is commensurate with the scale of the scientific challenge. The proposed computational infrastructure is not a utility, but \textbf{the central laboratory for this project}. The GPUs, storage, and networking fabric are the scientific instruments of this digital-first research programme. Denying the project these instruments would be equivalent to denying an astronomer access to a telescope; it would render the core scientific questions unanswerable.
 
-\paragraph{1. Workload Quantification and Scientific Necessity}
-The project's scientific methodology is predicated on the development of several large-scale, state-of-the-art generative models, including 3D Variational Autoencoders (VAEs) and 3D Denoising Diffusion Models, trained on an extensive multimodal dataset (~200 TB) of medical imaging, omics, and clinical data. As established in contemporary research, training such models is a computationally intensive endeavour requiring sustained access to massively parallel computing infrastructure. Furthermore, the project's novel multi-stage framework, which integrates these generative models with causal inference engines like Neural Jump ODEs, creates a highly iterative and demanding research workflow. This involves not only initial model training but also numerous cycles of re-training, fine-tuning, and large-scale in-silico simulations to validate causal hypotheses. The requested resources are directly proportional to this workload and are essential for the scientific validity and success of Work Packages 2, 3, and 4.
+\paragraph{2. Workload Quantification and Scientific Necessity}
+The project's scientific methodology is predicated on the development of several large-scale, state-of-the-art generative models, including 3D Variational Autoencoders (VAEs) and 3D Denoising Diffusion Models, trained on an extensive multimodal dataset (~200 TB). As established in contemporary research, training such models is a computationally intensive endeavour requiring sustained access to massively parallel computing infrastructure. Furthermore, the project's novel multi-stage framework, which integrates these generative models with causal inference engines like Neural Jump ODEs, creates a highly iterative and demanding research workflow. This involves not only initial model training but also numerous cycles of re-training, fine-tuning, and large-scale in-silico simulations to validate causal hypotheses. The requested resources are directly proportional to this workload and are essential for the scientific validity and success of Work Packages 2, 3, and 4.
 
-\paragraph{2. Infrastructure Specification}
-To address the unique challenges of processing high-resolution 3D medical data, the budget specifies the use of compute instances equipped with top-tier GPUs, specifically the NVIDIA A100 80GB-class or its direct successor. The choice is driven by the critical need for large GPU memory (VRAM). Insufficient VRAM is a primary bottleneck in 3D deep learning, as it limits model size and data batch throughput, thereby hindering training performance and precluding the exploration of more powerful architectures necessary to achieve a breakthrough. The specified infrastructure directly mitigates this key technical risk and empowers the project's researchers to work at the cutting edge of the field.
+\paragraph{3. Infrastructure Specification: VRAM as a Critical Bottleneck}
+To address the unique challenges of processing high-resolution 3D medical data, the budget specifies the use of compute instances equipped with top-tier GPUs, specifically the NVIDIA A100 80GB-class or its direct successor. The choice is driven by the critical need for large GPU memory (VRAM). Insufficient VRAM is a primary bottleneck in 3D deep learning, as it limits model size and data batch throughput, thereby hindering training performance and precluding the exploration of more powerful architectures necessary to achieve a breakthrough. The 80 GB capacity is not an over-specification but a \textbf{technically necessary choice} to de-risk the core research and development activities and accelerate the path to discovery.
 
-\paragraph{3. Sourcing Strategy and Value for Money}
-The budget is the result of a comprehensive market analysis of major EU-based cloud providers (including AWS, GCP, and Azure) to identify the most suitable and cost-effective sourcing solution. The proposed hybrid procurement strategy is designed to maximise value. Approximately 70\% of the required GPU compute hours will be secured through a long-term (3-year) commitment, which reduces the unit cost by up to 70\% compared to on-demand pricing. The remaining 30\% is budgeted as flexible, on-demand resources to provide the project with the agility to handle the unpredictable "burst" workloads inherent in pioneering research. This balanced approach ensures both cost-efficiency for baseline operations and the necessary flexibility for scientific exploration.
+\paragraph{4. Sourcing Strategy and Value for Money}
+The budget is the result of a comprehensive market analysis of major EU-based cloud providers (including AWS, GCP, and Azure). The proposed hybrid procurement strategy is designed to maximise value. Approximately 70\% of the required GPU compute hours will be secured through a long-term (3-year) commitment, which reduces the unit cost by up to 70\% compared to on-demand pricing. The remaining 30\% is budgeted as flexible, on-demand resources to provide the project with the agility to handle the unpredictable "burst" workloads inherent in pioneering research. This balanced approach ensures both cost-efficiency for baseline operations and the necessary flexibility for scientific exploration.
 
-\paragraph{4. Data Management Plan}
-The costs associated with managing the project's 200 TB data asset have been carefully optimised. A multi-tiered storage strategy will be employed, aligning data to hot, cool, or archival tiers based on access frequency. This significantly reduces long-term storage costs compared to a single-tier approach. The budget also prudently includes allocations for data operations, such as API requests and retrieval from cooler tiers, demonstrating a mature understanding of the full data lifecycle costs.
+\paragraph{5. Data Management and its "Hidden Costs"}
+The costs associated with managing the project's ~200 TB data asset have been carefully optimised. A multi-tiered storage strategy will be employed, aligning data to hot, cool, or archival tiers based on access frequency. The budget also prudently includes allocations for "Data Operations \& Egress", accounting for the often-overlooked costs of API requests and data retrieval fees from cooler storage tiers. This foresight ensures that the project can operate without unexpected financial constraints, demonstrating a high level of project management maturity.
 
-\paragraph{5. Concluding Statement}
-In conclusion, this investment in computational resources is a critical prerequisite for achieving the project's transformative goals. It provides the "discovery engine" necessary to move beyond correlation and build the next generation of causal AI in medicine. The budget is meticulously planned, technically justified, and financially optimised to provide the European Research Area with a world-leading capability in this emergent and highly impactful field.
+\paragraph{6. Risk Mitigation and Contingency Planning}
+A contingency fund of 15\% (\EUR{74,477}) is included in the computational budget. In a high-risk/high-gain Pathfinder project, this is not budgetary padding but an essential tool for proactive risk management. This fund is specifically provisioned to empower the consortium to address unforeseen scenarios, such as algorithmic challenges requiring unplanned training runs or the emergence of promising but computationally expensive research directions, without jeopardising the project's timeline. This demonstrates a mature understanding of the nature of high-risk research and ensures the project has the resilience and agility to maximise its chances of success.
 
-\paragraph{Risk Mitigation and Contingency Planning for Computational Resources}
-A contingency fund of 15\% (\EUR{129,338}) is included in the computational budget. In a high-risk/high-gain Pathfinder project, this is not budgetary padding but an essential tool for proactive risk management and scientific agility. The path to a scientific breakthrough is inherently unpredictable; unforeseen challenges and opportunities are not a sign of poor planning but a hallmark of research at the frontier. This contingency fund is specifically provisioned to empower the project consortium to address such scenarios without jeopardising the project's timeline or objectives. Potential scenarios that would necessitate drawing from this fund include:
-\begin{itemize}
-    \item \textbf{Algorithmic Challenges:} A core model may fail to converge as expected, requiring a fundamental architectural rethink and a series of new, unplanned, full-scale training runs.
-    \item \textbf{Data Complexity:} The initial datasets may prove to have unexpected artifacts or higher levels of noise than anticipated, requiring the development and application of more computationally expensive pre-processing and data cleaning pipelines.
-    \item \textbf{Emergent Scientific Opportunities:} During the project, a promising but unplanned research direction may emerge. The contingency provides the flexibility to explore such a tangent if the potential scientific payoff is high, a key feature of the Pathfinder ethos.
-    \item \textbf{Hardware Evolution:} Over the three-year project duration, new, more powerful GPU architectures will become available. The contingency could be used to strategically access these newer platforms for specific, critical experiments if they offer a step-change in capability.
-\end{itemize}
-By including a planned contingency, the project demonstrates a mature understanding of the nature of high-risk research. It ensures the project has the resilience and agility to navigate uncertainty, overcome obstacles, and capitalise on new opportunities, thereby maximising the probability of achieving its ambitious and transformative goals.
-
-\textbf{Total Estimated Equipment Costs: \EUR{991,589}}
-
+\textbf{Total Estimated Equipment Costs: \EUR{570,992}}
 
 \subsubsection*{A.3 Travel Costs}
 The travel budget is allocated for project meetings and dissemination of project results at leading international conferences.
@@ -113,14 +103,14 @@ This category includes costs for publications, dataset access, and other minor e
 \subsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{20\% of the total direct costs}, in accordance with Horizon Europe rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{3,326,846}}
+\textbf{Total Direct Costs (A): \EUR{2,703,266}}
 
-\textbf{Indirect Costs (B = 20\% of A): \EUR{665,369}}
+\textbf{Indirect Costs (B = 20\% of A): \EUR{540,653}}
 
 \subsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{3,992,215}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{3,243,919}
 
 \subsection*{Budget Allocation per Work Package (in EUR)}
 
@@ -128,19 +118,20 @@ The total requested funding is the sum of total direct and indirect costs.
 \centering
 \caption{Estimated Budget Allocation per Work Package}
 \label{tab:budget_wp}
-\begin{tabular}{lS[table-format=7.0]S[table-format=7.0]S[table-format=7.0]}
+\sisetup{group-separator={,}}
+\begin{tabular}{lS[table-format=7.0]S[table-format=6.0]S[table-format=7.0]}
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 560000 & 112000 & 672000 \\
-WP2: Supervisor Models & 762530 & 152506 & 915036 \\
-WP3: Causal VAE & 812530 & 162506 & 975036 \\
-WP4: Temporal Modeling & 762530 & 152506 & 915036 \\
+WP1: Data Curation & 450000 & 90000 & 540000 \\
+WP2: Supervisor Models & 535822 & 107164 & 642986 \\
+WP3: Causal VAE & 600000 & 120000 & 720000 \\
+WP4: Temporal Modeling & 535822 & 107164 & 642986 \\
 WP5: Validation & 200000 & 40000 & 240000 \\
 WP6: Dissemination & 110000 & 22000 & 132000 \\
-WP7: Project Management & 119257 & 23851 & 143108 \\
+WP7: Project Management & 271622 & 54325 & 325947 \\
 \midrule
-\textbf{Total} & {\textbf{3326847}} & {\textbf{665369}} & {\textbf{3992216}} \\
+\textbf{Total} & {\textbf{2703266}} & {\textbf{540653}} & {\textbf{3243919}} \\
 \bottomrule
 \end{tabular}
 \end{table}
