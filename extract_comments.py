@@ -34,4 +34,4 @@ def extract_annotations(pdf_path):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    extract_annotations("251013_EIC_PFC_FFB.pdf")
+    extract_annotations("251014_EIC_PFC_Budget_FFB.pdf")
