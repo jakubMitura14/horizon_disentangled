@@ -25,7 +25,7 @@ This document outlines the revisions made to the grant proposal in response to t
 
 *   **Added Work Package Descriptions:** Each Work Package now has a descriptive text to justify the lump-sum budget structure.
 *   **Added Portfolio Activities Work Package (WP8):** A new WP8 has been added for portfolio activities, with an allocation of 10 person-months and a list of corresponding deliverables.
-*   **Updated "Data Governance" Section:** This section now explicitly mentions GDPR and relevant national regulations (the German Federal Data Protection Act).
+*   **Updated "Data Governance" Section:** This section now explicitly mentions GDPR and relevant national regulations (the German Federal Data Protection Act), and details the project's strategy for EUCAIM compatibility, including the commitment to operate as a Tier 3 Federated Node.
 *   **Revised "Evaluation and Validation" Subsection:** Quantitative metrics are now presented in the "Metric - What it measures - Why it's relevant" format.
 *   **Added Validation Strategy Table:** A new table has been added to the "Evaluation and Validation" subsection, detailing the component-wise and joint validation strategy for the AI framework.
 *   **Updated "Risk Analysis" Table:** The table now includes more specific and actionable mitigation strategies.
