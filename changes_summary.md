@@ -14,6 +14,7 @@ This document outlines the revisions made to the grant proposal in response to t
 *   **Added Technology Readiness Level (TRL):** The "Concept and Methodology" subsection now explicitly states the project's TRL range (from ~2 to ~3-4).
 *   **Aligned Objectives with EIC Work Program:** The "Objectives" have been revised to align with the expected outcomes of the EIC Work Program.
 *   **Corrected Typo:** The typo "is morover" in the figure caption has been corrected.
+*   **Expanded on Clinician Interaction Concept:** A new paragraph has been added to the "Vision" section, and Stage 4 of the "Concept and Methodology" has been expanded to detail how clinician interaction patterns will be used as a feedback loop to personalize explanations and visualize disease progression.
 
 ### "Impact" Section
 
@@ -40,3 +41,4 @@ This document outlines the revisions made to the grant proposal in response to t
 *   **Removed Problematic Figure:** The figure `treat.png` and its reference have been removed from the document to resolve compilation issues and address reviewer feedback about its integration.
 *   **Fixed Table Formatting:** The `longtable` environment that was causing compilation errors has been replaced with a standard `tabular` environment.
 *   **Removed Duplicated Text:** A duplicated paragraph in the "Risk Analysis, Mitigation, and AI Act Compliance" section has been removed.
+*   **Removed Unnecessary Files:** The `treat.html` and `treat.png` files have been removed from the repository.
