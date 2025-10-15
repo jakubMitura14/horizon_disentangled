@@ -1,0 +1,142 @@
+[
+    {
+        "page": 1,
+        "type": "/Text",
+        "content": "Note: Ensure Proposal follows the Template structure (Standard Application Form - Technical Description Part B / Pages 28 - 52 of af_he-eic-pathfinder-challenges_en file previously shared)\r\rGuidance on specific format & required content is found also within the template"
+    },
+    {
+        "page": 1,
+        "type": "/Highlight",
+        "content": "Evaluation weight : 60 %\r\rThe following are high-level guiding principles (from the EIC Work Program). These also correspond to the specific questions that evaluators will address in their assessment forms; therefore, ensure that the proposal content explicitly and convincingly responsed to each of them:\r\rObjectives and relevance to the Challenge: How clear are the project\u00b4s objectives? How relevant are they in contributing to the overall goal and the specific objectives of the Challenge?\rNovelty: To what extent is the proposed work ambitious and goes beyond the state-of-the-art?\rPlausibility of the methodology: How sound is the proposed methodology, including the underlying concepts, models, assumptions, appropriate consideration of the gender dimension in research content, and the quality of open science practices?\r\r\r"
+    },
+    {
+        "page": 1,
+        "type": "/Highlight",
+        "content": "Note: The section opens directly with the project vision, and then the challenge is presented. Consider first introducing the specific challenge with a brief explanation to ground the reader before presenting the vision. This improves flow and ensures evaluators clearly understand the context and rationale for the proposed approach.\r\r"
+    },
+    {
+        "page": 2,
+        "type": "/Highlight",
+        "content": "Electronic Health Record?\r\rEnsure that all acronyms and technical terms are clearly defined at first use. While domain-specific terminology is expected, evaluators may include both experts and generalists - clarity and accessibility for non-specialist readers is essential."
+    },
+    {
+        "page": 2,
+        "type": "/Highlight",
+        "content": "It would be advisable to name the specific archives & databases to be used / in which data will be deposited."
+    },
+    {
+        "page": 3,
+        "type": "/Highlight",
+        "content": "Figures should be integrated with the main text rather than be presented as standalone elements. They need to be referenced and discussed within the narrative to clarify their relevance. Without such integration, key concepts may be overlooked or their significance underappreciated.\r\rMoreover, figures should directly support the project\u00b4s concept & vision - illustrating the proposed approach/innovation rather than theoretical background material, to remain relevant for this section.\r"
+    },
+    {
+        "page": 3,
+        "type": "/Highlight",
+        "content": "Check coherence - \"is morover\" (?)"
+    },
+    {
+        "page": 4,
+        "type": "/Highlight",
+        "content": "As discussed in our meeting: The proposal describes a dual leadership structure within a single participating entity. Given that Pathfinder templates and evaluation procedures foresee one Principal Investigator (PI) per beneficiary, this configuration may create ambiguity regarding scientific and administrative responsibility. It is advisable to designate one formal PI and describe the second lead as a key team member or co-coordinator with defined responsibilites to ensure clarify and alignment with Program conventions.  \r\rNote on PI:  The designated Principal Investigator (PI) should have the institutional position and autonomy required to lead and execute the project effectively. This includes the ability to take scientific responsibility for the work, manage the allocated resources, and ensure project delivery with full institutional backing. If the proposed coordinators do not have this level of independence or authority, it may be advisable to consider assigning the formal PI role to someone with the appropriate standing. (The Evaluation Panel primary concern is the succesful execution and delivery of the project. Thus they will asssess wether the PI has the capacity, credibility and institutional backing to ensure the objectives/collaborations can be realistically achieved)\r\rMoreover, collaboration with external partners is mentioned, but their role and involvement require clarification. It should be specified in which capacity these partners will participate (as beneficiaries, affiliated entities, associated partners,etc.  - See Annex 2, PAge 142 of EIC Work Program-). Clearly defining this not only ensures transparency regarding responsibilities, data access, and task ownership, but also enables evaluators to assess the adequacy of the single entity to execute the proposed project."
+    },
+    {
+        "page": 4,
+        "type": "/Highlight",
+        "content": "Note: Presenting this section before explaining objectives, concept and methodology disrupts the reasoning flow. From the evaluator\u00b4s perspective it is important to understand what is being attempted and why it matters before who will do it. \r\rSuggestion: consider placing section later after these other sections."
+    },
+    {
+        "page": 5,
+        "type": "/Highlight",
+        "content": "See previous comment on the use of figures. In its current form, this figure presents only the treatments, without clarifying how these relate to the model or contribute to understanding the effects of different interventions. The focus should be on illustrating this connection - how the treatments inform the model\u00b4s learning process - rathen than solely depicting theoretical or background elements."
+    },
+    {
+        "page": 6,
+        "type": "/Highlight",
+        "content": "Suggestion:\r\rThis section would benefit from the inclusion of a concise figure summarizing the foundation\u00b4s capabilities, clinical expertise, and key assumptions. A visual overview would set the context for the subsequent sections (objectives, novelty, methodology). Presenting the state of the art, current capacities and base assumptions in a visual format would help evaluators more easily grasp how these elements support the project\u00b4s rationale and planned approach."
+    },
+    {
+        "page": 6,
+        "type": "/Highlight",
+        "content": "Note on objectives design:\r\rThese should be explicitly aligned with the \"Expected Outcomes\" described in the challenge call. Establishing a clear link between each objective and the corresponding expected outcomes ensures coherence with the call\u00b4s scope and strengthens the proposal\u00b4s relevance and impact.\r\rReview page 40 of the EIC Work Program\r\r"
+    },
+    {
+        "page": 7,
+        "type": "/Highlight",
+        "content": "Note on Feasibility and Reach:\r\rPathfinder Challenge projects are expected to start from an early technological readiness level (~2) and aim to reach proof of concept or lab validation (~3-4) by the project\u00b4s end.- The proposed methodology should therefore outline a creadible, feasible path toward this level of maturity while maintaining the projects high-risk/high-gain ambition."
+    },
+    {
+        "page": 12,
+        "type": "/Highlight",
+        "content": "This section overlaps strongly with the Vision section.\r\rConsider merging it with that initial section or reframing it to avoid redundancy.\r\rI can serve as a tie-in between the Vision and the objectives."
+    },
+    {
+        "page": 13,
+        "type": "/Highlight",
+        "content": "This section does not belong under Excellence; it fits better under implementation (risk management, ethics regulatory compliance)\r"
+    },
+    {
+        "page": 14,
+        "type": "/Highlight",
+        "content": "Evaluation weight : 20 %\r\rThe following are high-level guiding principles (from the EIC Work Program). These also correspond to the specific questions that evaluators will address in their assessment forms; therefore, ensure that the proposal content explicitly and convincingly responsed to each of them:\r\rPotential impact: How credible are the pathways to achieve the expected outcomes and impacts of the Challenge? To what extent would the successful completion of the project contribute to this?\rInnovation potential: How realistic is the proof of principle for demonstrating the potential impact of the technology for the challenge? How adequate are the proposed measures for protection of results and any other exploitation measures to facilitate future translation of research results into innovations with positive societal, economic or environmental impact? How suitable are the proposed measures for involving and empowering key actors that have the potential to take the lead in translating research into innovations in the future?\rCommunication and Dissemination: How suitable are the proposed measures, including communication activities, to maximise expected outcomes and impacts for raising awareness about the project result\u2019s potential to establish new markets and/or address global challenges?\r\r"
+    },
+    {
+        "page": 15,
+        "type": "/Highlight",
+        "content": "Sections 2.1 and 2.2 could be merged into a single \"Expected Impacts\" section with sub-points, to reduce redundancy and improve readibility. \r\rAlso, in connection to the information as presented in the templates: ensure clarity and specificity. Generic or broad statements such as \"future research in a wide range of diseases, high-stakes environments, technological leadership (in what), applications far beyond medicine including in climate science, economics ane engineering, European AI community, interested institutions\" lack scope and traceability. Each impact statement should identify:\r\r- Who benefits - concrete target groups, sectors, communities, users, etc.\r- How they benefit - project\u00b4s direct and measurable contribution to each outcome.\r\rThe template and evaluation criteria value credible, specific and demonstrable impacts over tenuous references to wider effects. Focus on outcomes where the project can make a significant and traceable contribution (within its scope and/or timeframe).\r\r"
+    },
+    {
+        "page": 15,
+        "type": "/Highlight",
+        "content": "Note: too generic and risk being read as afterthoughts rather than concrete plans. \r\rTo demonstrate a credible and proactive strategy, explicitly identify:\r\r- Target journals and conferences\r- Intended audiences and channels for communication and engagement\r- Initial exploitation pathways.\r\rThe expectation is that these activities are strategically aligned with the Project\u00b4s objectives and potential impacts, not treated as routine academic outputs."
+    },
+    {
+        "page": 16,
+        "type": "/Highlight",
+        "content": "Evaluation weight: 20 %\r\rThe following are high-level guiding principles (from the EIC Work Program). These also correspond to the specific questions that evaluators will address in their assessment forms; therefore, ensure that the proposal content explicitly and convincingly responds to each of them:\r\rWork plan: How coherent and effective are the work plan (work packages, tasks, deliverables, milestones, timeline, etc) and risk mitigation measures in order to achieve the project objectives?\rAllocation of resources: How appropriate and effective is the allocation of resources (comprising person-months and other cost items) to work packages and consortium members?\rQuality of the applicant/consortium (depends if mono or multi-beneficiaries): To what extent does the applicant / do all consortium members have the necessary capacity and high quality expertise for performing the project tasks?\r\r"
+    },
+    {
+        "page": 16,
+        "type": "/Highlight",
+        "content": "See previous note on generalizations (European Platforms).\r\rReview and reference relevant repositories and databases to show awareness, and alignment, with existing resources.\r\rThese programs expect participants to actively exploit and contribute to established European data ecosystems."
+    },
+    {
+        "page": 16,
+        "type": "/Highlight",
+        "content": "See previous note on data specificity."
+    },
+    {
+        "page": 16,
+        "type": "/Highlight",
+        "content": "See previous note on specificity (medical imaging companies, health-tech startups, standardization bodies). "
+    },
+    {
+        "page": 16,
+        "type": "/Text",
+        "content": "See previous note on specificity (medical imaging companies, health-tech startups, standardization bodies). "
+    },
+    {
+        "page": 17,
+        "type": "/Highlight",
+        "content": "Note on lump sum grants:\r\rIn these type of grants, payments are linked to the completion and acceptance of Work Packages (WPs), not incurred costs. This makes their structure and definition critical (both scientifically and administratively).\r\rWPs should therefore be designed around the project\u00b4s core objectives and activities, but with particular attention to how each WP can serve as a verifiable unit of work that justifies the lump sum.\r\rKey implications include:\r\r- Coherence and verification: Each WP should represent a coherent, self-contained set of activities that can be objectively verified as completed (through deriverables, milestones, or demonstrable outcomes).\r- Payment alignment: Since payments are triggered upon WP completion, it can be useful to split long duration WPs (management, communication, etc) into smaller WPs to align with reporting/payment periods.\r- Deliverables and mielstones: These must be clear, specific, and realistically achievable (tangible evidence of completion) - Avoid those which make verification difficult. \r- Budget justification: Lump sum share per WP should be realistic and proportional to the described work. \r\rThe overall objective is to craft the WPs so that they enable transparent verification of progress and payment."
+    },
+    {
+        "page": 19,
+        "type": "/Highlight",
+        "content": "See previous notes on Data Specificity\r\rGDPR (General Data Protection Regulation)\r\r\"ethical guidelines\" - Review relevant EU/national frameworks"
+    },
+    {
+        "page": 21,
+        "type": "/Highlight",
+        "content": "This illustrative Workflow demonstrating user interaction with the model to be developed, is primarily a conceptual or visionary element, rather than a direct implementation detail (Check)\r\r- It doesn\u00b4t naturally fit within the Quality and Efficiency of the Implementation section, which focuses more on the project management, participant skills, work plan structure, risk mitigation and resource allocation.\r\r- The workflow is better suited to the Vision/ambition subsection of the Excellence section, where it can clearly illustrate how the project\u00b4s approach will work and the novel user experience or interaction it will enable.\r\r- If the workflow primarily demonstrates expected impacts or uptake scenarios, it could be reference briefly in the Impact section, but it might be too technical/conceptual for the Impact section (which focuses on outcome and beneficiaries).\r\rConsider moving this to the Excellence / Vision/Ambition section for clarity and alignment with the evaluation criteria, or removing it, if it disrupts the progression of the implementation details.\r\rAlternatively, adapt it into a Figure presenting the whole Project workflow, not just the Clinical Workflow."
+    },
+    {
+        "page": 21,
+        "type": "/Highlight",
+        "content": "These metrics should be presented with just enough detail to clearly convey the logic and relevance behind their selection, but without excessive technical depth.\r\rFor example:\r\rName and briefly describe each metric, but focus on what it measures and why it\u00b4s appropriate for evlauating or validating the innovation.\r\rExplain the logic behind choosing these metrics (how they reflect project goals, performance or impact)\r\rAvoid lenghty methodological details (these can be provided via suporting documents, annexes) \r\rThe key is to show that the chosen metrics are well suited to validate your projects specific objectives. The explanation should be accessible and focused on the meaning and relevance of each metric (while avoiding too technical jargon).\r\rTemplate for Metric Descriptions:\r\rMetric\rWhat it measures (Briefly explain what it quantifies in plain language)\rWhy it is relevant (Explain how it assess a specific objective or innovation in your project)\r\rPlan language is key"
+    },
+    {
+        "page": 23,
+        "type": "/Highlight",
+        "content": "Note on Describing Mitigation Strategies:\r\rThey should be specific, actionalbe, and clearly linked to the identified risk. Avoid vague statements, instead show how the risk will be managed and what outcome the action is expected to achieve. \r\rIn an EIC Pathfinder context, risk can be:\r\r- Conceptual: Desirable, as it demonstrates ambition and breakthrough potential\r\r- Operational: Acceptable only if controllable, must be recognised and mitigated to show feasibility.\r\r\rFor example, for the first described risk:\r\rRisk: Training Instability and limited scalability of data may hinder model convergence and reliability\rMitigation: Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. \rExpected effect: Reduce risk of system wide failure, stabilize training, and facilitate scalable integration across datasets.\r\rKey note:\r\rRisk - Describe in operational terms (what can go wrong and why it matters)\rMitigation - Show concrete, proactive measures\rExpected Effect - To demonstrate understanding of how the mitigation will reduce likelihood and impact.\r\r"
+    }
+]
