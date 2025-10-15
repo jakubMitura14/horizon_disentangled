@@ -4,7 +4,6 @@
 *.blg
 *.log
 *.out
-*.pdf
 *.synctex.gz
 
 # Other
@@ -12,3 +11,5 @@
 *~
 *.swp
 venv/
+main_horizon.pdf
+budget_standalone.pdf
