@@ -1,0 +1,274 @@
+
+
+
+
+
+
+
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+2
+
+
+IMPORTANT NOTICE
+Scoring:
+Scoring must be in the range from 0-5. Half-marks may  be given.
+0 —  The proposal fails to address the criterion or cannot be assessed due to missing or
+incomplete information.
+1 — Poor. The criterion is inadequately addressed, or there are serious inherent
+weaknesses.
+2 — Fair. The proposal broadly addresses the criterion, but there are significant
+weaknesses.
+3 — Good. The proposal addresses the criterion well, but a number of shortcomings are
+present.
+4 — Very Good. The proposal addresses the criterion very well, but a small number of
+shortcomings are present.
+5 — Excellent. The proposal successfully addresses all relevant aspects of the criterion.
+Any shortcomings are minor.
+Thresholds & weighting:
+The threshold for  the Excellence criterion is 4, for the Impact criterion is 3 and for  the Quality and
+efficiency of the implementation criterion is 3.
+Weighting is only used for the ranking (not to determine if the proposal passed the thresholds).
+ Specific calls or topics may have different rules regarding threshols and weighting.
+Specific cases:
+Two-stage calls
+For stage 1  proposals, only the criteria Excellence and Impact will be evaluated  and within those
+criteria only the aspects indicated in bold in General Annex of the Main Work Programme.  The
+threshold for each of the two individual criteria is 4.
+After the evaluation, the call coordinator will then fix an overall threshold, to limit the proposals that
+will be invited to stage 2. (This overall threshold will be set at a level which ensures that the total
+requested budget of proposals admitted to stage 2 is as close as possible to three times the available
+budget, and in any case, not less than 2.5 the available budget. The actual level will therefore depend
+on the volume of proposals received. The threshold is expected to normally be around 8 or 8.5.)
+
+
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+3
+
+
+
+SENSITIVE
+
+[INDIVIDUAL EVALUATION REPORT (IER)][CONSENSUS REPORT (CR)]
+[EVALUATION SUMMARY REPORT]
+
+PROJECT
+Project number: [project number]
+Project name: [project title]
+Project acronym: [acronym]
+Coordinator contact: [PCoCo name NAME], [organisation]
+Call: [call ID]
+Topic: [topic ID]
+Type of action: [ToA ID]
+Responsible service: [responsible unit, e.g. JUST/04]
+Project duration: [number of months]
+
+PARTICIPANTS
+Number Role  Short name Legal name Country PIC
+1 COO
+2 BEN
+2.1 AE
+3 BEN
+4 AP
+
+
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+4
+PROJECT ABSTRACT
+Text from Proposal Abstract (Application Form Part A).
+
+
+EVALUATION
+Evaluation model: single
+Panel: [insert panel identifier]
+Evaluators: [name NAME], [name NAME], [name NAME]
+
+1. EVALUATION
+ Applications must be evaluated as they were submitted , NOT on their potential if certain changes were made.
+Therefore, d o NOT  recommend any modifications (e.g. consortia composition, resources or budget, or inclusion of
+additional work packages). Shortcomings should be reflected in lower score.
+ If an application is partly out of scope, this should be reflected in the scoring and explained in the comments.
+
+1. Excellence
+The following aspects will be taken into account, to the extent that the proposed work corresponds to the
+description in the work programme:
+• Objectives and r elevance to the Challenge : How clearare the project’s objectives ? How relevant are
+they in contributing to the overall goal and the specific objectives of the Challenge?
+• Novelty: To what extent is the proposed work ambitious and goes beyond the state-of-the-art?
+• Plausibility of methodology : How sound is the proposed methodology, including the underlying
+concepts, models, assumptions, appropriate consideration of the gender dimension in research
+content, and the quality of open science practices?
+Comments:
+
+
+
+
+Score 1 (0-5):
+Threshold: 4/5
+Weight 60%
+
+
+2. Impact
+The following aspects will be taken into account, to the extent that the proposed work corresponds to the
+description in the work programme:
+• Potential Impact: How credible are the pathways to achieve the expected outcomes and impacts of the
+Challenge? To what extent would the successful completion of the project contribute to this?
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+5
+• Innovation potential: How adequate are the proposed measures for protection of results and any other
+exploitation measures to facilitate future translation of research results into innovations with positive
+societal, economic or environmental impact? How suitable are the proposed measures for involving
+and empowering key actors that have the potential to take the lead in translating research into
+innovations in the future?
+• Communication and Dissemination : How suitable are the proposed measures, including
+communication activities, to maximise expected outcomes and impacts for raising awareness about
+the project results’ potential to establish new markets and/or address global challenges?
+
+Comments:
+
+
+
+
+
+
+
+Score 2 (0-5):
+Threshold: 3.5/5
+Weight 20%
+
+
+3. Quality and efficiency of the implementation
+The following aspects will be taken into account, to the extent that the proposed work corresponds to the
+description in the work programme:
+• Work plan : How coherent and effective are the work plan (work packages, tasks, deliverables,
+milestones, timeline, etc.) and risk mitigation measures in order to achieve the project objectives?
+• Allocation of resources : How appropriate and effective is the allocation of resources ( comprising
+person-months and other cost items) to work packages and consortium members?
+• Quality of the applicant/consortium (depends if mono or multi -beneficiaries): To what extent does the
+applicant / do all consortium members have the necessary  capacity and  high quality expertise for
+performing the project tasks?
+Comments:
+
+Score 3 (0-5):
+Threshold: 3/5
+Weight 20%
+
+
+Total score
+
+
+
+2. OTHER  QUESTIONS
+Opinion on additional questions EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+6
+Scope of the application
+Based on the information provided, this application is:
+ ‘in scope’ because it corresponds, wholly or in part, to the topic description against which it has been
+submitted
+ ‘out of scope’ because:
+     [Comment box]
+Exceptional funding
+ A third country participant/international organisation not listed in the General Annex to the Main Work
+Programme may exceptionally receive funding if their participation is essential for carrying out the project (for
+instance due to outstanding expertise, access to unique know -how, access to research infrastructure, access to
+particular geographical environments, possibility to involve key partners in emerging markets, access to data,
+etc.). (For more information, see the HE programme guide)
+Please list the concerned applicants and requested grant amount and explain the reasons why.
+Based on the information provided, the following participants should receive exceptional funding:
+       [Comment box]
+Based on the information provided, the following participants should NOT receive exceptional funding:
+       [Comment box]
+Use of human embryonic stem cells (hESC)
+Does this proposal involve the use of hESC?
+No
+Yes
+If YES, please state whether the use of hESC is, or is not, in your opinion, necessary to achieve the scientific
+objectives of the proposal and the reasons why. Alternatively, please state if it cannot be assessed whether the
+use of hESC is necessary or not, because of a lack of information.
+       [Comment box]
+Use of human embryos
+Does this proposal involve the use of human embryos?
+No
+Yes
+If YES, please explain how the human embryos will be used in the project.
+       [Comment box]
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+7
+Activities excluded from funding
+Activities that:
+− aim at human cloning for reproductive purposes, or
+− intend to modify the genetic heritage of human beings which could make such changes heritable (with
+the exception of research relating to cancer treatment of the gonads, which may be financed), or
+− intend to create human embryos solely for the purpose of research or for the purpose of stem cell
+procurement, including by means of somatic cell nuclear transfer, or
+− lead to the destruction of human embryos (for example, for obtaining stem cells)?
+are excluded from funding. Does the proposal include any of these activities?
+No
+Yes
+If YES, please explain.
+       [Comment box]
+Do no significant harm principle
+Is this proposal compliant with the ‘Do no significant harm’ principle?
+Not applicable
+Yes.
+Partially
+No
+Cannot be assessed
+
+If Partially/No/Cannot be assessed please explain.
+       [Comment box]
+Exclusive focus on civil applications
+Do the activities proposed have an exclusive focus on civil applications (activities intended to be used in
+military application or aims to serve military purposes cannot be funded)?
+No
+Yes
+If NO, please explain.
+       [Comment box]
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+8
+Artificial Intelligence
+Do the activities proposed involve the use and/or development of AI-based systems and/or techniques?
+No
+Yes
+If YES, the technical robustness of the proposed system must be evaluated under the appropriate criterion.
+
+3. COMMENTS
+Overall comments
+[Comment box]
+
+]
+[additional OPTION for CR:
+Consensus meeting
+Consensus meeting minutes
+[Comment box]
+Minority opinion
+Does this proposal have a minority opinion?
+ No
+ Yes
+If YES, please encode the names of dissenting evaluators and the reasons:
+       [Comment box]
+
+]
+
+[additional OPTION for ESR  (for internal use – will not be included in the ESR sent to
+applicants):
+Panel review
+Consensus meeting minutes
+[Comment box]
+Proposal panel review minutes
+[Comment box]
+
+]
+EU Grants: Evaluation form (HE Pathfinder Challenges): V3.0 – 29.08.2024
+9
+
+HISTORY OF CHANGES
+VERSION PUBLICATION
+DATE
+CHANGE
+1.0 18.06.2021 Initial version (new MFF).
+2.0 12.10.2022 Award criteria updated according to European
+Innovation Council (EIC) Work Programme 2022
+3.0 29.08.2024 Award criteria updated according to European
+Innovation Council (EIC) Work Programme 2024
+
+

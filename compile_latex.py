@@ -98,3 +98,4 @@ if __name__ == "__main__":
     generate_images()
     compile_latex("main_horizon.tex")
     compile_latex("budget_standalone.tex")
+    compile_latex("dmp.tex")
