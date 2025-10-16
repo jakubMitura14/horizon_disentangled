@@ -108,12 +108,29 @@ This project introduces a new paradigm in oncology with an interactive, Generati
 
 \section{Excellence}
 
-\subsection{Objectives and relevance to the Challenge}
+\subsection{Vision: A Paradigm Shift from Prediction to Causal Understanding}
+
 The management of PCa is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
 
 Under treatment, tumors can evolve, leading to uncertainty about when to switch therapy. The expanding options, including targeted agents and advanced imaging, add to this complexity. Clinical guidelines use discrete risk categories, but the disease is a continuous process. Our model is designed to capture this patient-specific trajectory, offering a personalized assessment.
 
-The project's objectives are designed to be SMART and are explicitly aligned with the numbered \textbf{Expected Outcomes} of the EIC Pathfinder Challenge, as detailed in the official call guide.
+\paragraph{Horizon Alignment and What is Radically New.} Our program delivers two clinical objectives as agents: (1) a \textbf{Predictive-Diagnosis Agent} for individualized risk stratification and (2) a \textbf{Treatment-Selection Agent} that forecasts trajectories and policy value with explicit uncertainty and timing alerts. Technologically, we integrate three pillars: (A) multimodal integration across imaging, pathology, and EHR; (B) medical data augmentation to generate high-fidelity synthetic data (e.g., MRI$\rightarrow$synthetic CT for dosimetry planning); and (C) medical knowledge representation via a causal knowledge graph. Across all components, we embed interpretability, calibrated uncertainty, and counterfactual explanations to transform the model from a black box into a trusted collaborator.
+
+\paragraph{From Tool to Teammate, and from Lab to Ecosystem.} The super-agent orchestrates the agents to provide a coherent, explainable plan. We will conduct controlled proof-of-concept studies against standard-of-care with external validation and maintain continuous uncertainty calibration and bias audits. To maximize European added value, we will leverage and contribute to shared research assets (e.g., imaging archives) and will generate and share synthetic datasets to accelerate portfolio-wide benchmarking. Furthermore, we will explore how the interactive patterns of usage can be utilized to better explain patient outcomes. By analyzing how clinicians interact with the "digital twin"—the questions they ask, the counterfactuals they explore—we can gain a deeper understanding of the most critical factors influencing their decision-making process. This will allow us to create more personalized and effective explanations of the disease's expected progression.
+
+\paragraph{Forging the Technology-to-Come.} This project is a high-risk, high-gain endeavor to create a \textbf{foundational causal framework} that: (1) integrates multi-scale evidence into robust, updatable decision processes; (2) monitors phenotype shifts and triggers timely therapy pivots with explicit uncertainty; and (3) establishes a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI in prostate cancer—while providing a template for other evolving, treatment-pressured malignancies.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pe.png}
+    \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of a disease at initial diagnosis is the key to the best futher theraphy \textbf{Abbreviations:} ADT (Androgen Deprivation Therapy), AP (Alkaline Phosphatase), ASAP (Atypical Small Acinar Proliferation), BCR (Biochemical Recurrence), BPH (Benign Prostatic Hyperplasia), CRPC (Castration-Resistant Prostate Cancer), CTCs (Circulating Tumor Cells), ECE (Extracapsular Extension), ENE (Extranodal Extension), HGPIN (High-Grade Prostatic Intraepithelial Neoplasia), LVI (Lymphovascular Invasion), PSADT (PSA Doubling Time)}
+    \label{fig:prostate_evolution}
+\end{figure}
+
+\subsection{Objectives}
+The project's objectives are designed to be SMART and are explicitly aligned with the numbered **Expected Outcomes** of the EIC Pathfinder Challenge, as detailed in the official call guide.
 \begin{enumerate}
     \item \textbf{To Pioneer a Causal, Longitudinal Model of Prostate Cancer (EIC Outcome 1):} The core scientific objective is to develop and validate a novel Causal AI framework, built upon a Neural Jump Ordinary Differential Equation (NJDE) architecture. This model will be capable of learning the underlying dynamics of disease progression from sparse, irregularly-sampled, multi-modal data, while explicitly modeling the impact of clinical interventions like surgery and therapy. This foundational technology will establish a new European standard for clinical AI.
 
@@ -132,21 +149,7 @@ The project's objectives are designed to be SMART and are explicitly aligned wit
 \item \textbf{To Accelerate Clinical Research and Trial Design (EIC Outcome 4):} The model will serve as a powerful "digital twin," enabling in-silico experiments to generate and pre-test research hypotheses for designing new clinical controlled trials. By modeling virtual interventions, the framework can help resolve clinical uncertainties, such as the optimal use of Prostate-Specific Membrane Antigen (PSMA) Positron Emission Tomography (PET), saving time, money, and minimizing patient exposure to unnecessary risks.
 \end{enumerate}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{pe.png}
-    \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of a disease at initial diagnosis is the key to the best futher theraphy \textbf{Abbreviations:} ADT (Androgen Deprivation Therapy), AP (Alkaline Phosphatase), ASAP (Atypical Small Acinar Proliferation), BCR (Biochemical Recurrence), BPH (Benign Prostatic Hyperplasia), CRPC (Castration-Resistant Prostate Cancer), CTCs (Circulating Tumor Cells), ECE (Extracapsular Extension), ENE (Extranodal Extension), HGPIN (High-Grade Prostatic Intraepithelial Neoplasia), LVI (Lymphovascular Invasion), PSADT (PSA Doubling Time)}
-    \label{fig:prostate_evolution}
-\end{figure}
-
-\subsection{Novelty}
-\paragraph{Horizon Alignment and What is Radically New.} Our program delivers two clinical objectives as agents: (1) a \textbf{Predictive-Diagnosis Agent} for individualized risk stratification and (2) a \textbf{Treatment-Selection Agent} that forecasts trajectories and policy value with explicit uncertainty and timing alerts. Technologically, we integrate three pillars: (A) multimodal integration across imaging, pathology, and EHR; (B) medical data augmentation to generate high-fidelity synthetic data (e.g., MRI$\rightarrow$synthetic CT for dosimetry planning); and (C) medical knowledge representation via a causal knowledge graph. Across all components, we embed interpretability, calibrated uncertainty, and counterfactual explanations to transform the model from a black box into a trusted collaborator.
-
-\paragraph{From Tool to Teammate, and from Lab to Ecosystem.} The super-agent orchestrates the agents to provide a coherent, explainable plan. We will conduct controlled proof-of-concept studies against standard-of-care with external validation and maintain continuous uncertainty calibration and bias audits. To maximize European added value, we will leverage and contribute to shared research assets (e.g., imaging archives) and will generate and share synthetic datasets to accelerate portfolio-wide benchmarking. Furthermore, we will explore how the interactive patterns of usage can be utilized to better explain patient outcomes. By analyzing how clinicians interact with the "digital twin"—the questions they ask, the counterfactuals they explore—we can gain a deeper understanding of the most critical factors influencing their decision-making process. This will allow us to create more personalized and effective explanations of the disease's expected progression.
-
-\paragraph{Forging the Technology-to-Come.} This project is a high-risk, high-gain endeavor to create a \textbf{foundational causal framework} that: (1) integrates multi-scale evidence into robust, updatable decision processes; (2) monitors phenotype shifts and triggers timely therapy pivots with explicit uncertainty; and (3) establishes a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI in prostate cancer—while providing a template for other evolving, treatment-pressured malignancies.
-
-\subsection{Plausibility of the methodology}
+\subsection{Concept and Methodology: A Feasible Path to a Groundbreaking Technology}
 Our methodology is a direct answer to the profound challenges of building trustworthy clinical AI. We aim to design a novel, \textbf{four-stage causal framework} that deconstructs the immense complexity of prostate cancer progression into a series of well-defined, manageable tasks. This modular approach is the key to our project's feasibility: it ensures training stability, enhances model interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases. This guides the model to learn the true underlying causal mechanisms of the disease, rather than superficial correlations. This project will start at a Technology Readiness Level (TRL) of 2 and aims to achieve TRL 4 by its conclusion. This design leverages the project team's extensive experience in synthetic image generation (CT from PET) and predictive modeling, and is illustrated in Figure \ref{fig:ml_framework}. The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like PSMA-PET. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
 
@@ -220,22 +223,17 @@ All insights are then consolidated into automatically generated structured repor
 
 \section{Impact}
 This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
-
-\subsection{Potential Impact}
+\subsection{Expected Impacts}
 \begin{itemize}
+    \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
+    \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
     \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Make all code open-source and contribute curated, anonymized datasets to the EUCAIM platform.
     \item \textbf{Enhanced Diagnostic Accuracy and Personalised Treatment:} Enable more accurate staging, better risk stratification, and personalized treatment planning, reducing over- and under-treatment.
     \item \textbf{Empowering Clinicians and Reducing Workload:} Augment clinical decision-making and reduce documentation time with intuitive explanations and automated structured reports.
     \item \textbf{A Foundation for a New Era in European Oncology:} Provide a disease-agnostic foundational technology adaptable to other cancers and chronic diseases.
 \end{itemize}
 
-\subsection{Innovation potential}
-\begin{itemize}
-    \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
-    \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
-\end{itemize}
-
-\subsection{Measures to Maximise Impact}
+\subsection{Dissemination, Communication, and Exploitation}
 \begin{itemize}
     \item \textbf{High-Impact Scientific Publications:} Target leading peer-reviewed journals and present findings at premier international conferences.
     \item \textbf{Open Source and Open Data:} All code will be open-sourced, and curated, anonymized datasets will be contributed to the EUCAIM platform.
@@ -243,68 +241,13 @@ This project will generate significant and lasting impact by advancing the front
     \item \textbf{Commercial Exploitation and Standardization:} Explore commercialization through partnerships with industry leaders and participate in standardization bodies to promote adoption.
 \end{itemize}
 
-\section{Quality and efficiency of the implementation}
-
-\subsection{Quality of the applicant/consortium}
+\section{Implementation}
+\subsection{Applicant’s Team Profile and Clinic Expertise}
 The applicant institution is uniquely positioned to succeed in this project. The Universitätsklinik für Radiologie und Nuklearmedizin possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The team has experience in synthetic image generation and predictive modeling in PCa.
 
 Our clinic manages the full range of PCa cases, including mCRPC, and administers a wide array of treatments, including ARPIs, chemotherapies, and RLT. This provides a rich source of high-quality data for training a causal model. A key strength is our experience with $^{177}$Lu-PSMA theranostics, which provides paired diagnostic and therapeutic scans, ideal for modeling treatment response.
 
-A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data} . This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
-
-The proprietary clinical cohort will serve as the cornerstone of this project, providing a rich, real-world dataset that spans the entire disease spectrum. The core data for all patients will consist of advanced imaging modalities (PET/CT, MRI, SPECT/CT) and clinical data (EHR, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as PSA doubling time, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
-
-\begin{itemize}
-    \item \textbf{Histopathological Images:} When available, whole-slide images (WSI) from biopsy and prostatectomy specimens will be collected to provide ground-truth information on tumor grade and morphology.
-    \item \textbf{Omics Data:} The dataset will be enriched, when possible, with genetic data (e.g., from targeted sequencing panels for genes like BRCA1/2) and other omics data, including proteomics and radiomics features extracted from the imaging studies.
-\end{itemize}
-
-\begin{table}[H]
-\caption{Summary of Data Sources and Cohorts}
-\label{tab:data}
-\begin{tabular}{p{0.4\textwidth} p{0.4\textwidth} p{0.2\textwidth}}
-\toprule
-\textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
-\midrule
-\multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
-\midrule
-Paired $^{68}$Ga-PSMA PET/CT \& mpMRI & Magdeburg, Halle, Charite & 350 \\
-\cmidrule(lr){1-3}
-Paired pre-therapy $^{68}$Ga-PSMA PET/CT \& post-therapy $^{177}$Lu-PSMA SPECT/CT & Magdeburg, Halle, Charite & 550 \\
-\cmidrule(lr){1-3}
-Paired interim therapy $^{68}$Ga-PSMA PET/CT \& CT & Magdeburg & 40 \\
-\cmidrule(lr){1-3}
-Longitudinal $^{68}$Ga-PSMA PET/CT & Magdeburg & 200 \\
-\cmidrule(lr){1-3}
-Diagnostic CT \& mpMRI & Rad. Sudenburg (Magdeburg) & 200 \\
-\midrule
-\textbf{Total Minimum Proprietary Cohort} & & \textbf{1340} \\
-\midrule
-\multicolumn{3}{p{\dimexpr\linewidth-2\tabcolsep}}{\small\textit{Note: The patient counts are minimum estimates and are expected to increase during the project.}} \\
-\midrule
-\multicolumn{3}{l}{\textbf{Integration with Public Datasets}} \\
-\midrule
-Genomic, MRI, CT, PET Data & The Cancer Genome Atlas (TCGA-PRAD) \cite{zuley2016cancer} & 14 \\
-\cmidrule(lr){1-3}
-Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchive} & 297 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
-
-\textbf{Data Governance, AI Act Compliance (Article 10), and EUCAIM Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the EUCAIM infrastructure. We commit to making all collected data ready for integration into the EUCAIM federation.
-
-Our strategy for EUCAIM compatibility includes:
-\begin{itemize}
-    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% service level agreement (SLA) to support this role.
-    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the EUCAIM Common Data Model (CDM), which is based on OMOP-CDM and HL7 FHIR standards. We will map our local data schema to the EUCAIM hyper-ontology to ensure semantic interoperability.
-    \item \textbf{Legal and Ethical Adherence:} We will execute a Data Sharing Agreement (DSA) with the EUCAIM consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (GDPR) and the German Federal Data Protection Act.
-\end{itemize}
-
-The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
-
-\subsection{Work plan}
+\subsection{Work Plan, Timeline, and Deliverables}
 The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}).
 
 \begin{figure}[H]
@@ -374,6 +317,96 @@ Complementing the deliverables, the project's progress will be assessed against 
     \end{tabular}
 \end{table}
 
+\subsection{Data Sources and Cohort}
+A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data} . This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
+
+The proprietary clinical cohort will serve as the cornerstone of this project, providing a rich, real-world dataset that spans the entire disease spectrum. The core data for all patients will consist of advanced imaging modalities (PET/CT, MRI, SPECT/CT) and clinical data (EHR, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as PSA doubling time, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
+
+\begin{itemize}
+    \item \textbf{Histopathological Images:} When available, whole-slide images (WSI) from biopsy and prostatectomy specimens will be collected to provide ground-truth information on tumor grade and morphology.
+    \item \textbf{Omics Data:} The dataset will be enriched, when possible, with genetic data (e.g., from targeted sequencing panels for genes like BRCA1/2) and other omics data, including proteomics and radiomics features extracted from the imaging studies.
+\end{itemize}
+
+\begin{table}[H]
+\caption{Summary of Data Sources and Cohorts}
+\label{tab:data}
+\begin{tabular}{p{0.4\textwidth} p{0.4\textwidth} p{0.2\textwidth}}
+\toprule
+\textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
+\midrule
+\multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
+\midrule
+Paired $^{68}$Ga-PSMA PET/CT \& mpMRI & Magdeburg, Halle, Charite & 350 \\
+\cmidrule(lr){1-3}
+Paired pre-therapy $^{68}$Ga-PSMA PET/CT \& post-therapy $^{177}$Lu-PSMA SPECT/CT & Magdeburg, Halle, Charite & 550 \\
+\cmidrule(lr){1-3}
+Paired interim therapy $^{68}$Ga-PSMA PET/CT \& CT & Magdeburg & 40 \\
+\cmidrule(lr){1-3}
+Longitudinal $^{68}$Ga-PSMA PET/CT & Magdeburg & 200 \\
+\cmidrule(lr){1-3}
+Diagnostic CT \& mpMRI & Rad. Sudenburg (Magdeburg) & 200 \\
+\midrule
+\textbf{Total Minimum Proprietary Cohort} & & \textbf{1340} \\
+\midrule
+\multicolumn{3}{p{\dimexpr\linewidth-2\tabcolsep}}{\small\textit{Note: The patient counts are minimum estimates and are expected to increase during the project.}} \\
+\midrule
+\multicolumn{3}{l}{\textbf{Integration with Public Datasets}} \\
+\midrule
+Genomic, MRI, CT, PET Data & The Cancer Genome Atlas (TCGA-PRAD) \cite{zuley2016cancer} & 14 \\
+\cmidrule(lr){1-3}
+Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchive} & 297 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% \subsubsection{Proprietary Multi-Center Clinical Cohort}
+% \begin{itemize}
+%     \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg):} As the lead applicant institution, the clinic will provide a rich dataset from its patient care archives. This includes:
+%     \begin{itemize}
+%         \item Approximately 150-200 longitudinal studies of patients with paired baseline $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI scans for primary staging and follow-up.
+%         \item A unique cohort of approximately 150 patients with advanced disease who have undergone $^{\text{177}}\text{Lu-PSMA}$ radioligand therapy (RLT). For these patients, we have paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ scans and post-therapy $^{\text{177}}\text{Lu-PSMA}$ SPECT/CT scans, which are essential for modeling treatment response.
+%         \item A very unique cohort of interim therapy controls based on $^{\text{68}}\text{Ga-PSMA PET/CT}$ and CT –pairs from 40 patients.
+%         \item An additional cohort of 200 patients with $^{\text{68}}\text{Ga-PSMA PET/CT}$ scans performed at two different time points.
+%     \end{itemize}
+%     \item \textbf{Abteilung für Nuklearmedizin | Universitätsmedizin Halle:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
+%     \begin{itemize}
+%         \item Approximately 100 additional paired $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI studies.
+%         \item Approximately 100 additional paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ and post-therapy $^{\text{177}}\text{Lu-PSMA}$ SPECT/CT studies.
+%     \end{itemize}
+%     \item \textbf{Klinik für Nuklearmedizin | Universitätsmedizin Charite:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
+%     \begin{itemize}
+%         \item Approximately 100 additional paired $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI studies.
+%         \item Approximately 300 additional paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ and post-therapy Lutetium SPECT/CT studies.
+%     \end{itemize}
+%     \item \textbf{Radiological Practice Rad. Sudenburg – ambulatory care (Magdeburg):} This collaboration provides access to a significant number of high-quality diagnostic scans from a external practice setting, further enhancing the dataset’s diversity.
+%     \begin{itemize}
+%         \item Approximately 200 CT and mpMRI studies for diagnosis and active surveillance.
+%     \end{itemize}
+% \end{itemize}
+% This combined proprietary cohort of over 1000 patients, with its unique inclusion of post-RLT SPECT/CT data, provides an unparalleled resource for training a model capable of understanding the entire spectrum of prostate cancer progression and treatment.
+
+% \subsubsection{Integration with Public Datasets}
+% To augment our proprietary data, enhance statistical power, and rigorously test the generalizability of our models, we will integrate several large, well-curated public datasets. These have been chosen to cover a wide range of clinical scenarios, imaging modalities, and patient populations.
+% \begin{itemize}
+%     \item \textbf{The Cancer Genome Atlas Prostate Adenocarcinoma (TCGA-PRAD):} This will serve as a primary resource for linking our imaging-based models to underlying genomic data. Its rich, multi-modal imaging (MRI, CT, PET) and detailed clinical and genomic information are ideal for validating our model’s biological grounding.
+%     \item \textbf{ProstateNET (EUCAIM):} Specifically, we will leverage the UC8 dataset for active surveillance, which contains longitudinal MRI and PSA data. This aligns with the European Union’s goal of fostering a shared cancer imaging infrastructure.
+%     \item \textbf{NAF-PROSTATE:} This dataset provides systematic longitudinal PET/CT data for patients with bone metastases, which will be invaluable for validating the temporal modeling of our framework (WP4) in an advanced disease setting.
+% \end{itemize}
+This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
+
+\textbf{Data Governance, AI Act Compliance (Article 10), and EUCAIM Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the EUCAIM infrastructure. We commit to making all collected data ready for integration into the EUCAIM federation.
+
+Our strategy for EUCAIM compatibility includes:
+\begin{itemize}
+    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% service level agreement (SLA) to support this role.
+    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the EUCAIM Common Data Model (CDM), which is based on OMOP-CDM and HL7 FHIR standards. We will map our local data schema to the EUCAIM hyper-ontology to ensure semantic interoperability.
+    \item \textbf{Legal and Ethical Adherence:} We will execute a Data Sharing Agreement (DSA) with the EUCAIM consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (GDPR) and the German Federal Data Protection Act.
+\end{itemize}
+
+The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
+
+\subsection{Evaluation and Validation}
 The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
 
 \subsubsection{Quantitative Metrics}
@@ -437,6 +470,7 @@ Beyond quantitative metrics, a practical, clinician-in-the-loop study is essenti
     \end{itemize}
 \end{itemize}
 
+\subsection{Risk Analysis and Mitigation}
 This is an ambitious, high-risk project at the frontier of AI research. We have identified the primary risks and have developed clear mitigation strategies that are intrinsically linked to our compliance with the EU AI Act. Our risk management process, as detailed in WP7, is continuous and iterative, designed to address risks to health, safety, and fundamental rights throughout the AI system's lifecycle, in direct alignment with \textbf{Article 9} of the Act. Furthermore, our methodology is designed to comply with the ‘do no significant harm’ principle as per Article 17 of the EU Taxonomy Regulation, ensuring our research does not negatively impact environmental objectives.
 
 The critical risks are summarized in Table~\ref{tab:risks}.
@@ -470,6 +504,7 @@ The critical risks are summarized in Table~\ref{tab:risks}.
 \end{longtable}
 
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
+\subsection{Compliance with the EU Artificial Intelligence Act}
 The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
 
 \begin{itemize}
@@ -503,6 +538,7 @@ To ensure accountability and long-term reliability, we will establish:
 
 This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
 
+\subsection{Portfolio Mapping}
 \begin{table}[H]
     \centering
     \caption{Portfolio Mapping.}
@@ -523,7 +559,8 @@ This principled approach ensures that our innovative framework is not only techn
     \end{tabular}
 \end{table}
 
-\subsection{Allocation of resources}
+\subsection{Resources and Budget Justification}
+
 The total requested budget for the CausalPCa project is \textbf{\EUR{3,339,253}} over a period of 36 months. While this amount is below the indicative EUR 4 million ceiling for EIC Pathfinder Challenges, it is the result of a meticulous and strategic planning process. The budget is not a reflection of reduced ambition, but rather of a lean, efficient project design that leverages significant existing institutional resources, including access to high-quality data and established clinical infrastructure. This allows us to focus EU funding on the most critical, high-risk research and development activities, ensuring that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
 
 \subsubsection*{A.1 Personnel Costs}
