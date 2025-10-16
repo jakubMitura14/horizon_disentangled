@@ -108,8 +108,26 @@ This project introduces a new paradigm in oncology with an interactive, Generati
 
 \section{Excellence}
 
-\subsection{Vision: A Paradigm Shift from Prediction to Causal Understanding}
+\subsection{Objectives and Relevance to the Challenge}
+The project's objectives are designed to be SMART and are explicitly aligned with the specific objectives of the EIC Pathfinder Challenge: \textbf{Generative-AI based Agents to Revolutionize Medical Diagnosis and Treatment of Cancer}. Our proposal for prostate cancer addresses both the technological and clinical areas of the challenge.
 
+\subsubsection*{Area 1: Technological Area}
+\begin{itemize}
+    \item \textbf{GenAI-based tools for Integrating Multidimensional Multimodal Health Data (i):} We will develop and validate a novel Causal AI framework, built upon a Neural Jump Ordinary Differential Equation (NJDE) architecture. This model will pioneer the integration of multidimensional and multimodal data—including imaging (MRI, PET, CT), EHR, pathology, and -omics data—into a unified, dynamic patient model. This foundational technology will establish a new European standard for clinical AI. A key technical objective is to master data heterogeneity through a robust Variational Autoencoder (VAE) framework that disentangles true disease signals from confounders, ensuring the model is robust and generalizable across diverse European healthcare systems.
+
+    \item \textbf{Medical Data Augmentation (ii):} Our framework will incorporate advanced GenAI techniques to create high-fidelity synthetic data. For example, we will generate synthetic CT images from MRI data to support radiotherapy planning. This capability will address data scarcity and enable more robust, iterative model training, accelerating research and development across the EIC portfolio.
+
+    \item \textbf{Medical Knowledge Representation and Integration (iii):} We will create a comprehensive and dynamic medical knowledge base by developing a causal knowledge graph. This will allow us to identify discrete medical imaging features associated with demographic information and systemic conditions, moving beyond opaque "black-box" models. By generating clinically plausible, visual counterfactuals, the system will enable clinicians to ask "what-if" questions and receive intuitive explanations, fostering the trust necessary for widespread adoption and establishing a new paradigm for trustworthy AI. Robust methods for uncertainty quantification will be integrated to ensure the system can reliably flag high-uncertainty cases for human review.
+\end{itemize}
+
+\subsubsection*{Area 2: Clinical Area}
+\begin{itemize}
+    \item \textbf{Predictive Diagnosis (i):} We will develop an interactive autonomous agent capable of providing a personalized, dynamic prognosis. The agent will simulate a patient's future disease trajectory under various scenarios, generating predictions not only of future scans but also of key clinical endpoints and structured radiological reports. This will provide a comprehensive prognostic tool to enhance diagnostic accuracy, improve risk stratification, and reduce over- and under-treatment.
+
+    \item \textbf{Enhance Personalized Treatment Selection (ii):} We will deliver a treatment-choice helper that leverages the framework's simulation capabilities to forecast disease progression and treatment efficacy. The agent will identify the optimal treatment pathway—including the type of intervention and its timing—by explicitly optimizing for the maximum expected time to progression. This provides clinicians with data-driven strategies for personalized patient management. Furthermore, the model will serve as a powerful "digital twin" to accelerate clinical research by pre-testing hypotheses for new clinical trials, resolving clinical uncertainties, and minimizing patient risk. The framework will be rigorously validated through both quantitative metrics and a qualitative, clinician-in-the-loop study to assess its real-world utility and impact on diagnostic workflows.
+\end{itemize}
+
+\subsection{Novelty: A Paradigm Shift from Prediction to Causal Understanding}
 The management of PCa is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
 
 Under treatment, tumors can evolve, leading to uncertainty about when to switch therapy. The expanding options, including targeted agents and advanced imaging, add to this complexity. Clinical guidelines use discrete risk categories, but the disease is a continuous process. Our model is designed to capture this patient-specific trajectory, offering a personalized assessment.
@@ -129,26 +147,7 @@ Under treatment, tumors can evolve, leading to uncertainty about when to switch 
     \label{fig:prostate_evolution}
 \end{figure}
 
-\subsection{Objectives}
-The project's objectives are designed to be SMART and are explicitly aligned with the specific objectives of the EIC Pathfinder Challenge: \textbf{Generative-AI based Agents to Revolutionize Medical Diagnosis and Treatment of Cancer}. Our proposal for prostate cancer addresses both the technological and clinical areas of the challenge.
-
-\subsubsection*{Area 1: Technological Area}
-\begin{itemize}
-    \item \textbf{GenAI-based tools for Integrating Multidimensional Multimodal Health Data (i):} We will develop and validate a novel Causal AI framework, built upon a Neural Jump Ordinary Differential Equation (NJDE) architecture. This model will pioneer the integration of multidimensional and multimodal data—including imaging (MRI, PET, CT), EHR, pathology, and -omics data—into a unified, dynamic patient model. This foundational technology will establish a new European standard for clinical AI. A key technical objective is to master data heterogeneity through a robust Variational Autoencoder (VAE) framework that disentangles true disease signals from confounders, ensuring the model is robust and generalizable across diverse European healthcare systems.
-    
-    \item \textbf{Medical Data Augmentation (ii):} Our framework will incorporate advanced GenAI techniques to create high-fidelity synthetic data. For example, we will generate synthetic CT images from MRI data to support radiotherapy planning. This capability will address data scarcity and enable more robust, iterative model training, accelerating research and development across the EIC portfolio.
-
-    \item \textbf{Medical Knowledge Representation and Integration (iii):} We will create a comprehensive and dynamic medical knowledge base by developing a causal knowledge graph. This will allow us to identify discrete medical imaging features associated with demographic information and systemic conditions, moving beyond opaque "black-box" models. By generating clinically plausible, visual counterfactuals, the system will enable clinicians to ask "what-if" questions and receive intuitive explanations, fostering the trust necessary for widespread adoption and establishing a new paradigm for trustworthy AI. Robust methods for uncertainty quantification will be integrated to ensure the system can reliably flag high-uncertainty cases for human review.
-\end{itemize}
-
-\subsubsection*{Area 2: Clinical Area}
-\begin{itemize}
-    \item \textbf{Predictive Diagnosis (i):} We will develop an interactive autonomous agent capable of providing a personalized, dynamic prognosis. The agent will simulate a patient's future disease trajectory under various scenarios, generating predictions not only of future scans but also of key clinical endpoints and structured radiological reports. This will provide a comprehensive prognostic tool to enhance diagnostic accuracy, improve risk stratification, and reduce over- and under-treatment.
-
-    \item \textbf{Enhance Personalized Treatment Selection (ii):} We will deliver a treatment-choice helper that leverages the framework's simulation capabilities to forecast disease progression and treatment efficacy. The agent will identify the optimal treatment pathway—including the type of intervention and its timing—by explicitly optimizing for the maximum expected time to progression. This provides clinicians with data-driven strategies for personalized patient management. Furthermore, the model will serve as a powerful "digital twin" to accelerate clinical research by pre-testing hypotheses for new clinical trials, resolving clinical uncertainties, and minimizing patient risk. The framework will be rigorously validated through both quantitative metrics and a qualitative, clinician-in-the-loop study to assess its real-world utility and impact on diagnostic workflows.
-\end{itemize}
-
-\subsection{Concept and Methodology: A Feasible Path to a Groundbreaking Technology}
+\subsection{Plausibility of the Methodology: A Feasible Path to a Groundbreaking Technology}
 Our methodology is a direct answer to the profound challenges of building trustworthy clinical AI. We aim to design a novel, \textbf{four-stage causal framework} that deconstructs the immense complexity of prostate cancer progression into a series of well-defined, manageable tasks. This modular approach is the key to our project's feasibility: it ensures training stability, enhances model interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases. This guides the model to learn the true underlying causal mechanisms of the disease, rather than superficial correlations. This project will start at a Technology Readiness Level (TRL) of 2 and aims to achieve TRL 4 by its conclusion. This design leverages the project team's extensive experience in synthetic image generation (CT from PET) and predictive modeling, and is illustrated in Figure \ref{fig:ml_framework}. The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like PSMA-PET. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
 
@@ -222,17 +221,22 @@ All insights are then consolidated into automatically generated structured repor
 
 \section{Impact}
 This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
-\subsection{Expected Impacts}
+
+\subsection{Potential Impact: Pathways to Outcomes}
 \begin{itemize}
-    \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
-    \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
-    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Make all code open-source and contribute curated, anonymized datasets to the EUCAIM platform.
     \item \textbf{Enhanced Diagnostic Accuracy and Personalised Treatment:} Enable more accurate staging, better risk stratification, and personalized treatment planning, reducing over- and under-treatment.
     \item \textbf{Empowering Clinicians and Reducing Workload:} Augment clinical decision-making and reduce documentation time with intuitive explanations and automated structured reports.
     \item \textbf{A Foundation for a New Era in European Oncology:} Provide a disease-agnostic foundational technology adaptable to other cancers and chronic diseases.
 \end{itemize}
 
-\subsection{Dissemination, Communication, and Exploitation}
+\subsection{Innovation Potential}
+\begin{itemize}
+    \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
+    \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
+    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Make all code open-source and contribute curated, anonymized datasets to the EUCAIM platform.
+\end{itemize}
+
+\subsection{Communication, Dissemination, and Exploitation}
 \begin{itemize}
     \item \textbf{High-Impact Scientific Publications:} Target leading peer-reviewed journals and present findings at premier international conferences.
     \item \textbf{Open Source and Open Data:} All code will be open-sourced, and curated, anonymized datasets will be contributed to the EUCAIM platform.
@@ -241,13 +245,9 @@ This project will generate significant and lasting impact by advancing the front
 \end{itemize}
 
 \section{Implementation}
-\subsection{Applicant’s Team Profile and Clinic Expertise}
-The applicant institution is uniquely positioned to succeed in this project. The Universitätsklinik für Radiologie und Nuklearmedizin possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The team has experience in synthetic image generation and predictive modeling in PCa.
 
-Our clinic manages the full range of PCa cases, including mCRPC, and administers a wide array of treatments, including ARPIs, chemotherapies, and RLT. This provides a rich source of high-quality data for training a causal model. A key strength is our experience with $^{177}$Lu-PSMA theranostics, which provides paired diagnostic and therapeutic scans, ideal for modeling treatment response.
-
-\subsection{Work Plan, Timeline, and Deliverables}
-The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}).
+\subsection{Work Plan and Risk Mitigation}
+The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}). A detailed risk analysis and mitigation strategy is provided in Table \ref{tab:risks}.
 
 \begin{figure}[H]
     \centering
@@ -316,8 +316,41 @@ Complementing the deliverables, the project's progress will be assessed against 
     \end{tabular}
 \end{table}
 
-\subsection{Data Sources and Cohort}
-A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data} . This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
+\begin{longtable}{p{0.05\textwidth} p{0.25\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth}}
+    \caption{Critical Risks and Mitigation Strategies.}
+    \label{tab:risks} \\
+    \toprule
+    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
+    \midrule
+    \endfirsthead
+    \multicolumn{5}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \toprule
+    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
+    \midrule
+    \endhead
+    \midrule \multicolumn{5}{r}{{Continued on next page}} \\
+    \endfoot
+    \bottomrule
+    \endlastfoot
+    1 & Training Instability and Data Scalability & High & High & Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets. \\
+    \addlinespace
+    2 & Generalizability and Overfitting to Spurious Correlations & Medium & High & Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15. \\
+    \addlinespace
+    3 & Performance with Incomplete and Heterogeneous Data & High & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
+    \addlinespace
+    4 & Clinical Trustworthiness and the "Black Box" Problem & Medium & High & Explainability through counterfactuals allows clinicians to probe model reasoning. System is designed as a decision support tool, ensuring human oversight at all times. Compliant with AI Act Articles 13 \& 14. \\
+    \addlinespace
+    5 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
+\end{longtable}
+
+\subsection{Quality of the Consortium and Team}
+The applicant institution is uniquely positioned to succeed in this project. The Universitätsklinik für Radiologie und Nuklearmedizin possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The team has experience in synthetic image generation and predictive modeling in PCa.
+
+Our clinic manages the full range of PCa cases, including mCRPC, and administers a wide array of treatments, including ARPIs, chemotherapies, and RLT. This provides a rich source of high-quality data for training a causal model. A key strength is our experience with $^{177}$Lu-PSMA theranostics, which provides paired diagnostic and therapeutic scans, ideal for modeling treatment response.
+
+\subsection{Appropriateness of the Allocation of Resources}
+A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
 
 The proprietary clinical cohort will serve as the cornerstone of this project, providing a rich, real-world dataset that spans the entire disease spectrum. The core data for all patients will consist of advanced imaging modalities (PET/CT, MRI, SPECT/CT) and clinical data (EHR, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as PSA doubling time, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
 
@@ -357,208 +390,6 @@ Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchi
 \bottomrule
 \end{tabular}
 \end{table}
-
-
-% \subsubsection{Proprietary Multi-Center Clinical Cohort}
-% \begin{itemize}
-%     \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg):} As the lead applicant institution, the clinic will provide a rich dataset from its patient care archives. This includes:
-%     \begin{itemize}
-%         \item Approximately 150-200 longitudinal studies of patients with paired baseline $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI scans for primary staging and follow-up.
-%         \item A unique cohort of approximately 150 patients with advanced disease who have undergone $^{\text{177}}\text{Lu-PSMA}$ radioligand therapy (RLT). For these patients, we have paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ scans and post-therapy $^{\text{177}}\text{Lu-PSMA}$ SPECT/CT scans, which are essential for modeling treatment response.
-%         \item A very unique cohort of interim therapy controls based on $^{\text{68}}\text{Ga-PSMA PET/CT}$ and CT –pairs from 40 patients.
-%         \item An additional cohort of 200 patients with $^{\text{68}}\text{Ga-PSMA PET/CT}$ scans performed at two different time points.
-%     \end{itemize}
-%     \item \textbf{Abteilung für Nuklearmedizin | Universitätsmedizin Halle:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
-%     \begin{itemize}
-%         \item Approximately 100 additional paired $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI studies.
-%         \item Approximately 100 additional paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ and post-therapy $^{\text{177}}\text{Lu-PSMA}$ SPECT/CT studies.
-%     \end{itemize}
-%     \item \textbf{Klinik für Nuklearmedizin | Universitätsmedizin Charite:} This collaborating institution cans provide a comparable dataset, enriching the cohort’s geographical and technical diversity. It is expected to contribute:
-%     \begin{itemize}
-%         \item Approximately 100 additional paired $^{\text{68}}\text{Ga-PSMA PET/CT}$ and mpMRI studies.
-%         \item Approximately 300 additional paired pre-therapy $^{\text{68}}\text{Ga-PSMA PET/CT}$ and post-therapy Lutetium SPECT/CT studies.
-%     \end{itemize}
-%     \item \textbf{Radiological Practice Rad. Sudenburg – ambulatory care (Magdeburg):} This collaboration provides access to a significant number of high-quality diagnostic scans from a external practice setting, further enhancing the dataset’s diversity.
-%     \begin{itemize}
-%         \item Approximately 200 CT and mpMRI studies for diagnosis and active surveillance.
-%     \end{itemize}
-% \end{itemize}
-% This combined proprietary cohort of over 1000 patients, with its unique inclusion of post-RLT SPECT/CT data, provides an unparalleled resource for training a model capable of understanding the entire spectrum of prostate cancer progression and treatment.
-
-% \subsubsection{Integration with Public Datasets}
-% To augment our proprietary data, enhance statistical power, and rigorously test the generalizability of our models, we will integrate several large, well-curated public datasets. These have been chosen to cover a wide range of clinical scenarios, imaging modalities, and patient populations.
-% \begin{itemize}
-%     \item \textbf{The Cancer Genome Atlas Prostate Adenocarcinoma (TCGA-PRAD):} This will serve as a primary resource for linking our imaging-based models to underlying genomic data. Its rich, multi-modal imaging (MRI, CT, PET) and detailed clinical and genomic information are ideal for validating our model’s biological grounding.
-%     \item \textbf{ProstateNET (EUCAIM):} Specifically, we will leverage the UC8 dataset for active surveillance, which contains longitudinal MRI and PSA data. This aligns with the European Union’s goal of fostering a shared cancer imaging infrastructure.
-%     \item \textbf{NAF-PROSTATE:} This dataset provides systematic longitudinal PET/CT data for patients with bone metastases, which will be invaluable for validating the temporal modeling of our framework (WP4) in an advanced disease setting.
-% \end{itemize}
-This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
-
-\textbf{Data Governance, AI Act Compliance (Article 10), and EUCAIM Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the EUCAIM infrastructure. We commit to making all collected data ready for integration into the EUCAIM federation.
-
-Our strategy for EUCAIM compatibility includes:
-\begin{itemize}
-    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% service level agreement (SLA) to support this role.
-    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the EUCAIM Common Data Model (CDM), which is based on OMOP-CDM and HL7 FHIR standards. We will map our local data schema to the EUCAIM hyper-ontology to ensure semantic interoperability.
-    \item \textbf{Legal and Ethical Adherence:} We will execute a Data Sharing Agreement (DSA) with the EUCAIM consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (GDPR) and the German Federal Data Protection Act.
-\end{itemize}
-
-The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
-
-\subsection{Evaluation and Validation}
-The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
-
-\subsubsection{Quantitative Metrics}
-Model performance will be assessed using a comprehensive suite of metrics tailored to each sub-task, presented in a clear "Metric - What it measures - Why it's relevant" format:
-\begin{itemize}
-    \item \textbf{Supervisor Model Performance:}
-        \begin{itemize}
-            \item \textbf{Classification (Accuracy, AUC, F1-Score, Quadratic Weighted Kappa):} These metrics measure the model's ability to correctly classify categorical variables like TNM stage and PI-RADS score. They are relevant for assessing the model's fundamental diagnostic accuracy.
-            \item \textbf{Survival Regression (C-index, MAE):} These metrics measure the model's ability to predict time-to-progression. They are relevant for assessing the model's prognostic accuracy.
-        \end{itemize}
-    \item \textbf{Generative Model Performance:}
-        \begin{itemize}
-            \item \textbf{Image Generation Quality (FID, SSIM, LPIPS):} These metrics measure the realism and fidelity of the generated images. They are relevant for ensuring the clinical plausibility of the model's outputs.
-            \item \textbf{Counterfactual Quality (Axiomatic Soundness, Validity):} These metrics assess the logical consistency and effectiveness of the generated counterfactuals. They are relevant for ensuring the trustworthiness and explainability of the model.
-        \end{itemize}
-\end{itemize}
-
-\subsubsection{Uncertainty Quantification}
-A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our VAE-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
-\begin{itemize}
-    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
-    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the VAE encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
-\end{itemize}
-
-\subsubsection{Component-Wise and Joint Validation Strategy}
-Our validation strategy is designed to rigorously test each component of the framework in isolation before assessing the performance of the integrated system. This staged approach, detailed in Table \ref{tab:validation_strategy}, ensures that each module is robust and reliable before it is incorporated into the full clinical workflow.
-
-\begin{table}[H]
-    \centering
-    \caption{Component-Wise and Joint Validation Strategy.}
-    \label{tab:validation_strategy}
-    \small
-    \begin{tabular}{p{0.25\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
-        \toprule
-        \textbf{Component/Stage} & \textbf{Isolated Testing} & \textbf{Joint Testing} \\
-        \midrule
-        \textbf{Stage 1: Supervisor Models} & Each model (ordinal classifiers, survival regressor, etc.) will be tested independently against its specific ground truth using standard metrics (Accuracy, AUC, C-index). & The outputs of the supervisor models will be used as inputs for the VAEs in Stage 2. The quality of the VAE's disentanglement will serve as an indirect measure of the supervisor models' performance. \\
-        \addlinespace
-        \textbf{Stage 2: Causal VAEs} & The VAEs will be evaluated on their ability to generate realistic images (measured by FID, SSIM) and to successfully disentangle the latent space (measured by mutual information metrics). & The disentangled latent vectors from the VAEs will be used as inputs for the NJDE model in Stage 3. The NJDE's predictive accuracy will be used to assess the quality of the learned representations. \\
-        \addlinespace
-        \textbf{Stage 3: Neural Jump ODE} & The NJDE will be tested on its ability to accurately predict future latent states from a given history, using a masked loss function to handle missing data. & The predicted latent states from the NJDE will be passed to the VAE decoders to generate future images. The quality of these generated images will be assessed both quantitatively (FID, SSIM) and qualitatively by clinicians. \\
-        \addlinespace
-        \textbf{Stage 4: Full Framework} & The complete, end-to-end framework will be evaluated in a simulated clinical environment. This includes testing the user interface and the generation of structured reports. & A comprehensive clinical plausibility and workflow integration study will be conducted, as detailed below, to assess the real-world utility and trustworthiness of the full system. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsubsection{Clinical Plausibility and Workflow Integration Study}
-Beyond quantitative metrics, a practical, clinician-in-the-loop study is essential to assess the model's real-world utility and trustworthiness.
-\begin{itemize}
-    \item \textbf{Assessing Counterfactual Plausibility and Usefulness:} To evaluate the quality of our generated explanations, we will conduct a human-grounded study with radiologists and oncologists. Clinicians will be presented with a series of cases, each including an original image and its corresponding model-generated counterfactual (e.g., an image of a tumorous prostate and its benign-looking counterfactual). They will score the counterfactuals on a Likert scale for:
-    \begin{itemize}
-        \item \textbf{Clinical Plausibility:} Does the generated image appear realistic and anatomically sound?
-        \item \textbf{Usefulness for Explanation:} Does the visual difference between the original and counterfactual image provide a clear and understandable reason for the model's prediction?
-    \end{itemize}
-    \item \textbf{Measuring Workflow Improvement with Structured Reports:} To assess the impact of the automated reports, we will perform a comparative workflow study. A control group of clinicians will review patient cases using traditional free-text reports and standard image viewers. An experimental group will review the same cases using our system's auto-generated structured reports and prognostic visualizations. We will measure:
-    \begin{itemize}
-        \item \textbf{Efficiency:} Time taken to extract key information (e.g., TNM stage, PI-RADS score, presence of key findings) required for treatment planning.
-        \item \textbf{Accuracy and Concordance:} Inter-rater agreement and accuracy of the extracted information compared to an expert-defined ground truth.
-        \item \textbf{User Satisfaction:} Clinicians' perceived efficiency, clarity, and confidence in their decisions will be assessed using a standardized questionnaire (e.g., the System Usability Scale).
-    \end{itemize}
-\end{itemize}
-
-\subsection{Risk Analysis and Mitigation}
-This is an ambitious, high-risk project at the frontier of AI research. We have identified the primary risks and have developed clear mitigation strategies that are intrinsically linked to our compliance with the EU AI Act. Our risk management process, as detailed in WP7, is continuous and iterative, designed to address risks to health, safety, and fundamental rights throughout the AI system's lifecycle, in direct alignment with \textbf{Article 9} of the Act. Furthermore, our methodology is designed to comply with the ‘do no significant harm’ principle as per Article 17 of the EU Taxonomy Regulation, ensuring our research does not negatively impact environmental objectives.
-
-The critical risks are summarized in Table~\ref{tab:risks}.
-
-\begin{longtable}{p{0.05\textwidth} p{0.25\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth}}
-    \caption{Critical Risks and Mitigation Strategies.}
-    \label{tab:risks} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endfirsthead
-    \multicolumn{5}{c}%
-    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endhead
-    \midrule \multicolumn{5}{r}{{Continued on next page}} \\
-    \endfoot
-    \bottomrule
-    \endlastfoot
-    1 & Training Instability and Data Scalability & High & High & Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets. \\
-    \addlinespace
-    2 & Generalizability and Overfitting to Spurious Correlations & Medium & High & Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15. \\
-    \addlinespace
-    3 & Performance with Incomplete and Heterogeneous Data & High & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
-    \addlinespace
-    4 & Clinical Trustworthiness and the "Black Box" Problem & Medium & High & Explainability through counterfactuals allows clinicians to probe model reasoning. System is designed as a decision support tool, ensuring human oversight at all times. Compliant with AI Act Articles 13 \& 14. \\
-    \addlinespace
-    5 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
-\end{longtable}
-
-Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
-\subsection{Compliance with the EU Artificial Intelligence Act}
-The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
-
-\begin{itemize}
-    \item \textbf{Risk Management System (Article 9):} Our project management (WP7) will implement a continuous, iterative risk management process as mandated by Article 9, which will be maintained throughout the AI system’s lifecycle. Specifically, this will be operationalized through a dedicated \textbf{Risk Register}, established at the project's outset (M1). This living document will log all known and reasonably foreseeable risks to health, safety, fundamental rights, and project execution. For each identified risk, we will assess its severity and likelihood, and define concrete mitigation and contingency plans. The register will be reviewed quarterly by the project management team and discussed in detail during biannual project meetings with the external collaborators. The applicant (Universitätsklinik für Nuklearmedizin, Magdeburg) will take the lead in identifying clinical risks (e.g., misdiagnosis, incorrect treatment suggestions), while the technical team will focus on system-level risks (e.g., model bias, cybersecurity vulnerabilities, performance degradation). This structured and collaborative process ensures that risks are not only identified but actively managed and mitigated throughout the project.
-
-    \item \textbf{Data and Data Governance (Article 10):} WP1 is entirely dedicated to establishing data governance practices that meet the quality criteria of Article 10. We will use relevant, representative datasets. We will proactively implement measures to detect and mitigate potential biases through the disentanglement methods in Stage 2 and the confounder models in Stage 1. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5).
-
-    \item \textbf{Technical Documentation and Record-Keeping (Articles 11 \& 12):} We commit to creating and maintaining comprehensive technical documentation as specified in Annex IV of the AI Act. Our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of Article 12.
-
-    \item \textbf{Transparency and Provision of Information (Article 13):} A cornerstone of our project is to overcome the "black box" problem. The framework's ability to generate counterfactual explanations (Stage 4) is a direct implementation of the transparency requirements of Article 13. The system is designed so that its operations are sufficiently transparent to enable deployers to interpret its output and use it appropriately. We will provide detailed instructions for use that explain the system's capabilities, limitations, and the role of human oversight.
-
-    \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
-
-    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). To comply with Article 15, we will implement a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance \cite{AlAttar2023,AlkanZakariyya2025}. Our approach is built on three pillars:
-
-\paragraph{1. Enhancing AI Model Robustness and Integrity}
-To defend against malicious inputs and training manipulations, we will:
-\begin{itemize}
-    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
-    \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
-\end{itemize}
-
-\paragraph{2. Operational, Transparency, and Regulatory Frameworks}
-To ensure accountability and long-term reliability, we will establish:
-\begin{itemize}
-    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
-    \item \textbf{eXplainable AI (XAI):} Our counterfactual explanation system is a core part of our XAI strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
-    \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
-\end{itemize}
-\end{itemize}
-
-This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
-
-\subsection{Portfolio Mapping}
-\begin{table}[H]
-    \centering
-    \caption{Portfolio Mapping.}
-    \label{tab:portfolio_mapping}
-    \small
-    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
-        \toprule
-        \textbf{Category} & \textbf{Value} \\
-        \midrule
-        Type of Cancer & Prostate Cancer \\
-        \midrule
-        Clinical Area & Predictive Diagnosis, Personalized Treatment Selection \\
-        \midrule
-        Technological area & GenAI-based tools for Integrating Multidimensional Multimodal Health Data, Medical Data Augmentation, Medical Knowledge Representation and Integration \\
-        \midrule
-        Access to Infrastructure, Data, and Ecosystem integration & Access to proprietary clinical data from Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg), Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg. Integration with public datasets (TCGA-PRAD, ProstateNET). Collaboration with EIBIR and DICOM. Contribution to EUCAIM. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{Resources and Budget Justification}
 
 The total requested budget for the CausalPCa project is \textbf{\EUR{3,339,253}} over a period of 36 months. While this amount is below the indicative EUR 4 million ceiling for EIC Pathfinder Challenges, it is the result of a meticulous and strategic planning process. The budget is not a reflection of reduced ambition, but rather of a lean, efficient project design that leverages significant existing institutional resources, including access to high-quality data and established clinical infrastructure. This allows us to focus EU funding on the most critical, high-risk research and development activities, ensuring that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
 
@@ -681,6 +512,139 @@ WP7: Project Management & 279274 & 69819 & 349093 \\
 \textbf{Total} & {\textbf{2668274}} & {\textbf{667069}} & {\textbf{3335343}} \\
 \bottomrule
 \end{tabular}
+\end{table}
+
+\subsection{Compliance and Portfolio Contribution}
+This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
+
+\textbf{Data Governance, AI Act Compliance (Article 10), and EUCAIM Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the EUCAIM infrastructure. We commit to making all collected data ready for integration into the EUCAIM federation.
+
+Our strategy for EUCAIM compatibility includes:
+\begin{itemize}
+    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% service level agreement (SLA) to support this role.
+    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the EUCAIM Common Data Model (CDM), which is based on OMOP-CDM and HL7 FHIR standards. We will map our local data schema to the EUCAIM hyper-ontology to ensure semantic interoperability.
+    \item \textbf{Legal and Ethical Adherence:} We will execute a Data Sharing Agreement (DSA) with the EUCAIM consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (GDPR) and the German Federal Data Protection Act.
+\end{itemize}
+
+The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
+
+The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
+
+\subsubsection{Quantitative Metrics}
+Model performance will be assessed using a comprehensive suite of metrics tailored to each sub-task, presented in a clear "Metric - What it measures - Why it's relevant" format:
+\begin{itemize}
+    \item \textbf{Supervisor Model Performance:}
+        \begin{itemize}
+            \item \textbf{Classification (Accuracy, AUC, F1-Score, Quadratic Weighted Kappa):} These metrics measure the model's ability to correctly classify categorical variables like TNM stage and PI-RADS score. They are relevant for assessing the model's fundamental diagnostic accuracy.
+            \item \textbf{Survival Regression (C-index, MAE):} These metrics measure the model's ability to predict time-to-progression. They are relevant for assessing the model's prognostic accuracy.
+        \end{itemize}
+    \item \textbf{Generative Model Performance:}
+        \begin{itemize}
+            \item \textbf{Image Generation Quality (FID, SSIM, LPIPS):} These metrics measure the realism and fidelity of the generated images. They are relevant for ensuring the clinical plausibility of the model's outputs.
+            \item \textbf{Counterfactual Quality (Axiomatic Soundness, Validity):} These metrics assess the logical consistency and effectiveness of the generated counterfactuals. They are relevant for ensuring the trustworthiness and explainability of the model.
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Uncertainty Quantification}
+A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our VAE-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
+\begin{itemize}
+    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
+    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the VAE encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
+\end{itemize}
+
+\subsubsection{Component-Wise and Joint Validation Strategy}
+Our validation strategy is designed to rigorously test each component of the framework in isolation before assessing the performance of the integrated system. This staged approach, detailed in Table \ref{tab:validation_strategy}, ensures that each module is robust and reliable before it is incorporated into the full clinical workflow.
+
+\begin{table}[H]
+    \centering
+    \caption{Component-Wise and Joint Validation Strategy.}
+    \label{tab:validation_strategy}
+    \small
+    \begin{tabular}{p{0.25\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
+        \toprule
+        \textbf{Component/Stage} & \textbf{Isolated Testing} & \textbf{Joint Testing} \\
+        \midrule
+        \textbf{Stage 1: Supervisor Models} & Each model (ordinal classifiers, survival regressor, etc.) will be tested independently against its specific ground truth using standard metrics (Accuracy, AUC, C-index). & The outputs of the supervisor models will be used as inputs for the VAEs in Stage 2. The quality of the VAE's disentanglement will serve as an indirect measure of the supervisor models' performance. \\
+        \addlinespace
+        \textbf{Stage 2: Causal VAEs} & The VAEs will be evaluated on their ability to generate realistic images (measured by FID, SSIM) and to successfully disentangle the latent space (measured by mutual information metrics). & The disentangled latent vectors from the VAEs will be used as inputs for the NJDE model in Stage 3. The NJDE's predictive accuracy will be used to assess the quality of the learned representations. \\
+        \addlinespace
+        \textbf{Stage 3: Neural Jump ODE} & The NJDE will be tested on its ability to accurately predict future latent states from a given history, using a masked loss function to handle missing data. & The predicted latent states from the NJDE will be passed to the VAE decoders to generate future images. The quality of these generated images will be assessed both quantitatively (FID, SSIM) and qualitatively by clinicians. \\
+        \addlinespace
+        \textbf{Stage 4: Full Framework} & The complete, end-to-end framework will be evaluated in a simulated clinical environment. This includes testing the user interface and the generation of structured reports. & A comprehensive clinical plausibility and workflow integration study will be conducted, as detailed below, to assess the real-world utility and trustworthiness of the full system. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Clinical Plausibility and Workflow Integration Study}
+Beyond quantitative metrics, a practical, clinician-in-the-loop study is essential to assess the model's real-world utility and trustworthiness.
+\begin{itemize}
+    \item \textbf{Assessing Counterfactual Plausibility and Usefulness:} To evaluate the quality of our generated explanations, we will conduct a human-grounded study with radiologists and oncologists. Clinicians will be presented with a series of cases, each including an original image and its corresponding model-generated counterfactual (e.g., an image of a tumorous prostate and its benign-looking counterfactual). They will score the counterfactuals on a Likert scale for:
+    \begin{itemize}
+        \item \textbf{Clinical Plausibility:} Does the generated image appear realistic and anatomically sound?
+        \item \textbf{Usefulness for Explanation:} Does the visual difference between the original and counterfactual image provide a clear and understandable reason for the model's prediction?
+    \end{itemize}
+    \item \textbf{Measuring Workflow Improvement with Structured Reports:} To assess the impact of the automated reports, we will perform a comparative workflow study. A control group of clinicians will review patient cases using traditional free-text reports and standard image viewers. An experimental group will review the same cases using our system's auto-generated structured reports and prognostic visualizations. We will measure:
+    \begin{itemize}
+        \item \textbf{Efficiency:} Time taken to extract key information (e.g., TNM stage, PI-RADS score, presence of key findings) required for treatment planning.
+        \item \textbf{Accuracy and Concordance:} Inter-rater agreement and accuracy of the extracted information compared to an expert-defined ground truth.
+        \item \textbf{User Satisfaction:} Clinicians' perceived efficiency, clarity, and confidence in their decisions will be assessed using a standardized questionnaire (e.g., the System Usability Scale).
+    \end{itemize}
+\end{itemize}
+
+Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
+\subsection{Compliance with the EU Artificial Intelligence Act}
+The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
+
+\begin{itemize}
+    \item \textbf{Risk Management System (Article 9):} Our project management (WP7) will implement a continuous, iterative risk management process as mandated by Article 9, which will be maintained throughout the AI system’s lifecycle. Specifically, this will be operationalized through a dedicated \textbf{Risk Register}, established at the project's outset (M1). This living document will log all known and reasonably foreseeable risks to health, safety, fundamental rights, and project execution. For each identified risk, we will assess its severity and likelihood, and define concrete mitigation and contingency plans. The register will be reviewed quarterly by the project management team and discussed in detail during biannual project meetings with the external collaborators. The applicant (Universitätsklinik für Nuklearmedizin, Magdeburg) will take the lead in identifying clinical risks (e.g., misdiagnosis, incorrect treatment suggestions), while the technical team will focus on system-level risks (e.g., model bias, cybersecurity vulnerabilities, performance degradation). This structured and collaborative process ensures that risks are not only identified but actively managed and mitigated throughout the project.
+
+    \item \textbf{Data and Data Governance (Article 10):} WP1 is entirely dedicated to establishing data governance practices that meet the quality criteria of Article 10. We will use relevant, representative datasets. We will proactively implement measures to detect and mitigate potential biases through the disentanglement methods in Stage 2 and the confounder models in Stage 1. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5).
+
+    \item \textbf{Technical Documentation and Record-Keeping (Articles 11 \& 12):} We commit to creating and maintaining comprehensive technical documentation as specified in Annex IV of the AI Act. Our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of Article 12.
+
+    \item \textbf{Transparency and Provision of Information (Article 13):} A cornerstone of our project is to overcome the "black box" problem. The framework's ability to generate counterfactual explanations (Stage 4) is a direct implementation of the transparency requirements of Article 13. The system is designed so that its operations are sufficiently transparent to enable deployers to interpret its output and use it appropriately. We will provide detailed instructions for use that explain the system's capabilities, limitations, and the role of human oversight.
+
+    \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
+
+    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). To comply with Article 15, we will implement a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance \cite{AlAttar2023,AlkanZakariyya2025}. Our approach is built on three pillars:
+
+\paragraph{1. Enhancing AI Model Robustness and Integrity}
+To defend against malicious inputs and training manipulations, we will:
+\begin{itemize}
+    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement Out-of-Distribution (OOD) detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
+    \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
+\end{itemize}
+
+\paragraph{2. Operational, Transparency, and Regulatory Frameworks}
+To ensure accountability and long-term reliability, we will establish:
+\begin{itemize}
+    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
+    \item \textbf{eXplainable AI (XAI):} Our counterfactual explanation system is a core part of our XAI strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
+    \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
+\end{itemize}
+\end{itemize}
+
+This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
+
+\subsection{Portfolio Mapping}
+\begin{table}[H]
+    \centering
+    \caption{Portfolio Mapping.}
+    \label{tab:portfolio_mapping}
+    \small
+    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
+        \toprule
+        \textbf{Category} & \textbf{Value} \\
+        \midrule
+        Type of Cancer & Prostate Cancer \\
+        \midrule
+        Clinical Area & Predictive Diagnosis, Personalized Treatment Selection \\
+        \midrule
+        Technological area & GenAI-based tools for Integrating Multidimensional Multimodal Health Data, Medical Data Augmentation, Medical Knowledge Representation and Integration \\
+        \midrule
+        Access to Infrastructure, Data, and Ecosystem integration & Access to proprietary clinical data from Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg), Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg. Integration with public datasets (TCGA-PRAD, ProstateNET). Collaboration with EIBIR and DICOM. Contribution to EUCAIM. \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 \section{Conclusions}
