@@ -103,22 +103,16 @@
 \maketitle
 
 \begin{abstract}
-This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based autonomous agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the entire disease trajectory by integrating complex multimodal data (imaging, labs, notes) into a unified patient view.
-
-Our approach directly aligns with the Challenge's Technological and Clinical Areas. Technologically, we will fuse multimodal data, use GenAI for medical data augmentation via counterfactuals and synthetic data, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve predictive diagnosis by simulating disease progression and enable personalized treatment selection by forecasting therapeutic outcomes.
-
-The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act. This high-risk, high-gain project will establish a new European standard for medical GenAI, delivering a transformative tool to enhance clinical decisions, improve patient outcomes, and revolutionize cancer care.
+This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
 \end{abstract}
 
 \section{Excellence}
 
 \subsection{Vision: A Paradigm Shift from Prediction to Causal Understanding}
 
-\paragraph{The Clinical Challenge.} The management of PCa is fraught with complexity, stemming from the dual risks of overdiagnosis and undertreatment. The natural history of the disease is a complex, multi-stage process influenced by the tumor’s biological state, the patient’s individual characteristics, and the impact of clinical interventions. Age at presentation varies widely, complicating risk stratification. Widespread screening with prostate-specific antigen (PSA) has led to the frequent detection of indolent, clinically insignificant cancers, resulting in overtreatment and significant morbidity \cite{PadhaniSchoots2023,JenaTaneja2018,CaraccioloCastello2022}. Conversely, many PCa deaths are due to the late diagnosis of aggressive or metastatic disease \cite{PadhaniSchoots2023}. The stakes of misstaging are incredibly high; the distinction between localized and metastatic disease carries profound prognostic implications, with the 5-year survival rate dropping from nearly 100\% to as low as 30–40\% \cite{WangODwyer2024,CereserEvangelista2023}.
+The management of PCa is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
 
-This project puts forward a radical new vision for clinical AI: a \textbf{paradigm shift from simple prediction to deep causal reasoning}, explicitly designed for a disease whose biology, histopathology, and phenotype evolve under therapy. The proposed solution focuses on prostate cancer (PCa) and proposes an end-to-end suite of interactive GenAI agents—orchestrated as a clinician-in-the-loop super-agent—that accompanies each patient across the full pathway, from predictive diagnosis to personalized treatment selection and longitudinal monitoring. We aim to build not just another predictive tool, but a dynamic, interactive \textbf{digital twin} of a patient’s disease trajectory. This twin will (i) encode histopathologic and imaging heterogeneity, (ii) learn cause-and-effect mechanisms that link interventions to downstream biological and radiographic states, and (iii) simulate future disease trajectories, dynamically updating its predictions to incorporate new clinical data and interventions.
-
-\paragraph{A Disease in Motion.} Compounding matters, histopathology meaningfully diverges and therapy must adapt to that biology. Under treatment pressure, tumors can (trans)differentiate along alternate evolutionary paths (e.g., AR-independent, low-PSA neuroendocrine disease), often at unknown times. This yields PSA–imaging discordance, shifting lesion phenotypes, and non-trivial uncertainty about when to switch or optimize therapy. Meanwhile, the option set is expanding—from targeted agents to radioligand therapies (e.g., Lu-PSMA), advanced imaging (PSMA-PET), and liquid-biopsy assays. As illustrated in Figure \ref{fig:prostate_evolution}, the disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. By necessity, clinical guidelines group patients into discrete risk categories to standardize care. However, in reality, the disease is a continuous process, evolving dynamically with the patient's underlying biology, disease progression, and a host of other factors. Our model is fundamentally designed to capture this continuous, patient-specific trajectory, moving beyond static groups to offer a truly personalized and dynamic assessment.
+Under treatment, tumors can evolve, leading to uncertainty about when to switch therapy. The expanding options, including targeted agents and advanced imaging, add to this complexity. Clinical guidelines use discrete risk categories, but the disease is a continuous process. Our model is designed to capture this patient-specific trajectory, offering a personalized assessment.
 
 \paragraph{Horizon Alignment and What is Radically New.} Our program delivers two clinical objectives as agents: (1) a \textbf{Predictive-Diagnosis Agent} for individualized risk stratification and (2) a \textbf{Treatment-Selection Agent} that forecasts trajectories and policy value with explicit uncertainty and timing alerts. Technologically, we integrate three pillars: (A) multimodal integration across imaging, pathology, and EHR; (B) medical data augmentation to generate high-fidelity synthetic data (e.g., MRI$\rightarrow$synthetic CT for dosimetry planning); and (C) medical knowledge representation via a causal knowledge graph. Across all components, we embed interpretability, calibrated uncertainty, and counterfactual explanations to transform the model from a black box into a trusted collaborator.
 
@@ -228,76 +222,33 @@ Crucially, the framework will function as a \textbf{Treatment-Choice Helper}. Le
 All insights are then consolidated into automatically generated structured reports using a \textbf{Transformer-based decoder}. These reports will integrate prognostic simulations, present the comparative effectiveness of different treatment options, and culminate in a data-driven recommendation. This directly addresses the clinical need for clear, consistent, and efficient documentation \cite{JorgHalfmann2023, SacoranskyKwan2024}, while providing clinicians with novel, data-driven strategies for patient management. The project team's experience in creating LLM-based support apps and GUIs from structured reports is key to ensuring this complex information is presented in an intuitive and actionable format.
 
 \section{Impact}
-The successful execution of this project will generate significant and lasting impact across multiple domains, from advancing the frontiers of science and technology to delivering tangible benefits for patients, clinicians, and the European innovation ecosystem. Our focus is not merely on creating a tool, but on establishing a new technological paradigm for clinical AI that is trustworthy, explainable, and directly aligned with the goals of the EU Cancer Mission and the strategic autonomy of the Union.
+This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
 \subsection{Expected Impacts}
-This project is poised to make fundamental contributions to the field of Artificial Intelligence and its application in medicine, directly addressing the EIC Pathfinder's goal to develop the scientific basis for breakthrough technologies.
 \begin{itemize}
-    \item \textbf{A New European Standard for Trustworthy Clinical AI:} We will pioneer a shift away from correlational "black-box" models towards truly causal and explainable AI. The development of a robust, generalizable framework for learning causal models from observational clinical data will represent a landmark achievement. This provides a blueprint for future research in other complex diseases (e.g., Alzheimer's, diabetes) and establishes a new European standard for the development and deployment of trustworthy AI systems in high-stakes environments, strengthening Europe's technological leadership. The primary beneficiaries will be the European AI research community, medical technology companies, and regulatory bodies.
-    \item \textbf{Advancing the Frontier of Generative AI:} Our work on principled disentanglement, counterfactual generation, and longitudinal modeling with Neural Jump ODEs will push the boundaries of generative AI. By creating a model that can reason about cause and effect, we are developing a foundational technology with applications far beyond medicine. The novel techniques developed will be of immense value to the broader European AI community, benefiting researchers in fields such as climate modeling and financial forecasting.
-    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} We are deeply committed to open science and Europe's digital sovereignty. We will make our code publicly available under a permissive open-source license (e.g., Apache 2.0) via a public GitHub repository. To ensure compliance with all data protection laws, we will contribute our curated, anonymized, and harmonized datasets to the \textbf{European Cancer Imaging (EUCAIM)} platform. This strategy ensures our work can foster further research and innovation across the EU while upholding the strictest data privacy standards.
-    \item \textbf{Enhanced Diagnostic Accuracy and Personalised Treatment:} By providing clinicians with a "digital twin" that can simulate disease trajectories and treatment responses, our framework will enable more accurate staging, better risk stratification, and truly personalized treatment planning. This will help to reduce both over- and under-treatment—a critical issue in prostate cancer—thereby minimizing treatment-related side effects and significantly improving patient quality of life. The direct beneficiaries are prostate cancer patients across Europe, as well as the oncologists and radiologists responsible for their care.
-    \item \textbf{Empowering Clinicians and Reducing Workload:} The model's ability to generate intuitive, counterfactual explanations and automated structured reports will empower clinicians, augmenting their decision-making process and freeing up valuable time from tedious documentation. This will improve workflow efficiency in urology and radiology departments, reduce burnout, and allow clinicians to focus on what matters most: patient care.
-    \item \textbf{A Foundation for a New Era in European Oncology:} While focused on prostate cancer, the foundational technology developed in this project is modality-agnostic and disease-agnostic. It has the potential to be adapted to other cancers (e.g., breast, lung) and complex chronic diseases, paving the way for a new era of data-driven, causal medicine that is more personalized, more effective, and more explainable, with Europe at the forefront. This will benefit the entire European healthcare sector.
+    \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
+    \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
+    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Make all code open-source and contribute curated, anonymized datasets to the EUCAIM platform.
+    \item \textbf{Enhanced Diagnostic Accuracy and Personalised Treatment:} Enable more accurate staging, better risk stratification, and personalized treatment planning, reducing over- and under-treatment.
+    \item \textbf{Empowering Clinicians and Reducing Workload:} Augment clinical decision-making and reduce documentation time with intuitive explanations and automated structured reports.
+    \item \textbf{A Foundation for a New Era in European Oncology:} Provide a disease-agnostic foundational technology adaptable to other cancers and chronic diseases.
 \end{itemize}
 
 \subsection{Dissemination, Communication, and Exploitation}
-We are committed to maximizing the impact of this project through a comprehensive dissemination, communication, and exploitation strategy designed to engage stakeholders at all levels and create new market opportunities.
 \begin{itemize}
-    \item \textbf{High-Impact Scientific Publications:} We will target leading peer-reviewed journals such as Nature Medicine, The Lancet Digital Health, and the Journal of Clinical Oncology, and present our findings at premier international conferences including the Medical Image Computing and Computer Assisted Intervention (MICCAI) conference, the Radiological Society of North America (RSNA) Annual Meeting, and the European Association of Nuclear Medicine (EANM) Congress.
-    \item \textbf{Open Source and Open Data:} As stated, all code will be open-sourced via a public GitHub repository under a permissive Apache 2.0 license. In line with our data governance strategy, we will contribute our curated, anonymized datasets to the \textbf{European Cancer Imaging (EUCAIM)} platform as a Tier 3 Federated Node. This commitment ensures our data legacy strengthens the European research community while respecting data protection regulations.
-    \item \textbf{Engagement with the Clinical and Patient Community:} We will actively engage with European clinical societies such as the European Association of Urology and the European Society for Medical Oncology, as well as patient advocacy groups like Europa UOMO, to ensure our work is aligned with real-world clinical needs and to facilitate its translation into clinical practice across the EU.
-    \item \textbf{Commercial Exploitation and Standardization:} We will explore pathways for commercial exploitation through partnerships with leading European medical imaging companies like Siemens Healthineers and Philips, and with innovative health-tech startups. Furthermore, we will actively participate in standardization bodies such as the European Institute for Biomedical Imaging Research (EIBIR) and the Digital Imaging and Communications in Medicine (DICOM) working groups to promote the adoption of our structured reporting and causal AI frameworks as a new European standard for trustworthy clinical AI.
+    \item \textbf{High-Impact Scientific Publications:} Target leading peer-reviewed journals and present findings at premier international conferences.
+    \item \textbf{Open Source and Open Data:} All code will be open-sourced, and curated, anonymized datasets will be contributed to the EUCAIM platform.
+    \item \textbf{Engagement with Clinical and Patient Community:} Actively engage with European clinical societies and patient advocacy groups to ensure clinical relevance and facilitate translation.
+    \item \textbf{Commercial Exploitation and Standardization:} Explore commercialization through partnerships with industry leaders and participate in standardization bodies to promote adoption.
 \end{itemize}
 
 \section{Implementation}
 \subsection{Applicant’s Team Profile and Clinic Expertise}
-The applicant institution is uniquely positioned to succeed in this high-risk, high-gain endeavor. The applicant, the Universitätsklinik für Radiologie und Nuklearmedizin, possesses not only the requisite multimodal data and a proven track record in developing advanced AI models, but also the critical clinical expertise to ensure the solution's reliability. To ensure clear leadership and accountability, one of the medical doctors with a dual specialization in both nuclear medicine and radiology will serve as the single Principal Investigator (PI), with the full authority to take scientific responsibility for the work, manage the allocated resources, and ensure project delivery with institutional backing. The second medical doctor, who combines a specialization in nuclear medicine with a Master's degree in IT, will act as a co-coordinator, with defined responsibilities for the technical development and implementation of the AI framework.
+The applicant institution is uniquely positioned to succeed in this project. The Universitätsklinik für Radiologie und Nuklearmedizin possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The team has experience in synthetic image generation and predictive modeling in PCa.
 
-Our approach is grounded in the principle that diagnostic data (PET/MR, CT, Electronic Health Records (EHR) etc.) contains the key patient information, and our advantage as nuclear medicine specialists and radiologists is the deep understanding of its interpretation and central importance in the diagnostic chain. The project team is working on projects involving among others:
-\begin{itemize}
-    \item \textbf{Synthetic Image Generation:} We have hands-on experience in generating synthetic CT scans from PET data, a foundational skill for the generative components of this proposal.
-    \item \textbf{Predictive Modeling:} Our team has developed and validated models for predicting disease progression by fusing clinical and imaging data in Prostate cancer \cite{Wybranska_2025}, directly relevant to the core of this project.
-
-\end{itemize}
-
-A portfolio of our previous and ongoing projects can be found on our project page: \url{https://jakubmitura14.github.io/OVGU_nuclear_projects/}.
-
-Crucially, the project's leadership team possesses a rare and powerful combination of interdisciplinary expertise. The team includes two medical doctors (MDs) with medical PhDs. One leader combines a specialization in nuclear medicine with a Master's degree in IT, providing a direct bridge between clinical application and technical implementation. The second leader holds a dual specialization in both nuclear medicine and radiology, offering an invaluable holistic perspective on the entire imaging pipeline from initial sataging through monitoring to qualification to radioligand theraphies. The collaboration with external partners, including the Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg, all of whom will participate as Associated Partners, will provide access to diverse data and clinical perspectives, further strengthening the project's foundation.
-
-
-This unique blend of expertise is complemented by the applicant's clinic, which has extensive, hands-on experience in managing patients through the entire spectrum of prostate cancer therapies. The EAU guidelines stratify patients into low-, intermediate-, and high-risk groups based on a combination of PSA levels, ISUP grade, and clinical tumour stage. This risk stratification is a cornerstone of modern prostate cancer management, as it profoundly influences all subsequent clinical decisions, from the choice between active surveillance and immediate intervention to the selection of specific therapeutic modalities. However, the EAU guidelines themselves acknowledge that this paradigm is being challenged by the advent of more sensitive imaging techniques. For instance, the guidelines state, "Changes in the diagnostic pathway, such as imaging (e.g., MRI, Prostate-Specific Membrane Antigen [PSMA] Positron Emission Tomography Computed Tomography [PET/CT] scan) and biopsy (e.g., increasing number of systematic biopsy cores, targeted biopsy) may cause stage and grade shift altering the risk profile of any specific classification systems [103]." This highlights a critical gap: while PSMA-PET is recognized as a powerful prognostic biomarker, its precise role in patient management is still evolving. The guidelines note, "First results of a follow-up study of the surgical cohort in the multicentre prospective phase 3 imaging trial demonstrate that presurgical PSMA-PET is a strong prognostic biomarker, improving BCR-FS risk assessment [490]. However, the ideal management of patients diagnosed as metastatic by these more sensitive tests is yet unknown [492]." Furthermore, regarding metastatic disease, they state, "Most prospective data available rely on the definition of M1 disease based on CT scan or MRI and bone scintigraphy. The influence on treatment and outcome of newer, more accurate, imaging has not yet been assessed in prospective randomised trials."
-
-The collaboration with external partners, including the Department of Nuclear Medicine at University Hospital Halle, Charité - Universitätsmedizin Berlin, and the Radiological Practice Sudenburg, all of whom will participate as Associated Partners, will provide access to diverse data and clinical perspectives, further strengthening the project's foundation.
-
-Our clinic manages the full range of these cases, including late-stage prostate cancer, that is  typically referred to as metastatic castration-resistant prostate cancer (mCRPC), which is an incurable and fatal disease, despite substantial therapeutic advances \cite{FizaziHerrmann2023, HatanoNonomura2023}. Managing mCRPC is complex, focusing on extending life, delaying disease progression, and maintaining or improving health-related quality of life (HRQOL) \cite{FizaziHerrmann2023}. Our clinical practice routinely administers a wide array of treatments, including second-generation Androgen Receptor Pathway Inhibitors (ARPIs) like abiraterone, enzalutamide, apalutamide, and darolutamide \cite{FizaziHerrmann2023, HatanoNonomura2023, MaLi2022}; taxane-based chemotherapies such as docetaxel and cabazitaxel \cite{FizaziHerrmann2023, HatanoNonomura2023}; immunotherapy with checkpoint inhibitors like Pembrolizumab \cite{MaLi2022, RamnaraignSartor2023}; precision therapies such as PARP inhibitors (Olaparib) for patients with relevant genetic alterations \cite{HatanoNonomura2023, MaLi2022}; and cutting-edge radioligand therapies (RLT) including $^{\text{177}}\text{Lu-PSMA}$ and bone-targeted agents like Radium-223 \cite{FizaziHerrmann2023, ChandranFigg2022, Keam2022}. The complexity of these cases necessitates regular multidisciplinary tumor boards, where detailed treatment decisions and patient responses are meticulously documented. Our framework is explicitly designed to support and integrate data from multiple such tumour boards across our collaborating institutions, learning from the collective expertise. This rich, real-world documentation provides an unparalleled source of high-quality data, crucial for training a causal model that can accurately learn the effects of different therapeutic interventions. The use of Androgen Receptor Pathway Inhibitors (ARPIs) and Radioligand Therapies (RLT) are key interventions that will be modeled, and maintaining Health-Related Quality of Life (HRQOL) is a primary goal.
-
-
-
-% The management of PCa is full of complexity, stemming from the dual risks of overdiagnosis and undertreatment. The natural history of the disease, as illustrated in Figure \ref{fig:prostate_evolution}, is a complex, multi-stage process influenced by the tumor's biological state (TNM stage), the patient's individual characteristics, and the impact of clinical interventions. Clinicians must synthesize information from a wide range of sources—including clinical data, histopathology, and various imaging modalities—to make critical decisions about diagnosis and treatment.
-
-A key strength of this project is its foundation in a cutting-edge clinical environment defined by the use of $^{\text{177}}\text{Lu-PSMA}$ theranostics, a revolutionary and modern approach for managing mCRPC. This paradigm combines therapy ("thera") and diagnostics ("nostics") by using a single molecular target—the Prostate-Specific Membrane Antigen (PSMA)—for both imaging and treatment, representing a new and very promising therapy \cite{HennrichEder2022}. PSMA is a protein that is highly overexpressed (up to 1,000-fold) on the surface of prostate cancer cells, making it an ideal target \cite{HennrichEder2022, LingBlois2022}.
-
-The theranostic workflow is a form of personalized medicine. It begins with a diagnostic PET scan using a PSMA-targeting molecule labeled with a diagnostic radionuclide (e.g., Gallium-68). This scan precisely identifies PSMA-positive tumor locations, confirming that the patient is a suitable candidate for the therapy \cite{HennrichEder2022, KaewputVinjamuri2022}. If eligibility is confirmed, the patient is then treated with a nearly identical molecule, but this time labeled with a therapeutic radionuclide, Lutetium-177. The ${}^{177}\text{Lu}$ is a short-range beta-particle emitter that delivers highly targeted radiation directly to cancer cells, minimizing damage to surrounding healthy tissue \cite{HennrichEder2022, SadaghianiSheikhbahaei2022}.
-
-This approach has proven to be a clinical breakthrough. The landmark Phase 3 VISION trial demonstrated that ${}^{177}\text{Lu-PSMA-617}$ significantly prolonged both overall survival (15.3 vs 11.3 months) and radiographic progression-free survival (8.7 vs 3.4 months) in patients with advanced mCRPC, leading to its FDA approval in 2022 \cite{TschanBorgna2022, ChandranFigg2022, RamnaraignSartor2023, JangKendi2023}. The therapy is not only effective but also has a favorable safety profile compared to traditional chemotherapy, with fewer grade 3 or 4 adverse events reported in the TheraP trial (33\% vs 53\%) \cite{HofmanEmmett2024, PatellKurian2023}.
-
-Our project will leverage this unique dataset of paired diagnostic ($^{\text{68}}\text{Ga-PSMA PET/CT}$) and therapeutic ($^{\text{177}}\text{Lu-PSMA}$ SPECT/CT) scans. This data provides an unparalleled opportunity to model the direct biological effects of a highly targeted and effective therapy, a critical component for building a robust causal model of disease progression and treatment response. Furthermore, because this therapy is administered at advanced stages, patients often have a rich, longitudinal history of prior treatments (including other systemic therapies like ARPIs and chemotherapies) and imaging. This provides the ideal data for our temporal models, giving us a unique "look-back" opportunity to model the entire patient path from a near-end point. The complexity of these cases also necessitates multidisciplinary tumor boards, giving us a unique opportunity to benchmark our model's recommendations against real-world expert consensus, making the applicant institution exceptionally well-suited for this project.
-The ambition of this project extends far beyond advancing the state-of-the-art in predictive modeling. We aim to establish a new paradigm for trustworthy AI in clinical medicine, shifting the focus from correlation to causation. By developing a model that can reason, simulate, and explain, we are creating a foundational technology with the potential for profound impact. This project will not only deliver a powerful tool for prostate cancer management but will also provide a blueprint for developing causal AI models in other complex disease areas. Our work will pioneer new methods for disentanglement, longitudinal modeling, and counterfactual reasoning that will be of immense value to the wider AI research community. The successful completion of this project will represent a significant step towards the realization of truly intelligent clinical decision support systems, paving the way for a future of more personalized, more effective, and more explainable medicine.
-\begin{figure}[H]
-    \centering
-    \includegraphics[trim=5mm 15mm 5mm 25mm, % {left bottom right top}
-        clip,                     % This command applies the trim
-        width=\textwidth]{wf.png}
-    \caption{The CausalPCa Digital Twin in action. This workflow demonstrates how a clinician can interact with the AI.}
-    \label{fig:workflow}
-\end{figure}
-
-\subsection{Illustrative Clinical Workflow}
-
-To make our vision concrete, Figure \ref{fig:workflow} illustrates the step-by-step workflow of a clinician interacting with the CausalPCa Digital Twin. This infographic demonstrates how the tool moves beyond simple prediction to become an interactive partner in clinical decision-making, seamlessly integrating data synthesis, prognostic simulation, causal explanation, and treatment planning into a single, intuitive interface.
+Our clinic manages the full range of PCa cases, including mCRPC, and administers a wide array of treatments, including ARPIs, chemotherapies, and RLT. This provides a rich source of high-quality data for training a causal model. A key strength is our experience with $^{177}$Lu-PSMA theranostics, which provides paired diagnostic and therapeutic scans, ideal for modeling treatment response.
 
 \subsection{Work Plan, Timeline, and Deliverables}
-The project is structured into seven interconnected Work Packages (WPs). The overall project timeline is visualized in the Gantt chart in Figure~\ref{fig:gantt}, providing a clear roadmap for the project's execution over its 36-month duration.
+The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}).
 
 \begin{figure}[H]
     \centering
@@ -307,17 +258,17 @@ The project is structured into seven interconnected Work Packages (WPs). The ove
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (30 Person-Months):} This foundational work package focuses on gathering, anonymizing, and harmonizing the multi-modal data from all collaborating sites. It includes the development of a robust data pipeline and the implementation of the data governance framework compliant with GDPR and the AI Act.
-    \item \textbf{WP2: Foundational Supervisor Model Training (50 Person-Months):} This WP is dedicated to developing the suite of "supervisor" models that will provide the clinical ground truth for the main generative model. This includes training ordinal classifiers, censored survival regressors, and models for anatomical segmentation and confounder identification.
-    \item \textbf{WP3: Causal VAE Development (60 Person-Months):} This is a core research WP focused on developing the hierarchical Variational Autoencoder (VAE) for principled disentanglement. This includes the design and implementation of the VAE architecture and the targeted total correlation loss function.
-    \item \textbf{WP4: Temporal Trajectory Modeling (60 Person-Months):} This WP will develop the Neural Jump Ordinary Differential Equation (NJDE) framework to model the longitudinal disease trajectories. It involves training the model to learn the continuous dynamics of the disease and the discrete "jumps" caused by clinical interventions.
-    \item \textbf{WP5: Validation and Clinical Integration (30 Person-Months):} This WP focuses on the rigorous evaluation of the complete framework. It includes the quantitative validation of the model's predictive performance and the qualitative, clinician-in-the-loop studies to assess clinical plausibility and workflow integration.
-    \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 Person-Months):} This WP will manage all activities related to maximizing the project's impact, including scientific publications, conference presentations, open-source code releases, and engagement with clinical, patient, and industry stakeholders.
-    \item \textbf{WP7: Project Management (10 Person-Months):} This WP covers the overall coordination of the project, including administrative and financial management, risk management, and ensuring compliance with all legal and ethical requirements.
-    \item \textbf{WP8: Portfolio Activities (10 Person-Months):} This WP is dedicated to fostering collaboration and synergies across the EIC Pathfinder Challenge portfolio. Activities will include contributing to the portfolio's strategic plan, participating in joint workshops, benchmarking activities, and collaborative dissemination and exploitation efforts, as outlined in the Challenge Guide.
+    \item \textbf{WP1: Data Curation and Harmonization (30 PMs):} Gather, anonymize, and harmonize multi-modal data.
+    \item \textbf{WP2: Foundational Supervisor Model Training (50 PMs):} Develop supervisor models for clinical ground truth.
+    \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical VAE for disentanglement.
+    \item \textbf{WP4: Temporal Trajectory Modeling (60 PMs):} Develop the NJDE framework for longitudinal modeling.
+    \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility.
+    \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} Manage dissemination, communication, and exploitation activities.
+    \item \textbf{WP7: Project Management (10 PMs):} Coordinate the project, including administrative and financial management.
+    \item \textbf{WP8: Portfolio Activities (10 PMs):} Foster collaboration across the EIC Pathfinder Challenge portfolio.
 \end{itemize}
 
-To monitor progress and ensure the timely completion of project objectives, a set of key deliverables is defined, as outlined in Table~\ref{tab:deliverables}. These outputs represent the tangible results of each work package.
+Key deliverables and milestones are defined in Tables~\ref{tab:deliverables} and~\ref{tab:milestones}.
 
 \begin{table}[H]
     \centering
@@ -587,6 +538,27 @@ To ensure accountability and long-term reliability, we will establish:
 
 This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
 
+\subsection{Portfolio Mapping}
+\begin{table}[H]
+    \centering
+    \caption{Portfolio Mapping.}
+    \label{tab:portfolio_mapping}
+    \small
+    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
+        \toprule
+        \textbf{Category} & \textbf{Value} \\
+        \midrule
+        Type of Cancer & Prostate Cancer \\
+        \midrule
+        Clinical Area & Predictive Diagnosis, Personalized Treatment Selection \\
+        \midrule
+        Technological area & GenAI-based tools for Integrating Multidimensional Multimodal Health Data, Medical Data Augmentation, Medical Knowledge Representation and Integration \\
+        \midrule
+        Access to Infrastructure, Data, and Ecosystem integration & Access to proprietary clinical data from Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg), Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg. Integration with public datasets (TCGA-PRAD, ProstateNET). Collaboration with EIBIR and DICOM. Contribution to EUCAIM. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 \subsection{Resources and Budget Justification}
 
 The total requested budget for the CausalPCa project is \textbf{\EUR{3,339,253}} over a period of 36 months. While this amount is below the indicative EUR 4 million ceiling for EIC Pathfinder Challenges, it is the result of a meticulous and strategic planning process. The budget is not a reflection of reduced ambition, but rather of a lean, efficient project design that leverages significant existing institutional resources, including access to high-quality data and established clinical infrastructure. This allows us to focus EU funding on the most critical, high-risk research and development activities, ensuring that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
@@ -681,12 +653,12 @@ Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct
 
 \textbf{Total Direct Costs (A): \EUR{2,668,274}}
 
-\textbf{Indirect Costs (B = 25\% of A): \EUR{670,979}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{667,069}}
 
 \subsubsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{3,339,253}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{3,335,343}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
 
@@ -710,27 +682,6 @@ WP7: Project Management & 279274 & 69819 & 349093 \\
 \textbf{Total} & {\textbf{2668274}} & {\textbf{667069}} & {\textbf{3335343}} \\
 \bottomrule
 \end{tabular}
-\end{table}
-
-\subsection{Portfolio Mapping}
-\begin{table}[H]
-    \centering
-    \caption{Portfolio Mapping.}
-    \label{tab:portfolio_mapping}
-    \small
-    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
-        \toprule
-        \textbf{Category} & \textbf{Value} \\
-        \midrule
-        Type of Cancer & Prostate Cancer \\
-        \midrule
-        Clinical Area & Predictive Diagnosis, Personalized Treatment Selection \\
-        \midrule
-        Technological area & GenAI-based tools for Integrating Multidimensional Multimodal Health Data, Medical Data Augmentation, Medical Knowledge Representation and Integration \\
-        \midrule
-        Access to Infrastructure, Data, and Ecosystem integration & Access to proprietary clinical data from Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg), Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg. Integration with public datasets (TCGA-PRAD, ProstateNET). Collaboration with EIBIR and DICOM. Contribution to EUCAIM. \\
-        \bottomrule
-    \end{tabular}
 \end{table}
 
 \section{Conclusions}
