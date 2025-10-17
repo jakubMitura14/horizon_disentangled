@@ -215,7 +215,7 @@ Our methodology is a direct answer to the profound challenges of building trustw
 This project will start at a Technology Readiness Level (TRL) of 1 for the general framework, as it involves fundamental research into a new causal AI paradigm. However, for the initial data processing and management components, we will begin at TRL 3. This is possible because we will leverage and build upon the tools and infrastructure developed in a different, but highly relevant, project: \textbf{SIKIT: Strengthening Autonomy in the Implementation of AI Technologies in Medicine}. SIKIT is a major interdisciplinary project with \textbf{total funding of €1,290,924.68} from the "Sachsen-Anhalt WISSENSCHAFT" program (co-financed by the EU's EFRE program), running for \textbf{42 months (July 2024 - December 2027)}. This existing foundation provides a significant head start and de-risks the initial phases of our proposed project.
 
 \paragraph{Compliance with the EU Artificial Intelligence Act}
-The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems, including Risk Management (Art. 9), Data Governance (Art. 10), Technical Documentation (Art. 11), Record-Keeping (Art. 12), Transparency (Art. 13), Human Oversight (Art. 14), and Cybersecurity (Art. 15). A detailed description of our compliance strategy for each article is provided in the Implementation section.
+The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems. For instance, our project management (WP7) will implement a continuous, iterative \textbf{Risk Management System (Article 9)} through a dedicated Risk Register established at the project's outset (M1). \textbf{Data and Data Governance (Article 10)} is a cornerstone of WP1, where we will use relevant, representative datasets and proactively implement measures to detect and mitigate potential biases. The system is designed as a decision support tool to ensure \textbf{Human Oversight (Article 14)}, augmenting, not replacing, clinical experts. The framework's ability to generate counterfactual explanations is a direct implementation of the \textbf{Transparency requirements (Article 13)}, and we will maintain comprehensive \textbf{Technical Documentation (Article 11)} and implement automatic logging for \textbf{Record-Keeping (Article 12)}. Finally, WP5 is dedicated to the rigorous validation of \textbf{Accuracy, Robustness, and Cybersecurity (Article 15)}, ensuring the model is resilient and secure.
 
 \paragraph{Gender Dimension and Open Science Practices}
 This project is committed to upholding the principles of gender equality and open science. Due to the specific focus on prostate cancer, the sex/gender dimension is not directly applicable to the biological research content; however, we are fully committed to promoting gender equality in our team composition and will ensure equal opportunities in recruitment. Our commitment to Open Science is central to our methodology and includes making all peer-reviewed publications Gold Open Access, managing data according to FAIR principles, contributing anonymized datasets to the \gls{eucaim} platform, and releasing all developed software under a permissive open-source license.
@@ -289,6 +289,67 @@ A key innovation in this stage is the use of clinician interaction patterns as a
 Crucially, the framework will function as a \textbf{Treatment-Choice Helper}. Leveraging the \gls{njde} from Stage 3, the system will simulate multiple future patient trajectories, each conditioned on a different potential treatment intervention and timing. By comparing these simulated outcomes, the model can identify the therapeutic strategy that is explicitly optimized to \textbf{maximize the expected time to progression}. This transforms the "what-if" capability from a simple explanatory tool into a powerful engine for data-driven treatment planning.
 
 All insights are then consolidated into automatically generated structured reports using a \textbf{Transformer-based decoder}. These reports will integrate prognostic simulations, present the comparative effectiveness of different treatment options, and culminate in a data-driven recommendation. This directly addresses the clinical need for clear, consistent, and efficient documentation \cite{JorgHalfmann2023, SacoranskyKwan2024}, while providing clinicians with novel, data-driven strategies for patient management. The project team's experience in creating LLM-based support apps and and GUIs from structured reports is key to ensuring this complex information is presented in an intuitive and actionable format.
+
+\subsubsection{Quantitative Metrics}
+Model performance will be assessed using a comprehensive suite of metrics tailored to each sub-task, presented in a clear "Metric - What it measures - Why it's relevant" format:
+\begin{itemize}
+    \item \textbf{Supervisor Model Performance:}
+        \begin{itemize}
+            \item \textbf{Classification (Accuracy, \gls{auc}, F1-Score, Quadratic Weighted Kappa):} These metrics measure the model's ability to correctly classify categorical variables like TNM stage and PI-RADS score. They are relevant for assessing the model's fundamental diagnostic accuracy.
+            \item \textbf{Survival Regression (\gls{cindex}, \gls{mae}):} These metrics measure the model's ability to predict \gls{ttp}. They are relevant for assessing the model's prognostic accuracy.
+        \end{itemize}
+    \item \textbf{Generative Model Performance:}
+        \begin{itemize}
+            \item \textbf{Image Generation Quality (\gls{fid}, \gls{ssim}, \gls{lpips}):} These metrics measure the realism and fidelity of the generated images. They are relevant for ensuring the clinical plausibility of the model's outputs.
+            \item \textbf{Counterfactual Quality (Axiomatic Soundness, Validity):} These metrics assess the logical consistency and effectiveness of the generated counterfactuals. They are relevant for ensuring the trustworthiness and explainability of the model.
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Uncertainty Quantification}
+A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our \gls{vae}-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
+\begin{itemize}
+    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
+    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the \gls{vae} encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
+\end{itemize}
+
+\subsubsection{Component-Wise and Joint Validation Strategy}
+Our validation strategy is designed to rigorously test each component of the framework in isolation before assessing the performance of the integrated system. This staged approach, detailed in Table \ref{tab:validation_strategy}, ensures that each module is robust and reliable before it is incorporated into the full clinical workflow.
+
+\begin{table}[H]
+    \centering
+    \caption{Component-Wise and Joint Validation Strategy.}
+    \label{tab:validation_strategy}
+    \small
+    \begin{tabular}{p{0.25\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
+        \toprule
+        \textbf{Component/Stage} & \textbf{Isolated Testing} & \textbf{Joint Testing} \\
+        \midrule
+        \textbf{Stage 1: Supervisor Models} & Each model (ordinal classifiers, survival regressor, etc.) will be tested independently against its specific ground truth using standard metrics (Accuracy, AUC, C-index). & The outputs of the supervisor models will be used as inputs for the VAEs in Stage 2. The quality of the VAE's disentanglement will serve as an indirect measure of the supervisor models' performance. \\
+        \addlinespace
+        \textbf{Stage 2: Causal VAEs} & The VAEs will be evaluated on their ability to generate realistic images (measured by FID, SSIM) and to successfully disentangle the latent space (measured by mutual information metrics). & The disentangled latent vectors from the VAEs will be used as inputs for the NJDE model in Stage 3. The NJDE's predictive accuracy will be used to assess the quality of the learned representations. \\
+        \addlinespace
+        \textbf{Stage 3: Neural Jump ODE} & The NJDE will be tested on its ability to accurately predict future latent states from a given history, using a masked loss function to handle missing data. & The predicted latent states from the NJDE will be passed to the VAE decoders to generate future images. The quality of these generated images will be assessed both quantitatively (FID, SSIM) and qualitatively by clinicians. \\
+        \addlinespace
+        \textbf{Stage 4: Full Framework} & The complete, end-to-end framework will be evaluated in a simulated clinical environment. This includes testing the user interface and the generation of structured reports. & A comprehensive clinical plausibility and workflow integration study will be conducted, as detailed below, to assess the real-world utility and trustworthiness of the full system. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Clinical Plausibility and Workflow Integration Study}
+Beyond quantitative metrics, a practical, clinician-in-the-loop study is essential to assess the model's real-world utility and trustworthiness.
+\begin{itemize}
+    \item \textbf{Assessing Counterfactual Plausibility and Usefulness:} To evaluate the quality of our generated explanations, we will conduct a human-grounded study with radiologists and oncologists. Clinicians will be presented with a series of cases, each including an original image and its corresponding model-generated counterfactual (e.g., an image of a tumorous prostate and its benign-looking counterfactual). They will score the counterfactuals on a Likert scale for:
+    \begin{itemize}
+        \item \textbf{Clinical Plausibility:} Does the generated image appear realistic and anatomically sound?
+        \item \textbf{Usefulness for Explanation:} Does the visual difference between the original and counterfactual image provide a clear and understandable reason for the model's prediction?
+    \end{itemize}
+    \item \textbf{Measuring Workflow Improvement with Structured Reports:} To assess the impact of the automated reports, we will perform a comparative workflow study. A control group of clinicians will review patient cases using traditional free-text reports and standard image viewers. An experimental group will review the same cases using our system's auto-generated structured reports and prognostic visualizations. We will measure:
+    \begin{itemize}
+        \item \textbf{Efficiency:} Time taken to extract key information (e.g., TNM stage, PI-RADS score, presence of key findings) required for treatment planning.
+        \item \textbf{Accuracy and Concordance:} Inter-rater agreement and accuracy of the extracted information compared to an expert-defined ground truth.
+        \item \textbf{User Satisfaction:} Clinicians' perceived efficiency, clarity, and confidence in their decisions will be assessed using a standardized questionnaire (e.g., the System Usability Scale).
+    \end{itemize}
+\end{itemize}
 
 \section{Impact}
 This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
@@ -623,68 +684,6 @@ WP7: Project Management & 279274 & 69819 & 349093 \\
 \end{tabular}
 \end{table}
 
-The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
-
-\subsubsection{Quantitative Metrics}
-Model performance will be assessed using a comprehensive suite of metrics tailored to each sub-task, presented in a clear "Metric - What it measures - Why it's relevant" format:
-\begin{itemize}
-    \item \textbf{Supervisor Model Performance:}
-        \begin{itemize}
-            \item \textbf{Classification (Accuracy, \gls{auc}, F1-Score, Quadratic Weighted Kappa):} These metrics measure the model's ability to correctly classify categorical variables like TNM stage and PI-RADS score. They are relevant for assessing the model's fundamental diagnostic accuracy.
-            \item \textbf{Survival Regression (\gls{cindex}, \gls{mae}):} These metrics measure the model's ability to predict \gls{ttp}. They are relevant for assessing the model's prognostic accuracy.
-        \end{itemize}
-    \item \textbf{Generative Model Performance:}
-        \begin{itemize}
-            \item \textbf{Image Generation Quality (\gls{fid}, \gls{ssim}, \gls{lpips}):} These metrics measure the realism and fidelity of the generated images. They are relevant for ensuring the clinical plausibility of the model's outputs.
-            \item \textbf{Counterfactual Quality (Axiomatic Soundness, Validity):} These metrics assess the logical consistency and effectiveness of the generated counterfactuals. They are relevant for ensuring the trustworthiness and explainability of the model.
-        \end{itemize}
-\end{itemize}
-
-\subsubsection{Uncertainty Quantification}
-A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our \gls{vae}-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
-\begin{itemize}
-    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
-    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the \gls{vae} encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
-\end{itemize}
-
-\subsubsection{Component-Wise and Joint Validation Strategy}
-Our validation strategy is designed to rigorously test each component of the framework in isolation before assessing the performance of the integrated system. This staged approach, detailed in Table \ref{tab:validation_strategy}, ensures that each module is robust and reliable before it is incorporated into the full clinical workflow.
-
-\begin{table}[H]
-    \centering
-    \caption{Component-Wise and Joint Validation Strategy.}
-    \label{tab:validation_strategy}
-    \small
-    \begin{tabular}{p{0.25\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
-        \toprule
-        \textbf{Component/Stage} & \textbf{Isolated Testing} & \textbf{Joint Testing} \\
-        \midrule
-        \textbf{Stage 1: Supervisor Models} & Each model (ordinal classifiers, survival regressor, etc.) will be tested independently against its specific ground truth using standard metrics (Accuracy, AUC, C-index). & The outputs of the supervisor models will be used as inputs for the VAEs in Stage 2. The quality of the VAE's disentanglement will serve as an indirect measure of the supervisor models' performance. \\
-        \addlinespace
-        \textbf{Stage 2: Causal VAEs} & The VAEs will be evaluated on their ability to generate realistic images (measured by FID, SSIM) and to successfully disentangle the latent space (measured by mutual information metrics). & The disentangled latent vectors from the VAEs will be used as inputs for the NJDE model in Stage 3. The NJDE's predictive accuracy will be used to assess the quality of the learned representations. \\
-        \addlinespace
-        \textbf{Stage 3: Neural Jump ODE} & The NJDE will be tested on its ability to accurately predict future latent states from a given history, using a masked loss function to handle missing data. & The predicted latent states from the NJDE will be passed to the VAE decoders to generate future images. The quality of these generated images will be assessed both quantitatively (FID, SSIM) and qualitatively by clinicians. \\
-        \addlinespace
-        \textbf{Stage 4: Full Framework} & The complete, end-to-end framework will be evaluated in a simulated clinical environment. This includes testing the user interface and the generation of structured reports. & A comprehensive clinical plausibility and workflow integration study will be conducted, as detailed below, to assess the real-world utility and trustworthiness of the full system. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsubsection{Clinical Plausibility and Workflow Integration Study}
-Beyond quantitative metrics, a practical, clinician-in-the-loop study is essential to assess the model's real-world utility and trustworthiness.
-\begin{itemize}
-    \item \textbf{Assessing Counterfactual Plausibility and Usefulness:} To evaluate the quality of our generated explanations, we will conduct a human-grounded study with radiologists and oncologists. Clinicians will be presented with a series of cases, each including an original image and its corresponding model-generated counterfactual (e.g., an image of a tumorous prostate and its benign-looking counterfactual). They will score the counterfactuals on a Likert scale for:
-    \begin{itemize}
-        \item \textbf{Clinical Plausibility:} Does the generated image appear realistic and anatomically sound?
-        \item \textbf{Usefulness for Explanation:} Does the visual difference between the original and counterfactual image provide a clear and understandable reason for the model's prediction?
-    \end{itemize}
-    \item \textbf{Measuring Workflow Improvement with Structured Reports:} To assess the impact of the automated reports, we will perform a comparative workflow study. A control group of clinicians will review patient cases using traditional free-text reports and standard image viewers. An experimental group will review the same cases using our system's auto-generated structured reports and prognostic visualizations. We will measure:
-    \begin{itemize}
-        \item \textbf{Efficiency:} Time taken to extract key information (e.g., TNM stage, PI-RADS score, presence of key findings) required for treatment planning.
-        \item \textbf{Accuracy and Concordance:} Inter-rater agreement and accuracy of the extracted information compared to an expert-defined ground truth.
-        \item \textbf{User Satisfaction:} Clinicians' perceived efficiency, clarity, and confidence in their decisions will be assessed using a standardized questionnaire (e.g., the System Usability Scale).
-    \end{itemize}
-\end{itemize}
 
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
