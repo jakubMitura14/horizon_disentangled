@@ -405,7 +405,13 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (30 PMs):} Gather, anonymize, and harmonize multi-modal data.
+    \item \textbf{WP1: Data Curation and Harmonization (30 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. The tasks include:
+    \begin{itemize}
+        \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions. Implement a robust, automated anonymization pipeline to remove all patient-identifying information in compliance with GDPR.
+        \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields.
+        \item \textbf{Task 1.3: Multi-Modal Data Linkage:} Create a unified patient record by accurately linking data from different sources (e.g., matching a patient's MRI scans with their corresponding EHR records and biopsy results) using a unique, anonymized identifier.
+        \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines, seminal textbooks, and internal tumor board documents to create a structured knowledge base that will inform the model's training and provide a basis for explainability.
+    \end{itemize}
     \item \textbf{WP2: Foundational Supervisor Model Training (50 PMs):} Develop supervisor models for clinical ground truth.
     \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
     \item \textbf{WP4: Temporal Trajectory Modeling (60 PMs):} Develop the \gls{njde} framework for longitudinal modeling.
@@ -484,14 +490,14 @@ Complementing the deliverables, the project's progress will be assessed against 
 \end{itemize}
 
 \subsection{Quality of the Team and Collaborations}
-This project is submitted by a single applicant, the Universitätsklinik für Radiologie und Nuklearmedizin, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
+This project is submitted by a single applicant, the applicant institution, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
 \begin{itemize}
-    \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg):} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging. Our team will lead all technical WPs (WP1-WP5).
-    \item \textbf{Department of Nuclear Medicine, University Hospital Halle:} A key partner providing extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their clinical team will also play a vital role in the validation studies (WP5).
-    \item \textbf{Charité - Universitätsmedizin Berlin:} Provides access to a diverse patient cohort, increasing the heterogeneity of the training data and ensuring the generalizability of the developed models. Their expertise in multi-center trials will be invaluable for designing the validation framework.
-    \item \textbf{Radiological Practice Sudenburg:} This partner provides access to a large cohort of primary diagnostic imaging, which is essential for training the supervisor models for early-stage disease in WP2.
+    \item \textbf{The applicant institution:} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging. Our team will lead all technical WPs (WP1-WP5).
+    \item \textbf{A key partner:} A key partner providing extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their clinical team will also play a vital role in the validation studies (WP5).
+    \item \textbf{A key partner:} Provides access to a diverse patient cohort, increasing the heterogeneity of the training data and ensuring the generalizability of the developed models. Their expertise in multi-center trials will be invaluable for designing the validation framework.
+    \item \textbf{A key partner:} This partner provides access to a large cohort of primary diagnostic imaging, which is essential for training the supervisor models for early-stage disease in WP2.
 \end{itemize}
-A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Our proven expertise in these areas significantly de-risks the technical development and is showcased on our public portfolio website: \url{https://jakubmitura14.github.io/OVGU_nuclear_projects/}. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
+A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Our proven expertise in these areas significantly de-risks the technical development. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
 
 \subsection{Appropriateness of the Allocation of Resources}
 A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
@@ -512,15 +518,15 @@ The proprietary clinical cohort will serve as the cornerstone of this project, p
 \midrule
 \multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
 \midrule
-Paired $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& mp\gls{mri} & Magdeburg, Halle, Charite & 350 \\
+Paired $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& mp\gls{mri} & Applicant & 350 \\
 \cmidrule(lr){1-3}
-Paired pre-therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& post-therapy $^{177}$Lu-\gls{psma} SPECT/\gls{ct} & Magdeburg, Halle, Charite & 550 \\
+Paired pre-therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& post-therapy $^{177}$Lu-\gls{psma} SPECT/\gls{ct} & Applicant and Partners & 550 \\
 \cmidrule(lr){1-3}
-Paired interim therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& \gls{ct} & Magdeburg & 40 \\
+Paired interim therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& \gls{ct} & Applicant & 40 \\
 \cmidrule(lr){1-3}
-Longitudinal $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} & Magdeburg & 200 \\
+Longitudinal $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} & Applicant & 200 \\
 \cmidrule(lr){1-3}
-Diagnostic \gls{ct} \& mp\gls{mri} & Rad. Sudenburg (Magdeburg) & 200 \\
+Diagnostic \gls{ct} \& mp\gls{mri} & Partner & 200 \\
 \midrule
 \textbf{Total Minimum Proprietary Cohort} & & \textbf{1340} \\
 \midrule
