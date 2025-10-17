@@ -93,6 +93,7 @@
 \usepackage{eurosym} % For the EUR symbol
 \usepackage{float} % to use [H]
 \usepackage{ragged2e}
+\usepackage{pdfpages}
 
 % --- GLOSSARIES ---
 \usepackage[acronym]{glossaries}
@@ -142,14 +143,9 @@
 \newacronym{lvi}{LVI}{Lymphovascular Invasion}
 \newacronym{psadt}{PSADT}{PSA Doubling Time}
 
-
-\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
-\author{}
-\date{}
-
 \begin{document}
 
-\maketitle
+\includepdf[pages=-]{title_page.pdf}
 
 \begin{abstract}
 This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and infuse deep medical domain knowledge into the model's architecture to guide its learning process and disentangle disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
