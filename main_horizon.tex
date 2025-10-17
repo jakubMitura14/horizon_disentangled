@@ -265,6 +265,20 @@ Our project is fundamentally aligned with the principles of Open Science to maxi
     \item \textbf{Dissemination and Public Engagement:} Beyond scientific publications, we will actively disseminate our findings through our project website, presentations at international conferences, and engagement with patient advocacy groups to ensure the results of our research reach a broad audience.
 \end{itemize}
 
+\subsubsection{Compliance and Portfolio Contribution}
+This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
+
+\textbf{Data Governance, AI Act Compliance (Article 10), and \gls{eucaim} Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the \gls{eucaim} infrastructure. We commit to making all collected data ready for integration into the \gls{eucaim} federation.
+
+Our strategy for \gls{eucaim} compatibility includes:
+\begin{itemize}
+    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% \gls{sla} to support this role.
+    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the \gls{eucaim} \gls{cdm}, which is based on \gls{omopcdm} and \gls{fhir} standards. We will map our local data schema to the \gls{eucaim} hyper-ontology to ensure semantic interoperability.
+    \item \textbf{Legal and Ethical Adherence:} We will execute a \gls{dsa} with the \gls{eucaim} consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (\gls{gdpr}) and the German Federal Data Protection Act.
+\end{itemize}
+
+The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
+
 \subsubsection{Stage 1: Building the Bedrock of Clinical Validity with Supervisor Models}
 The first stage builds a suite of specialized "supervisor" models. These models act as expert guides, providing strong, clinically-validated signals that will enforce a valid structure on the more complex generative models in subsequent stages. Our team's prior success in developing predictive models from fused clinical and imaging data provides a strong foundation for this work package.
 \begin{itemize}
@@ -337,18 +351,41 @@ All insights are then consolidated into automatically generated structured repor
 This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
 
 \subsection{Potential Impact: Pathways to Outcomes}
+The successful completion of this project will directly contribute to the expected outcomes and impacts of the Challenge by establishing credible pathways from our technological innovations to tangible clinical and societal benefits.
+
 \begin{itemize}
-    \item \textbf{Enhanced Diagnostic Accuracy and Personalised Treatment:} Enable more accurate staging, better risk stratification, and personalized treatment planning, reducing over- and under-treatment.
-    \item \textbf{Empowering Clinicians and Reducing Workload:} Augment clinical decision-making and reduce documentation time with intuitive explanations and automated structured reports.
-    \item \textbf{A Foundation for a New Era in European Oncology:} Provide a disease-agnostic foundational technology adaptable to other cancers and chronic diseases.
+    \item \textbf{Pathway to Enhanced Diagnostic Accuracy and Personalised Treatment:} The project's core deliverable, the causal "digital twin," provides the direct mechanism for this impact. By simulating individual disease trajectories (a key objective of WP4), the model will offer clinicians a prognostic tool that goes beyond static risk categories. This allows for more accurate staging and risk stratification. The treatment-choice helper, which forecasts outcomes for different therapeutic pathways, provides a concrete tool for personalized treatment planning. This directly addresses the challenge of reducing over- and under-treatment by grounding clinical decisions in patient-specific, data-driven simulations rather than generalized guidelines alone. The credibility of this pathway rests on our rigorous, component-wise validation strategy (WP5), which ensures that the model's predictions are clinically plausible and trustworthy.
+
+    \item \textbf{Pathway to Empowering Clinicians and Reducing Workload:} This impact is achieved through two key project outputs developed in Stage 4 of our methodology. First, the automated generation of structured reports directly tackles the significant administrative burden on clinicians. By translating the model's complex outputs into clear, consistent, and efficient documentation, we save valuable clinician time. Second, the framework's ability to generate visual, counterfactual explanations provides an intuitive interface for clinicians to probe the model's reasoning ("what-if" scenarios). This augments their decision-making process, allowing them to build trust in the system and leverage its insights more effectively. This pathway is credible because it addresses a well-documented and critical pain point in the clinical workflow.
+
+    \item \textbf{Pathway to a New Era in European Oncology:} The project's contribution extends beyond prostate cancer by creating a \textbf{disease-agnostic foundational technology}. The modular, four-stage framework we develop is designed for adaptability. The same principles of data harmonization (WP1), causal disentanglement (WP3), and temporal modeling (WP4) can be applied to other cancers and chronic diseases characterized by longitudinal, multimodal data. By delivering this framework as an open-source tool (a core commitment of WP6), we provide the European research community with a powerful, reusable platform. This directly fosters a new era of clinical AI development, built on principles of causality and transparency, establishing a new European standard for trustworthy medical AI.
 \end{itemize}
 
-\subsection{Innovation Potential}
+\subsection{Innovation Potential and Exploitation Strategy}
 \begin{itemize}
     \item \textbf{A New European Standard for Trustworthy Clinical AI:} Pioneer a shift from "black-box" models to causal AI, establishing a new European standard for trustworthy AI in high-stakes environments.
     \item \textbf{Advancing the Frontier of Generative AI:} Push the boundaries of generative AI with novel techniques in disentanglement, counterfactual generation, and longitudinal modeling.
-    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Make all code open-source and contribute curated, anonymized datasets to the \gls{eucaim} platform.
+    \item \textbf{Fostering an Open and Sovereign European AI Ecosystem:} Our commitment to open science is also a core pillar of our innovation strategy. By making the foundational framework and all code open-source under a permissive license (e.g., Apache 2.0), we will maximize its uptake and impact, enabling widespread use and further innovation by the European research community. Curated, anonymized datasets will be contributed to the \gls{eucaim} platform to further amplify this effect.
 \end{itemize}
+
+\paragraph{Exploitation, IP Protection, and Pathway to Innovation}
+Our strategy for translating research results into tangible innovations is built on a dual approach that combines open dissemination with targeted commercial exploitation.
+\begin{itemize}
+    \item \textbf{Open-Source Core, Commercial Services:} The core causal framework will be open-sourced to foster a broad user base and establish it as a European standard. The primary route for commercial exploitation will be through a potential future spin-off company. This entity would offer value-added services built upon the open-source foundation, such as:
+    \begin{itemize}
+        \item \textbf{Enterprise-Grade Deployment:} Providing validated, production-ready versions of the software with long-term support, tailored for integration into hospital IT systems.
+        \item \textbf{Specialized Model Development:} Offering consultancy services to adapt and fine-tune the framework for other cancers or specific clinical use-cases.
+        \item \textbf{Cloud-Based Platform:} Developing a secure, cloud-based "AI-as-a-Service" platform to provide easy access to the technology for smaller clinics or research groups without the resources for local deployment.
+    \end{itemize}
+    This model allows us to protect the commercial potential of these services (background IP) while ensuring the core technology (foreground IP) remains open.
+    \item \textbf{Empowering Key Actors for Translation:} We will actively involve and empower the key actors needed to translate our research into innovation.
+    \begin{itemize}
+        \item \textbf{Clinicians and Hospitals:} Our close collaboration with the university hospitals in Magdeburg, Halle, and Charité ensures the technology is developed with continuous feedback from its end-users, guaranteeing clinical relevance and facilitating adoption.
+        \item \textbf{Patient Advocacy Groups:} Through WP6, we will engage with patient groups to ensure the developed tools meet patient needs for transparency and understanding, fostering trust and acceptance.
+        \item \textbf{Industry Partners:} We will actively seek engagement with medical device manufacturers and pharmaceutical companies to explore pathways for integrating our technology into their existing platforms and clinical trial workflows, creating a direct route to market.
+    \end{itemize}
+\end{itemize}
+This comprehensive strategy ensures that our research outputs are not only scientifically excellent but are also positioned for maximum societal and economic impact.
 
 \subsection{Communication, Dissemination, and Exploitation}
 \begin{itemize}
@@ -453,9 +490,11 @@ Complementing the deliverables, the project's progress will be assessed against 
     \addlinespace
     3 & Performance with Incomplete and Heterogeneous Data & High & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
     \addlinespace
-    4 & Clinical Trustworthiness and the "Black Box" Problem & Medium & High & Explainability through counterfactuals allows clinicians to probe model reasoning. System is designed as a decision support tool, ensuring human oversight at all times. Compliant with AI Act Articles 13 \& 14. \\
+    4 & High Project Complexity & Medium & High & The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure. \\
     \addlinespace
-    5 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
+    5 & Data Scarcity or Lack of Diversity & Low & High & This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation. \\
+    \addlinespace
+    6 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
 \end{longtable}
 
 \subsection{Quality of the Team and Collaborations}
@@ -633,20 +672,6 @@ WP7: Project Management & 279274 & 69819 & 349093 \\
 \end{tabular}
 \end{table}
 
-\subsection{Compliance and Portfolio Contribution}
-This combined data strategy provides an unparalleled foundation for this high-risk, high-gain project, mitigating the risk of data scarcity and ensuring the developed technology is robust, validated, and ready for broader clinical application.
-
-\textbf{Data Governance, AI Act Compliance (Article 10), and \gls{eucaim} Integration:} All data will be managed within a secure, learning-ready environment based on the XNAT platform, ensuring robust data hosting and management. Our data governance framework is designed to meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility with the \gls{eucaim} infrastructure. We commit to making all collected data ready for integration into the \gls{eucaim} federation.
-
-Our strategy for \gls{eucaim} compatibility includes:
-\begin{itemize}
-    \item \textbf{Contribution Model:} We will operate as a \textbf{Tier 3 Federated Node}. This model preserves our data sovereignty while enabling participation in advanced, privacy-preserving federated learning activities. We commit to providing the necessary local infrastructure and a 95\% \gls{sla} to support this role.
-    \item \textbf{Data Harmonization and Interoperability:} All our data will be harmonized and structured according to the \gls{eucaim} \gls{cdm}, which is based on \gls{omopcdm} and \gls{fhir} standards. We will map our local data schema to the \gls{eucaim} hyper-ontology to ensure semantic interoperability.
-    \item \textbf{Legal and Ethical Adherence:} We will execute a \gls{dsa} with the \gls{eucaim} consortium. All data processing is covered by approvals from our institutional ethics committee and is fully compliant with the General Data Protection Regulation (\gls{gdpr}) and the German Federal Data Protection Act.
-\end{itemize}
-
-The data collection is overseen by our clinical partners, and all data undergoes a rigorous curation and verification process by trained clinicians to ensure it is relevant, representative, and as free of errors as possible. To address potential biases, our disentanglement methods (Stage 2) and confounder models (Stage 1) are designed to detect and mitigate biases related to demographics and acquisition hardware. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5), ensuring our dataset is suitable for training a high-risk AI system.
-
 The project's success will be measured through a rigorous, multi-faceted evaluation plan that combines quantitative metrics with qualitative, clinician-in-the-loop studies to assess real-world utility and trustworthiness.
 
 \subsubsection{Quantitative Metrics}
@@ -711,27 +736,6 @@ Beyond quantitative metrics, a practical, clinician-in-the-loop study is essenti
 \end{itemize}
 
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
-
-\subsection{Portfolio Mapping}
-\begin{table}[H]
-    \centering
-    \caption{Portfolio Mapping.}
-    \label{tab:portfolio_mapping}
-    \small
-    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
-        \toprule
-        \textbf{Category} & \textbf{Value} \\
-        \midrule
-        Type of Cancer & Prostate Cancer \\
-        \midrule
-        Clinical Area & Predictive Diagnosis, Personalized Treatment Selection \\
-        \midrule
-        Technological area & GenAI-based tools for Integrating Multidimensional Multimodal Health Data, Medical Data Augmentation, Medical Knowledge Representation and Integration \\
-        \midrule
-        Access to Infrastructure, Data, and Ecosystem integration & Access to proprietary clinical data from Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg), Abteilung für Nuklearmedizin at Universitätsmedizin Halle, Universitätsmedizin Charite, and the Radiological Practice Rad. Sudenburg. Integration with public datasets (TCGA-PRAD, ProstateNET). Collaboration with EIBIR and DICOM. Contribution to EUCAIM. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
 
 \section{Conclusions}
 This project represents a bold step towards a new frontier in clinical AI. We propose not an incremental improvement, but a foundational shift from correlational pattern recognition to causal, explainable, and trustworthy artificial intelligence. Our vision is to create a dynamic "digital twin" for prostate cancer that empowers clinicians with a tool that can reason, simulate, and explain—augmenting their expertise and enabling truly personalized medicine.
