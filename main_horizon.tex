@@ -464,39 +464,24 @@ Complementing the deliverables, the project's progress will be assessed against 
     \end{tabular}
 \end{table}
 
-\begin{longtable}{p{0.05\textwidth} p{0.25\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth}}
-    \caption{Critical Risks and Mitigation Strategies.}
-    \label{tab:risks} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endfirsthead
-    \multicolumn{5}{c}%
-    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endhead
-    \midrule \multicolumn{5}{r}{{Continued on next page}} \\
-    \endfoot
-    \bottomrule
-    \endlastfoot
-    1 & Training Instability and Data Scalability & High & High & Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets. \\
-    \addlinespace
-    2 & Generalizability and Overfitting to Spurious Correlations & Medium & High & Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15. \\
-    \addlinespace
-    3 & Performance with Incomplete and Heterogeneous Data & High & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
-    \addlinespace
-    4 & High Project Complexity & Medium & High & The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure. \\
-    \addlinespace
-    5 & Data Scarcity or Lack of Diversity & Low & High & This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation. \\
-    \addlinespace
-    6 & Risk of Failure due to Low Starting TRL & High & High & The project starts at TRL 1 for its core causal framework, which is inherently high-risk. This is mitigated by building upon a TRL 3 foundation for data processing and management from the SIKIT project (€1.29M funding), allowing us to focus resources on the novel TRL 1 research with a de-risked starting point. \\
-    \addlinespace
-    7 & Risk of Clinical Adoption Failure & Medium & High & To bridge the gap from research to practice, we address two key barriers: 1) **Computational Feasibility:** Our latent-space modeling makes the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** Our design incorporates a "compliance-by-design" approach, aligning with the EU AI Act from the outset to streamline future certification. \\
-    \addlinespace
-    8 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
-\end{longtable}
+\begin{itemize}
+    \item \textbf{Risk 1: Training Instability and Data Scalability (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets.
+    \item \textbf{Risk 2: Generalizability and Overfitting to Spurious Correlations (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15.
+    \item \textbf{Risk 3: Performance with Incomplete and Heterogeneous Data (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness.
+    \item \textbf{Risk 4: High Project Complexity (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure.
+    \item \textbf{Risk 5: Data Scarcity or Lack of Diversity (Likelihood: Low, Impact: High).}
+    \subitem \textbf{Mitigation:} This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation.
+    \item \textbf{Risk 6: Risk of Failure due to Low Starting TRL (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} The project starts at TRL 1 for its core causal framework, which is inherently high-risk. This is mitigated by building upon a TRL 3 foundation for data processing and management from the SIKIT project (€1.29M funding), allowing us to focus resources on the novel TRL 1 research with a de-risked starting point.
+    \item \textbf{Risk 7: Risk of Clinical Adoption Failure (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} To bridge the gap from research to practice, we address two key barriers: 1) **Computational Feasibility:** Our latent-space modeling makes the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** Our design incorporates a "compliance-by-design" approach, aligning with the EU AI Act from the outset to streamline future certification.
+    \item \textbf{Risk 8: Model Drift and Performance Deterioration (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early.
+\end{itemize}
 
 \subsection{Quality of the Team and Collaborations}
 This project is submitted by a single applicant, the Universitätsklinik für Radiologie und Nuklearmedizin, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
