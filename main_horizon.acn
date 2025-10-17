@@ -9,7 +9,11 @@
 \glossaryentry{GenAI?\glossentry{genai}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{CT?\glossentry{ct}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{MRI?\glossentry{mri}|setentrycounter[]{page}"\glsnumberformat}{1}
-\glossaryentry{PCa?\glossentry{pca}|setentrycounter[]{page}"\glsnumberformat}{2}
+\glossaryentry{PSADT?\glossentry{psadt}|setentrycounter[]{page}"\glsnumberformat}{2}
+\glossaryentry{VAE?\glossentry{vae}|setentrycounter[]{page}"\glsnumberformat}{2}
+\glossaryentry{NJDE?\glossentry{njde}|setentrycounter[]{page}"\glsnumberformat}{2}
+\glossaryentry{EAU?\glossentry{eau}|setentrycounter[]{page}"\glsnumberformat}{2}
+\glossaryentry{PCa?\glossentry{pca}|setentrycounter[]{page}"\glsnumberformat}{3}
 \glossaryentry{EHR?\glossentry{ehr}|setentrycounter[]{page}"\glsnumberformat}{3}
 \glossaryentry{MRI?\glossentry{mri}|setentrycounter[]{page}"\glsnumberformat}{3}
 \glossaryentry{CT?\glossentry{ct}|setentrycounter[]{page}"\glsnumberformat}{3}

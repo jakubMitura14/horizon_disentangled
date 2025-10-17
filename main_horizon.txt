@@ -38,15 +38,35 @@ cross-modality synthesis(e.g., generating a synthetic CT from an existing MRI) n
 1a single application, but to create more complete data pairs. This capability addresses the
 common clinical problem of missing modalities, enabling more robust, multi-modal model
 training and accelerating research and development across the EIC portfolio.
-• Medical Knowledge Representation and Integration (iii):We will create a com-
-prehensive and dynamic medical knowledge base by developing a causal knowledge graph.
-This will allow us to identify discrete medical imaging features associated with demographic
-information and systemic conditions, moving beyond opaque "black-box" models. By
-generating clinically plausible, visual counterfactuals, the system will enable clinicians to
-ask "what-if" questions and receive intuitive explanations, fostering the trust necessary for
-widespread adoption and establishing a new paradigm for trustworthy AI. Robust methods
-for uncertainty quantification will be integrated to ensure the system can reliably flag
-high-uncertainty cases for human review.
+• Medical Knowledge Integration via Strong Inductive Biases (iii):Our framework
+moves beyond simplistic "black-box" models by creating a comprehensive medical knowledge
+base, not as a separate component, but by deeply embedding extensive domain knowledge
+directly into the model’s architecture and training process. This is achieved through a
+multi-layered strategy of applying strong, clinically-informed inductive biases:
+– At the Feature Level:We will incorporate prognostic features explicitly recom-
+mended by urological guidelines, such as PSA Doubling Time (PSADT) and tumor
+volume, directly into the model’s input, ensuring it is grounded in established clinical
+practice.
+– At the Architectural Level:The core of our knowledge integration lies in the
+principled disentanglement of the VAE’s latent space. By architecturally separating
+anatomy from disease to the extent that it is not harmful, we impose a strong prior
+that a tumor should not fundamentally alter a patient’s pelvic bone structure, a
+powerful form of embedded domain knowledge.
+– At the Objective Level:We will use specialized, knowledge-infused loss functions.
+For ordinal variables like Gleason Grade or PI-RADS scores, adifferential ordinal
+loss ensures the model understands their inherent ranking and severity progression, a
+concept a standard classification loss ignores.
+– AttheTrainingStrategyLevel: Thetemporalmodel(NJDE)willbepre-trainedon
+a simplified, rule-based decision algorithm derived directly from establishedEuropean
+Association of Urology (EAU) clinical guidelines. This provides the model
+with a robust, clinically-valid starting point for understanding disease progression
+before fine-tuning on complex real-world data.
+This multi-faceted infusion of domain knowledge ensures the model learns the true underly-
+ing causal mechanisms of the disease. The resulting clinically plausible, visual counterfactu-
+als are a direct output of this knowledge-grounded architecture, enabling clinicians to ask
+meaningful "what-if" questions and receive intuitive, reliable explanations. Robust methods
+for uncertainty quantification will also be integrated to reliably flag high-uncertainty cases
+for human review.
 Area 2: Clinical Area
 • Predictive Diagnosis (i):We will develop an interactive autonomous agent capable of
 providing a personalized, dynamic prognosis. The agent will simulate a patient’s future
@@ -59,7 +79,7 @@ helper that leverages the framework’s simulation capabilities to forecast dise
 and treatment efficacy. The agent will identify the optimal treatment pathway—including
 the type of intervention and its timing—by explicitly optimizing for the maximum expected
 time to progression. This provides clinicians with data-driven strategies for personalized
-patient management. Furthermore, the model will serve as a powerful "digital twin" to
+2patient management. Furthermore, the model will serve as a powerful "digital twin" to
 accelerate clinical research by pre-testing hypotheses for new clinical trials, resolving clinical
 uncertainties, and minimizing patient risk. The framework will be rigorously validated
 through both quantitative metrics and a qualitative, clinician-in-the-loop study to assess
@@ -79,7 +99,7 @@ Horizon Alignment and What is Radically New. Our program delivers two clinical
 objectives as agents: (1) aPredictive-Diagnosis Agentfor individualized risk stratification
 and (2) aTreatment-Selection Agentthat forecasts trajectories and policy value with explicit
 uncertainty and timing alerts. Technologically, we integrate three pillars: (A) multimodal
-2integration across imaging, pathology, and EHR; (B) medical data augmentation to generate
+integration across imaging, pathology, and EHR; (B) medical data augmentation to generate
 high-fidelity synthetic data (e.g., MRI→synthetic CT for dosimetry planning); and (C) medical
 knowledge representation via a causal knowledge graph. Across all components, we embed
 interpretability, calibrated uncertainty, and counterfactual explanations to transform the model
@@ -221,23 +241,22 @@ the state vector based on the type of intervention [21, 22]. Crucially, the mode
 treatment history, which may involve several different lines of therapy over time.
 v+ = g(v(tk),interventionk; ϕ) for t= tk
 8Figure 3: The proposed multi-stage causal AI framework.
-9This hybrid approach, which explicitly separates the continuous disease course from the
-rapid, external impacts of clinical interventions, is critical for accurately modeling a patient’s
-journey [12]. The model is trained using aleave-one-out strategyfor each patient’s time series:
-given all but one time point, its goal is to predict the complete state vector for the held-out
-time point. To handle the pervasive missing data, we will first develop a simplified, rule-based
-decision algorithm in close consultation with our urology partners. This algorithm, based on
-the European Association of Urology (EAU) guidelines, will provide a baseline management
-recommendation even for cases with incomplete data. The NJDE model will then be pre-trained
-on the outputs of this decision tree, allowing it to develop an initial, robust understanding of the
-relationships between patient state, disease status, and appropriate management pathways before
-being fine-tuned on the full, complex tumour board data. For the fine-tuning stage, we will
-employ amasked loss function. The loss is calculated only by comparing the predicted values
-to the ground truth for those elements of the state vector that were actually available (non-zero)
-at the target time point. This forces the model to learn a probable evolution for every data
-type, even from a highly incomplete dataset. By distinguishing between smooth progression and
-intervention-driven shocks, the NJDE learns a more biologically plausible model of the patient’s
-journey.
+9This hybrid approach, which explicitly separates the continuous disease course from the rapid,
+external impacts of clinical interventions, is critical for accurately modeling a patient’s journey
+[12]. The model is trained using aleave-one-out strategyfor each patient’s time series: given
+all but one time point, its goal is to predict the complete state vector for the held-out time
+point. To handle the pervasive missing data, we will first develop a simplified, rule-based decision
+algorithm in close consultation with our urology partners. This algorithm, based on the EAU
+guidelines, will provide a baseline management recommendation even for cases with incomplete
+data. The NJDE model will then be pre-trained on the outputs of this decision tree, allowing it
+to develop an initial, robust understanding of the relationships between patient state, disease
+status, and appropriate management pathways before being fine-tuned on the full, complex
+tumour board data. For the fine-tuning stage, we will employ amasked loss function. The loss
+is calculated only by comparing the predicted values to the ground truth for those elements of
+the state vector that were actually available (non-zero) at the target time point. This forces the
+model to learn a probable evolution for every data type, even from a highly incomplete dataset.
+By distinguishing between smooth progression and intervention-driven shocks, the NJDE learns
+a more biologically plausible model of the patient’s journey.
 1.3.4 Stage 4: Translating Insight into Action: Generative Synthesis, Decision
 Support, and Structured Reporting
 The final stage translates the model’s learned causal dynamics into clinically actionable outputs,
