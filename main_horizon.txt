@@ -68,22 +68,31 @@ meaningful "what-if" questions and receive intuitive, reliable explanations. Rob
 for uncertainty quantification will also be integrated to reliably flag high-uncertainty cases
 for human review.
 Area 2: Clinical Area
-• Predictive Diagnosis (i):We will develop an interactive autonomous agent capable of
-providing a personalized, dynamic prognosis. The agent will simulate a patient’s future
-disease trajectory under various scenarios, generating predictions not only of future scans
-but also of key clinical endpoints and structured radiological reports. This will provide a
-comprehensive prognostic tool to enhance diagnostic accuracy, improve risk stratification,
-and reduce over- and under-treatment.
-• Enhance Personalized Treatment Selection (ii):We will deliver a treatment-choice
-helper that leverages the framework’s simulation capabilities to forecast disease progression
-and treatment efficacy. The agent will identify the optimal treatment pathway—including
-the type of intervention and its timing—by explicitly optimizing for the maximum expected
-time to progression. This provides clinicians with data-driven strategies for personalized
-2patient management. Furthermore, the model will serve as a powerful "digital twin" to
-accelerate clinical research by pre-testing hypotheses for new clinical trials, resolving clinical
-uncertainties, and minimizing patient risk. The framework will be rigorously validated
-through both quantitative metrics and a qualitative, clinician-in-the-loop study to assess
-its real-world utility and impact on diagnostic workflows.
+• Predictive Diagnosis and In-Silico Trials (i):We will develop an interactive agent
+capable of providing a personalized, dynamic prognosis. The agent will simulate a patient’s
+future disease trajectory, generating predictions of not only future scans but also key,
+validated clinical endpoints such as futureTNM stage, PI-RADS scores, and the
+likelihood ofBiochemical Recurrence (BCR). This provides a comprehensive prognostic
+tool to improve diagnostic precision and risk stratification, reducing over- and under-
+treatment. Furthermore, this simulation capability transforms the model into a powerful
+platform forin-silico clinical trials. By modeling counterfactual patient journeys under
+different diagnostic or therapeutic assumptions, we can generate and pre-test robust research
+hypotheses, allowing for the design of more targeted, efficient, and ethical human clinical
+trials in the future.
+2• Enhance Personalized Treatment Selection (ii):We will deliver a treatment-choice
+helper that, while respecting theEAU guidelinesas the gold standard, directly addresses
+their acknowledged evidence gaps. The agent will leverage the "digital twin" to forecast
+outcomes for different treatment pathways, optimizing for maximum Time-to-Progression
+(TTP). Critically, this will help resolve uncertainty around the use ofProstate-Specific
+Membrane Antigen (PSMA) PET/CT. While its high sensitivity for early disease
+detection is known, a lack of extensive clinical trial data means guidelines cannot yet specify
+how to best act on this information. Our model will generate evidence by simulating
+outcomes, helping to form hypotheses for how PSMA PET/CT findings can be optimally
+integrated into treatment decisions. Furthermore, our project will create one of Europe’s
+most comprehensive datasets on177Lu-PSMA therapy, a novel and highly promising
+treatment. By modeling this rich data, we aim to significantly improve the utilization
+of this therapy, identifying the patient subgroups who will benefit most and the optimal
+timing for its administration.
 1.2 Novelty: A Paradigm Shift from Prediction to Causal Understanding
 The management of PCa is complex, with risks of overdiagnosis and undertreatment. The disease’s
 natural history is a multi-stage process influenced by tumor biology, patient characteristics, and
@@ -115,13 +124,13 @@ interact with the "digital twin"—the questions they ask, the counterfactuals t
 can gain a deeper understanding of the most critical factors influencing their decision-making
 process. This will allow us to create more personalized and effective explanations of the disease’s
 expected progression.
-Forging the Technology-to-Come.This project is a high-risk, high-gain endeavor to create a
+3Forging the Technology-to-Come.This project is a high-risk, high-gain endeavor to create a
 foundationalcausalframework that: (1) integrates multi-scaleevidence into robust, updatable
 decision processes; (2) monitors phenotype shifts and triggers timely therapy pivots with explicit
 uncertainty; and(3)establishesanewEuropeanreferencearchitecturefortrustworthy, explainable,
 and regulation-ready medical AI in prostate cancer—while providing a template for other evolving,
 treatment-pressured malignancies.
-3Figure 1: The natural history of prostate cancer, illustrating the stages our model will learn.
+4Figure 1: The natural history of prostate cancer, illustrating the stages our model will learn.
 The disease evolves based on tumor stage, patient state, and interventions, with information
 inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of
 a disease at initial diagnosis is the key to the best futher theraphyAbbreviations: ADT, AP,
@@ -130,7 +139,7 @@ ASAP, BCR, BPH, CRPC, CTCs, ECE, ENE, HGPIN, LVI, PSADT
 Technology
 Our methodology is a direct answer to the profound challenges of building trustworthy clinical
 AI. We aim to design a novel,four-stage causal frameworkthat deconstructs the immense
-4complexity of prostate cancer progression into a series of well-defined, manageable tasks. This
+5complexity of prostate cancer progression into a series of well-defined, manageable tasks. This
 modular approach is the key to our project’s feasibility: it ensures training stability, enhances
 model interpretability, and allows us to systematically embed clinical domain knowledge as strong
 inductive biases. This guides the model to learn the true underlying causal mechanisms of the
@@ -139,11 +148,10 @@ Level (TRL) of 2 and aims to achieve TRL 4 by its conclusion. This design levera
 project team’s extensive experience in synthetic image generation (CT from PET) and predictive
 modeling, and is illustrated in Figure 3. The proposed framework will address the current
 limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new
-imaging modalities like Prostate-Specific Membrane Antigen (PSMA)-PET. By creating a digital
-model of the patient and the disease, our system will be able to simulate virtual interventions
-and generate research hypotheses. This capability will be crucial for designing targeted and
-efficient clinical trials to establish how to best use new diagnostic information, ultimately saving
-time, money, and reducing patient risk.
+imaging modalities like PSMA-PET. By creating a digital model of the patient and the disease,
+our system will be able to simulate virtual interventions and generate research hypotheses. This
+capability will be crucial for designing targeted and efficient clinical trials to establish how to
+best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 1.3.1 Stage 1: Building the Bedrock of Clinical Validity with Supervisor Models
 The first stage builds a suite of specialized "supervisor" models. These models act as expert
 guides, providing strong, clinically-validated signals that will enforce a valid structure on the
@@ -155,10 +163,10 @@ stage), standard categorical classifiers are suboptimal. We will implement adiff
 ordinal learning frameworkthat explicitly encodes the ordered structure by combining
 a standard categorical loss with a differential ordinal loss, ensuring the model understands
 that a higher grade implies a worse prognosis [1, 2].
-• Censored Survival Regressor:To predict Time-to-Progression (TTP), we will train a
-survival model that properly handles right-censored data. This will be achieved using a
-censored regression loss (e.g., Logistic Hazard) combined with a ranking loss regularizer
-(e.g., SurvRNC) to ensure correct risk ordering in the learned feature representation [3, 4, 5].
+• Censored Survival Regressor:To predict TTP, we will train a survival model that
+properly handles right-censored data. This will be achieved using a censored regression
+loss (e.g., Logistic Hazard) combined with a ranking loss regularizer (e.g., SurvRNC) to
+ensure correct risk ordering in the learned feature representation [3, 4, 5].
 • Anatomical and Confounder Models:We will fine-tune a pre-trained TotalSegmentator
 model [6] to provide anatomical ground truth. Furthermore, we will train dedicated models
 to predict technical confounders (e.g., scanner type, dosage, data source location) and
@@ -174,7 +182,7 @@ ensure the model’s equity and generalizability.
 At the heart of our solution to data heterogeneity is a hierarchical VAE trained for each imaging
 modality to learn a disentangled latent space. The key innovation is partitioning this space into
 four independent, semantically meaningful components: Anatomy (ZA), Disease (ZD), Patient
-5State (ZP ), and Style/Confounders (ZS). This separation is enforced through a composite loss
+6State (ZP ), and Style/Confounders (ZS). This separation is enforced through a composite loss
 function:
 Ltotal = LVAE + λALAnatomy + λDLDisease + λILDisentangle
 The disentanglement is achieved by moving beyond simpleβ-VAE approaches. Our loss function
@@ -194,7 +202,7 @@ EHR is a key source of clinical data.
 1.3.3 Stage 3: Capturing Disease Dynamics with Neural Jump ODEs
 This stage confronts the critical challenge of modeling disease evolution from sparse, multimodal,
 and irregularly-sampled clinical data. Our solution is aNJDE framework, which is uniquely
-6suited for this task [12].
+7suited for this task [12].
 Rationale and Latent State FormulationNeural Ordinary Differential Equations (NODEs)
 are powerful because they model system dynamics in continuous time, making them inherently
 robust to irregular sampling—a defining characteristic of clinical data [12, 13, 14]. However,
@@ -237,11 +245,11 @@ dt = f(v(t),t; ψ) for t̸= tk
 or targeted radioligand therapy with177Lu-PSMA), the continuous evolution is interrupted
 by a discrete "jump." A separate neural network,g, models this instantaneous change to
 the state vector based on the type of intervention [21, 22]. Crucially, the model is designed
-7to handle multiple, sequential jumps, allowing it to accurately represent a patient’s entire
+8to handle multiple, sequential jumps, allowing it to accurately represent a patient’s entire
 treatment history, which may involve several different lines of therapy over time.
 v+ = g(v(tk),interventionk; ϕ) for t= tk
-8Figure 3: The proposed multi-stage causal AI framework.
-9This hybrid approach, which explicitly separates the continuous disease course from the rapid,
+9Figure 3: The proposed multi-stage causal AI framework.
+10This hybrid approach, which explicitly separates the continuous disease course from the rapid,
 external impacts of clinical interventions, is critical for accurately modeling a patient’s journey
 [12]. The model is trained using aleave-one-out strategyfor each patient’s time series: given
 all but one time point, its goal is to predict the complete state vector for the held-out time
@@ -286,7 +294,7 @@ on a different potential treatment intervention and timing. By comparing these s
 comes, the model can identify the therapeutic strategy that is explicitly optimized tomaximize
 the expected time to progression. This transforms the "what-if" capability from a simple
 explanatory tool into a powerful engine for data-driven treatment planning.
-10All insights are then consolidated into automatically generated structured reports using a
+11All insights are then consolidated into automatically generated structured reports using a
 Transformer-based decoder. These reports will integrate prognostic simulations, present
 the comparative effectiveness of different treatment options, and culminate in a data-driven
 recommendation. This directly addresses the clinical need for clear, consistent, and efficient
@@ -325,7 +333,7 @@ datasets will be contributed to the EUCAIM platform.
 • Engagement with Clinical and Patient Community:Actively engage with European
 clinical societies and patient advocacy groups to ensure clinical relevance and facilitate
 translation.
-11• Commercial Exploitation and Standardization:Explore commercialization through
+12• Commercial Exploitation and Standardization:Explore commercialization through
 partnerships with industry leaders and participate in standardization bodies to promote
 adoption.
 3 Implementation
@@ -341,7 +349,7 @@ harmonize multi-modal data.
 models for clinical ground truth.
 • WP3: Causal VAE Development (60 PMs): Develop the hierarchical VAE for
 disentanglement.
-12• WP4: Temporal Trajectory Modeling (60 PMs):Develop the NJDE framework for
+13• WP4: Temporal Trajectory Modeling (60 PMs):Develop the NJDE framework for
 longitudinal modeling.
 • WP5: Validation and Clinical Integration (30 PMs):Evaluate the framework’s
 performance and clinical utility.
@@ -384,7 +392,7 @@ CO=Confidential, SEN=Sensitive.
 Complementing the deliverables, the project’s progress will be assessed against the verifiable
 milestones listed in Table 2. These milestones serve as critical checkpoints to validate the
 achievement of the project’s scientific and technical goals.
-13Table 2: List of Verifiable Milestones.
+14Table 2: List of Verifiable Milestones.
 MS No. Milestone Name WP Due Means of Verification
 M1 Project Kick-off and Risk Register
 established
@@ -447,7 +455,7 @@ the model to learn from all available
 data without being penalized for miss-
 ingness.
 Continued on next page
-14Table 3 – continued from previous page
+15Table 3 – continued from previous page
 No. Description LikelihoodImpact Mitigation Strategy
 4 Clinical Trustworthiness
 and the "Black Box"
@@ -495,7 +503,7 @@ following data types on an opportunistic basis, when available:
 • Histopathological Images:When available, Whole-Slide Images (WSI) from biopsy and
 prostatectomy specimens will be collected to provide ground-truth information on tumor
 grade and morphology.
-15• Omics Data:The dataset will be enriched, when possible, with genetic data (e.g., from
+16• Omics Data:The dataset will be enriched, when possible, with genetic data (e.g., from
 targeted sequencing panels for genes like BRCA1/2) and other omics data, including
 proteomics and radiomics features extracted from the imaging studies.
 Table 4: Summary of Data Sources and Cohorts
@@ -539,7 +547,7 @@ Personnel costs are the most significant part of the budget, reflecting the high
 disciplinary team required for this project. Integrating advanced imaging, clinical data, and
 multi-omics data requires a diverse team with expertise in nuclear medicine, radiology, data
 science, mathematics, and software engineering. Costs are calculated for a 36-month project
-16duration based on institutional salary tables (TV-L), including all social security contributions.
+17duration based on institutional salary tables (TV-L), including all social security contributions.
 A total of282 person-months (PMs)are budgeted.
 • Scientific Staff (Wissenschaftlicher Mitarbeiter) - PI (1 FTE, 36 PMs):e263,141
 • Scientific Staff (Wissenschaftlicher Mitarbeiter) - PhD Student (3 FTEs, 108
@@ -580,7 +588,7 @@ essential theoretical support for the novel causal models being developed. This 
 focus on ensuring the mathematical soundness of the framework, particularly the complex
 Neural Jump ODEs (WP4), and will contribute to the development of robust uncertainty
 quantification methods.
-17• Scientific Staff (Wissenschaftlicher Mitarbeiter) - Data Scientist (Senior Re-
+18• Scientific Staff (Wissenschaftlicher Mitarbeiter) - Data Scientist (Senior Re-
 searcher, 1 FTE, 36 PMs):A dedicated data scientist is vital for managing the project’s
 complex and heterogeneous data. This role will oversee the entire data pipeline, from
 curation and harmonization (WP1) to secure storage and access, ensuring the integrity
@@ -621,7 +629,7 @@ creating a causal AI framework for medicine, an investment in computational powe
 with the scale of the scientific challenge is required. The budget is therefore centered on the
 acquisition of an NVIDIA DGX B200 system. This is not a conventional server but a
 purpose-built, integrated AI supercomputer that directly addresses the primary technical risks
-18of the project. The equipment is indispensable for the execution ofWP2, WP3, and WP4,
+19of the project. The equipment is indispensable for the execution ofWP2, WP3, and WP4,
 which involve training deep learning models on large-scale 3D imaging data.
 2. Justification for the DGX B200 SolutionThe choice of the DGX B200 is driven by
 key technical requirements of the proposed research:
@@ -663,7 +671,7 @@ review meeting (M18), and a final project meeting (M36 in Magdeburg).
 to present project findings at major international conferences such as RSNA, ECR, MICCAI,
 and NeurIPS. This is crucial for WP6 (Dissemination).
 Total Estimated Travel Costs:e 32,500
-19A.4 Other Direct Costs
+20A.4 Other Direct Costs
 This category includes costs for publications, dataset access, and other minor expenses.
 • Open Access Publication Fees:To comply with Horizon Europe’s open science mandate,
 we have budgeted for Article Processing Charges (APCs) for an estimated 10 high-impact
@@ -700,7 +708,7 @@ project, mitigating the risk of data scarcity and ensuring the developed technol
 validated, and ready for broader clinical application.
 Data Governance, AI Act Compliance (Article 10), and EUCAIM Integration:All
 data will be managed within a secure, learning-ready environment based on the XNAT platform,
-20ensuring robust data hosting and management. Our data governance framework is designed to
+21ensuring robust data hosting and management. Our data governance framework is designed to
 meet the stringent quality criteria of Article 10 of the EU AI Act and to ensure full compatibility
 with the EUCAIM infrastructure. We commit to making all collected data ready for integration
 into the EUCAIM federation.
@@ -743,7 +751,7 @@ assessing the model’s fundamental diagnostic accuracy.
 (MAE)):These metrics measure the model’s ability to predict TTP. They are relevant
 for assessing the model’s prognostic accuracy.
 • Generative Model Performance:
-21– Image Generation Quality (Fréchet Inception Distance (FID), Structural
+22– Image Generation Quality (Fréchet Inception Distance (FID), Structural
 Similarity Index Measure (SSIM), Learned Perceptual Image Patch Simi-
 larity (LPIPS)):These metrics measure the realism and fidelity of the generated
 images. They are relevant for ensuring the clinical plausibility of the model’s outputs.
@@ -766,7 +774,7 @@ Our validation strategy is designed to rigorously test each component of the fra
 before assessing the performance of the integrated system. This staged approach, detailed in
 Table 7, ensures that each module is robust and reliable before it is incorporated into the full
 clinical workflow.
-22Table 7: Component-Wise and Joint Validation Strategy.
+23Table 7: Component-Wise and Joint Validation Strategy.
 Component/Stage Isolated Testing Joint Testing
 Stage 1: Supervisor
 Models
@@ -839,7 +847,7 @@ image viewers. An experimental group will review the same cases using our system
 auto-generated structured reports and prognostic visualizations. We will measure:
 – Efficiency: Time taken to extract key information (e.g., TNM stage, PI-RADS score,
 presence of key findings) required for treatment planning.
-23– Accuracy and Concordance:Inter-rater agreement and accuracy of the extracted
+24– Accuracy and Concordance:Inter-rater agreement and accuracy of the extracted
 information compared to an expert-defined ground truth.
 – User Satisfaction:Clinicians’ perceived efficiency, clarity, and confidence in their
 decisions will be assessed using a standardized questionnaire (e.g., the System Usability
@@ -883,7 +891,7 @@ traceability of operations, in compliance with the record-keeping requirements o
 • Transparency and Provision of Information (Article 13):A cornerstone of our
 project is to overcome the "black box" problem. The framework’s ability to generate
 counterfactual explanations (Stage 4) is a direct implementation of the transparency
-24requirements of Article 13. The system is designed so that its operations are sufficiently
+25requirements of Article 13. The system is designed so that its operations are sufficiently
 transparent to enable deployers to interpret its output and use it appropriately. We will
 provide detailed instructions for use that explain the system’s capabilities, limitations, and
 the role of human oversight.
@@ -917,7 +925,7 @@ all user actions, system access, and predictions to ensure traceability [30, 29]
 This principled approach ensures that our innovative framework is not only technologically
 advanced but also safe, trustworthy, and fully compliant with the Union’s legal framework for
 artificial intelligence.
-253.6 Portfolio Mapping
+263.6 Portfolio Mapping
 Table 8: Portfolio Mapping.
 Category Value
 Type of Cancer Prostate Cancer
@@ -960,7 +968,7 @@ Geert Litjens. Hierarchical vision transformers for prostate biopsy grading: Tow
 the generalization gap.Medical Image Analysis, 105, 10 2025.
 [3] Riqiang Gao, Lingfeng Li, Yucheng Tang, Sanja L. Antic, Alexis B. Paulson, Yuankai Huo,
 Kim L. Sandler, Pierre P. Massion, and Bennett A. Landman. Deep multi-task prediction of
-26lung cancer and cancer-free progression from censored heterogenous clinical imaging.arXiv,
+27lung cancer and cancer-free progression from censored heterogenous clinical imaging.arXiv,
 2019.
 [4] Antoine Rivail, Wolf-Dieter Vogl, Sophie Riedl, Christoph Grechenig, Leonard M. Coulibaly,
 Gregor S. Reiter, Robyn H. Guymer, Zhichao Wu, Ursula Schmidt-Erfurth, and Hrvoje
@@ -1000,7 +1008,7 @@ the temporal evolution of fluid flow.arXiv, 2018.
 [16] Jared Quincy Davis, Krzysztof Choromanski, Jake Varley, Honglak Lee, Jean-Jacques
 Slotine, Valerii Likhosterov, Adrian Weller, Ameesh Makadia, and Vikas Sindhwani. Time
 dependence in non-autonomous neural odes.arXiv, 2020.
-27[17] Matthew Ashman, Jonathan So, Will Tebbutt, Vincent Fortuin, Michael Pearce, and
+28[17] Matthew Ashman, Jonathan So, Will Tebbutt, Vincent Fortuin, Michael Pearce, and
 Richard E. Turner. Sparse gaussian process variational autoencoders.arXiv, 2020.
 [18] Göran Köber, Raffael Kalisch, Lara M.C. Puhlmann, Andrea Chmitorz, Anita Schick,
 and Harald Binder. Deep learning and differential equations for modeling changes in
@@ -1041,7 +1049,7 @@ risk of harm to patients from artificial intelligence in healthcare.arXiv, 2023.
 [31] Ugoaghalam Uche James, Onuh Matthew Ijiga, and Lawrence Anebi Enyejo. Ai-powered
 threat intelligence for proactive risk detection in 5g-enabled smart healthcare communication
 networks. International Journal of Scientific Research and Modern Technology, 11 2024.
-28List of Acronyms
+29List of Acronyms
 ADT Androgen Deprivation Therapy. 4, 7
 AP Alkaline Phosphatase. 4
 ASAP Atypical Small Acinar Proliferation. 4
@@ -1069,7 +1077,7 @@ LVI Lymphovascular Invasion. 4
 MAE Mean Absolute Error. 21
 MRI Magnetic Resonance Imaging. 1, 2, 7, 15, 16
 NJDE Neural Jump Ordinary Differential Equation. 1, 6, 7, 10, 13
-29OMOP-CDM Observational Medical Outcomes Partnership - Common Data Model. 21
+30OMOP-CDM Observational Medical Outcomes Partnership - Common Data Model. 21
 OOD Out-of-Distribution. 25
 PCa Prostate Cancer. 1, 2, 15
 PET Positron Emission Tomography. 1, 5, 7, 15, 16
@@ -1082,4 +1090,4 @@ TTP Time-to-Progression. 5, 21
 VAE Variational Autoencoder. 1, 5, 12, 22
 WSI Whole-Slide Images. 15
 XAI eXplainable AI. 25
-30
+31
