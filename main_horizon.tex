@@ -93,6 +93,7 @@
 \usepackage{eurosym} % For the EUR symbol
 \usepackage{float} % to use [H]
 \usepackage{ragged2e}
+\usepackage{pdfpages}
 
 % --- GLOSSARIES ---
 \usepackage[acronym]{glossaries}
@@ -142,14 +143,9 @@
 \newacronym{lvi}{LVI}{Lymphovascular Invasion}
 \newacronym{psadt}{PSADT}{PSA Doubling Time}
 
-
-\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
-\author{}
-\date{}
-
 \begin{document}
 
-\maketitle
+\includepdf[pages=-]{title_page.pdf}
 
 \begin{abstract}
 This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and infuse deep medical domain knowledge into the model's architecture to guide its learning process and disentangle disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
@@ -353,17 +349,31 @@ This project is committed to upholding the principles of gender equality and ope
 The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like \gls{psma}-\gls{pet}. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
 \section{Impact}
-This project will generate significant and lasting impact by advancing the frontiers of science and technology and delivering tangible benefits to patients, clinicians, and the European innovation ecosystem. We aim to establish a new technological paradigm for clinical AI that is trustworthy, explainable, and aligned with the goals of the EU Cancer Mission.
 
 \subsection{Potential Impact: Pathways to Outcomes}
-The successful completion of this project will directly contribute to the expected outcomes and impacts of the Challenge by establishing credible pathways from our technological innovations to tangible clinical and societal benefits. The credibility of these pathways rests on our rigorous, component-wise validation strategy (WP5), which ensures that the model's predictions are clinically plausible and trustworthy before they are integrated into the clinical workflow.
+This project is designed to generate specific, measurable, and credible impacts for clearly defined target groups. Our pathways to outcomes are grounded in the project's concrete deliverables and are designed to be traceable and significant within the project's timeframe.
 
 \begin{itemize}
-    \item \textbf{Pathway to Enhanced Diagnostic Accuracy and Personalised Treatment:} The project's core deliverable, the causal "digital twin" (developed in WP2-4), provides the direct mechanism for this impact. A clinician can use our tool to simulate multiple treatment options for a patient, such as immediate radiotherapy versus active surveillance. The model will generate not just a risk score, but a full, visualized 5-year prognosis for each path, including likely future PSA levels and synthetic PET/CT scans showing potential disease progression. This concrete, patient-specific forecast allows for a more informed, shared decision-making process, directly addressing the challenge of reducing over- and under-treatment.
+    \item \textbf{Outcome 1: Improved Clinical Decision-Making for Prostate Cancer Patients.}
+        \begin{itemize}
+            \item \textbf{Target Group:} Urologists, radiation oncologists, and medical oncologists in European hospitals.
+            \item \textbf{Project Contribution:} The core deliverable is the "digital twin" (developed in WP2-4), a clinical decision support tool. This tool will provide patient-specific, 5-year prognostic forecasts for multiple treatment scenarios (e.g., active surveillance vs. immediate radiotherapy).
+            \item \textbf{Benefit:} Clinicians can directly compare visualized outcomes, such as projected tumor volume on synthetic PET/CT scans and PSA level curves. This enables a more precise, evidence-based selection of treatment, with the goal of reducing over- and under-treatment by an estimated 15-20\% in the participating clinics, which will be measured in a dedicated study in WP5.
+        \end{itemize}
 
-    \item \textbf{Pathway to Empowering Clinicians and Reducing Workload:} This impact is achieved through the clinical application tools developed in WP5. The automated generation of structured reports directly tackles a significant administrative burden. For instance, after a tumor board meeting, our system will auto-populate a report with all relevant prognostic predictions and simulated outcomes, saving an estimated 10-15 minutes of manual documentation per case. The framework's ability to generate visual, counterfactual explanations provides an intuitive interface for clinicians. A radiologist can, with a single click, generate a "benign" version of a patient's scan, immediately highlighting the subtle features the AI identified as malignant. This augments their decision-making process, allowing them to build trust in the system and leverage its insights more effectively. This pathway is credible because it addresses a well-documented and critical pain point in the clinical workflow.
+    \item \textbf{Outcome 2: Increased Efficiency and Reduced Administrative Burden for Clinical Staff.}
+        \begin{itemize}
+            \item \textbf{Target Group:} Radiologists and clinical staff involved in tumor board meetings.
+            \item \textbf{Project Contribution:} The clinical application tools developed in WP5 will feature automated generation of structured radiological reports.
+            \item \textbf{Benefit:} The system will auto-populate reports with prognostic predictions, treatment simulations, and key imaging findings. We will measure the time saved in the clinical workflow study (WP5), with an expected reduction of 10-15 minutes of manual documentation per patient case, freeing up clinician time for direct patient care. The counterfactual visualizations will also allow radiologists to more quickly understand the AI's reasoning, with a target of reducing the time to interpret complex cases by 25\%.
+        \end{itemize}
 
-    \item \textbf{Pathway to a New European Standard for Medical AI:} The project's contribution extends beyond prostate cancer by creating a \textbf{disease-agnostic foundational technology}. The modular, four-stage framework is designed for adaptability. For example, the same causal disentanglement architecture (WP3) can be retrained to model glioblastoma progression in the brain. By delivering this framework as an open-source tool (a core commitment of WP6), we provide the European research community with a powerful, reusable platform. This directly fosters a new era of clinical AI development, built on principles of causality and transparency, establishing a new European standard for trustworthy medical AI.
+    \item \textbf{Outcome 3: Accelerated Clinical Research and Guideline Development.}
+        \begin{itemize}
+            \item \textbf{Target Group:} Clinical researchers, pharmaceutical companies, and guideline development committees (e.g., \gls{eau}).
+            \item \textbf{Project Contribution:} The project will generate a high-quality, curated, multi-center dataset on prostate cancer, including one of Europe's most comprehensive datasets on $^{177}$Lu-\gls{psma} therapy. The trained model itself will serve as an \textit{in-silico} platform for generating and pre-testing clinical hypotheses.
+            \item \textbf{Benefit:} Researchers can use our open-source framework to rapidly test hypotheses, such as identifying patient subgroups who benefit most from novel therapies. This can significantly reduce the time and cost of designing future clinical trials. For guideline committees, the project will provide crucial data to help resolve clinical uncertainties, such as the optimal use of \gls{psma} \gls{pet}/\gls{ct} in treatment planning.
+        \end{itemize}
 \end{itemize}
 
 \subsection{Innovation potential}
@@ -409,7 +419,13 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (30 PMs):} Gather, anonymize, and harmonize multi-modal data.
+    \item \textbf{WP1: Data Curation and Harmonization (30 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. The tasks include:
+    \begin{itemize}
+        \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions. Implement a robust, automated anonymization pipeline to remove all patient-identifying information in compliance with GDPR.
+        \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields.
+        \item \textbf{Task 1.3: Multi-Modal Data Linkage:} Create a unified patient record by accurately linking data from different sources (e.g., matching a patient's MRI scans with their corresponding EHR records and biopsy results) using a unique, anonymized identifier.
+        \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines, seminal textbooks, and internal tumor board documents to create a structured knowledge base that will inform the model's training and provide a basis for explainability.
+    \end{itemize}
     \item \textbf{WP2: Foundational Supervisor Model Training (50 PMs):} Develop supervisor models for clinical ground truth.
     \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
     \item \textbf{WP4: Temporal Trajectory Modeling (60 PMs):} Develop the \gls{njde} framework for longitudinal modeling.
@@ -468,49 +484,34 @@ Complementing the deliverables, the project's progress will be assessed against 
     \end{tabular}
 \end{table}
 
-\begin{longtable}{p{0.05\textwidth} p{0.25\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth}}
-    \caption{Critical Risks and Mitigation Strategies.}
-    \label{tab:risks} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endfirsthead
-    \multicolumn{5}{c}%
-    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-    \toprule
-    \textbf{No.} & \textbf{Description} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
-    \midrule
-    \endhead
-    \midrule \multicolumn{5}{r}{{Continued on next page}} \\
-    \endfoot
-    \bottomrule
-    \endlastfoot
-    1 & Training Instability and Data Scalability & High & High & Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets. \\
-    \addlinespace
-    2 & Generalizability and Overfitting to Spurious Correlations & Medium & High & Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15. \\
-    \addlinespace
-    3 & Performance with Incomplete and Heterogeneous Data & High & High & Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness. \\
-    \addlinespace
-    4 & High Project Complexity & Medium & High & The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure. \\
-    \addlinespace
-    5 & Data Scarcity or Lack of Diversity & Low & High & This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation. \\
-    \addlinespace
-    6 & Risk of Failure due to Low Starting TRL & High & High & The project starts at TRL 1 for its core causal framework, which is inherently high-risk. This is mitigated by building upon a TRL 3 foundation for data processing and management from the SIKIT project (€1.29M funding), allowing us to focus resources on the novel TRL 1 research with a de-risked starting point. \\
-    \addlinespace
-    7 & Risk of Clinical Adoption Failure & Medium & High & To bridge the gap from research to practice, we address two key barriers: 1) **Computational Feasibility:** Our latent-space modeling makes the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** Our design incorporates a "compliance-by-design" approach, aligning with the EU AI Act from the outset to streamline future certification. \\
-    \addlinespace
-    8 & Model Drift and Performance Deterioration & Medium & High & Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early. \\
-\end{longtable}
+\begin{itemize}
+    \item \textbf{Risk 1: Training Instability and Data Scalability (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets.
+    \item \textbf{Risk 2: Generalizability and Overfitting to Spurious Correlations (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15.
+    \item \textbf{Risk 3: Performance with Incomplete and Heterogeneous Data (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness.
+    \item \textbf{Risk 4: High Project Complexity (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure.
+    \item \textbf{Risk 5: Data Scarcity or Lack of Diversity (Likelihood: Low, Impact: High).}
+    \subitem \textbf{Mitigation:} This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation.
+    \item \textbf{Risk 6: Risk of Failure due to Low Starting TRL (Likelihood: High, Impact: High).}
+    \subitem \textbf{Mitigation:} The project starts at TRL 1 for its core causal framework, which is inherently high-risk. This is mitigated by building upon a TRL 3 foundation for data processing and management from the SIKIT project (€1.29M funding), allowing us to focus resources on the novel TRL 1 research with a de-risked starting point.
+    \item \textbf{Risk 7: Risk of Clinical Adoption Failure (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} To bridge the gap from research to practice, we address two key barriers: 1) **Computational Feasibility:** Our latent-space modeling makes the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** Our design incorporates a "compliance-by-design" approach, aligning with the EU AI Act from the outset to streamline future certification.
+    \item \textbf{Risk 8: Model Drift and Performance Deterioration (Likelihood: Medium, Impact: High).}
+    \subitem \textbf{Mitigation:} Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early.
+\end{itemize}
 
 \subsection{Quality of the Team and Collaborations}
-This project is submitted by a single applicant, the Universitätsklinik für Radiologie und Nuklearmedizin, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
+This project is submitted by a single applicant, the applicant institution, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
 \begin{itemize}
-    \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin (Magdeburg):} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging. Our team will lead all technical WPs (WP1-WP5).
-    \item \textbf{Department of Nuclear Medicine, University Hospital Halle:} A key partner providing extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their clinical team will also play a vital role in the validation studies (WP5).
-    \item \textbf{Charité - Universitätsmedizin Berlin:} Provides access to a diverse patient cohort, increasing the heterogeneity of the training data and ensuring the generalizability of the developed models. Their expertise in multi-center trials will be invaluable for designing the validation framework.
-    \item \textbf{Radiological Practice Sudenburg:} This partner provides access to a large cohort of primary diagnostic imaging, which is essential for training the supervisor models for early-stage disease in WP2.
+    \item \textbf{The applicant institution:} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging. Our team will lead all technical WPs (WP1-WP5).
+    \item \textbf{A key partner:} A key partner providing extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their clinical team will also play a vital role in the validation studies (WP5).
+    \item \textbf{A key partner:} Provides access to a diverse patient cohort, increasing the heterogeneity of the training data and ensuring the generalizability of the developed models. Their expertise in multi-center trials will be invaluable for designing the validation framework.
+    \item \textbf{A key partner:} This partner provides access to a large cohort of primary diagnostic imaging, which is essential for training the supervisor models for early-stage disease in WP2.
 \end{itemize}
-A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Our proven expertise in these areas significantly de-risks the technical development and is showcased on our public portfolio website: \url{https://jakubmitura14.github.io/OVGU_nuclear_projects/}. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
+A medical doctor with dual specialization in nuclear medicine and radiology will serve as the PI, and a medical doctor with a specialization in nuclear medicine and an IT background will act as co-coordinator. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Our proven expertise in these areas significantly de-risks the technical development. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
 
 \subsection{Appropriateness of the Allocation of Resources}
 A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
@@ -531,15 +532,15 @@ The proprietary clinical cohort will serve as the cornerstone of this project, p
 \midrule
 \multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
 \midrule
-Paired $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& mp\gls{mri} & Magdeburg, Halle, Charite & 350 \\
+Paired $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& mp\gls{mri} & Applicant & 350 \\
 \cmidrule(lr){1-3}
-Paired pre-therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& post-therapy $^{177}$Lu-\gls{psma} SPECT/\gls{ct} & Magdeburg, Halle, Charite & 550 \\
+Paired pre-therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& post-therapy $^{177}$Lu-\gls{psma} SPECT/\gls{ct} & Applicant and Partners & 550 \\
 \cmidrule(lr){1-3}
-Paired interim therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& \gls{ct} & Magdeburg & 40 \\
+Paired interim therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& \gls{ct} & Applicant & 40 \\
 \cmidrule(lr){1-3}
-Longitudinal $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} & Magdeburg & 200 \\
+Longitudinal $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} & Applicant & 200 \\
 \cmidrule(lr){1-3}
-Diagnostic \gls{ct} \& mp\gls{mri} & Rad. Sudenburg (Magdeburg) & 200 \\
+Diagnostic \gls{ct} \& mp\gls{mri} & Partner & 200 \\
 \midrule
 \textbf{Total Minimum Proprietary Cohort} & & \textbf{1340} \\
 \midrule
