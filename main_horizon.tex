@@ -216,6 +216,54 @@ This project will start at a Technology Readiness Level (TRL) of 1 for the gener
 
 This design leverages the project team's extensive experience in synthetic image generation (\gls{ct} from \gls{pet}) and predictive modeling, and is illustrated in Figure \ref{fig:ml_framework}. The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like \gls{psma}-\gls{pet}. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
+\subsection{Compliance with the EU Artificial Intelligence Act}
+The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
+
+\begin{itemize}
+    \item \textbf{Risk Management System (Article 9):} Our project management (WP7) will implement a continuous, iterative risk management process as mandated by Article 9, which will be maintained throughout the AI system’s lifecycle. Specifically, this will be operationalized through a dedicated \textbf{Risk Register}, established at the project's outset (M1). This living document will log all known and reasonably foreseeable risks to health, safety, fundamental rights, and project execution. For each identified risk, we will assess its severity and likelihood, and define concrete mitigation and contingency plans. The register will be reviewed quarterly by the project management team and discussed in detail during biannual project meetings with the external collaborators. The applicant (Universitätsklinik für Nuklearmedizin, Magdeburg) will take the lead in identifying clinical risks (e.g., misdiagnosis, incorrect treatment suggestions), while the technical team will focus on system-level risks (e.g., model bias, cybersecurity vulnerabilities, performance degradation). This structured and collaborative process ensures that risks are not only identified but actively managed and mitigated throughout the project.
+
+    \item \textbf{Data and Data Governance (Article 10):} WP1 is entirely dedicated to establishing data governance practices that meet the quality criteria of Article 10. We will use relevant, representative datasets. We will proactively implement measures to detect and mitigate potential biases through the disentanglement methods in Stage 2 and the confounder models in Stage 1. While sex as a biological variable is fixed for prostate cancer, the project will also investigate and mitigate potential data biases related to other demographic factors (e.g., age, ethnicity) to ensure the model's equity and generalizability. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5).
+
+    \item \textbf{Technical Documentation and Record-Keeping (Articles 11 \& 12):} We commit to creating and maintaining comprehensive technical documentation as specified in Annex IV of the AI Act. Our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of Article 12.
+
+    \item \textbf{Transparency and Provision of Information (Article 13):} A cornerstone of our project is to overcome the "black box" problem. The framework's ability to generate counterfactual explanations (Stage 4) is a direct implementation of the transparency requirements of Article 13. The system is designed so that its operations are sufficiently transparent to enable deployers to interpret its output and use it appropriately. We will provide detailed instructions for use that explain the system's capabilities, limitations, and the role of human oversight.
+
+    \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
+
+    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). To comply with Article 15, we will implement a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance \cite{AlAttar2023,AlkanZakariyya2025}. Our approach is built on three pillars:
+
+\paragraph{1. Enhancing AI Model Robustness and Integrity}
+To defend against malicious inputs and training manipulations, we will:
+\begin{itemize}
+    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement \gls{ood} detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
+    \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
+\end{itemize}
+
+\paragraph{2. Operational, Transparency, and Regulatory Frameworks}
+To ensure accountability and long-term reliability, we will establish:
+\begin{itemize}
+    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
+    \item \textbf{\gls{xai}:} Our counterfactual explanation system is a core part of our \gls{xai} strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
+    \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
+\end{itemize}
+\end{itemize}
+
+This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
+
+\subsection{Gender Dimension and Open Science Practices}
+This project is committed to upholding the principles of gender equality and open science, integrating them meaningfully into our research content and practices.
+
+\paragraph{Gender Dimension in Research Content and Team Composition}
+Due to the specific focus of this project on prostate cancer, a disease that exclusively affects individuals with a prostate, the sex/gender dimension is not directly applicable to the biological and clinical aspects of the research content. However, we are fully committed to promoting gender equality in our team composition and research environment. We will ensure equal opportunities in the recruitment process for all project roles, from PhD students to technical staff, actively encouraging applications from all genders to foster a diverse and inclusive team.
+
+\paragraph{Commitment to Open Science}
+Our project is fundamentally aligned with the principles of Open Science to maximize transparency, reproducibility, and impact.
+\begin{itemize}
+    \item \textbf{Open Access Publications:} All peer-reviewed publications resulting from this project will be made available through Gold Open Access routes, ensuring immediate and unrestricted access for the scientific community and the public.
+    \item \textbf{FAIR Data Management:} The datasets generated and used in this project will be managed according to the FAIR (Findable, Accessible, Interoperable, and Reusable) principles. While the raw clinical data is sensitive and cannot be made fully public, we will create a comprehensive, anonymized dataset description and make it available. We will also contribute curated, anonymized datasets to the \gls{eucaim} platform, adhering to its data sharing agreements.
+    \item \textbf{Open Source Software:} All software and code developed within this project, including the AI models and analysis scripts, will be version-controlled and made publicly available in a suitable open-source repository (e.g., GitHub) under a permissive license (e.g., MIT or Apache 2.0).
+    \item \textbf{Dissemination and Public Engagement:} Beyond scientific publications, we will actively disseminate our findings through our project website, presentations at international conferences, and engagement with patient advocacy groups to ensure the results of our research reach a broad audience.
+\end{itemize}
 
 \subsubsection{Stage 1: Building the Bedrock of Clinical Validity with Supervisor Models}
 The first stage builds a suite of specialized "supervisor" models. These models act as expert guides, providing strong, clinically-validated signals that will enforce a valid structure on the more complex generative models in subsequent stages. Our team's prior success in developing predictive models from fused clinical and imaging data provides a strong foundation for this work package.
@@ -663,39 +711,6 @@ Beyond quantitative metrics, a practical, clinician-in-the-loop study is essenti
 \end{itemize}
 
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
-\subsection{Compliance with the EU Artificial Intelligence Act}
-The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems:
-
-\begin{itemize}
-    \item \textbf{Risk Management System (Article 9):} Our project management (WP7) will implement a continuous, iterative risk management process as mandated by Article 9, which will be maintained throughout the AI system’s lifecycle. Specifically, this will be operationalized through a dedicated \textbf{Risk Register}, established at the project's outset (M1). This living document will log all known and reasonably foreseeable risks to health, safety, fundamental rights, and project execution. For each identified risk, we will assess its severity and likelihood, and define concrete mitigation and contingency plans. The register will be reviewed quarterly by the project management team and discussed in detail during biannual project meetings with the external collaborators. The applicant (Universitätsklinik für Nuklearmedizin, Magdeburg) will take the lead in identifying clinical risks (e.g., misdiagnosis, incorrect treatment suggestions), while the technical team will focus on system-level risks (e.g., model bias, cybersecurity vulnerabilities, performance degradation). This structured and collaborative process ensures that risks are not only identified but actively managed and mitigated throughout the project.
-
-    \item \textbf{Data and Data Governance (Article 10):} WP1 is entirely dedicated to establishing data governance practices that meet the quality criteria of Article 10. We will use relevant, representative datasets. We will proactively implement measures to detect and mitigate potential biases through the disentanglement methods in Stage 2 and the confounder models in Stage 1. While sex as a biological variable is fixed for prostate cancer, the project will also investigate and mitigate potential data biases related to other demographic factors (e.g., age, ethnicity) to ensure the model's equity and generalizability. For the purpose of bias detection and correction, we will process special categories of personal data only where strictly necessary and with the appropriate safeguards as permitted under Article 10(5).
-
-    \item \textbf{Technical Documentation and Record-Keeping (Articles 11 \& 12):} We commit to creating and maintaining comprehensive technical documentation as specified in Annex IV of the AI Act. Our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of Article 12.
-
-    \item \textbf{Transparency and Provision of Information (Article 13):} A cornerstone of our project is to overcome the "black box" problem. The framework's ability to generate counterfactual explanations (Stage 4) is a direct implementation of the transparency requirements of Article 13. The system is designed so that its operations are sufficiently transparent to enable deployers to interpret its output and use it appropriately. We will provide detailed instructions for use that explain the system's capabilities, limitations, and the role of human oversight.
-
-    \item \textbf{Human Oversight (Article 14):} The system is designed to augment, not replace, clinical experts. It functions as a decision support tool, ensuring that a natural person can oversee its functioning at all times. The design ensures that the user can understand the system's capabilities, monitor its operation, and decide to disregard, override, or reverse its output, fulfilling the requirements of Article 14.
-
-    \item \textbf{Accuracy, Robustness, and Cybersecurity (Article 15):} WP5 is dedicated to rigorous validation of the model's accuracy and robustness. The system will be designed to be resilient against errors and inconsistencies through the disentanglement of confounders (Stage 2). To comply with Article 15, we will implement a multi-layered, comprehensive security strategy that addresses AI-specific threats, ensures patient data privacy, and enforces strict regulatory compliance \cite{AlAttar2023,AlkanZakariyya2025}. Our approach is built on three pillars:
-
-\paragraph{1. Enhancing AI Model Robustness and Integrity}
-To defend against malicious inputs and training manipulations, we will:
-\begin{itemize}
-    \item \textbf{Stress Testing and OOD Detection:} We will conduct rigorous stress tests to validate robustness and implement \gls{ood} detection to flag inputs that fall outside the model's expected data range, thereby preserving reliability \cite{KhadkaEpiphaniou2025}.
-    \item \textbf{Data Quality Assessment:} We will perform thorough checks on all data for completeness, consistency, and correctness to avoid performance degradation \cite{GarcaGmezBlanesSelva2023}.
-\end{itemize}
-
-\paragraph{2. Operational, Transparency, and Regulatory Frameworks}
-To ensure accountability and long-term reliability, we will establish:
-\begin{itemize}
-    \item \textbf{Continuous Monitoring and Anomaly Detection:} We will implement continuous monitoring to identify anomalous model behaviors in real-time \cite{AlAttar2023,GarcaGmezBlanesSelva2023}.
-    \item \textbf{\gls{xai}:} Our counterfactual explanation system is a core part of our \gls{xai} strategy, providing transparency that is crucial for clinician trust and accountability \cite{GarcaGmezBlanesSelva2023,JamesIjiga2024}.
-    \item \textbf{A Comprehensive Audit Trail:} We will maintain a complete audit trail logging all user actions, system access, and predictions to ensure traceability \cite{GarcaGmezBlanesSelva2023,KhadkaEpiphaniou2025}.
-\end{itemize}
-\end{itemize}
-
-This principled approach ensures that our innovative framework is not only technologically advanced but also safe, trustworthy, and fully compliant with the Union's legal framework for artificial intelligence.
 
 \subsection{Portfolio Mapping}
 \begin{table}[H]
