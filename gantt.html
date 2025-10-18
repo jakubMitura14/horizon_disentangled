@@ -89,26 +89,26 @@
             </div>
 
             <!-- Task Names Column -->
-            <div class="text-lg font-medium border-r border-slate-200">
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP1: Data Curation</div>
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP2: Supervisor Models</div>
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP3: Causal VAE Dev</div>
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP4: Trajectory Modeling</div>
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP5: Validation</div>
-                <div class="p-4 h-16 flex items-center border-b border-slate-200">WP6: Dissemination</div>
+            <div class="text-lg font-medium border-r border-slate-200 divide-y divide-slate-200">
+                <div class="p-4 h-24 flex items-center">WP1: Data Curation & Harmonization</div>
+                <div class="p-4 h-16 flex items-center">WP2: Foundational Supervisor Model Training</div>
+                <div class="p-4 h-16 flex items-center">WP3: Causal VAE Development</div>
+                <div class="p-4 h-16 flex items-center">WP4: Temporal Trajectory Modeling</div>
+                <div class="p-4 h-16 flex items-center">WP5: Validation & Clinical Integration</div>
+                <div class="p-4 h-16 flex items-center">WP6: Dissemination, Communication & Exploitation</div>
                 <div class="p-4 h-16 flex items-center">WP7: Project Management</div>
+                <div class="p-4 h-16 flex items-center">WP8: Portfolio Activities</div>
             </div>
             
             <!-- Timeline Grid Column -->
             <div class="relative overflow-x-auto">
-                <!-- Vertical Grid Lines for Quarters -->
+                <!-- Vertical Grid Lines for Months -->
                 <div class="absolute top-0 left-0 h-full w-full timeline-grid pointer-events-none">
                     <script>
-                        // Generate 36 vertical lines for months, with darker lines for quarters
                         for (let i = 1; i <= 36; i++) {
                             let borderColor = (i % 3 === 0) ? 'border-slate-200' : 'border-slate-100';
                             if (i % 12 === 0) borderColor = 'border-slate-300';
-                             if(i < 36) {
+                            if (i < 36) {
                                 document.write(`<div class="border-r ${borderColor}"></div>`);
                             }
                         }
@@ -116,94 +116,80 @@
                 </div>
 
                 <!-- Task Rows in Timeline -->
-                <div class="relative text-base text-white">
-                    <!-- WP1 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-sky-500 rounded-full h-6 w-full relative flex items-center justify-center" style="width: calc(33 / 36 * 100%);">
-                            <span class="text-xl font-bold">M1-33</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP1: Data Curation & Harmonization (Months 1-33)
-                            </div>
-                            <!-- D1.1 Deliverable -->
-                             <div class="absolute has-tooltip" style="left: calc(33 / 33 * 100% - 20px);">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400 drop-shadow-md"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">D1.1: Curated Dataset</div>
-                            </div>
+                <div class="relative text-base text-white divide-y divide-slate-200">
+                    <!-- WP1: Detailed Tasks -->
+                    <div class="p-2 h-24 grid grid-cols-1 gap-1">
+                        <div class="task-bar bg-sky-600 rounded-md h-5 flex items-center justify-center text-xs" style="width: calc(6 / 36 * 100%);">T1.1 Acq. & Anonym.</div>
+                        <div class="task-bar bg-sky-500 rounded-md h-5 flex items-center justify-center text-xs" style="margin-left: calc(3 / 36 * 100%); width: calc(9 / 36 * 100%);">T1.2 Struct. & Clean.</div>
+                        <div class="task-bar bg-sky-400 rounded-md h-5 flex items-center justify-center text-xs" style="margin-left: calc(6 / 36 * 100%); width: calc(9 / 36 * 100%);">T1.3 Linkage</div>
+                        <div class="task-bar bg-sky-300 rounded-md h-5 flex items-center justify-center text-xs" style="margin-left: calc(1 / 36 * 100%); width: calc(12 / 36 * 100%);">T1.4 Knowl. Base</div>
+                        <!-- D1.1 Deliverable -->
+                        <div class="absolute has-tooltip" style="left: calc(12 / 36 * 100% - 10px); top: 50%; transform: translateY(-50%);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400 drop-shadow-md"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">D1.1: Curated Dataset</div>
                         </div>
                     </div>
                     <!-- WP2 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-indigo-500 rounded-full h-6 w-full relative flex items-center justify-center" style="width: calc(15 / 36 * 100%);">
-                            <span class="text-xl font-bold">M1-15</span>
-                             <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP2: Foundational Supervisor Model Training (Months 1-15)
-                            </div>
-                            <!-- M1 Milestone -->
+                    <div class="p-2 h-16 flex items-center">
+                        <div class="task-bar bg-indigo-500 rounded-full h-8 w-full relative flex items-center justify-center" style="width: calc(15 / 36 * 100%);">
+                            <span class="font-semibold">M1-15</span>
+                            <!-- M2 Milestone -->
                             <div class="absolute has-tooltip" style="right: 2px;">
                                 <div class="milestone bg-slate-800"></div>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">M1: Supervisor Models Done</div>
+                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap transform -rotate-45">M2: Supervisors Validated</div>
                             </div>
                         </div>
                     </div>
                     <!-- WP3 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-teal-500 rounded-full h-6 w-full relative flex items-center justify-center" style="margin-left: calc(9 / 36 * 100%); width: calc(15 / 36 * 100%);">
-                           <span class="text-xl font-bold">M10-24</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP3: Causal VAE Development (Months 10-24)
-                            </div>
-                             <!-- M2 Milestone -->
+                    <div class="p-2 h-16 flex items-center">
+                        <div class="task-bar bg-teal-500 rounded-full h-8 w-full relative flex items-center justify-center" style="margin-left: calc(9 / 36 * 100%); width: calc(15 / 36 * 100%);">
+                           <span class="font-semibold">M10-24</span>
+                             <!-- M3 Milestone -->
                              <div class="absolute has-tooltip" style="right: 2px;">
                                 <div class="milestone bg-slate-800"></div>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">M2: Causal VAE Done</div>
+                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap transform -rotate-45">M3: VAEs Disentangled</div>
                             </div>
                         </div>
                     </div>
                     <!-- WP4 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-amber-500 rounded-full h-6 w-full relative flex items-center justify-center" style="margin-left: calc(17 / 36 * 100%); width: calc(13 / 36 * 100%);">
-                           <span class="text-xl font-bold">M18-30</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP4: Temporal Trajectory Modeling (Months 18-30)
-                            </div>
-                             <!-- M3 Milestone -->
+                    <div class="p-2 h-16 flex items-center">
+                        <div class="task-bar bg-amber-500 rounded-full h-8 w-full relative flex items-center justify-center" style="margin-left: calc(17 / 36 * 100%); width: calc(13 / 36 * 100%);">
+                           <span class="font-semibold">M18-30</span>
+                             <!-- M4 Milestone -->
                              <div class="absolute has-tooltip" style="right: 2px;">
                                 <div class="milestone bg-slate-800"></div>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">M3: Trajectory Model Done</div>
+                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap transform -rotate-45">M4: NJDE Trained</div>
                             </div>
                         </div>
                     </div>
                      <!-- WP5 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-rose-500 rounded-full h-6 w-full relative flex items-center justify-center" style="margin-left: calc(24 / 36 * 100%); width: calc(12 / 36 * 100%);">
-                           <span class="text-xl font-bold">M25-36</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP5: Validation and Clinical Integration (Months 25-36)
+                    <div class="p-2 h-16 flex items-center">
+                        <div class="task-bar bg-rose-500 rounded-full h-8 w-full relative flex items-center justify-center" style="margin-left: calc(24 / 36 * 100%); width: calc(12 / 36 * 100%);">
+                           <span class="font-semibold">M25-36</span>
+                           <!-- D5.1 Deliverable -->
+                            <div class="absolute has-tooltip" style="right: 2px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400 drop-shadow-md"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">D5.1: Final Validation Report</div>
                             </div>
                         </div>
                     </div>
-                    <!-- WP6 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-slate-400 rounded-full h-6 w-full relative flex items-center justify-center">
-                           <span class="text-xl font-bold">M1-36</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP6: Dissemination, Communication, and Exploitation (Months 1-36)
-                            </div>
-                        </div>
+                    <!-- WP6 Bars -->
+                    <div class="p-2 h-16 flex items-center space-x-px">
+                        <div class="task-bar bg-slate-400 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y1</span></div>
+                        <div class="task-bar bg-slate-400 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y2</span></div>
+                        <div class="task-bar bg-slate-400 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y3</span></div>
                     </div>
-                     <!-- WP7 Bar -->
-                    <div class="p-2 h-16 flex items-center has-tooltip">
-                        <div class="task-bar bg-slate-500 rounded-full h-6 w-full relative flex items-center justify-center">
-                            <span class="text-xl font-bold">M1-36</span>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                WP7: Project Management (Months 1-36)
-                            </div>
-                             <!-- M4 Milestone -->
-                             <div class="absolute has-tooltip" style="right: 2px;">
-                                <div class="milestone bg-slate-800"></div>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">M4: Project End</div>
-                            </div>
-                        </div>
+                     <!-- WP7 Bars -->
+                    <div class="p-2 h-16 flex items-center space-x-px">
+                        <div class="task-bar bg-slate-500 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y1</span></div>
+                        <div class="task-bar bg-slate-500 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y2</span></div>
+                        <div class="task-bar bg-slate-500 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y3</span></div>
+                    </div>
+                    <!-- WP8 Bars -->
+                    <div class="p-2 h-16 flex items-center space-x-px">
+                        <div class="task-bar bg-slate-600 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y1</span></div>
+                        <div class="task-bar bg-slate-600 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y2</span></div>
+                        <div class="task-bar bg-slate-600 rounded-full h-8 flex items-center justify-center" style="width: calc(12 / 36 * 100%);"><span class="font-semibold">Y3</span></div>
                     </div>
                 </div>
             </div>
