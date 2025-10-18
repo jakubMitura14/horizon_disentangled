@@ -430,9 +430,9 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
     \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
     \item \textbf{WP4: Temporal Trajectory Modeling (60 PMs):} Develop the \gls{njde} framework for longitudinal modeling.
     \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility.
-    \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} Manage dissemination, communication, and exploitation activities.
-    \item \textbf{WP7: Project Management (10 PMs):} Coordinate the project, including administrative and financial management.
-    \item \textbf{WP8: Portfolio Activities (10 PMs):} Foster collaboration across the EIC Pathfinder Challenge portfolio.
+    \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
+    \item \textbf{WP7: Project Management (10 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
+    \item \textbf{WP8: Portfolio Activities (10 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio. The project will actively participate in joint workshops, share best practices, and contribute to the development of a common strategic plan for the portfolio, ensuring our work aligns with and amplifies the impact of the broader EIC community.
 \end{itemize}
 
 Key deliverables and milestones are defined in Tables~\ref{tab:deliverables} and~\ref{tab:milestones}.
@@ -452,13 +452,16 @@ Key deliverables and milestones are defined in Tables~\ref{tab:deliverables} and
         D4.1 & Trained Neural Jump ODE model & WP4 & Code & PU & M30 \\
         D5.1 & Final validation report & WP5 & R & PU & M36 \\
         D6.1 & Project website and open-source repo & WP6 & Web & PU & M3 \\
-        D6.2 & Mid-term dissemination report & WP6 & R & PU & M18 \\
-        D6.3 & Final dissemination \& exploitation plan & WP6 & R & PU & M36 \\
+        D6.2 & Dissemination \& exploitation report (Y1) & WP6 & R & PU & M12 \\
+        D6.3 & Dissemination \& exploitation report (Y2) & WP6 & R & PU & M24 \\
+        D6.4 & Final dissemination \& exploitation plan & WP6 & R & PU & M36 \\
         D7.1 & Project management handbook & WP7 & R & CO & M2 \\
+        D7.2 & Annual progress report (Y1) & WP7 & R & CO & M12 \\
+        D7.3 & Annual progress report (Y2) & WP7 & R & CO & M24 \\
         D8.1 & Contribution to Portfolio Strategic Plan & WP8 & R & SEN & M6 \\
-        D8.2 & Report on portfolio activities (Year 1) & WP8 & R & SEN & M12 \\
-        D8.3 & Report on portfolio activities (Year 2) & WP8 & R & SEN & M24 \\
-        D8.4 & Report on portfolio activities (Year 3) & WP8 & R & SEN & M36 \\
+        D8.2 & Report on portfolio activities (Y1) & WP8 & R & SEN & M12 \\
+        D8.3 & Report on portfolio activities (Y2) & WP8 & R & SEN & M24 \\
+        D8.4 & Final report on portfolio activities (Y3) & WP8 & R & SEN & M36 \\
         \bottomrule
         \multicolumn{6}{p{13cm}}{\footnotesize \textbf{Type:} R=Report, Data=Dataset, Code=Software, Web=Website. \textbf{Dissem:} PU=Public, CO=Confidential, SEN=Sensitive.}
     \end{tabular}
@@ -484,24 +487,69 @@ Complementing the deliverables, the project's progress will be assessed against 
     \end{tabular}
 \end{table}
 
-\begin{itemize}
-    \item \textbf{Risk 1: Training Instability and Data Scalability (Likelihood: High, Impact: High).}
-    \subitem \textbf{Mitigation:} Implement a sequential, multi-stage training framework to manage model complexity and ensure controlled progression. Employ a modular design to enable isolated testing and troubleshooting of components. Expected effect: Reduce risk of system-wide failure, stabilize training, and facilitate scalable integration across datasets.
-    \item \textbf{Risk 2: Generalizability and Overfitting to Spurious Correlations (Likelihood: Medium, Impact: High).}
-    \subitem \textbf{Mitigation:} Principled disentanglement to separate causal factors from confounders. Use of multi-center data and strong inductive biases (e.g., ordinal losses). Compliant with AI Act Articles 10 \& 15.
-    \item \textbf{Risk 3: Performance with Incomplete and Heterogeneous Data (Likelihood: High, Impact: High).}
-    \subitem \textbf{Mitigation:} Neural Jump ODE architecture is inherently designed for sparse, irregular data. A masked loss function allows the model to learn from all available data without being penalized for missingness.
-    \item \textbf{Risk 4: High Project Complexity (Likelihood: Medium, Impact: High).}
-    \subitem \textbf{Mitigation:} The project's complexity is managed by deconstructing it into a modular, four-stage framework. Each stage is a self-contained research objective, and each component is based on methods with established, published implementations, reducing the risk of technical failure.
-    \item \textbf{Risk 5: Data Scarcity or Lack of Diversity (Likelihood: Low, Impact: High).}
-    \subitem \textbf{Mitigation:} This risk is mitigated by the applicant's direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool for training and validation.
-    \item \textbf{Risk 6: Risk of Failure due to Low Starting TRL (Likelihood: High, Impact: High).}
-    \subitem \textbf{Mitigation:} The project starts at TRL 1 for its core causal framework, which is inherently high-risk. This is mitigated by building upon a TRL 3 foundation for data processing and management from the SIKIT project (€1.29M funding), allowing us to focus resources on the novel TRL 1 research with a de-risked starting point.
-    \item \textbf{Risk 7: Risk of Clinical Adoption Failure (Likelihood: Medium, Impact: High).}
-    \subitem \textbf{Mitigation:} To bridge the gap from research to practice, we address two key barriers: 1) **Computational Feasibility:** Our latent-space modeling makes the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** Our design incorporates a "compliance-by-design" approach, aligning with the EU AI Act from the outset to streamline future certification.
-    \item \textbf{Risk 8: Model Drift and Performance Deterioration (Likelihood: Medium, Impact: High).}
-    \subitem \textbf{Mitigation:} Grounding the model in fundamental biological knowledge through disentanglement makes it more robust to superficial data shifts. Continuous monitoring will be implemented to detect performance degradation early.
-\end{itemize}
+\begin{longtable}{p{0.95\textwidth}}
+\toprule
+\textbf{Risk Analysis and Mitigation Strategies} \\
+\midrule
+\endfirsthead
+\endhead
+
+\textbf{Risk 1 (Operational): Training Instability and Data Scalability} \\
+\textit{Likelihood: High, Impact: High} \\
+\textbf{Risk:} The complexity of the multi-stage framework could lead to unstable training dynamics, particularly when scaling to large, heterogeneous datasets. This could hinder model convergence and reliability. \\
+\textbf{Mitigation:} We will implement a sequential, multi-stage training framework where each component is trained and validated independently before being integrated. The modular design, managed through WP2, WP3, and WP4, allows for isolated testing, fine-tuning, and troubleshooting. \\
+\textbf{Expected Effect:} This approach de-risks the development process, reduces the likelihood of system-wide failure, stabilizes training, and facilitates a controlled, scalable integration of the final model. \\
+\addlinespace
+
+\textbf{Risk 2 (Operational): Generalizability and Overfitting} \\
+\textit{Likelihood: Medium, Impact: High} \\
+\textbf{Risk:} The model might learn spurious correlations specific to the training data (e.g., scanner-specific artifacts), leading to poor generalization to new, unseen data from other clinical centers. \\
+\textbf{Mitigation:} Our core strategy is the principled disentanglement in WP3, which is designed to separate true biological signals from site-specific confounders. This is reinforced by using diverse, multi-center data (WP1) and incorporating strong, clinically-validated inductive biases (e.g., ordinal losses in WP2). \\
+\textbf{Expected Effect:} This will result in a more robust and generalizable model that learns the underlying causal mechanisms of the disease, rather than superficial data patterns, ensuring its clinical utility across different healthcare settings. \\
+\addlinespace
+
+\textbf{Risk 3 (Operational): Performance with Incomplete and Heterogeneous Data} \\
+\textit{Likelihood: High, Impact: High} \\
+\textbf{Risk:} Real-world clinical data is inherently sparse, incomplete, and irregularly sampled. This could prevent the model from learning the complete, longitudinal patient trajectory, leading to inaccurate predictions. \\
+\textbf{Mitigation:} The Neural Jump ODE architecture (WP4) is specifically chosen for its inherent ability to handle sparse and irregular time-series data. We will pre-train the model on a rule-based system derived from clinical guidelines and then fine-tune it using a masked loss function, which allows the model to learn from all available data points without being penalized for missingness. \\
+\textbf{Expected Effect:} This ensures that the model can effectively leverage the full patient history, even when data is incomplete, leading to more accurate and robust trajectory modeling. \\
+\addlinespace
+
+\textbf{Risk 4 (Conceptual): High Project Complexity} \\
+\textit{Likelihood: Medium, Impact: High} \\
+\textbf{Risk:} The project's ambition to create a comprehensive causal framework entails significant scientific and technical complexity, which could lead to delays or failure to achieve all objectives. \\
+\textbf{Mitigation:} The project's complexity is managed by deconstructing it into a modular, four-stage framework, with each stage corresponding to a well-defined Work Package. Each component is based on methods with established, published implementations, which reduces the risk of technical failure and allows for parallel development. \\
+\textbf{Expected Effect:} This structured approach makes the project tractable, allowing for clear progress monitoring and reducing the risk of catastrophic failure by containing potential issues within specific modules. \\
+\addlinespace
+
+\textbf{Risk 5 (Operational): Data Scarcity or Lack of Diversity} \\
+\textit{Likelihood: Low, Impact: High} \\
+\textbf{Risk:} Insufficient access to large, diverse, and well-annotated datasets could limit the model's training and validation, compromising its performance and generalizability. \\
+\textbf{Mitigation:} This risk is low, as the applicant has direct access to one of Europe's largest single-center datasets for theranostics. Furthermore, the project is built on established collaborations with multiple university clinics (Halle, Charité) and radiological practices, ensuring a large and diverse data pool from the outset. \\
+\textbf{Expected Effect:} Access to this rich, multi-center data ensures the model can be trained on a representative sample of the patient population, significantly enhancing its robustness and clinical relevance. \\
+\addlinespace
+
+\textbf{Risk 6 (Conceptual): Failure due to Low Starting TRL} \\
+\textit{Likelihood: High, Impact: High} \\
+\textbf{Risk:} The project's core causal framework begins at TRL 1, which signifies fundamental research with a high inherent risk of not achieving the envisioned breakthrough. \\
+\textbf{Mitigation:} We mitigate this by building upon a TRL 3 foundation for data processing and management derived from the SIKIT project (€1.29M funding). This allows us to de-risk the initial project phases and focus our resources on the novel, high-risk TRL 1 research into the causal framework itself. \\
+\textbf{Expected Effect:} This strategic leveraging of existing projects provides a solid technical bedrock, increasing the probability of success for the most ambitious and innovative parts of the project. \\
+\addlinespace
+
+\textbf{Risk 7 (Operational): Failure of Clinical Adoption} \\
+\textit{Likelihood: Medium, Impact: High} \\
+\textbf{Risk:} Even if technically successful, the framework may not be adopted by clinicians if it is too slow for real-time use or if it faces insurmountable regulatory hurdles. \\
+\textbf{Mitigation:} We address this proactively. 1) **Computational Feasibility:** Our latent-space modeling approach (WP3, WP4) is designed to be computationally efficient, making the tool fast enough for real-time clinical use. 2) **Regulatory Hurdles:** We employ a "compliance-by-design" approach, aligning with the EU AI Act from the project's outset (WP7) to streamline future certification. \\
+\textbf{Expected Effect:} This dual strategy increases the likelihood of successful translation from a research prototype to a clinically adopted tool by ensuring it is both practical for the workflow and prepared for the regulatory environment. \\
+\addlinespace
+
+\textbf{Risk 8 (Operational): Model Drift and Performance Deterioration} \\
+\textit{Likelihood: Medium, Impact: High} \\
+\textbf{Risk:} The model's performance could degrade over time as clinical practices, imaging technologies, or patient populations change, a phenomenon known as model drift. \\
+\textbf{Mitigation:} Grounding the model in fundamental biological knowledge through disentanglement (WP3) makes it inherently more robust to superficial data shifts. Furthermore, WP5 includes the development of a continuous monitoring and validation plan to detect performance degradation early and trigger model retraining as needed. \\
+\textbf{Expected Effect:} This ensures the long-term reliability and safety of the model, maintaining its accuracy and trustworthiness as the clinical environment evolves. \\
+\bottomrule
+\end{longtable}
 
 \subsection{Quality of the Team and Collaborations}
 This project is submitted by a single applicant, the applicant institution, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
