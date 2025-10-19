@@ -356,6 +356,16 @@ Beyond quantitative metrics, a practical, clinician-in-the-loop study is essenti
     \end{itemize}
 \end{itemize}
 
+\subsubsection{Research Data Management and FAIR Principles}
+All research data and other research outputs generated in this project will be managed in line with the FAIR (Findable, Accessible, Interoperable, Reusable) principles. A detailed Data Management Plan (DMP) will be developed as a formal deliverable by month 6 of the project and will be updated as needed. Our management strategy is as follows:
+\begin{itemize}
+    \item \textbf{Types of Data and Estimated Size:} The project will generate and collect several types of research data, including observational clinical data from \gls{ehr}s, numerical data (e.g., PSA values), and extensive 3D medical imaging data (\gls{mri}, \gls{pet}, \gls{ct}). We will also generate derived data, such as disentangled latent space vectors and synthetic images. The total estimated size of the curated dataset is expected to be approximately 300-400 TB.
+    \item \textbf{Findability:} To ensure findability, curated and anonymized datasets intended for public release will be deposited in a trusted repository, such as the \gls{eucaim} platform, and assigned a persistent Digital Object Identifier (DOI). All software and models will be version-controlled and made available through our public GitHub repository.
+    \item \textbf{Accessibility:} In compliance with GDPR and patient privacy, the raw clinical data cannot be made fully open access. However, we are committed to Open Science. Anonymized, derived datasets will be made available to the scientific community upon project completion. Access to restricted data for the purposes of verification will be granted under secure conditions and governed by formal Data Sharing Agreements (DSAs). All publications will be Gold Open Access.
+    \item \textbf{Interoperability:} We will use established standards to ensure interoperability. Imaging data will be managed in the DICOM format. For clinical data, we will leverage standards such as the OMOP-CDM and HL7 FHIR to facilitate harmonization and integration, as outlined in WP1. Metadata will be provided in a standardized, machine-readable format.
+    \item \textbf{Reusability:} To maximize reusability, all software developed within the project will be released under a permissive open-source license (e.g., Apache 2.0). The shared, anonymized datasets will be released under a Creative Commons license (e.g., CC BY-NC 4.0) to encourage non-commercial research and re-use.
+    \item \textbf{Curation and Responsibility:} The project's dedicated Data Scientist, under the supervision of the PI and in coordination with the institutional Data Integration Center, will be responsible for all aspects of data management, quality assurance, and curation. This includes overseeing the data pipeline, ensuring data integrity, and managing the long-term storage and preservation of the project's digital assets.
+\end{itemize}
 
 \paragraph{Compliance with the EU Artificial Intelligence Act}
 The proposed framework is designed from the ground up to align with the principles of trustworthy AI and to comply with the requirements for high-risk AI systems as laid down in the Regulation (EU) 2024/1689 (the "AI Act"). As a system intended for use in medical diagnosis and to guide treatment, it is classified as a \textbf{high-risk AI system} under Annex III of the Act. Our methodology directly addresses the core obligations for such systems. For instance, our project management (WP7) will implement a continuous, iterative \textbf{Risk Management System (Article 9)} through a dedicated Risk Register established at the project's outset (M1). \textbf{Data and Data Governance (Article 10)} is a cornerstone of WP1, where we will use relevant, representative datasets and proactively implement measures to detect and mitigate potential biases. The system is designed as a decision support tool to ensure \textbf{Human Oversight (Article 14)}, augmenting, not replacing, clinical experts. The framework's ability to generate counterfactual explanations is a direct implementation of the \textbf{Transparency requirements (Article 13)}, and we will maintain comprehensive \textbf{Technical Documentation (Article 11)} and implement automatic logging for \textbf{Record-Keeping (Article 12)}. Finally, WP5 is dedicated to the rigorous validation of \textbf{Accuracy, Robustness, and Cybersecurity (Article 15)}, ensuring the model is resilient and secure.
@@ -365,9 +375,9 @@ This project is committed to upholding the principles of gender equality and ope
 
 The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like \gls{psma}-\gls{pet}. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
-\section{Impact}
+\section{Outcomes and Impact}
 
-\subsection{Potential Impact: Pathways to Outcomes}
+\subsection{Outcomes}
 This project is designed to generate specific, measurable, and credible impacts for clearly defined target groups. Our pathways to outcomes are grounded in the project's concrete deliverables and are designed to be traceable and significant within the project's timeframe.
 
 \begin{itemize}
@@ -391,6 +401,14 @@ This project is designed to generate specific, measurable, and credible impacts 
             \item \textbf{Project Contribution:} The project will generate a high-quality, curated, multi-center dataset on prostate cancer, including one of Europe's most comprehensive datasets on $^{177}$Lu-\gls{psma} therapy. The trained model itself will serve as an \textit{in-silico} platform for generating and pre-testing clinical hypotheses.
             \item \textbf{Benefit:} Researchers can use our open-source framework to rapidly test hypotheses, such as identifying patient subgroups who benefit most from novel therapies. This can significantly reduce the time and cost of designing future clinical trials. For guideline committees, the project will provide crucial data to help resolve clinical uncertainties, such as the optimal use of \gls{psma} \gls{pet}/\gls{ct} in treatment planning.
         \end{itemize}
+\end{itemize}
+
+\subsection{Long-Term Impact}
+Beyond the immediate outcomes for clinicians and researchers, this project is poised to generate significant long-term impacts that will ripple across European healthcare, science, and society.
+\begin{itemize}
+    \item \textbf{Scientific Impact:} By successfully developing and validating a causal "digital twin" for prostate cancer, this project will establish a new scientific paradigm for oncology research. This foundational framework will not only transform our understanding of prostate cancer but will also serve as a blueprint for developing similar causal models for other complex diseases. We expect this work to catalyze a new wave of research into causal AI in medicine, leading to more robust, explainable, and trustworthy clinical AI systems across the board.
+    \item \textbf{Economic Impact:} The widespread adoption of this technology could lead to substantial economic benefits. By reducing over- and under-treatment, the framework can decrease the costs associated with ineffective therapies and the management of treatment-related side effects. Furthermore, by accelerating clinical research and enabling cheaper, faster \textit{in-silico} trials, the project can lower the cost of pharmaceutical R\&D. In the long term, the establishment of a new European standard for medical GenAI could foster a vibrant ecosystem of startups and SMEs, creating high-value jobs and solidifying Europe's position as a global leader in medical innovation.
+    \item \textbf{Societal Impact:} The most profound impact will be on patients and their families. By enabling more precise, personalized, and effective cancer care, this project has the potential to significantly improve patient survival rates and quality of life. The framework's ability to provide clearer, more intuitive explanations of disease progression and treatment options will also empower patients, allowing them to take a more active role in their own care. Ultimately, by making cancer care more effective and efficient, this project will contribute to the long-term sustainability and resilience of European healthcare systems.
 \end{itemize}
 
 \subsection{Innovation potential}
