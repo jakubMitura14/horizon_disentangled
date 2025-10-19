@@ -300,6 +300,21 @@ A key feature for clinical trust is the model's ability to quantify its own unce
     \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the \gls{vae} encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
 \end{itemize}
 
+\subsubsection{VAE-based Out-of-Distribution Detection for Label Noise Resilience}
+To enhance the robustness of our framework against imperfections in data labeling (e.g., for TNM stage or PI-RADS scores), we will incorporate a dedicated VAE-based Out-of-Distribution (OOD) detection mechanism. This additional stage in our methodology is designed to identify atypical or potentially mislabeled data points by analyzing their representation in the latent space. The core principle is that VAEs, when trained on a coherent dataset, learn a compact and structured representation of "normality" \cite{PuglisiAlexander2025,YuanStojanovski2025}. Samples that deviate significantly from this learned normality can be flagged as OOD instances for manual verification by a medical professional.
+
+The methodology is as follows:
+\begin{enumerate}
+    \item \textbf{Learning a Normality Manifold:} A VAE will be trained on the encoded latent space representations ($Z_D$ and $Z_P$) from our primary disentanglement stage. The VAE's objective, regularized by a Kullback–Leibler Divergence (KLD) loss, is to learn a smooth, continuous manifold that captures the underlying distribution of the in-distribution (ID) data \cite{YuanStojanovski2025,ZhouZhou2025}.
+    \item \textbf{Quantifying Deviation:} When a new data sample is processed, its latent representation is passed through the trained VAE. OOD samples are identified through two primary metrics:
+    \begin{itemize}
+        \item \textbf{Reconstruction Error:} The VAE will struggle to accurately reconstruct latent vectors that lie far from the learned normality manifold. A high reconstruction error serves as a strong indicator of an OOD sample \cite{BiHuang2025,ZhangGe2025}.
+        \item \textbf{Latent Space Distance:} OOD samples are hypothesized to lie farther away from the dense clusters of ID samples in the embedded feature space \cite{LiaoHu2025}. We will implement a K-Nearest Neighbors (KNN) based approach to quantify this distance, calculating an OOD score based on the Euclidean distance between a sample's latent representation and its k-th nearest clean neighbor \cite{ZhangGe2025,LiaoHu2025}.
+    \end{itemize}
+    \item \textbf{Flagging for Expert Review:} Samples exceeding a predefined threshold for either reconstruction error or latent space distance will be automatically flagged. These "atypical" cases, which may represent rare disease presentations, imaging artifacts, or labeling errors, will be presented to our clinical partners for manual review and correction.
+\end{enumerate}
+By implementing this verification loop, we can proactively identify and correct open-set label noise, which is known to significantly degrade model performance \cite{LiaoHu2025}. This ensures a higher quality training dataset and ultimately leads to a more robust, reliable, and trustworthy clinical AI.
+
 \subsubsection{Component-Wise and Joint Validation Strategy}
 Our validation strategy is designed to rigorously test each component of the framework in isolation before assessing the performance of the integrated system. This staged approach, detailed in Table \ref{tab:validation_strategy}, ensures that each module is robust and reliable before it is incorporated into the full clinical workflow.
 
@@ -312,6 +327,8 @@ Our validation strategy is designed to rigorously test each component of the fra
         \toprule
         \textbf{Component/Stage} & \textbf{Isolated Testing} & \textbf{Joint Testing} \\
         \midrule
+        \textbf{Stage 0: Data Quality Assurance} & The VAE-based OOD detection model will be evaluated on its ability to distinguish between a clean validation set and a validation set seeded with synthetic anomalies. Metrics will include AUC for OOD detection and precision/recall for identifying the anomalous samples. & The flagged outliers will be reviewed by clinical experts. The percentage of clinically-confirmed outliers will serve as a measure of the system's real-world effectiveness. The impact of this cleaning step will be measured by the performance improvement of downstream models. \\
+        \addlinespace
         \textbf{Stage 1: Supervisor Models} & Each model (ordinal classifiers, survival regressor, etc.) will be tested independently against its specific ground truth using standard metrics (Accuracy, AUC, C-index). & The outputs of the supervisor models will be used as inputs for the VAEs in Stage 2. The quality of the VAE's disentanglement will serve as an indirect measure of the supervisor models' performance. \\
         \addlinespace
         \textbf{Stage 2: Causal VAEs} & The VAEs will be evaluated on their ability to generate realistic images (measured by FID, SSIM) and to successfully disentangle the latent space (measured by mutual information metrics). & The disentangled latent vectors from the VAEs will be used as inputs for the NJDE model in Stage 3. The NJDE's predictive accuracy will be used to assess the quality of the learned representations. \\
@@ -386,6 +403,8 @@ Our intellectual property strategy is designed to maximize both impact and innov
     \item \textbf{Specialized Model Development:} Offering consultancy services to adapt and fine-tune the framework for other cancers or specific clinical use-cases.
     \item \textbf{Cloud-Based Platform:} Developing a secure, cloud-based "AI-as-a-Service" platform to provide easy access to the technology for smaller clinics or research groups without the resources for local deployment.
 \end{itemize}
+A key innovation that underpins the reliability of our entire framework is the integration of a sophisticated \textbf{VAE-based Out-of-Distribution (OOD) detection mechanism}. While OOD detection is an active area of research, its application to proactively identify and mitigate label noise in complex, real-world clinical datasets is a significant novelty. This goes beyond standard data cleaning; it is an integrated quality assurance loop that uses the model's own understanding of "normality" to flag suspicious data points for expert review. By building this self-correcting capability directly into our data pipeline, we are not only developing a more robust and trustworthy AI, but also creating a novel methodology for semi-supervised data curation that can be adopted by the wider medical AI community. This directly addresses a fundamental bottleneck in the development of clinical AI: the reliance on imperfect, manually annotated data.
+
 This model allows us to protect the commercial potential of these services (background IP) while ensuring the core technology (foreground IP) remains open, creating a virtuous cycle of community-driven improvement and commercially-supported stability.
 
 \paragraph{Involving and Empowering Key Actors}
@@ -425,6 +444,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
         \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields.
         \item \textbf{Task 1.3: Multi-Modal Data Linkage:} Create a unified patient record by accurately linking data from different sources (e.g., matching a patient's MRI scans with their corresponding EHR records and biopsy results) using a unique, anonymized identifier.
         \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines, seminal textbooks, and internal tumor board documents to create a structured knowledge base that will inform the model's training and provide a basis for explainability.
+        \item \textbf{Task 1.5: VAE-based Outlier Detection:} Develop and implement the VAE-based OOD detection mechanism to identify and flag potential outliers and label noise in the curated dataset. Establish a formal review loop with clinical experts to validate and correct the flagged data points.
     \end{itemize}
     \item \textbf{WP2: Foundational Supervisor Model Training (50 PMs):} Develop supervisor models for clinical ground truth.
     \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement.

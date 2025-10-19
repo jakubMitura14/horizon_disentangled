@@ -196,6 +196,37 @@
 
         <div class="flow-line arrow"></div>
 
+        <!-- Section 3.5: OOD Detection -->
+        <section id="stage2-5">
+            <h2 class="stage-title">
+                <span class="icon"><i data-lucide="shield-check"></i></span>
+                Data Quality Assurance: VAE-based Outlier Detection
+            </h2>
+            <p class="text-slate-600 mb-6 text-lg">To ensure the integrity of the training data, a second VAE-based model is used to analyze the latent space vectors ($Z_D$ and $Z_P$). This stage identifies and flags statistical outliers that may represent label noise or rare cases.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card">
+                    <h3 class="card-title">Latent Space Analysis</h3>
+                    <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
+                        <li>High Reconstruction Error</li>
+                        <li>Distance from ID cluster (KNN-based)</li>
+                    </ul>
+                </div>
+                <div class="card !border-blue-500 flex items-center justify-center text-center">
+                    <p class="text-xl font-semibold text-blue-800">Flagged as "Atypical"</p>
+                </div>
+                <div class="card !border-green-500">
+                    <h3 class="card-title">Expert Review Loop</h3>
+                    <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
+                        <li>Manual verification by clinicians</li>
+                        <li>Correction or removal of noisy labels</li>
+                        <li>Cleaned dataset for downstream tasks</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="flow-line arrow"></div>
+
         <!-- Section 4: Stage 3 -->
         <section id="stage3">
             <h2 class="stage-title">
