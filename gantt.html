@@ -67,10 +67,6 @@
                 <div class="w-4 h-4 milestone bg-slate-800"></div>
                 <span>Milestone</span>
             </div>
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                <span>Deliverable</span>
-            </div>
         </div>
 
         <!-- Gantt Chart Main Container -->
@@ -90,7 +86,7 @@
 
             <!-- Task Names Column -->
             <div class="text-lg font-medium border-r border-slate-200 divide-y divide-slate-200">
-                <div class="p-4 h-28 flex items-center">WP1: Data Curation & Harmonization (M1-M30)</div>
+                <div class="p-4 h-16 flex items-center">WP1: Data Curation & Harmonization (M1-M30)</div>
                 <div class="p-4 h-16 flex items-center">WP2: Foundational Supervisor Model Training (M1-M15)</div>
                 <div class="p-4 h-16 flex items-center">WP3: Causal VAE Development (M10-M24)</div>
                 <div class="p-4 h-16 flex items-center">WP4: Temporal Trajectory Modeling (M18-M30)</div>
@@ -117,13 +113,10 @@
 
                 <!-- Task Rows in Timeline -->
                 <div class="relative text-base text-white divide-y divide-slate-200">
-                    <!-- WP1: Detailed Tasks -->
-                    <div class="p-2 h-28 grid grid-cols-1 gap-1">
-                        <div class="task-bar bg-sky-600 rounded-md h-5 flex items-center justify-center text-xs" style="width: calc(30 / 36 * 100%);">T1.1 - T1.5 Data Curation Tasks</div>
-                        <!-- D1.1 Deliverable -->
-                        <div class="absolute has-tooltip" style="left: calc(12 / 36 * 100% - 10px); top: 50%; transform: translateY(-50%);">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400 drop-shadow-md"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                            <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">D1.1: Curated Dataset</div>
+                    <!-- WP1 Bar -->
+                    <div class="p-2 h-16 flex items-center">
+                        <div class="task-bar bg-sky-600 rounded-full h-8 w-full relative flex items-center justify-center" style="width: calc(30 / 36 * 100%);">
+                            <span class="font-semibold">M1-30</span>
                         </div>
                     </div>
                     <!-- WP2 Bar -->
@@ -163,11 +156,6 @@
                     <div class="p-2 h-16 flex items-center">
                         <div class="task-bar bg-rose-500 rounded-full h-8 w-full relative flex items-center justify-center" style="margin-left: calc(24 / 36 * 100%); width: calc(12 / 36 * 100%);">
                            <span class="font-semibold">M25-36</span>
-                           <!-- D5.1 Deliverable -->
-                            <div class="absolute has-tooltip" style="right: 2px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400 drop-shadow-md"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                                <div class="absolute tooltip bg-slate-800 text-white text-sm rounded py-1 px-2 -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">D5.1: Final Validation Report</div>
-                            </div>
                         </div>
                     </div>
                     <!-- WP6 Bars -->
