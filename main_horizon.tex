@@ -203,7 +203,7 @@ This is not just a dimensional reduction trick; it is a new paradigm for buildin
     \item \textbf{Deep Domain Knowledge Integration:} Our model is not a black box; it is infused with medical knowledge at every level. We use ordinal losses to respect the clinical severity of scales like PI-RADS, pre-train the temporal model on established EAU guidelines, and architecturally separate anatomical factors from disease signals.
 \end{itemize}
 
-By creatively fusing these technologies, we are creating a single, unified pipeline that can accelerate clinical work by auto-generating radiological reports, enhance prediction by modeling the entire patient journey, and enable rapid, low-cost experimentation of new clinical hypotheses. This project forges the technology-to-come: a foundational causal framework that integrates multi-scale evidence into robust, updatable decision processes, establishing a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI.
+By creatively fusing these technologies, we are creating a single, unified pipeline that can accelerate clinical work by auto-generating radiological reports, enhance prediction by modeling the entire patient journey, and enable rapid, low-cost experimentation of new clinical hypotheses. This project forges the technology-to-come: a foundational causal framework that integrates multi-scale evidence into robust, updatable decision processes, establishing a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI. The framework's probabilistic design also allows for robust uncertainty quantification, a critical feature for clinical adoption and trust.
 
 \subsection{Plausibility of the Methodology}
 Our methodology is a direct answer to the profound challenges of building trustworthy clinical AI. We aim to design a novel, \textbf{five-stage causal framework} that deconstructs the immense complexity of prostate cancer progression into a series of well-defined, manageable tasks. This modular approach is the key to our project's feasibility: it ensures training stability, enhances model interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases. This extensive integration of domain knowledge is crucial for ensuring the model generalizes well beyond its training data. The use of a carefully crafted disentangled latent space is a direct and innovative response to the "curse of dimensionality"; without this approach, reliably training a model on such complex, time-varied, and incomplete data would be practically impossible. Each element of our proposed framework is based on strong, peer-reviewed research, ensuring that our ambitious goals are built on a solid scientific foundation. This guides the model to learn the true underlying causal mechanisms of the disease, rather than superficial correlations.
@@ -293,6 +293,13 @@ Crucially, the framework will function as a \textbf{Treatment-Choice Helper}. Le
 
 All insights are then consolidated into automatically generated structured reports using a \textbf{Transformer-based decoder}. These reports will integrate prognostic simulations, present the comparative effectiveness of different treatment options, and culminate in a data-driven recommendation. This directly addresses the clinical need for clear, consistent, and efficient documentation \cite{JorgHalfmann2023, SacoranskyKwan2024}, while providing clinicians with novel, data-driven strategies for patient management. The project team's experience in creating LLM-based support apps and and GUIs from structured reports is key to ensuring this complex information is presented in an intuitive and actionable format.
 
+\subsubsection{Uncertainty Quantification}
+A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our \gls{vae}-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
+\begin{itemize}
+    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
+    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the \gls{vae} encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
+\end{itemize}
+
 \subsubsection{Quantitative Metrics}
 Model performance will be assessed using a comprehensive suite of metrics tailored to each sub-task, presented in a clear "Metric - What it measures - Why it's relevant" format:
 \begin{itemize}
@@ -306,13 +313,6 @@ Model performance will be assessed using a comprehensive suite of metrics tailor
             \item \textbf{Image Generation Quality (\gls{fid}, \gls{ssim}, \gls{lpips}):} These metrics measure the realism and fidelity of the generated images. They are relevant for ensuring the clinical plausibility of the model's outputs.
             \item \textbf{Counterfactual Quality (Axiomatic Soundness, Validity):} These metrics assess the logical consistency and effectiveness of the generated counterfactuals. They are relevant for ensuring the trustworthiness and explainability of the model.
         \end{itemize}
-\end{itemize}
-
-\subsubsection{Uncertainty Quantification}
-A key feature for clinical trust is the model's ability to quantify its own uncertainty. Our \gls{vae}-based architecture is intrinsically probabilistic and allows for robust uncertainty quantification. We will employ two complementary methods:
-\begin{itemize}
-    \item \textbf{Latent Space Sampling:} For a given input, we will draw multiple samples from its learned latent distribution. The variance in the resulting predictions will serve as a robust measure of the model's epistemic uncertainty \cite{BustinMeyer2025}.
-    \item \textbf{Direct Variance Utilisation:} The variance vector $\sigma^2$ produced by the \gls{vae} encoder is a direct indicator of feature-level uncertainty. We will concatenate this variance vector to the mean vector as a direct input to downstream models, allowing them to learn to depend more on high-confidence features \cite{FriedrichFrisch2024}.
 \end{itemize}
 
 \subsubsection{Component-Wise and Joint Validation Strategy}
