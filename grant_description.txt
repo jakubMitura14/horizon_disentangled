@@ -1,0 +1,816 @@
+Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+1
+
+
+
+PATHFINDER CHALLENGE
+Generative-AI based Agents to Revolutionize Medical Diagnosis and Treatment of
+Cancer
+
+EIC Work Programme reference: HORIZON-EIC-2024-PATHFINDERCHALLENGES-01-02
+Call deadline date: 29/10/2025
+EIC Programme Manager: Federica ZANCA
+
+EIC will hold an Info Session on this Pathfinder Challenge topic in spring 2025. You will be able to
+find the information about the Info day, when it is available, at Events - European Commission .
+Participation in the meeting, although encouraged, is optional and is not required for the submission
+of an application. A recording of this Info Session will be made available on EIC Pathfinder Challenges
+2025 - European Commission.
+Table of Contents
+1.  About this document ....................................................................................................................... 2
+2 Scope and objectives of the Challenge as defined in the Work Programme .................................. 2
+Background and scope ........................................................................................................................ 2
+Specific objectives ............................................................................................................................... 3
+Expected outcomes and impacts........................................................................................................ 5
+Specific conditions .............................................................................................................................. 6
+References........................................................................................................................................... 6
+3 Portfolio considerations for the evaluation of applications to the Challenge ................................ 7
+Categories ........................................................................................................................................... 8
+Portfolio considerations ..................................................................................................................... 9
+4 Implementation of the Challenge portfolio .................................................................................. 10
+Proposal preparation and Grant negotiations ...................................................................................... 10
+Portfolio activities ............................................................................................................................. 10
+Portfolio Strategic Plan ......................................................................................................................... 11
+Tools though which projects can receive additional support ............................................................... 13
+5. Annex 1: Template workpackage portfolio activities .................................................................... 14
+
+
+Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+2
+
+1.  About this document
+
+The Challenge Guide serves as guidance and background for the common understanding, participation
+rules and obligations for the EIC beneficiaries that are involved in the Challenge Portfolio. Contractual
+Obligations are further detailed in the EIC Work Programme 2025.
+The Challenge Guide is a guidance document accompanying a topic of the Pathfinder Challenge call for
+proposals to provide further information about how portfolio considerations will be considered in the
+evaluation of proposals for that topic.
+The Challenge Guide is prepared by and under the responsibility of the relevant EIC Programme
+Manager (information about the EIC Programme Managers is available on the EIC Website
+(https://eic.ec.europa.eu/eic-communities/eic-programme-managers_en). It complements the Scope,
+Specific Objectives, Expected Outcomes and Impacts, and Specific Conditions set out in the EIC Work
+Programme by a description of the additional categories and the portfolio considerations that will be
+used in portfolio building and explains how a portfolio will be built. Please note that in no case does
+the Challenge Guide contradict or supplant the Work Programme text.
+Following the selection of a proposals to be funded under the Challenge, the Programme Manager will
+work together with the consortia of the selected projects to develop a strategic plan for the Challenge,
+including a common roadmap. This strategy plan will  integrate the activities and milestones of the
+individual projects into a shared set of objectives and activities across and beyond the projects. It
+serves as a common basis for the project portfolio and may affect the project implementation -
+including possible adjustments, reorientations, or additional support to projects. The strategic plan will
+be updated in light of emerging results or issues during the implementation.
+2 Scope and objectives of the Challenge as defined in the Work Programme
+
+This section is a copy of the Challenge call in the EIC work programme text. Proposals to this Challenge
+are expected to explain how they relate to and intend to go beyond the state of the art, and how they
+interpret and contribute to the objectives of the Challenge.
+
+
+Background and scope
+
+Imaging is a crucial component of cancer clinical protocols, providing detailed morphological,
+structural, metabolic, and functional information. However, harnessing the full potential of the data
+generated through medical imaging in clinical settings remains challenging. Clinicians often struggle to
+combine diverse and large-scale data into a comprehensive view of patient care, disease progression,
+and treatment efficacy. The inability to seamlessly integrate and interpret diverse data sources result
+in suboptimal patient outcomes and inefficiencies in the delivery of healthcare.
+
+The integration of traditional Artificial Intelligence (AI) with medical imaging can transform healthcare,
+but most existing applications are still in their infancy and must overcome a number of challenges to
+accelerate adoption. These include AI applicati ons being confined to single data modalities, which
+restricts their overall effectiveness (Monomodal Application); inadequate and insufficient data
+training, leading to data scarcity and a lack of generalizability, making them less reliable across diverse Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+3
+
+patient populations, including with regard to gender -sensitivity; and the lack of AI model
+interpretability, as many AI systems function as "black boxes," providing little insight into their
+decision-making processes. This lack of transparency limits trust  in the systems and their usability in
+clinical settings.
+
+The goal of this Pathfinder Challenge is to create interactive GenAI autonomous agents and/or a
+combination of them (super -agent) that provide clinicians with a holistic end to end perspective of
+patient care, throughout the entire clinical pathway. These agents aim to enhance pattern
+identification, reduce inconsistencies and errors in diagnoses as well as improve cancer treatment.
+While the focus is on GenAI, we also encourage the integration of other advanced AI technologies,
+such as topological and geometric deep learning, neural fields, graph neural networks, etc., which can
+complement and enhance the robustness and effectiveness of GenAI-based solutions in addressing the
+challenges of cancer diagnosis and therapy.
+
+The Challenge will support early-stage groundbreaking research projects that will develop and validate
+novel approaches and concepts for integrating and interpreting multimodal medical imaging and
+health data. Additionally, it will involve generating relia ble synthetic medical data, which will also be
+pooled to form a common database and used for the development of advanced algorithms.
+
+Specific objectives
+
+Project proposals under this Challenge should focus on one (and only one) of the following diseases:
+breast cancer, cervical cancer, ovarian cancer, prostate cancer, lung cancer, brain cancer, stomach
+cancer or colorectal cancer.
+Each proposal should address both the following areas (at least one sub -objective from each of the
+areas):
+
+Area 1: Technological area
+
+i. GenAI-based tools for Integrating Multidimensional Multimodal health Data
+
+Investigate groundbreaking techniques and methodologies for developing GenAI algorithms
+that combine multidimensional (e.g. time dimension, space dimension) and multimodal data
+from various sources. These include multiple imaging modalities (e.g., MRI, CT,  PET, X-ray),
+clinical data (e.g., electronic health records, lab results, structured and unstructured clinical
+data, pathology results, genetics and –omics data, videos, knowledge databases, and other
+resources). The goal is to provide a comprehensive vie w of the patient’s condition. The
+developed algorithms should be capable of producing unified and actionable datasets that can
+be exploited for the development of the AI tools described in Area 2 (clinical).
+
+ii. Medical Data Augmentation
+
+Develop GenAI  models based on groundbreaking techniques that are in the conceptual or
+initial experimental phase for medical data augmentation. These models should be capable of
+creating highly realistic synthetic medical data (images, genomics data, etc.) and generati ng
+complementary data from existing sources (for example producing synthetic CT images from
+MRI images), to support iterative cycles of model training.
+
+iii. Medical Knowledge Representation and Integration
+ Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+4
+
+Create an initial prototype GenAI model for medical knowledge representation and
+integration. This model should aim to develop a comprehensive and dynamic medical
+knowledge base, to identify discrete medical imaging features associated with demographic
+information and systemic conditions, to improve the interpretability of AI -based models and
+extract new knowledge not previously identifiable by experts without assistance.
+Area 2: Clinical Area
+
+i. Predictive Diagnosis
+
+Develop an interactive autonomous agent capable of assessing the likelihood of a patient
+developing cancer by analysing their medical history, imaging data, and genetic information.
+The agent should provide personalised health risk predictions, enabling early detection and
+preventive measures.
+
+ii. Enhance Personalized Treatment Selection
+
+Develop novel AI algorithms and architectures that leverages multidimensional and
+multimodal data integration, along with synthetic data generation, to predict the optimal
+treatment pathway for specific patient conditions, as well as to forecast disease pr ogression
+and treatment efficacy providing a comprehensive view of patient care.
+Appropriate performance metrics should be considered for the continuous evaluation and testing of
+the scientific and technical robustness (including accurately quantify uncertainties) of all developed
+algorithms and architectures in Areas 1 and 2. Rigorous testing against diverse datasets is essential to
+ensure that the models perform reliably across various patient demographics and conditions, thereby
+reducing the risk of skewed results and ensuring precision from diagnoses to therapy.
+
+Projects should also conduct proof of concept studies in controlled settings to demonstrate improved
+and more accurate diagnosis and treatment when compared to current clinical practice. The viability
+of the developed technologies should be evaluated, guiding further refinement and improvement. For
+instance, a super-agent could be validated for assisting and/or replacing clinicians through the whole
+clinical pathway of the patient, providing a holistic view of patient care, that is currently unachievable
+due to fragmented healthcare systems and associated expertise.
+
+The focus should also be on enhancing the interpretability of AI models/agents, making their decision-
+making processes more transparent and understandable to clinicians. This could involve developing
+cutting-edge techniques such as causal inference methods , explainable AI frameworks, or novel
+visualization tools that provide deeper insights into AI decision-making processes.
+
+The AI models developed under this Challenge are expected to comply with the EU concept for
+Trustworthy AI1, relevant ethical principles2, and the AI Act 3. In addition to focusing on performance,
+careful attention must be given to data quality, transparency, privacy, and security.
+
+Proposers are encouraged to leverage the data and tools available in the Cancer Image Europe
+platform4 (deployed in the context of the European Cancer Imaging Initiative5) for their proposed work.
+
+1 https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai
+2 https://www.europarl.europa.eu/RegData/etudes/BRIE/2019/640163/EPRS_BRI(2019)640163_EN.pdf
+3 Regulation - EU - 2024/1689 - EN - EUR-Lex (europa.eu)
+4 https://cancerimage.eu/
+5 https://digital-strategy.ec.europa.eu/en/policies/cancer-imaging Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+5
+
+In turn they should contribute the datasets, and developed AI tools and models to the platform under
+agreed conditions. All datasets produced should be described where possible with metadata records
+in the EU dataset catalogue of the European Health Data S pace (EHDS) using the Health DCAT -AP6
+metadata standard.
+
+Projects that address only one of the two ‘Areas’ or other cancer types will be considered "out" of
+scope.
+
+Expected outcomes and impacts
+
+In support of the European AI Strategy7 and the Cancer Plan for Europe8 and the Cancer Mission9 this
+Challenge looks to support the development of the next generation models for cancer diagnosis and
+treatment, with Generative AI.
+
+This Challenge aims to create a collaborative environment where diverse expertise —including for
+example data science, informatics, oncology, radiology, pathology, medical physics, bioinformatics,
+geneticists, healthcare administrators, and patient advocac y groups — converges to address the
+complexities of developing autonomous agents for holistic patient care, through enhanced diagnosis
+and personalized treatment.
+
+The Challenge aspires to significantly improve patient care and reduce pressure on the healthcare
+system by leveraging advanced interactive autonomous agents for diagnosis and personalized
+treatment. By alleviating the burdens on clinicians and ensuring co mpliance with the EU concept for
+Trustworthy AI, the initiative will enhance the quality and reliability of medical services. Economically,
+it promises substantial cost reductions and cost avoidance, leading to long -term improvements in
+healthcare efficiency and sustainability. Ultimately, this challenge will foster innovation and establish
+Europe as a leader in the field, delivering profound benefits to patients, healthcare providers, and
+society at large.
+
+The portfolio of selected projects will be designed to deliver a set of agents/models for improved
+diagnosis and personalized treatment of the above -mentioned cancers. Specifically, the projects will
+collaborate to:
+- Create a shared database of synthetically generated images to be used across all projects for
+the development of their algorithms;
+- Compare the use of a combination of the agents in the case of multiple cancers;
+- Benchmark agents for enhanced diagnosis and personalized treatment selection;
+- Define innovative clinical pathways in oncology;
+- Externally validate the developed agents within a project at clinical premises of another project
+in the portfolio;
+- Develop standardized methods and frameworks for evaluating AI - Act and Medical Device
+Regulation (MDR)- compliant generative AI models.
+The portfolio of projects to be funded under this Challenge will be composed in such a way that they
+address ideally all cancers mentioned in this call, apply different technologies, and provide access to
+
+6 https://healthdcat-ap.github.io/
+7 https://digital-strategy.ec.europa.eu/en/policies/european-approach-artificial-intelligence
+8 https://commission.europa.eu/strategy-and-policy/priorities-2019-2024/promoting-our-european-way-
+life/european-health-union/cancer-plan-europe_en
+9 https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-
+calls/horizon-europe/eu-missions-horizon-europe/eu-mission-cancer_en Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+6
+
+relevant clinical facilities and research infrastructures. The following categories will be used for the
+composition:
+
+Category 1 – type of cancer
+Category 2 – type of technology
+Category 3 – access to appropriate infrastructure data and ecosystem integration.
+
+Specific conditions
+
+Applications for this Challenge with elements that concern the evolution of European communication
+networks (5G, post -5G and other technologies linked to the evolution of European communication
+networks) will be subject to restriction for the protection of European communication networks.
+
+References
+
+The following references are just examples and are not exhaustive.
+1. Raza, M.M., Venkatesh, K.P. & Kvedar, J.C. Generative AI and large language models in health
+care: pathways to implementation. npj Digit. Med.  7, 62 (2024).
+https://doi.org/10.1038/s41746-023-00988-4
+2. Reddy S. Generative AI in healthcare: an implementation science informed translational path
+on application, integration and governance. Implement Sci.  2024 Mar 15;19(1):27. doi:
+10.1186/s13012-024-01357-9. PMID: 38491544; PMCID: PMC10941464.
+3. Meskó B, Topol EJ. The imperative for regulatory oversight of large language models (or
+generative AI) in healthcare. NPJ Digit Med.  2023 Jul 6;6(1):120. doi: 10.1038/s41746 -023-
+00873-0. PMID: 37414860; PMCID: PMC10326069.
+4. Shokrollahi, Y., Yarmohammadtoosky, S., Nikahd, M., Dong, P., Li, X., & Gu, L. (2023). A
+Comprehensive Review of Generative AI in Healthcare. IACAPAP ArXiv. 47.
+5. Kraljevic Z, Bean D, Shek A, Bendayan R, Hemingway H, Yeung JA, Deng A, Baston A, Ross J,
+Idowu E, Teo JT, Dobson RJB. Foresight -a generative pretrained transformer for modelling of
+patient timelines using electronic health records: a retrospective modelling study. Lancet Digit
+Health. 2024 Apr;6(4)
+doi: 10.1016/S2589-7500(24)00025-6. PMID: 38519155; PMCID: PMC11220626.
+6. Huynh E, Hosny A, Guthier C, Bitterman DS, Petit SF, Haas-Kogan DA, Kann B, Aerts HJWL, Mak
+RH. Artificial intelligence in radiation oncology. Nat Rev Clin Oncol. 2020 Dec;17(12):771-781.
+doi: 10.1038/s41571-020-0417-8. Epub 2020 Aug 25. PMID: 32843739.
+7. Bera K, Schalper KA, Rimm DL, Velcheti V, Madabhushi A. Artificial intelligence in digital
+pathology - new tools for diagnosis and precision oncology. Nat Rev Clin Oncol.  2019
+Nov;16(11):703-715. doi: 10.1038/s41571 -019-0252-y. Epub 2019 Aug 9. PMID: 31399699;
+PMCID: PMC6880861.
+8. Koohi-Moghadam M, Bae KT. Generative AI in Medical Imaging: Applications, Challenges, and
+Ethics. J Med Syst. 2023 Aug 31;47(1):94. doi: 10.1007/s10916-023-01987-4. PMID: 37651022.
+9. Yi, X., Walia, E., Babyn, P. Generative adversarial network in medical imaging: A review.
+Medical Image Analysis , 58, 2019, 101552. ISSN 1361 -8415.
+https://doi.org/10.1016/j.media.2019.101552. Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+7
+
+10. Lipkova, J., Chen, R.J., Chen, B., Lu, M.Y., Barbieri, M., Shao, D., Vaidya, A.J., Chen, C., Zhuang,
+L., Williamson, D.F.K., Shaban, M., Chen, T.Y., Mahmood, F. Artificial intelligence for
+multimodal data integration in oncology. Cancer Cell, 40(10), 2022, 1095 -1110. ISSN 1535 -
+6108. https://doi.org/10.1016/j.ccell.2022.09.012.
+11. Boehm, K.M., et al. Harnessing Multimodal Data Integration to Advance Precision Oncology.
+Nature Reviews Cancer, 22(2), 2022, 114-126.
+12. Chen, R.J., Lu, M.Y., Chen, T.Y. et al. Synthetic data in machine learning for medicine and
+healthcare. Nat Biomed Eng, 5, 493–497 (2021). https://doi.org/10.1038/s41551-021-00751-
+8.
+13. Singhal, K., Azizi, S., Tu, T. et al. Large language models encode clinical knowledge. Nature, 620,
+172–180 (2023). https://doi.org/10.1038/s41586-023-06291-2.
+14. Guevara M., Chen S., Thomas S., Chaunzwa T.L., Franco I., Kann B.H., Moningi S., Qian J.M.,
+Goldstein M., Harper S., Aerts H.J.W.L., Catalano P.J., Savova G.K., Mak R.H., Bitterman D.S.
+Large language models to identify social determinants of health in ele ctronic health records.
+npj Digital Medicine, 7(1), 2024. https://doi.org/10.1038/s41746-023-00970-0.
+15. Jiang, L.Y., Liu, X.C., Nejatian, N.P. et al. Health system -scale language models are all-purpose
+prediction engines. Nature, 619, 357–362 (2023). https://doi.org/10.1038/s41586-023-06160-
+y.
+16. Yang, Z., Mitra, A., Liu, W. et al. TransformEHR: transformer -based encoder -decoder
+generative model to enhance prediction of disease outcomes using electronic health records.
+Nat Commun, 14, 7857 (2023). https://doi.org/10.1038/s41467-023-43715-z.
+17. Tang, A.S., Woldemariam, S.R., Miramontes, S. et al. Harnessing EHR data for health research.
+Nat Med, 30, 1847–1855 (2024). https://doi.org/10.1038/s41591-024-03074-8.
+18. Shmatko, A., Ghaffari Laleh, N., Gerstung, M. et al. Artificial intelligence in histopathology:
+enhancing cancer research and clinical oncology. Nat Cancer , 3, 1026 –1038 (2022).
+https://doi.org/10.1038/s43018-022-00436-4.
+
+3 Portfolio considerations for the evaluation of applications to the Challenge
+
+This section describes how portfolio considerations will be taken into account in the second evaluation
+step. For more details of the full evaluation process please refer to the EIC Work Programme 2025 pages
+28-35.
+
+After the submission of your proposal, it will be evaluated in two steps:
+
+1. The EIC expert evaluators will assess each proposal separately against the award criteria and
+the EIC evaluation committee will ensure consistency across scores.
+2. The EIC evaluation committee, consisting of EIC expert evaluators and an EIC Programme
+Manager will map all the proposals above the threshold in a number of categories, sub -
+categories and elements stemming from the overall goal and specific objectives of the
+Challenge. Examples of possible categories are building blocks or subsystems, technical areas
+and/or competing technologies, platforms, applications areas, risk level and stage of
+technology readiness level, size, etc. Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+8
+
+Following this mapping of proposals against categories, a suitable portfolio of proposals will be
+selected by the evaluation committee by applying portfolio considerations to propose for funding a
+coherent set of projects that will achieve the expected out comes and impacts of the Challenge and
+maximise their impact.
+
+Categories
+
+All proposals of which the assessment in Step 1 of the evaluation process resulted in a score above the
+threshold will be mapped to the following four categories (with the clinical area added as an additional
+category):
+Category 1: Type of Cancer considered by a proposal.
+As defined by WP, each proposal should focus on one (and only one) of the following diseases: breast
+cancer, cervical cancer, ovarian cancer, prostate cancer, lung cancer, brain cancer, stomach cancer or
+colorectal cancer.
+
+Category 2: Type of clinical area covered with possible values:
+i. Predictive Diagnosis.
+ii. Personalized Treatment Selection.
+Category 3: Technology area
+Which technological approach is used in the proposal. The three possible values are:
+i. GenAI-based tools (or other advanced AI technologies) for Integrating Multidimensional
+Multimodal Health Data
+ii. Medical Data Augmentation
+iii. Medical Knowledge Representation and Integration.
+
+Category 4: Access to Infrastructure, data and ecosystem integration
+What are the research infrastructures and clinical facilities that the proposal aims to use, which large
+datasets do they have access to, and what are their partnerships with hospitals or research institutions
+for clinical validation.
+
+
+Examples:
+Access to infrastructure and data:
+- Connection to Existing European Research and Clinical Infrastructures , e.g . Testing and
+Experimentation Facilities (TEFs), Euro-BioImaging, Cancer Image Europe platform, the future
+UNCAN.eu platform, etc.
+- National Cancer/Screening Registries and Open Databases.
+Ecosystem Integration
+- Collaboration with Leading Clinical Institutions focused on oncology.
+- Where possible, seek complementarity and synergies with other activities already funded or
+in the funding pipeline in the framework of the Health cluster of Horizon Europe or the Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+9
+
+Innovative Health Initiative Joint Undertaking seek complementarity and synergies with the
+following actions implemented and other activities already funded or in the funding pipeline
+in the framework of the Health cluster of Horizon Europe.
+
+Portfolio considerations
+The process of building a balanced and impactful project portfolio will adhere to the following
+principles:
+1. Diverse Cancer Representation
+Ensure that the portfolio covers a broad spectrum of cancers, allowing for a diverse impact across
+different patient populations. This will be done by selecting one project per cancer type (breast cancer,
+cervical cancer, ovarian cancer, prostate cancer, lung cancer, brain cancer, stomach cancer or
+colorectal cancer), if possible, when following the selection procedure and ranking system.
+2.   Clinical and technological areas
+While we require that each proposal considers at least one of the three technological areas and at
+least one of t he two clinical areas, pro posals that tackle as many as possible  technological areas —
+tools for integrating multidimensional multimodal health data, medical data augmentation, and
+medical knowledge representation and integration —and both clinical areas (diagnosis and therapy)
+will be  considered to constitute the core of the portfolio to be built . By addressing all relevant
+technological and clinical areas within your proposal, rather than focusing on just a subset, you will
+enhance the overall impact and alignment with the Challenge goals. This comprehensive approach can
+provide more robust outcomes and foster greater innovation.
+
+3. Diversity with respect to Access to Infrastructure, Data, and Ecosystem Integration
+Ensure diversity in the use of infrastructures, databases, and ecosystems, e.g. , to have a diverse
+geographical coverage in the projects.
+It is also suggested that in your proposal you make a self -assessment of how your proposals maps to
+the four categories by adding the following table. The evaluation team will confirm or update this and
+use it only in the step 2 of the evaluation.
+
+Category Value
+Type of Cancer
+Clinical Area
+Technological area
+Access to Infrastructure, Data ,
+and Ecosystem integration
+
+ Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+10
+
+The selection process will be structured as follows. We start from the highest-ranked projects. For all
+projects with the same cancer type, the proposal with the highest score that tackle as many as possible
+technological and clinical areas , and a proper  alignment with the access to infrastructure , data and
+ecosystem integration principle will be selected.
+In principle it is the aim to represent all cancer types in the portfolio . However, if for a certain cancer
+the proposals do not convincingly fit the technology and infrastructure principle, an already
+represented cancer types, ensuring diverse clinical areas and/or technologies and  complementary
+infrastructure access, might be selected.
+Consequently, this means that the projects selected for funding after the second step maydiffer from
+the ranking list established from the first step (score-based ranking after assessment of each proposal
+separately).
+4 Implementation of the Challenge portfolio
+
+Once funded, projects will be expected and obliged to work collectively during the implementation of
+their projects under the guidance of an EIC Programme Manager. This section summarises some of the
+key aspects of this pro-active management which applicants should take into account in preparing their
+proposals.
+
+Proposal preparation and Grant negotiations
+
+Applicants may be requested to make amendments to their proposed project to take into enhance the
+portfolio. Such changes may for instance include additional tasks to undertake common/joint activities
+(workshops, data exchanges, joint research, etc) with other projects in the portfolio.
+
+Based on first experience, it is proposed to foresee in your proposal a dedicated work  package for
+portfolio activities and to allocate at least 10 person-months (see below for the purpose and examples
+of such activities).
+
+If you fail to do this during proposal time, your proposal will not be scored lower during the evaluation,
+but in case your proposal is selected for grant agreement preparation, you will be requested to add
+the portfolio work package to your grant agreement. Please be aware that in that case the maximum
+grant you receive will not change, and you will need to find the resources for portfolio activities within
+the foreseen project budget.
+
+
+Portfolio activities
+
+The aims of the portfolio activities are:
+
+1. Enhancing the development potential of each individual project, as a result of its active
+participation in the portfolio activities: ensuring that portfolio members  can access a much
+higher number of relevant partnerships. Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+11
+
+2. Enhancing the commercialisation potential of each individual project, as a result of its active
+participation in the portfolio activities: ensuring that portfolio members, can access the right
+industry partners to explore key partnerships.
+To accomplish the above the Programme Manager will guide the projects to  develop and agree on a
+strategic plan for the portfolio.
+Portfolio Strategic Plan
+
+Following the selection of a proposals to be funded under the Challenge, the Programme Manager will
+work together with the consortia of the selected proposals to develop a common strategic plan for the
+Challenge. This plan will integrate the activities and milestones of the individual projects into a shared
+set of specific objectives and activities across and beyond the projects. It serves as a common basis for
+the project implementation - including possible adjustments, reorientations, or additional support to
+projects. It will be updated considering emerging results o r issues during the implementation. The
+objectives can be revised, for instance based on projects’ unexpected achievements, new technology
+trends, external inputs (other projects, new calls…).
+
+In particular, the Challenge strategic plan will include activities on the transition to innovation and
+commercialisation, and to stimulate business opportunities. These activities may be reinforced during
+the implementation with additional funding and expertise through pro -active management.  Non-
+exhaustive examples of activities towards the above-mentioned aims are:
+
+Technology:
+• Compare Agents: Evaluate the use of a combination of agents in cases of multiple cancers to
+identify synergies and improve outcomes.
+• Generate a Common Database: Develop a shared database of synthetically generated images
+to be used by projects addressing the same type of cancer for algorithm development.
+• Benchmarking: Establish agents benchmarking to enhance diagnosis and personalized
+treatment selection across projects addressing the same type of cancer.
+Regulatory:
+• Standardized Methods and Frameworks: Develop standardized methods and frameworks for
+evaluating AI models in compliance with AI Act and Medical Device Regulation (MDR).
+Ethics
+• Discussing the relevant for the Challenge ethics issues, especially when within the portfolio
+there are projects subject to ethics reviews.
+• Perform activities that support, inform, and participate in discussions around the process of
+putting forward relevant ethical principles and discussing the appropriate approaches for
+compliance.
+Clinical:
+• Innovative Clinical Pathways: Define and implement innovative clinical pathways in oncology,
+leveraging the diverse technologies and approaches from each project. Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+12
+
+• External Validation: Validate the developed agents externally within the clinical
+premises/infrastructures of other projects in the portfolio to ensure robustness and
+generalizability.
+
+Innovation:
+• Considerations on early-stage commercialisation strategies: directly address the need to move
+from research to market, including IP management, market analysis, regulatory pathways,
+business model development, funding strategies, product development, and go -to-market
+strategies.
+• Capacity Building and Training: Establish training programs for project teams to enhance their
+skills in emerging technologies, regulatory compliance, patenting and commercialization
+strategies.
+
+Dissemination and Communication:
+• Stakeholder Engagement and Communication: Organize regular workshops with key
+stakeholders (e.g., clinicians, patients, industry partners) to gather feedback and ensure
+alignment with clinical needs and market demands. Establish a board with industry experts to
+provide guidance on commercialization strategies.
+
+
+The key operational points of this strategic plan include:
+- Development of a Strategic Plan: Create and publish a detailed strategic plan that outlines the
+specific objectives, activities, and milestones to be achieved over the project’s duration
+through the portfolio. Ensure that the strategic plan integrates activities of the individual
+proposals into a coherent and unified way. This should be published about 1 year after the
+creation of the portfolio.
+- Annual Reporting: Generate an annual report that details the progress made with respect to
+the strategic plan by the portfolio group, starting from year 2 of the portfolio creation. These
+reports will highlight achievements, challenges, and any necessary adjustments to the plan.
+- Accountability: Each proposal team is responsible for contributing to the strategic plan  and
+the annual reports, providing updates on their progress and any issues encountered.
+- Collaboration and Guidance: Under the guidance of the Program me Manager, the different
+proposals are expected to work and collaborate effectively on the commonly defined strategic
+plan objectives and activities. The Programme Manager will provide oversight and support to
+ensure that all projects remain aligned with the strategic plan. While the Programme Manager
+provides guidance, each project team must take responsibility and initiative for their
+respective tasks. Collaboration between teams is essential to achieve the common goals of the
+Challenge.
+- Strategic Plan Updates: The strategic plan will be a living document, updated annually if
+needed based on emerging results, new technology trends, and external inputs such as new
+projects or calls for proposals. The objectives and activities outlined in the strategic plan can Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+13
+
+be revised based on unexpected achievements, new opportunities, and insights gained during
+implementation.
+
+An example of timeline and operating mechanism is given below:
+
+Stage Activity Participants Frequency Purpose/Outcome Timeline
+1. Initial
+Kickoff
+Kickoff
+Meeting
+All Participants Year 1 only Identify key
+common activities,
+draft strategic plan,
+establish working
+groups, align goals
+Within 2-3
+months
+after grant
+agreement
+is signed
+for all
+projects
+2. Activity
+Engagement
+Activity
+Group
+Formation
+Participants based
+on
+interest/expertise
+As needed
+after
+kickoff
+Form groups for
+specific activities
+Year 1
+3. Regular
+Follow-up
+Progress
+Meetings (by
+Activity)
+Activity Groups,
+(Program
+Manager)
+Bi-
+Monthly
+Discuss progress,
+address challenges,
+plan next steps
+ Year 1 – Q4
+to end of
+portfolio
+activities
+4. Cross -
+Activity Sync
+Coordination
+Meetings
+Activity Group
+Leaders, Program
+Manager
+Quarterly Ensure alignment
+across activities,
+share updates
+ Year 1 -Q4
+to end of
+portfolio
+activities
+5. Annual
+Review
+Annual
+Review and
+Planning
+Meeting
+All Participants Annually Review yearly
+progress, adjust
+strategic plan, set
+next year’s goals
+ Q1 of
+every year
+6. Final
+Review
+Final Review
+Meeting
+All Participants End of
+Year 4
+Present outcomes,
+lessons learned,
+discuss
+sustainability
+End of
+portfolio
+activities
+
+
+The exchange of information for the purpose of EIC portfolio activities will fall under the conditions
+and non-disclosure obligations as specified in the EIC Work Programme 2025 (Annex 6, section 2).
+Tools though which projects can receive additional support
+
+Projects in the portfolio may be offered additional support, either individually or collectively, in order
+to reinforce portfolio activities or explore the transition to innovation. Such additional support
+includes:
+Projects in the portfolio may be offered additional support, either individually or collectively, in order
+to reinforce portfolio activities or explore the transition to innovation. Such additional support
+includes:
+- Booster grants of up to €50k (see Annex 5 of the EIC Work Programme).
+- Access to additional EIC Business Acceleration Services (see
+https://eic.ec.europa.eu/eic-funding-opportunities/business-acceleration-services_en) Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+14
+
+- Access to the Fast Track to the EIC Accelerator, which would follow a project review (see Annex
+3 of the EIC Work Programme).
+- The possibility to apply for EIC Transition if your Pathfinder project resulted in an experimental
+proof of concept (TRL 3), or a technology validated in the lab (TRL 4)
+- Access to the EIC Market Place, once operational, to connect with innovators, investors and
+other selected partners.
+- Interactions with relevant projects and initiatives outside the portfolio, including other EU
+funding initiatives as well as those supported by national, regional or other international
+bodies.
+
+
+5. Annex 1: Template workpackage portfolio activities
+
+WPX PORTFOLIO MANAGEMENT
+Start Month 1, End Month (full project duration)
+Objectives
+Explore synergies and collaborations among the projects of the portfolio, to maximize the achievement
+of the scientific results, the exploitation potentials, the outreach opportunities with key stakeholders,
+the identification and overcoming of major barriers to introduce the innovation to the market ….
+Specific objectives:
+• Contribute to the elaboration of the strategic plan of portfolio and sub -portfolio activities,
+which is composed by a list of the specific techno-scientific joint collaborations between two
+or more portfolio projects, with the respective timeline and expected achievements. Potential
+synergies identified by a comprehensive in -depth analysis of shared components and
+complementarities amongst the portfolio members is expected to unlock additional value for
+each portfolio member.
+• Developing a common understanding within the portfolio members of the existing and
+developing regulatory environment) in view of the future implementation of the technologies
+that are developed by the portfolio members. By identifying regulatory barriers for innovation,
+the portfolio of projects can jointly contribute to potential improvements and further
+development of  the regulatory framework.  Through common communication activities
+addressed at policy makers and other relevant stakeholders such as dissemination at scientific
+conferences or trade -fairs, social acceptance for proposed solutions can be increased, and
+regulatory barriers for innovation can be highlighted.
+• Sharing life cycle analysis and life cycle thinking and developing novel/common metrics or
+ways of benchmarking  the potential environmental impact associated with each solution is
+expected to contribute to the acceptance and future implementation of the technologies
+developed by the portfolio members.
+• Define common scenarios and strategies for commercialization and exploitation. Identify key
+stakeholders such as relevant end -users, investors, supply -chain actors. Effectively
+communicate key outcomes of the research work of the portfolio members collectively and/or
+as individual project to early stage private and corporate investors focused on the same field
+to attract early feedback. Exchanging such techno -economic insights an d commercialization
+scenarios with other portfolio members is expected to have more impact than individual
+projects can achieve and may also trigger new partnership(s). Also, collective understanding
+of IP strategies and IP management is expected to add portfolio value to each project. Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+15
+
+Description
+Task X.1: Portfolio management and governance  This task will require regular meetings and
+exchanges among the portfolio projects, to identify collaborations on specific technical aspects and
+exchange of information, best practices, strategies, etc.. A steering committee where each project is
+represented will be set up and steered by the Programme Manager. It will include the kick off meeting
+and the annual portfolio meeting in presence, and additional regular online meetings. 4 WGs will be
+set up to organiz e and implement activities in: WG1: Technological synergies; WG2: Regulatory
+environment, outreach events and awareness practices; WG3: LCA activities and WG4:
+Commercialization, exploitation, IP protection. Each consortium will nominate a representative f or
+each WG. A chair will be nominated from among them. The chair will be responsible to prepare
+meeting agendas, links to the meeting and minutes of the meetings. WG Meetings are expected to be
+online and to be scheduled approximately every 3 months. The e xchange of information for the
+purpose of EIC portfolio activities will fall under the conditions and non -disclosure obligations as
+specified in the EIC Work Programme 2023 (Annex 6, section 2.2).
+
+Task X.2: Portfolio actions to foster collaboration towards innovation.  This task will create
+opportunities to nurture innovations arising from portfolio collaboration, for example: common
+understanding of license agreements, EIC Business Acceleration Services, access to coaching and
+mentoring, European IP Helpdesk services, access to additional funding opportunities such as the EIC
+Booster grant. To stimulate innovation opportunities, the projects shall be involved in actions aimed
+at strengthening the EU research community. Therefore, this task can also include: the mapping and
+categorization of all the stakeholders and potential establishment of key partnership(s), the sharing of
+best practices, the exchange of researchers, access to research facilities, etc.
+Task X.3: Implementation of portfolio dissemination and communication activities Design and
+participate in outreach events (e.g., stakeholder matchmaking, industry trade fairs) at the portfolio
+level to facilitate connection with stakeholders and to showcase the technologies under
+development. Meetings could be restricted to portfolio beneficiaries (e.g., to discuss the progress of
+the portfolio as a whole) or could involve external participants (e.g., to facilitate successful completion
+of shared objective s by interaction with regulatory entities). Early -on common and continuous
+engagement with strategic AEC sector stakeholders to raise awareness of the possibility to reduce
+emissions by reducing and changing traditional build materials with computational d esign and
+digitalized fabrication is foreseen.
+Task X.4: Techno -economic benchmark and comparative assessment  Compare LCA practices and
+metrics of the different projects and analyse the performance of the proposed solution with the other
+portfolio technologies using common agreed metrics and KPI and produce a portfolio report on
+competitiveness, business potentia ls in different market segments and key barriers towards
+innovation of the portfolio technologies in comparison to benchmark.
+Task X.5: Implementation of portfolio protection and exploitation activities Mapping, landscaping,
+categorization, and analysis of patents and include if needed the establishment of key partnership.
+Early on and continuous engagement with strategic partners and stakeholders (e.g., investors and
+corporations) with the aim to catalys e potential R&D opportunities and to commonly tackle
+investment barriers. Design and participate in events at the portfolio level to facilitate connection with
+stakeholders or fun draising with private stakeholders (e.g., corporates or financial
+investors). Exchange of the market research analysis results in between the portfolio projects. 
+Task X.6: Portfolio Strategic plan and other common documents: Elaboration of the portfolio strategic
+plan under the guidance of the Programme Manager  and updated on a yearly basis. It will contain
+details of the techno-scientific collaborations and synergies of the portfolio projects (could be only one
+or more projects). It contains the actions already carried out, but also an overview of upcoming actions
+in the form of a roadmap. It will specify the common documents that the projects will deliver because
+of the other tasks specified in this work -package. Individual projects do not need to add these
+documents as a deliverable, they explain the contribution that they made to this report in their Challenge Guide – Generative-AI based Agents to Revolutionize
+Medical Diagnosis and Treatment of Cancer
+16
+
+corresponding annual deliverable “Report on portfolio activities”. A public version of the strategic plan
+will be published on the EIC website at year 1 and updated annually afterwards.
+
+Deliverable X.1: Contribution to the Portfolio Strategic Plan (single deliverable)
+This deliverable is the initial project’s contribution to the Portfolio Strategic Plan. It will be integrated
+with the other projects’ contributions in the overall Portfolio Strategic Plan under the guidance of the
+EIC Programme Manager.
+Type: R: Document, report (excluding the periodic and final reports)
+Dissemination level:  SEN – Sensitive, limited under the conditions of the Grant Agreement
+Due date:  month 6.
+
+Deliverable X.2.i: Report on portfolio activities (i=number of each implementation year. One
+deliverable per year; 3 deliverables for a 36 -months project and 4 deliverables for a 48 -months
+project)
+The report will present the portfolio activities that have been carried out in each reporting period and
+contain relevant material (e.g., PowerPoint presentations, minutes of meetings, etc.). It also explains
+how the portfolio activities and the EIC proact ive project management approach contribute to the
+achievement of the project objectives and help the transition to market.
+Type: R: Document, report (excluding the periodic and final reports)
+Dissemination level:  SEN – Sensitive, limited under the conditions of the Grant Agreement
+Due date:  The report on portfolio activities will be submitted every 12 months.
+
+Final considerations
+• Effort to be allocated to this work package: 10 p.m.
+
+• In Month 1 the project should set up an operational internal governance to cover the following
+three main roles (with at least two distinct persons that are not necessarily from the coordinator)
+and with responsibilities in the four aforementioned WGs under Task X.1:
+1) Portfolio manager, in charge of:
+• Coordination of the portfolio activities (including the writing of the task’s reports and
+deliverables).
+• Identification and establishment of synergies, shared components and collaboration
+opportunities with one or more projects in the portfolio.
+• Assessment of the competitiveness of the proposed technologies for different applications.
+• Participation in data collection for monitoring the technology development.
+
+2) Innovation manager, in charge of:
+• Elaboration of the exploitation strategies and set -up of the project exploitation plan
+(including the IPR strategy).
+• Identification of market needs, coordination of market analysis, identification of business
+opportunities and fundraising options.
+• Assessment of the key stakeholders, analysis of the value chain.
+
+3) Communication manager with the following roles and tasks:
+• Defines the portfolio communication strategy.
+• Implements the portfolio communication and dissemination activities.
+• Manages a common database for events and a shared database of scientific instruments.

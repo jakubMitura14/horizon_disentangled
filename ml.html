@@ -3,265 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Flow: A Biologically-Grounded Generative Framework for Prostate Cancer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Multi-Stage Causal AI Framework</title>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            font-size: 16px; /* Increased base font size */
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 25px;
+            overflow-x: auto;
         }
-        .infographic-container {
-            max-width: 1400px; /* Widened container */
-            margin: 2rem auto;
-            padding: 2.5rem;
-            background-color: white;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1800px;
+        }
+        .stage {
+            background-color: #ffffff;
+            border: 1px solid #d1d9e6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
         }
         .stage-title {
-            font-size: 1.75rem; /* Increased font size */
-            font-weight: 700;
-            color: #1e3a8a;
-            border-bottom: 2px solid #93c5fd;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1a5dab;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #e0e7ff;
+            padding-bottom: 10px;
         }
-        .stage-title .icon {
-            margin-right: 1rem;
-            width: 3rem;
-            height: 3rem;
-            background-color: #dbeafe;
-            border-radius: 9999px;
+        .content {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1e3a8a;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: stretch;
         }
         .card {
-            background-color: #f1f5f9;
-            border-left: 4px solid #60a5fa;
-            border-radius: 0.5rem;
-            padding: 1.25rem;
-            transition: all 0.3s ease;
-            height: 100%;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #4a90e2;
+            border-radius: 8px;
+            padding: 18px;
+            flex: 1;
+            min-width: 230px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         }
-        .card-title {
-            font-weight: 600;
-            color: #1e3a8a;
-            font-size: 1.1rem; /* Increased font size */
+        .card h4 {
+            font-size: 1.1em;
+            color: #0d47a1;
+            margin: 0 0 10px 0;
+        }
+        .card p, .card ul {
+            font-size: 1em;
+            color: #334155;
+            margin: 0;
+            padding-left: 18px;
+            line-height: 1.5;
         }
         .card ul {
-            font-size: 0.95rem; /* Increased font size */
+            margin-top: 8px;
         }
         .arrow {
-            position: relative;
             text-align: center;
-            margin: 2.5rem 0;
+            font-size: 2em;
+            color: #4a90e2;
+            padding: 10px 0;
+            font-weight: bold;
         }
-        .arrow::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: -1rem;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 18px solid #60a5fa;
-        }
-        .flow-line {
-            width: 3px;
-            background-color: #60a5fa;
-            margin: 0 auto;
-            height: 2.5rem;
-        }
-        .disentangle-diagram {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            gap: 1rem;
-        }
-        .latent-space-card {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-        }
-        .latent-space-card p.font-semibold {
-            font-size: 1rem;
-        }
-        .output-card {
-            border: 2px solid #93c5fd;
-            background-color: #eff6ff;
+         .stage-2-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
     </style>
 </head>
-<body class="bg-slate-50">
-
-    <div class="infographic-container">
-        <!-- Header -->
-        <header class="text-center mb-16">
-            <h1 class="text-4xl font-bold text-slate-800">A Biologically-Grounded Generative Framework for Prostate Cancer</h1>
-            <p class="text-slate-500 mt-2 text-lg">Visualizing the Data Flow of a Multi-Stage Causal AI Model</p>
-        </header>
-
-        <!-- Section 1: Data Inputs -->
-        <section id="inputs">
-            <h2 class="stage-title">
-                <span class="icon"><i data-lucide="database"></i></span>
-                Data Inputs: Comprehensive Patient Data Collection
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8">
+<body>
+    <div class="container">
+        <!-- Stage 1 -->
+        <div class="stage">
+            <div class="stage-title">Stage 1: Clinical Foundation Models</div>
+            <div class="content">
                 <div class="card">
-                    <h3 class="card-title">Clinical & Lab Data</h3>
-                    <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
-                        <li>Patient Demographics (Age)</li>
-                        <li>PSA Levels (at diagnosis & follow-up)</li>
-                        <li>Histopathology (Gleason Score)</li>
-                        <li>Clinical Staging (TNM)</li>
-                        <li>Treatment History (Surgery, ADT)</li>
+                    <h4>Input Data</h4>
+                    <p>3D Images (MRI, PET, CT), EHR Data, Pathology</p>
+                </div>
+                <div class="card">
+                    <h4>Supervisor Models</h4>
+                    <ul>
+                        <li><strong>Ordinal Classifiers:</strong> Predict clinical scores (PI-RADS, TNM Stage) respecting their natural order.</li>
+                        <li><strong>Survival Regressor:</strong> Predicts Time-to-Progression (TTP), handling incomplete patient data.</li>
                     </ul>
                 </div>
                 <div class="card">
-                    <h3 class="card-title">Imaging Data & Reports</h3>
-                     <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
-                        <li>Raw DICOMs (mpMRI, PSMA-PET/CT)</li>
-                        <li>Post-therapy Scans (SPECT/CT)</li>
-                        <li>Scanner Metadata (Confounders)</li>
-                        <li>Unstructured Radiological Reports</li>
+                    <h4>Output</h4>
+                    <p>Clinically-validated predictions to guide the main AI.</p>
+                </div>
+            </div>
+        </div>
+        <div class="arrow">&darr;</div>
+        <!-- Stage 2 -->
+        <div class="stage">
+            <div class="stage-title">Stage 2: Isolate Key Factors with VAEs</div>
+            <div class="content stage-2-grid">
+                <div class="card">
+                    <h4>VAE Architecture</h4>
+                    <p>A VAE (Variational Autoencoder) for each imaging type learns to represent the data.</p>
+                </div>
+                <div class="card">
+                    <h4>Factor Separation</h4>
+                    <p>The model separates images into four key components:</p>
+                    <ul>
+                        <li><strong>Za:</strong> Anatomy</li>
+                        <li><strong>Zd:</strong> Disease</li>
+                        <li><strong>Zp:</strong> Patient State</li>
+                        <li><strong>Zs:</strong> Image Style / Confounders</li>
                     </ul>
                 </div>
                 <div class="card">
-                    <h3 class="card-title">Longitudinal Outcomes</h3>
-                     <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
-                        <li>Time-to-Progression Data</li>
-                        <li>Biochemical Recurrence (rising PSA)</li>
-                        <li>Follow-up Imaging Results</li>
-                        <li>Survival Data (Overall & PFS)</li>
+                    <h4>Composite Loss</h4>
+                    <p>A special loss function (L_total = L_VAE + ...) ensures these factors are independent, removing artifacts like scanner type from the disease signal.</p>
+                </div>
+                <div class="card">
+                    <h4>Output</h4>
+                    <p>A clean, purified signal of the patient's disease state, free from technical noise.</p>
+                </div>
+            </div>
+        </div>
+        <div class="arrow">&darr;</div>
+        <!-- Stage 3 -->
+        <div class="stage">
+            <div class="stage-title">Stage 3: Data Quality Assurance (OOD Detection)</div>
+            <div class="content">
+                <div class="card">
+                    <h4>Goal</h4>
+                    <p>Flags atypical or potentially mislabeled data for expert review to ensure high-quality training data.</p>
+                </div>
+                <div class="card">
+                    <h4>Methodology</h4>
+                    <ul>
+                        <li>A secondary VAE learns the characteristics of 'normal' data from the purified Disease (Zd) and Patient (Zp) signals.</li>
+                        <li>Atypical data is identified by high reconstruction error or its distance from normal data clusters.</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <div class="flow-line arrow"></div>
-
-        <!-- Section 2: Stage 1 -->
-        <section id="stage1">
-            <h2 class="stage-title">
-                <span class="icon"><i data-lucide="graduation-cap"></i></span>
-                Stage 1: Training Foundational "Supervisor" Models
-            </h2>
-            <p class="text-slate-600 mb-6 text-base">A suite of specialized models are trained on specific tasks. These act as expert guides to enforce clinical and anatomical correctness in later stages.</p>
-            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-4 text-base">
-                <div class="card text-center p-4"><p>Ordinal Classifiers (TNM, PI-RADS)</p></div>
-                <div class="card text-center p-4"><p>Censored Survival Regressor (Time-to-Progression)</p></div>
-                <div class="card text-center p-4"><p>Anatomical Segmentator (Organ Masks)</p></div>
-                <div class="card text-center p-4"><p>Patient State Regressor (Age)</p></div>
-                <div class="card text-center p-4"><p>Confounder Classifiers (Scanner Type)</p></div>
-            </div>
-        </section>
-
-        <div class="flow-line arrow"></div>
-        
-        <!-- Section 3: Stage 2 -->
-        <section id="stage2">
-            <h2 class="stage-title">
-                <span class="icon"><i data-lucide="grip"></i></span>
-                Stage 2: Causal Representation Learning (Per Modality)
-            </h2>
-            <p class="text-slate-600 mb-6 text-base">A hierarchical Variational Autoencoder (VAE) is trained for each imaging modality (e.g., MRI, PET). Guided by the Stage 1 supervisors, the VAE learns to disentangle the complex image data into four independent, meaningful components.</p>
-            <div class="disentangle-diagram">
-                <div class="text-center">
-                    <i data-lucide="image" class="h-20 w-20 mx-auto text-slate-400"></i>
-                    <p class="font-semibold mt-2 text-lg">Input Image</p>
-                </div>
-                <div class="text-center font-bold text-2xl text-blue-600">
-                    <p>VAE Model</p>
-                    <i data-lucide="arrow-right-circle" class="h-12 w-12 mx-auto my-4"></i>
-                    <p>Disentanglement</p>
-                </div>
-                <div class="grid grid-cols-2 gap-4 flex-grow">
-                    <div class="card latent-space-card p-4 text-center"><p class="font-semibold text-blue-800">Anatomy (Z<sub>A</sub>)</p><p class="text-sm text-slate-500">Patient's stable structure</p></div>
-                    <div class="card latent-space-card p-4 text-center bg-red-50 border-red-200"><p class="font-semibold text-red-800">Disease (Z<sub>D</sub>)</p><p class="text-sm text-slate-500">Pathological signals</p></div>
-                    <div class="card latent-space-card p-4 text-center bg-green-50 border-green-200"><p class="font-semibold text-green-800">Patient State (Z<sub>P</sub>)</p><p class="text-sm text-slate-500">Age, body composition</p></div>
-                    <div class="card latent-space-card p-4 text-center"><p class="font-semibold text-gray-800">Style/Shortcut (Z<sub>S</sub>)</p><p class="text-sm text-slate-500">Scanner artifacts, noise</p></div>
+                <div class="card">
+                    <h4>Output</h4>
+                    <p>A highly reliable dataset for a more robust and trustworthy final AI.</p>
                 </div>
             </div>
-        </section>
-
-        <div class="flow-line arrow"></div>
-
-        <!-- Section 4: Stage 3 -->
-        <section id="stage3">
-            <h2 class="stage-title">
-                <span class="icon"><i data-lucide="area-chart"></i></span>
-                Stage 3: Temporal Trajectory Modeling
-            </h2>
-            <div class="text-center mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
-                <p class="text-slate-800 font-medium">To ensure training is stable and computationally feasible, the NJDE operates exclusively on the most relevant low-dimensional latent vectors: the <b class="text-red-700">Disease (Z<sub>D</sub>)</b> and <b class="text-green-700">Patient State (Z<sub>P</sub>)</b> components. This focuses the model on learning clinically meaningful dynamics while ignoring noise and confounders.</p>
-            </div>
-            <p class="text-slate-600 mb-6 text-base">A Neural Jump Differential Equation (NJDE) models the patient's entire disease journey over time, handling sparse, irregularly-sampled clinical events.</p>
-            <div class="bg-slate-50 p-6 rounded-lg">
-                <p class="text-center font-medium text-slate-700 text-lg">Patient Disease Trajectory Timeline</p>
-                <div class="relative w-full h-24 mt-4">
-                    <div class="absolute top-1/2 left-0 w-full h-1 bg-blue-300 rounded"></div>
-                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 10%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Diagnosis</span></div>
-                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 40%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Follow-up</span></div>
-                    <div class="absolute top-1/2 transform -translate-x-1/2" style="left: 65%;"><i data-lucide="zap" class="w-10 h-10 text-red-500"></i><span class="absolute -bottom-14 transform -translate-x-1/2 text-sm font-bold text-red-600 w-24 text-center">Intervention (e.g., Surgery)</span></div>
-                    <div class="absolute top-1/2 transform -translate-y-1/2" style="left: 90%;"><div class="w-5 h-5 bg-blue-600 rounded-full border-2 border-white shadow"></div><span class="absolute -top-8 transform -translate-x-1/2 text-sm">Post-Op</span></div>
+        </div>
+        <div class="arrow">&darr;</div>
+        <!-- Stage 4 -->
+        <div class="stage">
+            <div class="stage-title">Stage 4: Model Disease Progression (Neural Jump ODE)</div>
+            <div class="content">
+                <div class="card">
+                    <h4>Input</h4>
+                    <p>The time-series of purified Disease (Zd) and Patient (Zp) signals.</p>
                 </div>
-            </div>
-        </section>
-
-        <div class="flow-line arrow"></div>
-
-        <!-- Section 5: Stage 4 & Outputs -->
-        <section id="stage4">
-            <h2 class="stage-title">
-                <span class="icon"><i data-lucide="file-sliders"></i></span>
-                Stage 4: Generative Synthesis & Clinical Outputs
-            </h2>
-            <p class="text-slate-600 mb-6 text-base">The fully trained model translates its internal understanding back into clinically useful and explainable outputs, enabling powerful "what-if" scenarios and predictions.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card output-card">
-                    <h3 class="card-title">Image Generation</h3>
-                    <p class="text-slate-600 text-sm mt-2">Synthesizes realistic images for any modality at any time point.</p>
-                    <ul class="list-disc list-inside text-slate-600 text-sm mt-2 space-y-1">
-                        <li><b>Prognostic:</b> "Show MRI in 1 year"</li>
-                        <li><b>Counterfactual:</b> "What if the lesion were benign?"</li>
-                        <li><b>Treatment Simulation:</b> "Post-prostatectomy PET scan"</li>
+                <div class="card">
+                    <h4>NJDE Model</h4>
+                    <p>The NJDE models two processes:</p>
+                    <ul>
+                        <li><strong>1. Continuous Evolution (ODE):</strong> Smooth disease progression over time.</li>
+                        <li><strong>2. Discrete Jumps:</strong> Sudden changes from treatments like surgery or therapy.</li>
                     </ul>
                 </div>
-                <div class="card output-card">
-                    <h3 class="card-title">Structured Reporting</h3>
-                     <p class="text-slate-600 text-sm mt-2">Automatically generates consistent, standardized reports from the latent space vectors (Z<sub>A</sub>, Z<sub>D</sub>, Z<sub>P</sub>), reducing clinical workload and errors.</p>
+                <div class="card">
+                    <h4>Training Strategy</h4>
+                    <ul>
+                        <li>Pre-trained on clinical guidelines.</li>
+                        <li>Fine-tuned on real patient data, handling missing information gracefully.</li>
+                    </ul>
                 </div>
-                <div class="card output-card">
-                    <h3 class="card-title">Tumor Board Recommendations</h3>
-                    <p class="text-slate-600 text-sm mt-2">Synthesizes the entire patient trajectory to generate data-driven recommendations for patient management, simulating a multidisciplinary consultation.</p>
+                <div class="card">
+                    <h4>Output</h4>
+                    <p>A dynamic model that understands and can predict the patient's entire disease journey.</p>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="arrow">&darr;</div>
+        <!-- Stage 5 -->
+        <div class="stage">
+            <div class="stage-title">Stage 5: Clinical Application & Decision Support</div>
+            <div class="content">
+                <div class="card">
+                    <h4>Generative Synthesis</h4>
+                    <p>Creates realistic 'what-if' images (e.g., "what would this tumor look like in 6 months?") to explain predictions.</p>
+                </div>
+                <div class="card">
+                    <h4>Treatment Simulation</h4>
+                    <p>Simulates outcomes for different therapies to help clinicians choose the best one for the patient.</p>
+                </div>
+                <div class="card">
+                    <h4>Automated Reporting</h4>
+                    <p>Auto-generates structured reports with predictions and simulations to save clinicians time.</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
-<!--
-New, shorter LaTeX caption:
-
-\caption{The proposed multi-stage causal AI framework. 1) Foundational supervisor models are trained on specific clinical tasks. 2) A VAE, guided by the supervisors, learns a disentangled latent space for each imaging modality. 3) A Neural Jump ODE models the temporal evolution of the core disease and patient state vectors. 4) The model generates clinically actionable outputs like prognostic images and structured reports.}
--->
