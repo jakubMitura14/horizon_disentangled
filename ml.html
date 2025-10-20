@@ -14,8 +14,8 @@
         }
         .infographic-container {
             max-width: 1400px; /* Widened container */
-            margin: 2rem auto;
-            padding: 2.5rem;
+            margin: 1rem auto;
+            padding: 1.5rem;
             background-color: white;
             border-radius: 1rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -26,7 +26,7 @@
             color: #1e3a8a;
             border-bottom: 2px solid #93c5fd;
             padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
         }
@@ -65,7 +65,7 @@
         .arrow {
             position: relative;
             text-align: center;
-            margin: 2.5rem 0;
+            margin: 1.5rem 0;
         }
         .arrow::after {
             content: '';
@@ -83,7 +83,7 @@
             width: 3px;
             background-color: #60a5fa;
             margin: 0 auto;
-            height: 2.5rem;
+            height: 1.5rem;
         }
         .disentangle-diagram {
             display: flex;
@@ -168,11 +168,11 @@
 
         <div class="flow-line arrow"></div>
         
-        <!-- Section 3: Stage 2 -->
+        <!-- Section 2: Stage 2 -->
         <section id="stage2">
             <h2 class="stage-title">
                 <span class="icon"><i data-lucide="grip"></i></span>
-                Stage 2: Causal Representation Learning (Per Modality)
+                Stage 2: Mastering Heterogeneity through Principled Disentanglement
             </h2>
             <p class="text-slate-600 mb-6 text-lg">A hierarchical Variational Autoencoder (VAE) is trained for each imaging modality (e.g., MRI, PET). Guided by the Stage 1 supervisors, the VAE learns to disentangle the complex image data into four independent, meaningful components.</p>
             <div class="disentangle-diagram">
@@ -196,13 +196,13 @@
 
         <div class="flow-line arrow"></div>
 
-        <!-- Section 3.5: OOD Detection -->
-        <section id="stage2-5">
+        <!-- Section 3: VAE-based Out-of-Distribution Detection -->
+        <section id="stage3">
             <h2 class="stage-title">
                 <span class="icon"><i data-lucide="shield-check"></i></span>
-                Data Quality Assurance: VAE-based Outlier Detection
+                Stage 3: VAE-based Out-of-Distribution Detection
             </h2>
-            <p class="text-slate-600 mb-6 text-lg">To ensure the integrity of the training data, a second VAE-based model is used to analyze the latent space vectors ($Z_D$ and $Z_P$). This stage identifies and flags statistical outliers that may represent label noise or rare cases.</p>
+            <p class="text-slate-600 mb-6 text-lg">To ensure the integrity of the training data, a second VAE-based model analyzes the latent space vectors ($Z_D$ and $Z_P$) to identify and flag statistical outliers that may represent label noise or rare cases for expert review.</p>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card">
                     <h3 class="card-title">Latent Space Analysis</h3>
@@ -227,11 +227,11 @@
 
         <div class="flow-line arrow"></div>
 
-        <!-- Section 4: Stage 3 -->
-        <section id="stage3">
+        <!-- Section 4: Stage 4 -->
+        <section id="stage4">
             <h2 class="stage-title">
                 <span class="icon"><i data-lucide="area-chart"></i></span>
-                Stage 3: Temporal Trajectory Modeling
+                Stage 4: Capturing Disease Dynamics with Neural Jump ODEs
             </h2>
             <div class="text-center mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
                 <p class="text-slate-800 font-medium text-lg">To ensure training is stable and computationally feasible, the NJDE operates exclusively on the most relevant low-dimensional latent vectors: the <b class="text-red-700">Disease (Z<sub>D</sub>)</b> and <b class="text-green-700">Patient State (Z<sub>P</sub>)</b> components. This focuses the model on learning clinically meaningful dynamics while ignoring noise and confounders.</p>
@@ -251,11 +251,11 @@
 
         <div class="flow-line arrow"></div>
 
-        <!-- Section 5: Stage 4 & Outputs -->
-        <section id="stage4">
+        <!-- Section 5: Stage 5 & Outputs -->
+        <section id="stage5">
             <h2 class="stage-title">
                 <span class="icon"><i data-lucide="file-sliders"></i></span>
-                Stage 4: Generative Synthesis & Clinical Outputs
+                Stage 5: Generative Synthesis & Clinical Outputs
             </h2>
             <p class="text-slate-600 mb-6 text-lg">The model translates its learned representations into clinically actionable outputs, enabling predictions and "what-if" scenarios.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
