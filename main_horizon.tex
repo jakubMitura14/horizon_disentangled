@@ -557,6 +557,7 @@ Complementing the deliverables, the project's progress will be assessed against 
         M3 & VAE models demonstrate successful disentanglement & WP3 & M24 & Report with quantitative disentanglement metrics (measured by reduced mutual information between dimensions of latent space without trained disentanglement) and qualitative results. \\
         M4 & NJDE model successfully predicts patient trajectories & WP4 & M30 & Report on temporal model performance, with mean accuracy >0.75 for predicting TNM and PSA at different time points. \\
         M5 & Final model validated for clinical plausibility & WP5 & M36 & Final validation report where a majority of counterfactual images are deemed plausible and useful by testing physicians. \\
+        M6 & Novel $^{177}$Lu-PSMA therapy strategies proposed & WP5 & M36 & Report detailing simulation-backed proposals for optimizing $^{177}$Lu-PSMA therapy. Milestone is passed upon documented confirmation from an external panel of clinical experts that the proposals are credible and warrant consideration for future clinical trials. \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -577,6 +578,8 @@ Complementing the deliverables, the project's progress will be assessed against 
         M4 & \textbf{Risk:} The NJDE model proves too difficult to train on the sparse clinical data, failing to achieve the target predictive accuracy for patient trajectories. & \textbf{Mitigation:} 1) We will first validate the model on a simplified, synthetic dataset to confirm its theoretical soundness. 2) We will enhance the pre-training stage by incorporating more detailed rules from clinical guidelines. 3) The complexity of the learned dynamics function will be incrementally increased to avoid overfitting. \\
         \addlinespace
         M5 & \textbf{Risk:} Clinicians find the generated counterfactuals to be unrealistic or not useful for explanation, hindering the final model's adoption. & \textbf{Mitigation:} We will establish a tight feedback loop with our clinical partners from the beginning of WP5. A dedicated user interface will be developed to allow clinicians to interactively explore and rate the plausibility of the generated images, providing direct, actionable feedback for model refinement. \\
+        \addlinespace
+        M6 & \textbf{Risk:} The model's simulations do not yield any clinically credible or novel strategies for $^{177}$Lu-PSMA therapy. & \textbf{Mitigation:} Throughout the final year (WP5), we will conduct iterative reviews of simulation outputs with our external clinical expert panel. This ensures the simulation experiments are continuously guided by clinical needs and real-world constraints, maximizing the likelihood of generating relevant and actionable proposals. \\
         \bottomrule
     \end{tabular}
 \end{table}
