@@ -615,43 +615,57 @@ The project's wide network of collaborators provides a crucial strategic advanta
 \subsection{Quality of the Team and Collaborations}
 The success of this project hinges on the deep integration of clinical and technical expertise. Our team is not merely a collection of specialists but a truly \textbf{interdisciplinary unit} where expertise is shared and fused. This is exemplified by our leadership structure, which is designed to act as a bridge between disciplines. The project's co-coordinator possesses a \textbf{dual specialization in both nuclear medicine and radiology}, providing a unified, multi-modal imaging perspective at the highest level. This is complemented by another coordinating medical doctor who combines a specialization in nuclear medicine with a formal IT background. This unique "bridging" role is critical for translating complex clinical needs into precise technical requirements and for ensuring the developed AI solutions are seamlessly integrated into the clinical workflow. This interdisciplinary-by-design approach mitigates the risk of a disconnect between the technical development and its real-world application. We also have a strong cooperation with IT specialists from the German Medical Informatics Initiative (\url{https://www.medizininformatik-initiative.de/de/ueber-die-initiative}) and the Institute for Medical Informatics and Data Science (\url{https://imds.med.ovgu.de/Team/Julian+Varghese.html}).
 
-This project is submitted by a single applicant, the applicant institution, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
+This project is submitted by a single applicant, the applicant institution (University Hospital Magdeburg), which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
 \begin{itemize}
-    \item \textbf{The applicant institution:} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging. Our team will lead all technical WPs (WP1-WP5).
-    \item \textbf{A key partner:} A key partner providing extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their clinical team will also play a vital role in the validation studies (WP5).
-    \item \textbf{A key partner:} Provides access to a diverse patient cohort, increasing the heterogeneity of the training data and ensuring the generalizability of the developed models. Their expertise in multi-center trials will be invaluable for designing the validation framework.
-    \item \textbf{A key partner:} This partner provides access to a large cohort of primary diagnostic imaging, which is essential for training the supervisor models for early-stage disease in WP2.
+    \item \textbf{The applicant institution (University Hospital Magdeburg):} As the coordinating institution, we provide the overall project lead, extensive expertise in AI model development for medical imaging, and contribute unique longitudinal and interim therapy imaging data. Our team will lead all technical WPs (WP1-WP5).
+    \item \textbf{University Hospital Halle \& Charité - Universitätsmedizin Berlin:} These key partners provide extensive data on paired pre- and post-therapy scans, which is crucial for training the treatment response models in WP4. Their contribution of diverse patient cohorts is vital for ensuring the model's generalizability, and their clinical teams will play a crucial role in the validation studies (WP5).
+    \item \textbf{Radiological Practice Sudenburg (Magdeburg):} This partner provides access to a large cohort of primary diagnostic imaging (CT \& mpMRI), which is essential for training the supervisor models for early-stage disease in WP2.
 \end{itemize}
 The project will be led by Prof. Dr. Michael Kreißl, a renowned expert in nuclear medicine, who brings unparalleled leadership experience as the head of the working group for the S3-guidelines on thyroid cancer in Germany. This direct experience in shaping national clinical standards is a unique asset that will guide the project's clinical and regulatory strategy. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Current projects are showcased at \url{https://jakubmitura14.github.io/OVGU_nuclear_projects/}. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
 
 \subsection{Appropriateness of the Allocation of Resources}
 A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
 
-The proprietary clinical cohort will serve as the cornerstone of this project, providing a rich, real-world dataset that spans the entire disease spectrum. The core data for all patients will consist of advanced imaging modalities (\gls{pet}/\gls{ct}, \gls{mri}, SPECT/\gls{ct}) and clinical data (\gls{ehr}, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as \gls{psadt}, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
+The proprietary clinical cohort, detailed in Table \ref{tab:data}, will serve as the cornerstone of this project. It provides a rich, real-world dataset that spans the entire disease spectrum, with specific contributions from each partner ensuring a diverse and comprehensive collection of imaging and clinical data. The core data for all patients will consist of advanced imaging modalities (\gls{pet}/\gls{ct}, \gls{mri}, SPECT/\gls{ct}) and clinical data (\gls{ehr}, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as \gls{psadt}, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
 
 \begin{itemize}
     \item \textbf{Histopathological Images:} When available, \gls{wsi} from biopsy and prostatectomy specimens will be collected to provide ground-truth information on tumor grade and morphology.
     \item \textbf{Omics Data:} The dataset will be enriched, when possible, with genetic data (e.g., from targeted sequencing panels for genes like BRCA1/2) and other omics data, including proteomics and radiomics features extracted from the imaging studies.
 \end{itemize}
 
-\begin{table}[H]
-\caption{Summary of Data Sources and Cohorts}
+\begin{longtable}{>{\RaggedRight}p{0.4\textwidth} >{\RaggedRight}p{0.4\textwidth} >{\RagДRight\arraybackslash}p{0.2\textwidth}}
+\caption{Summary of Data Sources and Cohorts}\\
 \label{tab:data}
-\begin{tabular}{p{0.4\textwidth} p{0.4\textwidth} p{0.2\textwidth}}
+
 \toprule
 \textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
 \midrule
+\endfirsthead
+
+\multicolumn{3}{c}%
+{{\tablename\ \thetable{} -- continued from previous page}} \\
+\toprule
+\textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
+\midrule
+\endhead
+
+\bottomrule
+\multicolumn{3}{r}{{Continued on next page}} \\
+\endfoot
+
+\endlastfoot
+
 \multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
 \midrule
-Paired $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& mp\gls{mri} & Applicant & 350 \\
+Paired $^{68}$Ga-PSMA PET/CT \& mpMRI & Magdeburg, Halle, Charite & 350 \\
 \cmidrule(lr){1-3}
-Paired pre-therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& post-therapy $^{177}$Lu-\gls{psma} SPECT/\gls{ct} & Applicant and Partners & 550 \\
+Paired pre-therapy $^{68}$Ga-PSMA PET/CT \& post-therapy $^{177}$Lu-PSMA SPECT/CT & Magdeburg, Halle, Charite & 550 \\
 \cmidrule(lr){1-3}
-Paired interim therapy $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} \& \gls{ct} & Applicant & 40 \\
+Paired interim therapy $^{68}$Ga-PSMA PET/CT \& CT & Magdeburg & 40 \\
 \cmidrule(lr){1-3}
-Longitudinal $^{68}$Ga-\gls{psma} \gls{pet}/\gls{ct} & Applicant & 200 \\
+Longitudinal $^{68}$Ga-PSMA PET/CT & Magdeburg & 200 \\
 \cmidrule(lr){1-3}
-Diagnostic \gls{ct} \& mp\gls{mri} & Partner & 200 \\
+Diagnostic CT \& mpMRI & Rad. Sudenburg (Magdeburg) & 200 \\
 \midrule
 \textbf{Total Minimum Proprietary Cohort} & & \textbf{1340} \\
 \midrule
@@ -659,12 +673,11 @@ Diagnostic \gls{ct} \& mp\gls{mri} & Partner & 200 \\
 \midrule
 \multicolumn{3}{l}{\textbf{Integration with Public Datasets}} \\
 \midrule
-Genomic, \gls{mri}, \gls{ct}, \gls{pet} Data & \gls{tcga} \cite{zuley2016cancer} & 14 \\
+Genomic, MRI, CT, PET Data & The Cancer Genome Atlas (TCGA-PRAD) \cite{zuley2016cancer} & 14 \\
 \cmidrule(lr){1-3}
-Longitudinal \gls{mri} (297) \& PSA Data & ProstateNET (\gls{eucaim}) \cite{prostateNetArchive} & 297 \\
+Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchive} & 297 \\
 \bottomrule
-\end{tabular}
-\end{table}
+\end{longtable}
 
 
 The total requested budget for the CausalPCa project is \textbf{\EUR{2,738,416}} over a period of 36 months. While this amount is below the indicative EUR 4 million ceiling for EIC Pathfinder Challenges, it is the result of a meticulous and strategic planning process. The budget is not a reflection of reduced ambition, but rather of a lean, efficient project design that leverages significant existing institutional resources, including access to high-quality data and established clinical infrastructure. This allows us to focus EU funding on the most critical, high-risk research and development activities, ensuring that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
@@ -805,7 +818,7 @@ The CausalPCa framework is designed to tackle the immense complexity of prostate
 This high-risk, high-gain endeavor will deliver a transformative tool for oncology, establish a new European standard for trustworthy AI, and provide a versatile, foundational technology with the potential to revolutionize how we understand and treat complex diseases. We are confident that the applicant's team, with its deep interdisciplinary expertise and access to unparalleled clinical data, is perfectly positioned to turn this ambitious vision into a reality, generating profound scientific, clinical, and societal impact for Europe.
 
 \section*{Acknowledgements}
-The preparation of this proposal was assisted by several generative artificial intelligence (AI) tools. In compliance with transparency guidelines, we disclose their use as follows: The AI research assistant \textbf{Jules} was utilized for code generation and file modification tasks. \textbf{Gemini 2.5 Pro} was used to enhance style and readability. \textbf{Writefull} was employed for grammar correction. \textbf{Scispace} and \textbf{NotebookLM} were used for literature review and summarization.
+The preparation of this proposal was assisted by several generative artificial intelligence (AI) tools. In compliance with transparency guidelines, we disclose their use as follows: The AI research assistant \textbf{Jules} was utilized for code generation and file modification tasks. \textbf{Gemini 2.5 Pro} was used to enhance style and readability. \textbf{Writefull} was employed for grammar correction. \textbf{Scispace} and \textbf{NotebookLM} were used for literature review and summarization. The title page was created using google nano Banana.
 
 The applicants have thoroughly reviewed, edited, and validated all AI-generated content to ensure its accuracy, originality, and appropriateness. The applicants bear full responsibility for the entire content of this proposal, including all text, data, and citations, regardless of their origin. We acknowledge the limitations of these tools, including the potential for biases or errors, and have taken comprehensive steps to verify the final submission.
 
