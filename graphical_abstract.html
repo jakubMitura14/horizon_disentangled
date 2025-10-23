@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphical Abstract: CausalPCa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define the grant's color palette */
+        :root {
+            --primary: #0A369D;
+            --secondary: #4472CA;
+            --green: #5E8B7E;
+            --darkgray: #333333;
+            --lightgray: #f4f7fa;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--lightgray);
+            color: var(--darkgray);
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        .primary-text { color: var(--primary); }
+        .secondary-text { color: var(--secondary); }
+        .green-text { color: var(--green); }
+
+        .primary-bg { background-color: var(--primary); }
+        .secondary-bg { background-color: var(--secondary); }
+
+        /* Adjusted flow-arrow for shorter spacing */
+        .flow-arrow {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0; /* Shorter margin */
+        }
+        .flow-arrow svg {
+            width: 2.5rem; /* Slightly smaller arrow */
+            height: 2.5rem; /* Slightly smaller arrow */
+            color: var(--secondary);
+            opacity: 0.6;
+        }
+
+        /* VAE Funnel */
+        .vae-funnel {
+            position: relative;
+            width: 100%;
+            padding: 1.5rem 0; /* Shorter padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .funnel-body {
+            width: 50%;
+            height: 8rem; /* Shorter funnel */
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem; /* Slightly smaller font */
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+        .funnel-input {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+        }
+        .funnel-output {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            width: 120%;
+            justify-content: space-around;
+        }
+        .output-stream {
+            width: 2px;
+            height: 3rem; /* Shorter streams */
+            background-color: var(--darkgray);
+            position: relative;
+        }
+        .output-stream::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -1.8rem; /* Adjusted position */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.75rem; /* Slightly smaller font */
+            font-weight: 500;
+            padding: 0.2rem 0.4rem;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.375rem;
+        }
+        .output-stream.discarded {
+            background: repeating-linear-gradient(
+                45deg,
+                #d1d5db,
+                #d1d5db 5px,
+                #ffffff 5px,
+                #ffffff 10px
+            );
+        }
+         .output-stream.discarded::after {
+            color: #9ca3af;
+            text-decoration: line-through;
+         }
+
+         .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem; /* Smaller padding */
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            border: 1px solid #e5e7eb;
+            width: 100%; /* CHANGED: Was 110px, now 100% to fill grid */
+            text-align: center;
+            height: 100%; /* ADDED: Ensure boxes are same height */
+         }
+         .icon-box svg {
+            width: 2rem; /* Smaller icons */
+            height: 2rem; /* Smaller icons */
+            color: var(--primary);
+         }
+         .icon-box span {
+            font-size: 0.8rem; /* Smaller font */
+            font-weight: 500;
+            line-height: 1.2;
+         }
+
+         .main-container {
+            max-width: 1200px;
+            margin: 1.5rem auto; /* Shorter margin */
+            padding: 1.5rem; /* Shorter padding */
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.08), 0 2px 3px -2px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+         }
+         /* Adjust for the intervention label visibility */
+         .intervention-label-wrapper {
+            position: absolute;
+            left: 160px; /* Aligned with circle */
+            top: 0px; /* Moved up */
+            transform: translateX(-50%);
+            z-index: 10; /* Ensure it's on top */
+         }
+         .intervention-label {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem; /* Smaller font for label */
+         }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- 1. TITLE --><h1 class="text-2xl md:text-3xl text-center primary-text mb-3">
+            CausalPCa: A Causal "Digital Twin" for Personalized Prostate Cancer Management
+        </h1>
+        <p class="text-center text-md text-gray-600 mb-8">
+            A novel Generative AI framework to move from static prediction to dynamic, causal understanding of disease trajectory.
+        </p>
+
+        <!-- 2. SECTION 1: INPUTS --><h2 class="text-xl font-bold text-center mb-5">
+            <span class="secondary-text">Step 1:</span> Integrate Heterogeneous Multimodal Data
+        </h2>
+
+        <!-- MODIFIED: Wrapped icons and OOD in a responsive grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-stretch mb-6"> <!-- items-stretch to make columns same height -->
+
+            <!-- Column 1: Data Icons (now a 2x2 grid) -->
+            <div class="grid grid-cols-2 gap-3 md:gap-4">
+                <!-- Data Icon 1: Imaging --><div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M12 18.75H4.5a2.25 2.25 0 01-2.25-2.25V9a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0115 9v7.5a2.25 2.25 0 01-2.25 2.25z" />
+                    </svg>
+                    <span>Multimodal Imaging (MRI, PET, CT)</span>
+                </div>
+                <!-- Data Icon 2: EHR --><div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 6.108V6.108c0-1.135.845-2.098 1.976-2.192a48.424 48.424 0 011.123-.08m-5.801 0c.065.21.1.433.1.664 0 .414-.336.75-.75.75h-4.5a.75.75 0 00-.75.75 2.25 2.25 0 00.1.664m5.8 0A2.251 2.251 0 006.5 6.108V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08" />
+                    </svg>
+                    <span>EHR & Lab Data (PSA)</span>
+                </div>
+                <!-- Data Icon 3: Pathology --><div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75v-4.5m0 4.5h4.5m-4.5 0l6-6m-3 18c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 014.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.055.917-.44 1.255l-1.29 1.29c-.427.427.16 1.165.98 1.98l1.29-1.29c.338-.338.814-.55 1.255-.44l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 01-2.25 2.25h-1.372c-.516 0-.966-.351-1.091-.852l-1.106-4.423a1.875 1.875 0 00-1.995-1.502h-1.01c-.63 0-1.217.242-1.664.686l-1.29 1.29c-.427.427.16 1.165.98 1.98l1.29-1.29c.338-.338.814-.55 1.255-.44l4.423 1.106c.5.125.852.575.852 1.091V19.5z" />
+                    </svg>
+                    <span>Histopathology (WSI)</span>
+                </div>
+                <!-- Data Icon 4: Omics --><div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                    </svg>
+                    <span>-Omics & Genetic Data</span>
+                </div>
+            </div>
+
+            <!-- Column 2: OOD Detection -->
+            <!-- MODIFIED: Removed max-w-xl and mx-auto, added h-full -->
+            <div class="flex items-center gap-3 p-3 bg-yellow-50 border border-yellow-300 rounded-lg w-full h-full">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-yellow-600 flex-shrink-0">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                </svg>
+                <div>
+                    <h3 class="font-semibold text-md text-yellow-800">Quality Gate: OOD Detection</h3>
+                    <p class="text-yellow-700 text-sm">VAE-based Out-of-Distribution (OOD) detection flags atypical data and label noise for expert review, ensuring model trustworthiness.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arrow --><div class="flow-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+            </svg>
+        </div>
+
+        <!-- 3. SECTION 2: CORE FRAMEWORK --><h2 class="text-xl font-bold text-center mb-8">
+            <span class="secondary-text">Step 2:</span> The Causal AI Engine
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+
+            <!-- Part A: VAE Disentanglement --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold primary-text mb-3 text-center">A) Causal VAE Disentanglement</h3>
+                <p class="text-center text-gray-600 mb-5 text-sm">A hierarchical VAE masters data heterogeneity by separating inputs into four independent, meaningful components.</p>
+                <div class="relative h-56 w-full">
+                    <!-- Funnel --><div class="vae-funnel">
+                        <div class="funnel-body">
+                            Causal VAE<br>Encoder
+                        </div>
+                    </div>
+                    <!-- Output Streams --><div class="absolute bottom-0 left-1/2 -translate-x-1/2 flex justify-center space-x-6 w-full">
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-12 bg-green-500"></div>
+                            <span class="block text-center text-xs font-medium p-1 bg-green-100 text-green-800 rounded-md">Anatomy (Z<sub>A</sub>)</span>
+                        </div>
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-12 bg-red-500"></div>
+                            <span class="block text-center text-xs font-medium p-1 bg-red-100 text-red-800 rounded-md">Disease (Z<sub>D</sub>)</span>
+                        </div>
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-12 bg-blue-500"></div>
+                            <span class="block text-center text-xs font-medium p-1 bg-blue-100 text-blue-800 rounded-md">Patient State (Z<sub>P</sub>)</span>
+                        </div>
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-12 border-l-2 border-dashed border-gray-400"></div>
+                            <span class="block text-center text-xs font-medium p-1 bg-gray-100 text-gray-500 rounded-md line-through">Confounders (Z<sub>S</sub>)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part B: Neural Jump ODE --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold primary-text mb-3 text-center">B) Neural Jump ODE (NJDE)</h3>
+                <p class="text-center text-gray-600 mb-5 text-sm">Models the continuous disease trajectory (ODE) on the latent space, interrupted by discrete treatment "jumps" (e.g., surgery, therapy).</p>
+
+                <div class="w-full bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <span class="block text-center font-medium text-gray-700 mb-3 text-sm">Simulated Disease Progression (on Z<sub>D</sub>, Z<sub>P</sub>)</span>
+                    <div class="relative h-36"> <!-- Reduced height --><!-- Chart Line --><svg class="w-full h-full" viewBox="0 0 300 100" preserveAspectRatio="none">
+                            <path d="M 10 80 C 40 70, 70 30, 100 25 C 130 20, 150 20, 160 20 L 160 70 C 190 65, 220 50, 250 45 C 280 40, 300 40, 300 40" fill="none" stroke="#4472CA" stroke-width="2.5" stroke-dasharray="4 4"/>
+                            <path d="M 10 80 C 40 70, 70 30, 100 25 C 130 20, 150 20, 160 20" fill="none" stroke="#4472CA" stroke-width="2.5"/>
+                            <path d="M 160 70 C 190 65, 220 50, 250 45 C 280 40, 300 40, 300 40" fill="none" stroke="#4472CA" stroke-width="2.5" />
+                            <circle cx="160" cy="20" r="3.5" fill="#0A369D"/>
+                            <circle cx="160" cy="70" r="3.5" fill="#0A369D"/>
+                        </svg>
+
+                        <!-- Y-Axis Label --><span class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full text-xs font-medium text-gray-500 transform -rotate-90">Disease Burden</span>
+                        <!-- X-Axis Label --><span class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-xs font-medium text-gray-500">Time</span>
+
+                        <!-- Jump Annotation - Adjusted position for visibility --><div class="intervention-label-wrapper">
+                            <span class="block p-1 bg-red-600 text-white text-xs font-bold rounded-md shadow-lg whitespace-nowrap intervention-label">
+                                INTERVENTION (e.g., Surgery)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arrow --><div class="flow-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+            </svg>
+        </div>
+
+        <!-- 4. SECTION 3: OUTPUTS --><h2 class="text-xl font-bold text-center mb-8">
+            <span class="secondary-text">Step 3:</span> Actionable, Explainable & Trustworthy Outputs
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5"> <!-- Reduced gap --><!-- Output 1: Counterfactuals --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold green-text mb-3 text-center">Counterfactual Generation</h3>
+                <p class="text-center text-gray-600 mb-3 text-xs">Provides "What if...?" scenarios for explainable AI (XAI), e.g., "What would this scan look like if the tumor were benign?"</p>
+                <div class="flex gap-3">
+                    <div class="flex-1">
+                        <div class="w-full h-28 bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300">
+                            <span class="text-gray-500 text-sm">Original Scan</span>
+                        </div>
+                        <span class="block text-center text-xs font-medium mt-1.5">Patient Scan</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="w-full h-28 bg-gray-200 rounded-lg flex items-center justify-center border border-dashed border-gray-400">
+                            <span class="text-gray-500 text-sm">Synthetic Scan</span>
+                        </div>
+                        <span class="block text-center text-xs font-medium mt-1.5">Counterfactual</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output 2: Treatment Simulation --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold green-text mb-3 text-center">Treatment-Choice Helper</h3>
+                <p class="text-center text-gray-600 mb-3 text-xs">Simulates future outcomes for different treatment pathways to optimize and maximize Time-to-Progression (TTP).</p>
+
+                <div class="space-y-2.5"> <!-- Reduced space --><div class="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                        <span class="font-medium text-blue-800 text-sm">Patient Digital Twin</span>
+                    </div>
+                    <div class="flex justify-center text-xl text-blue-300"> <!-- Smaller arrow --><span>&darr;</span>
+                    </div>
+                    <div class="flex gap-2.5 justify-center"> <!-- Reduced gap --><div class="flex-1 p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-center">
+                            <span class="font-medium text-gray-700 text-xs">Simulate Path A:<br>Active Surveillance</span>
+
+                        </div>
+                        <div class="flex-1 p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-center">
+                            <span class="font-medium text-gray-700 text-xs">Simulate Path B:<br>Radical Prostatectomy</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output 3: Auto-Reporting --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold green-text mb-3 text-center">Structured Reporting</h3>
+                <p class="text-center text-gray-600 mb-3 text-xs">Automatically generates structured, guideline-compliant reports integrating all findings, simulations, and prognostic data.</p>
+                <div class="flex justify-center items-center h-28"> <!-- Reduced height --><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-gray-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                </div>
+                <span class="block text-center font-medium text-gray-700 text-sm">Auto-Generated Report</span>
+            </div>
+
+        </div>
+
+        <!-- Arrow --><div class="flow-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+            </svg>
+        </div>
+
+        <!-- 5. SECTION 4: VALIDATION --><h2 class="text-xl font-bold text-center mb-8">
+            <span class="secondary-text">Step 4:</span> Clinical & Real-World Validation
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- Validation 1: Internal Quantitative Validation --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold green-text mb-3 text-center">Internal Quantitative Validation</h3>
+                <p class="text-center text-gray-600 mb-3 text-xs">Rigorously testing each model component (VAE, NJDE) against quantitative metrics (FID, SSIM, C-index) to ensure technical accuracy and robustness.</p>
+                <div class="flex justify-center items-center h-28"> <!-- Reduced height -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-gray-300">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    </svg>
+                </div>
+                <span class="block text-center font-medium text-gray-700 text-sm">Quantitative Metrics</span>
+            </div>
+
+            <!-- Validation 2: External Clinical Plausibility --><div class="bg-white p-5 rounded-lg shadow-lg border border-gray-200 h-full">
+                <h3 class="text-lg font-bold green-text mb-3 text-center">External Clinical Plausibility</h3>
+                <p class="text-center text-gray-600 mb-3 text-xs">Clinician-in-the-loop studies to assess the real-world utility and trustworthiness of counterfactuals and simulated treatment pathways.</p>
+                <div class="flex justify-center items-center h-28"> <!-- Reduced height -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-gray-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128V9.372a2.25 2.25 0 012.25-2.25h1.5a2.25 2.25 0 012.25 2.25v9.75M15 19.128c-1.121.62-2.31.952-3.533.952-2.22 0-4.257-.65-5.937-1.8-(.06-.042-.117-.088-.17-.134a4.125 4.125 0 00-7.533 2.493 9.337 9.337 0 004.121.952 9.38 9.38 0 002.625-.372M15 19.128v-3.375c0-1.842-1.453-3.354-3.267-3.417-1.21-.04-2.353.51-3.213 1.353v3.417M15 19.128c-.117.042-.23.088-.34.134a4.125 4.125 0 01-7.533-2.493 9.337 9.337 0 014.121-.952 9.38 9.38 0 012.625.372" />
+                    </svg>
+                </div>
+                <span class="block text-center font-medium text-gray-700 text-sm">Clinician-in-the-Loop</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
