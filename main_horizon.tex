@@ -538,7 +538,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
     \end{itemize}
     \item \textbf{WP2: Foundational Supervisor Model Training (54 PMs):} Develop supervisor models for clinical ground truth.
     \item \textbf{WP3: Causal VAE Development (65 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
-    \item \textbf{WP4: Temporal Trajectory Modeling (65 PMs):} Develop the \gls{njde} framework for longitudinal modeling.
+    \item \textbf{WP4: Temporal Trajectory Modeling (65 PMs):} Develop the \gls{njde} framework for longitudinal modeling. This work package will extend until the end of the project (M36). Towards the end of this period, the programmers will focus mainly on creating comprehensive documentation and refining the user interfaces for the clinical validation phase.
     \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility.
     \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
     \item \textbf{WP7: Project Management (10 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
@@ -563,7 +563,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
     \item \textbf{D1.1: Curated, harmonized dataset (initial)} (WP1, Data, CO, M12)
     \item \textbf{D2.1: Validated supervisor models} (WP2, Code, PU, M15)
     \item \textbf{D3.1: Disentangled VAE models} (WP3, Code, PU, M24)
-    \item \textbf{D4.1: Trained Neural Jump ODE model} (WP4, Code, PU, M30)
+    \item \textbf{D4.1: Trained Neural Jump ODE model} (WP4, Code, PU, M36)
     \item \textbf{D5.1: Final validation report} (WP5, R, PU, M36)
     \item \textbf{D6.1: Project website and open-source repo} (WP6, Web, PU, M3)
     \item \textbf{D6.2: Dissemination \& exploitation report (Y1)} (WP6, R, PU, M12)
@@ -711,70 +711,43 @@ Personnel costs are the most significant part of the budget, reflecting the high
     \item \textbf{Technical Staff (Technischer Angestellter) - Programmer (2 FTEs, 72 PMs):} \EUR{405,966}
     \item \textbf{Technical Staff (Technischer Angestellter) - Project Manager (0.5 FTE, 18 PMs):} \EUR{101,492}
     \item \textbf{Student/Research Assistant (Wissenschaftliche Hilfskraft) (40hrs/month, 36 months):} \EUR{33,040}
-    \item \textbf{Data Scientist (1 FTE, 36 PMs, Externally Funded):} \EUR{0}
+    \item \textbf{Data Scientist (1 FTE, 36 PMs):} \EUR{263,141}
 \end{itemize}
 
-\textbf{Total Estimated Personnel Costs: \EUR{1,724,633}}
+\textbf{Total Estimated Personnel Costs: \EUR{1,987,774}}
 
 \paragraph{Personnel Justification}
-The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs). The justification for each role is as follows:
+The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team whose continuous involvement is essential for the full 36-month duration. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs), ensuring that expertise is available from initial research and development through to final validation and dissemination. The justification for each role's full-term engagement is as follows:
 \begin{itemize}
-    \item \textbf{Principal Investigator (1 FTE, 36 PMs):} The PI will provide the overall scientific vision and leadership, ensuring the project stays on track and meets its objectives. They will coordinate the complex, interdisciplinary work across all WPs and lead the high-level scientific dissemination and exploitation activities (WP6, WP7).
-    \item \textbf{Senior Researcher (3 FTEs, 108 PMs):} Three senior researchers are critical for the project's execution. Their roles are multifaceted, involving the crucial tasks of data curation, cleaning, and annotation across all data modalities (WP1), implementing and training the AI models (WP2, WP3, WP4), and conducting the rigorous experimental validation (WP5).
-    \item \textbf{PhD Student (3 FTEs, 108 PMs):} The three PhD positions are essential for driving the core research and innovation of this project, with each student focusing on a distinct but complementary area of the causal AI framework. This division of labor ensures deep expertise is developed for each critical component of the methodology.
+    \item \textbf{Principal Investigator (1 FTE, 36 PMs):} The PI's continuous leadership is non-negotiable for a project of this complexity. They will provide the overall scientific vision, coordinate the interdisciplinary work across all WPs throughout the project, and lead the sustained scientific dissemination and exploitation activities (WP6, WP7) from beginning to end.
+    \item \textbf{Senior Researcher (3 FTEs, 108 PMs):} The three senior researchers are the project's scientific backbone and are critical for the entire 36-month duration. Their role will evolve: initially focusing on intensive data curation and model development (WP1-WP4), their effort will transition towards leading the rigorous experimental validation (WP5), supervising PhD students, and preparing high-impact publications (WP6) in the later stages.
+    \item \textbf{PhD Student (3 FTEs, 108 PMs):} The three PhD positions are essential for driving the core research and innovation over the full project timeline, with each student's work building progressively. This division of labor ensures deep expertise is developed for each critical component.
         \begin{itemize}
-            \item \textbf{PhD Researcher 1} will focus on \textbf{WP2}, which involves developing the foundational supervisor models. This work, particularly Tasks 2.1 and 2.2, requires deep domain expertise in medical image analysis and the development of novel ordinal and survival loss functions. This research demands a high level of independent problem-solving and innovation to ensure the clinical validity of the ground-truth signals, a task beyond the scope of a research assistant.
-            \item \textbf{PhD Researcher 2} is needed for \textbf{WP3}, which is centered on the development of the Causal VAEs for principled disentanglement (Task 3.1). This involves complex generative modeling and the design of novel loss functions to enforce the separation of anatomical, disease, and confounder signals. This work directly supports the core technical objective of creating a robust and generalizable model and requires doctoral-level training in advanced deep learning.
-            \item \textbf{PhD Researcher 3} will work across \textbf{WP4 and WP5}, focusing on the temporal modeling with Neural Jump ODEs (Task 4.1) and leading the subsequent clinical validation (Task 5.1). This requires a broad understanding of both dynamic systems modeling and clinical trial design. The researcher will be responsible for adapting cutting-edge research into a functional experimental prototype and then rigorously testing its real-world utility, a role that demands the integrative skills of a doctoral candidate.
+            \item \textbf{PhD Researcher 1} will focus on \textbf{WP2}. This work requires deep domain expertise in medical image analysis and the development of novel ordinal and survival loss functions. This research is a cornerstone for the entire project and demands a high level of independent problem-solving and innovation throughout all 36 months to refine the clinical validity of the ground-truth signals.
+            \item \textbf{PhD Researcher 2} is needed for \textbf{WP3}, centered on the development of the Causal VAEs for principled disentanglement. This involves complex generative modeling and continuous refinement of the loss functions. This work is foundational and will require the full project duration to achieve the required robustness for the final model, demanding doctoral-level training in advanced deep learning.
+            \item \textbf{PhD Researcher 3} will work across \textbf{WP4 and WP5}. Their focus on temporal modeling with Neural Jump ODEs (Task 4.1) will transition into leading the clinical validation (Task 5.1). This long-term role requires a broad understanding of both dynamic systems modeling and clinical trial design, as they will be responsible for adapting the research into a functional prototype and then rigorously testing its real-world utility over the project's second half.
         \end{itemize}
-    \item \textbf{Mathematician (1 FTE, 36 PMs):} A mathematician is required to provide the essential theoretical support for the novel causal models being developed. This role will focus on ensuring the mathematical soundness of the framework, particularly the complex Neural Jump ODEs (WP4), and will contribute to the development of robust uncertainty quantification methods.
-    \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for managing the complex data pipeline in WP1. This role, fully funded by the SIKIT project, will be responsible for data curation, harmonization, and implementing the VAE-based outlier detection system. Their expertise ensures the project is built on a high-quality, reliable dataset without incurring additional personnel costs to this grant.
-    \item \textbf{Programmer (2 FTEs, 72 PMs):} Two full-time programmers are required to build the robust, scalable, and production-ready software that forms the backbone of this project. They will be responsible for the end-to-end software engineering, including developing the data processing pipelines (WP1), implementing the AI models with a focus on efficiency and optimization (WP2, WP3, WP4), and creating the user-facing clinical validation tools (WP5).
-    \item \textbf{Project Manager (1 FTE, 36 PMs):} A project manager is essential for the operational success of this multi-partner project. This role extends beyond standard administrative duties to include coordinating data sharing and harmonization between the collaborating clinics (WP1), managing the grant documentation and reporting to the EC, and actively tracking development logs to ensure all project activities are compatible with the principles and requirements of the EU AI Act (WP7).
-    \item \textbf{Secretary (1 FTE, 36 PMs):} A secretary will provide essential administrative support for the project, including organizing meetings, managing correspondence, and maintaining project records, thereby ensuring the smooth operation of all work packages.
-    \item \textbf{Student/Research Assistant (40hrs/month, 36 months):} A part-time research assistant will provide essential support for the data collection efforts (WP1) and the clinical validation studies in WP5, assisting with patient data management and study logistics.
+    \item \textbf{Mathematician (1 FTE, 36 PMs):} The mathematician's involvement is crucial for the entire project lifecycle. They will provide essential theoretical support for the novel causal models, ensure the mathematical soundness of the framework (especially the NJDEs in WP4), and develop robust uncertainty quantification methods, which will need continuous refinement as the models evolve.
+    \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for the full 36 months. Their initial focus will be on building and managing the complex data pipeline in WP1 (curation, harmonization, and outlier detection). This role will remain critical for managing the continuous flow of data from clinical partners, ensuring data quality, and supporting the data-intensive validation and refinement cycles in the later stages of the project (WP5).
+    \item \textbf{Programmer (2 FTEs, 72 PMs):} The two programmers are required for the entire duration to build and maintain the project's software backbone. Their work will transition from initial development of data pipelines and AI models (WP1-WP4) to creating user-facing clinical validation tools, ensuring software robustness, and providing comprehensive documentation in the final year (WP5).
+    \item \textbf{Project Manager (1 FTE, 36 PMs):} A project manager's continuous oversight is essential for the operational success of this multi-partner project. Their responsibilities, including coordinating data sharing (WP1), managing grant reporting, and ensuring EU AI Act compliance (WP7), are ongoing and will persist for all 36 months.
+    \item \textbf{Secretary (1 FTE, 36 PMs):} A secretary will provide essential administrative support throughout the project, including organizing meetings, managing correspondence, and maintaining project records, ensuring the smooth operation of all work packages for the full duration.
+    \item \textbf{Student/Research Assistant (40hrs/month, 36 months):} A part-time research assistant is needed for the entire project to provide continuous support for data collection efforts (WP1) and the clinical validation studies (WP5), assisting with ongoing patient data management and study logistics.
 \end{itemize>
 
-\subsubsection*{A.2 Equipment Costs}
-The requested budget for computational resources represents a strategic, one-time capital investment in the core enabling technology of this project. This on-premise infrastructure is not an operational overhead but the central scientific instrument—the \textbf{primary discovery engine}—required to achieve the project's groundbreaking ambition. The amount is based on a detailed analysis of the project's workload and market pricing for state-of-the-art AI hardware. In accordance with EU and national regulations, only the depreciation costs corresponding to the project duration and usage will be budgeted.
+\subsubsection*{A.2 Cloud Computing Costs}
+The project will leverage a flexible, scalable cloud computing model for all high-performance computing needs, representing the central scientific instrument for this research. This approach avoids a large, upfront capital investment in on-premise hardware and instead provides a dynamic and adaptable infrastructure that can evolve with the project's changing requirements. The budget of \textbf{\EUR{321,600}} is allocated for on-demand access to a leading cloud provider (e.g., AWS, Google Cloud, or Azure).
 
-\begin{table}[H]
-\centering
-\caption{The Revised Computational Resource Budget (3 Years)}
-\label{tab:computational_budget}
-\sisetup{group-separator={,}}
-\begin{tabular}{lS[table-format=6.0]S[table-format=6.0]S[table-format=6.0]S[table-format=6.0]}
-\toprule
-\textbf{Cost Category} & {\textbf{Year 1 (€)}} & {\textbf{Year 2 (€)}} & {\textbf{Year 3 (€)}} & {\textbf{Total (€)}} \\
-\midrule
-NVIDIA DGX B200 System & 489000 & 0 & 0 & 489000 \\
-300 TB Storage Solution & 28000 & 0 & 0 & 28000 \\
-Installation \& Integration & 19000 & 0 & 0 & 19000 \\
-\midrule
-\textbf{TOTAL} & \textbf{536000} & \textbf{0} & \textbf{0} & \textbf{536000} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{1. Strategic Imperative and Project Relevance}
-To pursue the project's visionary goal of creating a causal AI framework for medicine, an investment in computational power commensurate with the scale of the scientific challenge is required. The budget is therefore centered on the acquisition of an \textbf{NVIDIA DGX B200 system}. This is not a conventional server but a purpose-built, integrated AI supercomputer that directly addresses the primary technical risks of the project. The equipment is indispensable for the execution of \textbf{WP2, WP3, and WP4}, which involve training deep learning models on large-scale 3D imaging data.
-
-\paragraph{2. Justification for the DGX B200 Solution}
-The choice of the DGX B200 is driven by key technical requirements of the proposed research:
+\paragraph{1. Strategic Imperative and Justification for Cloud Computing}
+A cloud-based strategy is strategically superior for a high-risk, high-gain research project like this one. The primary justification is \textbf{flexibility}. The project's computational needs will vary significantly across its lifecycle:
 \begin{itemize}
-    \item \textbf{Solving the VRAM Bottleneck:} The project's focus on high-resolution 3D medical imaging is severely limited by GPU memory (VRAM). The DGX B200 provides a massive \textbf{1.44 TB of unified, high-bandwidth GPU memory}, which is essential for training the large, complex 3D VAE and Diffusion Models at the heart of our methodology. This capability is critical to de-risk the core of the project.
-    \item \textbf{Powering Complex, Multi-Stage Workflows:} Our four-stage causal framework requires intensive, iterative re-training cycles. The DGX B200's architecture, with eight tightly interconnected GPUs, is engineered for exactly this kind of complex, distributed workload, ensuring maximum efficiency for model development.
-    \item \textbf{Turnkey Solution to Reduce Engineering Overhead:} As a fully integrated and validated platform, the DGX B200 allows the research team to focus immediately on scientific discovery rather than spending months on system integration and debugging. It includes the necessary NVIDIA AI Enterprise software and support, accelerating the timeline from deployment to discovery.
-    \item \textbf{High-Throughput Data Processing:} The system's architecture, including features like GPUDirect Storage, is optimized to handle the large-scale (~200-400 TB) multimodal datasets of this project, ensuring the powerful GPUs are never left "starved" for data.
+    \item \textbf{Early Stages (WP1-WP2):} Will require significant storage and data preprocessing capabilities, with moderate GPU usage for initial supervisor model training.
+    \item \textbf{Mid Stages (WP3-WP4):} Will see a surge in demand for high-VRAM, multi-GPU instances to train the complex VAE and Neural Jump ODE models on large-scale 3D imaging data.
+    \item \textbf{Late Stages (WP5):} Will require a mix of GPU resources for model refinement and CPU-intensive instances for running validation studies and deploying user-facing demonstration tools.
 \end{itemize}
+A cloud provider allows us to dynamically provision the optimal hardware for each specific task—from large-memory instances for data loading to the latest GPU architectures for deep learning—paying only for what we use. This eliminates the risk of being locked into a single on-premise hardware configuration that may become suboptimal as the research evolves or new technologies become available. This adaptability is critical for de-risking the project's ambitious technical goals and ensuring the most efficient use of funds.
 
-\paragraph{3. Depreciation and Project-Specific Usage}
-The total purchase cost of the DGX B200 system, including storage and integration, is estimated at \EUR{536,000}. Following institutional and EU guidelines, we will depreciate the equipment over a standard useful life of 5 years (60 months). As this equipment is being procured specifically for this project and its unique computational demands, it will be dedicated \textbf{100\% to project activities} for its entire 36-month duration within the project. The eligible depreciation cost is therefore calculated as:
-$$ (\text{Total Cost} / \text{Useful Life in Months}) \times \text{Project Duration in Months} \times \text{Usage \%} $$
-$$ (536,000 / 60) \times 36 \times 1.0 = \text{\EUR{321,600}} $$
-Usage will be tracked and documented through the system's job submission and resource allocation logs to ensure a clear and auditable trail of its dedication to the project.
-
-\textbf{Total Estimated Equipment Costs (Eligible Depreciation): \EUR{321,600}}
+\textbf{Total Estimated Cloud Computing Costs: \EUR{321,600}}
 
 \subsubsection*{A.3 Travel Costs}
 The travel budget is allocated for project meetings and dissemination of project results at leading international conferences.
@@ -791,22 +764,21 @@ This category includes costs for publications, dataset access, and other minor e
     \item \textbf{Open Access Publication Fees:} To comply with Horizon Europe's open science mandate, we have budgeted for Article Processing Charges (APCs) for an estimated 10 high-impact journal publications.
     \item \textbf{UK Biobank Access:} A fee of \EUR{12,000} is budgeted for access to the UK Biobank dataset.
     \item \textbf{Software Licenses:} A provision of \EUR{36,000} is budgeted for specialized software licenses. This includes the NVIDIA AI Enterprise suite, which is essential for the DGX system. It also covers subscriptions for AI-powered development and research tools, such as Gemini Ultra for the AI research assistant (Jules), Scispace for literature analysis, and Writefull for academic writing, to enhance the team's productivity and efficiency.
-    \item \textbf{Clinical Consultations:} A budget of \EUR{54,000} is allocated for small monthly consultations with external experts in urology, histopathology, and radiology to ensure the project remains clinically relevant.
 \end{itemize}
 
-\textbf{Total Estimated Other Direct Costs: \EUR{112,000}}
+\textbf{Total Estimated Other Direct Costs: \EUR{58,000}}
 
 \subsubsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{2,190,733}}
+\textbf{Total Direct Costs (A): \EUR{2,399,874}}
 
-\textbf{Indirect Costs (B = 25\% of A): \EUR{547,683}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{599,969}}
 
 \subsubsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{2,738,416}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{2,999,843}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
 The budget is strategically allocated to the WPs based on their complexity and personnel requirements. The core technical work is concentrated in WP2, WP3, and WP4, which consequently have the largest budgets. WP3 (Causal VAE) and WP4 (Temporal Modeling) are the most resource-intensive as they involve the development and training of the most novel and computationally demanding models at the heart of this project.
@@ -820,15 +792,15 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 0 & 0 & 0 \\
-WP2: Supervisor Models & 470700 & 117675 & 588375 \\
-WP3: Causal VAE & 590000 & 147500 & 737500 \\
-WP4: Temporal Modeling & 590000 & 147500 & 737500 \\
-WP5: Validation & 275000 & 68750 & 343750 \\
-WP6: Dissemination & 90000 & 22500 & 112500 \\
-WP7: Project Management & 175033 & 43758 & 218791 \\
+WP1: Data Curation & 263141 & 65785 & 328926 \\
+WP2: Supervisor Models & 510000 & 127500 & 637500 \\
+WP3: Causal VAE & 640000 & 160000 & 800000 \\
+WP4: Temporal Modeling & 640000 & 160000 & 800000 \\
+WP5: Validation & 200000 & 50000 & 250000 \\
+WP6: Dissemination & 50000 & 12500 & 62500 \\
+WP7: Project Management & 96733 & 24184 & 120917 \\
 \midrule
-\textbf{Total} & {\textbf{2190733}} & {\textbf{547683}} & {\textbf{2738416}} \\
+\textbf{Total} & {\textbf{2399874}} & {\textbf{599969}} & {\textbf{2999843}} \\
 \bottomrule
 \end{tabular}
 \end{table}
