@@ -147,16 +147,21 @@
 
 \includepdf[pages=-]{title_page.pdf}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[        trim=30mm 30mm 30mm 30mm, % {left bottom right top}
+        clip,                     % This command applies the trim
+        width=\textwidth]{graphical_abstract.png}
+    \caption{Graphical abstract}
+    \label{fig:graphical_abstract}
+\end{figure}
+
+\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
 \begin{abstract}
 This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and infuse deep medical domain knowledge into the model's architecture to guide its learning process and disentangle disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
 \end{abstract}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/graphical_abstract.png}
-    \caption{Graphical abstract of the CausalPCa project.}
-    \label{fig:graphical_abstract}
-\end{figure}
+
 
 \section{Excellence}
 
@@ -174,7 +179,7 @@ This project directly answers the call for a paradigm shift in cancer care, movi
         \item \textbf{At the Feature Level:} We will incorporate prognostic features explicitly recommended by urological guidelines \cite{guidelines_uro_1,guidelines_uro_2} , such as \gls{psadt} and tumor volume, directly into the model's input, ensuring it is grounded in established clinical practice.
         \item \textbf{At the Architectural Level:} The core of our knowledge integration lies in the principled disentanglement of the \gls{vae}'s latent space. This approach mirrors the clinical reasoning process where physicians mentally separate the \textbf{disease state} (e.g., TNM stage) from the overall \textbf{patient state} (e.g., age, frailty, comorbidities). Our model operationalizes this by architecturally separating these factors into distinct latent subspaces. Furthermore, this technique is used to explicitly disentangle and isolate known technical \textbf{confounders}, such as differences in scanner type or imaging protocol, ensuring the learned disease representation is robust to these variations.
         \item \textbf{At the Objective Level:} We will use specialized, knowledge-infused loss functions. For ordinal variables like Gleason Grade or PI-RADS scores, a \textbf{differential ordinal loss} ensures the model understands their inherent ranking and severity progression, a concept a standard classification loss ignores.
-        \item \textbf{At the Training Strategy Level:} The temporal model (\gls{njde}) will be pre-trained on a simplified, rule-based decision algorithm derived directly from established \textbf{\gls{eau} clinical guidelines}. This provides the model with a robust, clinically-valid starting point for understanding disease progression before fine-tuning on complex real-world data.
+        \item \textbf{At the Training Strategy Level:} The temporal model (\gls{njde}) will be pre-trained on a simplified, rule-based decision algorithm derived directly from established \textbf{\gls{eau} clinical guidelines} \cite{guidelines_uro_1,guidelines_uro_2}. This provides the model with a robust, clinically-valid starting point for understanding disease progression before fine-tuning on complex real-world data.
     \end{itemize}
     This multi-faceted infusion of domain knowledge ensures the model learns the true underlying causal mechanisms of the disease. The resulting clinically plausible, visual counterfactuals are a direct output of this knowledge-grounded architecture, enabling clinicians to ask meaningful "what-if" questions and receive intuitive, reliable explanations. Robust methods for uncertainty quantification will also be integrated to reliably flag high-uncertainty cases for human review. The effectiveness of this deep knowledge integration will be rigorously proven through a series of ablation studies, as detailed in our validation strategy.
 \end{itemize}
@@ -187,11 +192,7 @@ This project directly answers the call for a paradigm shift in cancer care, movi
 \end{itemize}
 
 \subsection{Novelty: A Paradigm Shift from Prediction to Causal Understanding}
-The management of \gls{pca} is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
-
-Under treatment, tumors can evolve, leading to uncertainty about when to switch therapy. The expanding options, including targeted agents and advanced imaging, add to this complexity. Clinical guidelines use discrete risk categories, but the disease is a continuous process. Our model is designed to capture this patient-specific trajectory, offering a personalized assessment.
-
-This complex, multi-stage evolution is visualized in Figure \ref{fig:prostate_evolution}. It illustrates how a combination of imaging, lab studies, and clinical findings are needed to understand where a patient is on their disease timeline. A key novelty of our project is the explicit modeling of this temporal dimension. By integrating all measurements across the entire patient journey, we can build a dynamic understanding of disease progression, which is a significant leap beyond current static assessments.
+The management of \gls{pca} is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. 
 
 \begin{figure}[H]
     \centering
@@ -199,6 +200,13 @@ This complex, multi-stage evolution is visualized in Figure \ref{fig:prostate_ev
     \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of a disease at initial diagnosis is the key to the best futher theraphy.}
     \label{fig:prostate_evolution}
 \end{figure}
+
+This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
+
+Under treatment, tumors can evolve, leading to uncertainty about when to switch therapy. The expanding options, including targeted agents and advanced imaging, add to this complexity. Clinical guidelines use discrete risk categories, but the disease is a continuous process. Our model is designed to capture this patient-specific trajectory, offering a personalized assessment.
+
+This complex, multi-stage evolution is visualized in Figure \ref{fig:prostate_evolution}. It illustrates how a combination of imaging, lab studies, and clinical findings are needed to understand where a patient is on their disease timeline. A key novelty of our project is the explicit modeling of this temporal dimension. By integrating all measurements across the entire patient journey, we can build a dynamic understanding of disease progression, which is a significant leap beyond current static assessments.
+
 
 \paragraph{What is Radically New: A Comprehensive Framework for Causal Learning.}
 The core technical innovation of this project is a \textbf{single, comprehensive framework} that makes large-scale causal learning on complex 3D medical data feasible for the first time. While Neural Ordinary Differential Equations (NODEs) are powerful for modeling continuous processes, their application to high-dimensional 3D data has been largely intractable due to prohibitive computational costs. Our radical solution is to apply the NODE not to the raw data, but to a carefully constructed, low-dimensional \textbf{disentangled latent space}. This innovation is what makes the entire framework possible.
@@ -225,10 +233,6 @@ The first stage builds a suite of specialized "supervisor" models. These models 
 This approach ensures the model generalizes well and produces more clinically plausible counterfactuals \cite{PuglisiAlexander2025, ZhangHager2025}.
 \end{itemize}
 
-\subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
-At the heart of our solution to data heterogeneity is a hierarchical \gls{vae} trained for each imaging modality to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function:
-$$ \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{VAE}} + \lambda_A \mathcal{L}_{\text{Anatomy}} + \lambda_D \mathcal{L}_{\text{Disease}} + \lambda_I \mathcal{L}_{\text{Disentangle}} $$
-The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. Our loss function will apply a \textbf{targeted penalization} of the statistical dependence between latent subspaces. We recognize that some correlations are clinically meaningful (e.g., disease can affect anatomy), while others are spurious. Therefore, the model will be heavily penalized for mutual information between causally independent subspaces (e.g., Disease $Z_D$ and Style $Z_S$, which includes scanner type and data source), while allowing for natural correlations between dependent factors like disease and anatomy. This is accomplished by selectively applying a Total Correlation (TC) penalty, ensuring the learned disease representation is invariant to technical artifacts without sacrificing the reconstruction of clinically valid relationships \cite{FragemannArdizzone2022, AbbasiMonadjemi2018, FayCobos2023}. The entire data curation and preprocessing pipeline is visualized in Figure \ref{fig:data_curation}.
 
 \begin{figure}[H]
     \centering
@@ -236,6 +240,13 @@ The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. 
     \caption{An infographic summarizing the data acquisition, curation, and preprocessing framework for the study cohort. It details the inclusion and exclusion criteria for patient selection and outlines the multi-step pipeline for processing clinical, histopathological, and imaging data. The \gls{ehr} is a key source of clinical data.}
     \label{fig:data_curation}
 \end{figure}
+
+\subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
+At the heart of our solution to data heterogeneity is a hierarchical \gls{vae} trained for each imaging modality to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function:
+$$ \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{VAE}} + \lambda_A \mathcal{L}_{\text{Anatomy}} + \lambda_D \mathcal{L}_{\text{Disease}} + \lambda_I \mathcal{L}_{\text{Disentangle}} $$
+The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. Our loss function will apply a \textbf{targeted penalization} of the statistical dependence between latent subspaces. We recognize that some correlations are clinically meaningful (e.g., disease can affect anatomy), while others are spurious. Therefore, the model will be heavily penalized for mutual information between causally independent subspaces (e.g., Disease $Z_D$ and Style $Z_S$, which includes scanner type and data source), while allowing for natural correlations between dependent factors like disease and anatomy. This is accomplished by selectively applying a Total Correlation (TC) penalty, ensuring the learned disease representation is invariant to technical artifacts without sacrificing the reconstruction of clinically valid relationships \cite{FragemannArdizzone2022, AbbasiMonadjemi2018, FayCobos2023}. The entire data curation and preprocessing pipeline is visualized in Figure \ref{fig:data_curation}.
+
+
 
 \subsubsection{Stage 3: VAE-based Out-of-Distribution Detection for Label Noise Resilience}
 To enhance the robustness of our framework against imperfections in data labeling (e.g., for TNM stage or PI-RADS scores), we will incorporate a dedicated VAE-based Out-of-Distribution (OOD) detection mechanism. This additional stage in our methodology is designed to identify atypical or potentially mislabeled data points by analyzing their representation in the latent space. The core principle is that VAEs, when trained on a coherent dataset, learn a compact and structured representation of "normality" \cite{PuglisiAlexander2025,YuanStojanovski2025}. Samples that deviate significantly from this learned normality can be flagged as OOD instances for manual verification by a medical professional.
@@ -418,25 +429,27 @@ This project is committed to upholding the principles of gender equality and ope
 
 The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like \gls{psma}-\gls{pet}. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving time, money, and reducing patient risk.
 
-\section{Potential Impact}
+\section{Impact}
+\subsection{Potential impact }
 
-Prostate cancer (PCa) is the most common cancer in men in Europe, with over 450,000 new cases diagnosed annually, representing 13.7\% of all male cancers. In 2020 alone, PCa was responsible for an estimated 107,000 deaths in the EU, making it the third most common cause of cancer-related mortality in men \cite{SungFerlay2021}. The economic burden is staggering; in 2018, the total cost of PCa care in the EU was estimated at €14.8 billion, a figure that is projected to rise significantly with an aging population and the introduction of expensive new therapies \cite{GillZouwail2017}. Beyond the statistics, the human cost is immense, with millions of men and their families affected by the physical and psychological toll of the disease and its treatment \cite{NardoneMarmorino2024}.
+Prostate cancer (PCa) represents a paramount public health challenge, ranking as the second most common cancer in men worldwide \cite{CaraccioloCastello2024,DulleaOSullivan2025}. In 2020 alone, over 1.4 million new cases were diagnosed globally, and it stands as the fifth leading cause of cancer-related death among men, responsible for approximately 375,000 deaths that year \cite{CereserEvangelista2023,GammelSolari2024,DharCendejasGomez2024}. The epidemiological trajectory is alarming, with projections indicating that the number of cases will more than double to 2.9 million by 2040, driven largely by an aging global population \cite{UdovicichJia2025,SungFerlay2021}.
+Beyond the statistics, the human cost is immense, with millions of men and their families affected by the physical and psychological toll of the disease and its treatment \cite{NardoneMarmorino2024}.
 
 Our project directly addresses this urgent societal and economic challenge by proposing a transformative technology with the potential to generate significant, quantifiable impact across multiple domains.
 
-\subsection{Scale and Significance of Impact}
+\subsubsection{Scale and Significance of Impact}
 
 The primary impact of our project will be a paradigm shift in PCa management, moving from a reactive, population-based approach to a proactive, personalized, and predictive model of care. The scale of this impact is defined by the sheer prevalence of the disease. The successful implementation of our AI-driven "digital twin" has the potential to improve outcomes for a significant proportion of the nearly half a million men diagnosed with PCa in Europe each year.
 
 \begin{itemize}
-    \item \textbf{Improved Clinical Decision-Making and Patient Outcomes:} A key benefit of our framework is its ability to provide highly accurate, patient-specific prognostic forecasts. For men with localized disease, this can mean the difference between unnecessary, life-altering treatments and confident active surveillance. Studies have shown that up to 50\% of men with low-risk PCa who undergo radical prostatectomy may be overtreated, leading to significant side effects such as incontinence and erectile dysfunction. Our model, by providing a more granular risk assessment, aims to reduce this overtreatment rate by an estimated \textbf{20-25\%}. Conversely, for high-risk patients, the model will enable earlier and more aggressive intervention, which has been shown to improve 10-year survival rates by up to 15\%.
+    \item \textbf{Improved Clinical Decision-Making and Patient Outcomes:} A key benefit of our framework is its ability to provide highly accurate, patient-specific prognostic forecasts. For men with localized disease, this can mean the difference between unnecessary, life-altering treatments and confident active surveillance. Studies have shown that up to 50\% of men with low-risk PCa who undergo radical prostatectomy may be overtreated \cite{HeijnsdijkWever2012}, leading to significant side effects such as incontinence and erectile dysfunction. Our model, by providing a more granular risk assessment, aims to reduce this overtreatment rate. Conversely, for high-risk patients, the model will enable earlier and more aggressive intervention.
 
-    \item \textbf{Enhanced Efficiency and Cost Savings:} The economic impact extends beyond reducing unnecessary treatments. Our framework's ability to automate the generation of structured radiological reports is projected to reduce the time radiologists spend on documentation by \textbf{15-20\%} per case. This translates to a significant productivity gain. Furthermore, by accelerating clinical research through in-silico trials, our platform can help reduce the enormous cost of pharmaceutical R\&D. A recent analysis suggests that AI-driven tools could reduce the cost of bringing a new oncology drug to market by up to 30\%, a saving of hundreds of millions of euros per drug.
+    \item \textbf{Enhanced Efficiency and Cost Savings:} The economic impact extends beyond reducing unnecessary treatments. Our framework's ability to automate the generation of structured radiological reports is projected to reduce the time radiologists spend on documentation by \textbf{24\%} per case \cite{Acosta_2024}. This translates to a significant productivity gain. Furthermore, by accelerating clinical research through in-silico trials, our platform can help reduce the enormous cost of pharmaceutical R\&D. A recent analysis suggests that AI-driven tools could reduce the cost of bringing a new oncology drug to market.
 
-    \item \textbf{Societal Benefits and Quality of Life:} The societal impact is profound. For patients, avoiding overtreatment means preserving a higher quality of life, free from debilitating side effects. For the healthcare system, a more efficient and effective PCa care pathway means a more sustainable use of resources. We estimate that the widespread adoption of our technology could lead to a \textbf{10-15\% reduction in the overall cost of PCa care} in the EU, translating to a potential saving of over €1.5 billion annually.
+    \item \textbf{Societal Benefits and Quality of Life:} The societal impact is profound. For patients, avoiding overtreatment means preserving a higher quality of life, free from debilitating side effects. For the healthcare system, a more efficient and effective PCa care pathway means a more sustainable use of resources. We estimate that the widespread adoption of our technology could lead to a significant reduction in the overall cost of PCa care in the EU.
 \end{itemize}
 
-\subsection{Pathways to Impact}
+\subsubsection{Pathways to Impact}
 
 Our pathway to achieving this impact is built on a robust, multi-faceted strategy that combines open science with targeted commercial exploitation and deep engagement with the clinical community.
 
@@ -448,7 +461,7 @@ Our pathway to achieving this impact is built on a robust, multi-faceted strateg
     \item \textbf{Commercial Exploitation:} The primary route to market will be through a future spin-off company. This entity will provide enterprise-grade, validated versions of the software with long-term support, as well as consultancy services for adapting the framework to other diseases. This dual open-source/commercial model ensures both broad accessibility and a sustainable path to market.
 \end{itemize}
 
-\subsection{Barriers to Impact and Mitigation Strategies}
+\subsubsection{Barriers to Impact and Mitigation Strategies}
 
 We recognize that the path to impact is not without its challenges. We have identified several potential barriers and have developed proactive mitigation strategies for each.
 
@@ -497,17 +510,13 @@ This comprehensive strategy ensures that our research outputs are not only scien
 \subsection{Communication and Dissemination}
 Our communication and dissemination strategy is designed to maximize the project's impact by raising awareness and ensuring our results reach the widest possible audience, from the scientific community to the general public.
 \begin{itemize}
-    \item \textbf{High-Impact Scientific Publications:} We will target leading peer-reviewed journals in medical imaging, artificial intelligence, and oncology (e.g., The Lancet Digital Health, Nature Machine Intelligence, JAMA Oncology) and present our findings at premier international conferences (e.g., RSNA, ECR, MICCAI, NeurIPS) to engage the scientific community.
+    \item \textbf{High-Impact Scientific Publications:} We will target leading peer-reviewed journals in medical imaging, artificial intelligence, and oncology and present our findings at premier international conferences (e.g., RSNA, ECR, MICCAI, NeurIPS) to engage the scientific community.
     \item \textbf{Open Science and Open Data:} All code will be made available on a public GitHub repository under a permissive open-source license. Curated, anonymized datasets will be contributed to the \gls{eucaim} platform, creating a lasting resource for the European research community.
     \item \textbf{Engagement with Clinical and Patient Communities:} We will actively engage with European clinical societies (e.g., \gls{eau}, ESMO) and patient advocacy groups through workshops, presentations, and co-designed informational materials to ensure our work is clinically relevant and to facilitate its translation into practice.
     \item \textbf{Public Outreach:} We will maintain a project website with regular updates, blog posts, and lay summaries of our research. We will also engage with the media and use social media to communicate our project's goals and achievements to a broader audience, highlighting the potential benefits for cancer patients and the European healthcare system.
 \end{itemize}
 
-\section{Implementation}
-
-\subsection{Work Plan}
-The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}). The work plan is designed to directly execute the four-stage methodology described in the Excellence section: Stage 1 (Supervisor Models) is addressed in WP2, Stage 2 (Causal VAEs) in WP3, Stage 3 (Temporal Modeling) in WP4, and Stage 4 (Clinical Application) in WP5.
-
+\section{Quality and efficiency of the implementation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{gantt.png}
@@ -515,8 +524,11 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
     \label{fig:gantt}
 \end{figure}
 
+\subsection{Work plan and allocation of resources}
+The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}). The work plan is designed to directly execute the four-stage methodology described in the Excellence section: Stage 1 (Supervisor Models) is addressed in WP2, Stage 2 (Causal VAEs) in WP3, Stage 3 (Temporal Modeling) in WP4, and Stage 4 (Clinical Application) in WP5.
+
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (0 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. To ensure the dataset remains current and captures the latest clinical practices, we will hold yearly meetings with our urology, radiology, and nuclear medicine departments. The goal of these meetings is to verify whether standards of care have changed and, if so, to identify opportunities to incorporate new data to reflect these changes, such as collecting data from patients undergoing novel therapies. \textbf{Note: All costs associated with this WP are covered by the SIKIT project.} The tasks include:
+    \item \textbf{WP1: Data Curation and Harmonization (0 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. To ensure the dataset remains current and captures the latest clinical practices, we will hold yearly meetings with our urology, radiology, and nuclear medicine departments. The goal of these meetings is to verify whether standards of care have changed and, if so, to identify opportunities to incorporate new data to reflect these changes, such as collecting data from patients undergoing novel therapies.  The tasks include:
     \begin{itemize}
         \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions. Implement a robust, automated anonymization pipeline to remove all patient-identifying information in compliance with GDPR.
         \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields.
@@ -619,7 +631,7 @@ The project's wide network of collaborators provides a crucial strategic advanta
     \end{itemize}
 \end{itemize}
 
-\subsection{Quality of the Team and Collaborations}
+\subsection{Quality of the applicant}
 The success of this project hinges on the deep integration of clinical and technical expertise. Our team is not merely a collection of specialists but a truly \textbf{interdisciplinary unit} where expertise is shared and fused. This is exemplified by our leadership structure, which is designed to act as a bridge between disciplines. The project's co-coordinator possesses a \textbf{dual specialization in both nuclear medicine and radiology}, providing a unified, multi-modal imaging perspective at the highest level. This is complemented by another coordinating medical doctor who combines a specialization in nuclear medicine with a formal IT background. This unique "bridging" role is critical for translating complex clinical needs into precise technical requirements and for ensuring the developed AI solutions are seamlessly integrated into the clinical workflow. This interdisciplinary-by-design approach mitigates the risk of a disconnect between the technical development and its real-world application. We also have a strong cooperation with IT specialists from the German Medical Informatics Initiative (\url{https://www.medizininformatik-initiative.de/de/ueber-die-initiative}) and the Institute for Medical Informatics and Data Science (\url{https://imds.med.ovgu.de/Team/Julian+Varghese.html}).
 
 This project is submitted by a single applicant, the applicant institution (University Hospital Magdeburg), which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
