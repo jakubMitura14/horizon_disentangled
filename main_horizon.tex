@@ -737,22 +737,23 @@ The personnel budget is structured to support the project's ambitious goals thro
     \item \textbf{Student/Research Assistant (40hrs/month, 36 months):} A part-time research assistant is needed for the entire project to provide continuous support for data collection efforts (WP1) and the clinical validation studies (WP5), assisting with ongoing patient data management and study logistics.
 \end{itemize>
 
-\subsubsection*{A.2 Cloud Computing Costs}
-The project will employ a hybrid computing model that combines secure, on-premise resources for data handling with a flexible, scalable cloud environment for high-performance computing, representing the central scientific instrument for this research. This strategic approach ensures maximum data security while providing the adaptability needed for computationally intensive research. The budget of \textbf{\EUR{321,600}} is allocated for on-demand access to a leading cloud provider (e.g., AWS, Google Cloud, or Azure) for model training and experimentation.
+\subsubsection*{A.2 High-Performance Computing Costs (EuroHPC JU)}
+The project will employ a hybrid computing model that combines secure, on-premise resources for data handling with a strategic utilization of Europe's sovereign supercomputing infrastructure for all high-performance computing (HPC) needs. This approach aligns the project with the EU's strategic goal of digital sovereignty while leveraging world-class, AI-optimized hardware. The budget of \textbf{\EUR{321,600}} is allocated to support the access and effective use of a leading EuroHPC Joint Undertaking (JU) supercomputer. This decision was reached after a careful comparison of various commercial and public compute providers, with a strong preference given to a Germany-based EuroHPC system to ensure close proximity to the project's primary data sources.
 
-\paragraph{1. Strategic Imperative and Justification for Hybrid Computing Model}
-A hybrid on-premise and cloud strategy is strategically superior for a project involving sensitive medical data and cutting-edge AI research. This model provides the best of both worlds:
+\paragraph{1. Strategic Imperative and Justification for EuroHPC JU Supercomputer Utilization}
+A hybrid model utilizing the EuroHPC JU ecosystem is strategically superior for a flagship European research project. This approach provides a powerful and secure framework for medical AI innovation:
 \begin{itemize}
-    \item \textbf{On-Premise for Security (DIZ):} For critical reasons of data security and patient privacy, the main storage of raw clinical data and the initial preprocessing and anonymization steps will be handled locally within the secure environment of the applicant's Data Integration Center (DIZ). This process will leverage the robust, validated tools and infrastructure developed as part of the SIKIT project, ensuring compliance with institutional and GDPR requirements from the outset.
-    \item \textbf{Cloud for Scalability and Flexibility (HPC):} Once data is fully anonymized, it will be securely transferred to a cloud environment for the computationally demanding tasks of model training, hyperparameter optimization, and large-scale validation experiments. The project's computational needs will vary significantly across its lifecycle:
+    \item \textbf{On-Premise for Security (DIZ):} For critical reasons of data security and patient privacy, the main storage of raw clinical data and the initial preprocessing and anonymization steps will be handled locally within the secure environment of the applicant's Data Integration Center (DIZ). This leverages the validated tools from the SIKIT project, ensuring GDPR compliance.
+    \item \textbf{EuroHPC for Sovereign, High-Performance AI:} Once data is fully anonymized, it will be transferred to a EuroHPC JU supercomputer for all large-scale computational tasks. This project's primary target is the \textbf{JUPITER} exascale system at the Jülich Supercomputing Centre, a flagship of European technological ambition. However, recognizing the dynamic nature of the HPC landscape, the project will apply for access to the most powerful and architecturally suitable EuroHPC system available at the project's start in early 2027, such as LUMI, LEONARDO, or MareNostrum 5. This strategy offers several key advantages:
     \begin{itemize}
-        \item \textbf{Mid Stages (WP3-WP4):} Will see a surge in demand for high-VRAM, multi-GPU instances to train the complex VAE and Neural Jump ODE models on large-scale 3D imaging data.
-        \item \textbf{Late Stages (WP5):} Will require a mix of GPU resources for model refinement and CPU-intensive instances for running validation studies and deploying user-facing demonstration tools.
+        \item \textbf{Alignment with EU Strategy:} Utilising the EuroHPC infrastructure directly supports the EU's mission to achieve digital sovereignty and fosters a domestic technology ecosystem.
+        \item \textbf{Access to World-Class, Specialized Hardware:} These systems provide access to state-of-the-art GPU architectures (e.g., NVIDIA GH200, AMD MI300A) that are purpose-built for extreme-scale AI and are often more powerful and cost-effective than commercial cloud offerings.
+        \item \textbf{Integration with AI Factories:} By using a EuroHPC system, the project can leverage the comprehensive support services of the "AI Factories" initiative, including expert technical support and optimized software environments, accelerating the research and development lifecycle.
     \end{itemize}
 \end{itemize}
-This hybrid approach allows us to dynamically provision the optimal hardware for each specific research task in the cloud—paying only for what we use—while guaranteeing that sensitive patient data remains protected within our secure institutional infrastructure. This adaptability is critical for de-risking the project's ambitious technical goals and ensuring the most efficient and secure use of funds.
+This hybrid model ensures the highest level of data security through on-premise handling of sensitive information while harnessing the immense, AI-optimized power of Europe's sovereign supercomputing infrastructure for the core research tasks. The budget is allocated to cover all associated costs, including dedicated personnel time for code porting and optimization, data management and transfer, and any service fees required for large-scale, production-level access calls.
 
-\textbf{Total Estimated Cloud Computing Costs: \EUR{321,600}}
+\textbf{Total Estimated High-Performance Computing Costs: \EUR{321,600}}
 
 \subsubsection*{A.3 Travel Costs}
 The travel budget is allocated for project meetings and dissemination of project results at leading international conferences.
