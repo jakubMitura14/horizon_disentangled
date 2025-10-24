@@ -528,7 +528,9 @@ Our communication and dissemination strategy is designed to maximize the project
 The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}). The work plan is designed to directly execute the four-stage methodology described in the Excellence section: Stage 1 (Supervisor Models) is addressed in WP2, Stage 2 (Causal VAEs) in WP3, Stage 3 (Temporal Modeling) in WP4, and Stage 4 (Clinical Application) in WP5.
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (0 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. To ensure the dataset remains current and captures the latest clinical practices, we will hold yearly meetings with our urology, radiology, and nuclear medicine departments. The goal of these meetings is to verify whether standards of care have changed and, if so, to identify opportunities to incorporate new data to reflect these changes, such as collecting data from patients undergoing novel therapies.  The tasks include:
+    \item \textbf{WP1: Data Curation and Harmonization (112 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. To ensure the dataset remains current and captures the latest clinical practices, we will hold yearly meetings with our urology, radiology, and nuclear medicine departments. The goal of these meetings is to verify whether standards of care have changed and, if so, to identify opportunities to incorporate new data to reflect these changes, such as collecting data from patients undergoing novel therapies.
+    \textbf{Lead and Key Personnel:} Data Scientist, PhD Student 1, PhD Student 2.
+    The tasks include:
     \begin{itemize}
         \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions. Implement a robust, automated anonymization pipeline to remove all patient-identifying information in compliance with GDPR.
         \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields. The protocols and tools for this task have been developed as part of the SIKIT project and will be reused here.
@@ -536,13 +538,13 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
         \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines, seminal textbooks, and internal tumor board documents to create a structured knowledge base that will inform the model's training and provide a basis for explainability.
         \item \textbf{Task 1.5: VAE-based Outlier Detection:} Develop and implement the VAE-based OOD detection mechanism to identify and flag potential outliers and label noise in the curated dataset. Establish a formal review loop with clinical experts to validate and correct the flagged data points.
     \end{itemize}
-    \item \textbf{WP2: Foundational Supervisor Model Training (54 PMs):} Develop supervisor models for clinical ground truth.
-    \item \textbf{WP3: Causal VAE Development (65 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
-    \item \textbf{WP4: Temporal Trajectory Modeling (65 PMs):} Develop the \gls{njde} framework for longitudinal modeling. This work package will extend until the end of the project (M36). Towards the end of this period, the programmers will focus mainly on creating comprehensive documentation and refining the user interfaces for the clinical validation phase.
-    \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility. This work package will now begin earlier, at month 15, to allow for a longer, more iterative validation process in parallel with the ongoing development in other work packages.
-    \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
-    \item \textbf{WP7: Project Management (10 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
-    \item \textbf{WP8: Portfolio Activities (10 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio. The project will actively participate in joint workshops, share best practices, and contribute to the development of a common strategic plan for the portfolio, ensuring our work aligns with and amplifies the impact of the broader EIC community.
+    \item \textbf{WP2: Foundational Supervisor Model Training (76 PMs):} Develop supervisor models for clinical ground truth. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, PhD Student 2.
+    \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
+    \item \textbf{WP4: Temporal Trajectory Modeling (54 PMs):} Develop the \gls{njde} framework for longitudinal modeling. This work package will extend until the end of the project (M36). Towards the end of this period, the programmers will focus mainly on creating comprehensive documentation and refining the user interfaces for the clinical validation phase. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
+    \item \textbf{WP5: Validation and Clinical Integration (98 PMs):} Evaluate the framework's performance and clinical utility. This work package will now begin earlier, at month 15, to allow for a longer, more iterative validation process in parallel with the ongoing development in other work packages. \textbf{Lead and Key Personnel:} PI, Senior Researcher, PhD Student 3.
+    \item \textbf{WP6: Dissemination, Communication, and Exploitation (16 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
+    \item \textbf{WP7: Project Management (44 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
+    \item \textbf{WP8: Portfolio Activities (12 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio. The project will actively participate in joint workshops, share best practices, and contribute to the development of a common strategic plan for the portfolio, ensuring our work aligns with and amplifies the impact of the broader EIC community.
 \end{itemize}
 
 \begin{table}[H]
@@ -553,7 +555,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
         \toprule
         & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{Total} \\
         \midrule
-        \textbf{Person-Months} & 0 & 54 & 65 & 65 & 30 & 10 & 18 & 10 & \textbf{252} \\
+        \textbf{Person-Months} & 112 & 76 & 60 & 54 & 98 & 16 & 44 & 12 & \textbf{468} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -561,9 +563,9 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
 \subsubsection*{List of Project Deliverables}
 \begin{itemize}
     \item \textbf{D1.1: Curated, harmonized dataset (initial)} (WP1, Data, CO, M12)
-    \item \textbf{D2.1: Validated supervisor models} (WP2, Code, PU, M15)
-    \item \textbf{D3.1: Disentangled VAE models} (WP3, Code, PU, M24)
-    \item \textbf{D4.1: Trained Neural Jump ODE model} (WP4, Code, PU, M36)
+    \item \textbf{D2.1: Supervisor Model Package} (WP2, R, PU, M15): Comprehensive package including software, trained models, and a technical report.
+    \item \textbf{D3.1: Causal VAE Model Package} (WP3, R, PU, M24): Comprehensive package including software, trained models, and a technical report.
+    \item \textbf{D4.1: Temporal Model Package} (WP4, R, PU, M36): Comprehensive package including software, trained models, and a technical report.
     \item \textbf{D5.1: Final validation report} (WP5, R, PU, M36)
     \item \textbf{D6.1: Project website and open-source repo} (WP6, Web, PU, M3)
     \item \textbf{D6.2: Dissemination \& exploitation report (Y1)} (WP6, R, PU, M12)
@@ -597,7 +599,7 @@ Complementing the deliverables, the project's progress will be assessed against 
         M4 & NJDE model successfully predicts patient trajectories & WP4 & M30 & Report on temporal model performance, with a mean accuracy greater than 0.7 for predicting the TNM stage at the next time point. \\
         M5 & Final model validated for clinical plausibility & WP5 & M36 & Final validation report where a majority of counterfactual images are deemed plausible and useful by testing physicians. \\
         M6 & Novel $^{177}$Lu-PSMA therapy strategies proposed & WP5 & M36 & Report detailing simulation-backed proposals for optimizing $^{177}$Lu-PSMA therapy. Milestone is passed upon documented confirmation from a panel of clinical experts that the proposals are credible and warrant consideration for future clinical trials. \\
-        M7 & Cross-modality synthesis validated & WP3 & M27 & Report showing that the quality of synthesized images (e.g., MRI-to-CT) meets a predefined threshold on quantitative metrics (SSIM > 0.85, FID < 50) and is deemed clinically acceptable by radiologists. \\
+        M7 & Cross-modality synthesis validated & WP3 & M27 & Report showing that the quality of synthesized images (e.g., MRI-to-CT) is deemed clinically acceptable by radiologists. \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -643,7 +645,7 @@ This project is submitted by a single applicant, the applicant institution, whic
 The project will be led by Prof. Dr. Michael Kreißl, a renowned expert in nuclear medicine, who brings unparalleled leadership experience as the head of the working group for the S3-guidelines on thyroid cancer in Germany. This direct experience in shaping national clinical standards is a unique asset that will guide the project's clinical and regulatory strategy. The applicant's team has extensive, demonstrated experience in the core technologies required for this project, including synthetic CT creation from nuclear imaging, clinical decision support systems, and semi-automatic image segmentation pipelines. Current projects are showcased in our online portfolio. This deep clinical and technical expertise, combined with our strong collaborative network, uniquely positions us to succeed in this ambitious project.
 
 \subsection{Appropriateness of the Allocation of Resources}
-A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for using the preprocessed data for scientific purposes has already been obtained.
+A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for this retrospective study will be obtained before the project starts; as a retrospective analysis of fully anonymized data, approval is expected.
 
 The proprietary clinical cohort, detailed in Table \ref{tab:data}, will serve as the cornerstone of this project. It provides a rich, real-world dataset that spans the entire disease spectrum, with specific contributions from each partner ensuring a diverse and comprehensive collection of imaging and clinical data. The core data for all patients will consist of advanced imaging modalities (\gls{pet}/\gls{ct}, \gls{mri}, SPECT/\gls{ct}) and clinical data (\gls{ehr}, lab values). From this clinical data, we will experiment with and derive various features that have proven prognostic impact, such as \gls{psadt}, tumor volume, and the number of bone metastases \cite{guidelines_uro_1,guidelines_uro_2}. As an extension to the core dataset, the framework is designed to be augmented with the following data types on an opportunistic basis, when available:
 
@@ -684,9 +686,9 @@ Paired interim therapy $^{68}$Ga-PSMA PET/CT \& CT & Applicant institution & 40 
 \cmidrule(lr){1-3}
 Longitudinal $^{68}$Ga-PSMA PET/CT & Applicant institution & 200 \\
 \cmidrule(lr){1-3}
-Diagnostic CT \& mpMRI & Partner radiological practices & 700 \\
+Diagnostic CT \& mpMRI & Partner radiological practices & 50 \\
 \midrule
-\textbf{Total Minimum Proprietary Cohort} & & \textbf{1940} \\
+\textbf{Total Minimum Proprietary Cohort} & & \textbf{1290} \\
 \midrule
 \multicolumn{3}{p{\dimexpr\linewidth-2\tabcolsep}}{\small\textit{Note: The patient counts are minimum estimates and are expected to increase during the project.}} \\
 \midrule
@@ -772,21 +774,22 @@ This category includes costs for publications, dataset access, and other minor e
     \item \textbf{Software Licenses:} A provision of \EUR{36,000} is budgeted for specialized software licenses. This covers subscriptions for AI-powered development tools (e.g., Gemini Ultra), literature analysis platforms (e.g., Scispace), and access to emerging proprietary models for comparative analysis and advanced LLMs to support various project tasks.
     \item \textbf{Long-Term Data Storage (DIZ):} A cost of \EUR{75,800} is allocated for the long-term, secure storage of 200 Terabytes of data within the applicant's Data Integration Center (DIZ). This allocation, calculated at a rate of \EUR{379} per terabyte, is essential for maintaining the project's extensive digital assets, including raw clinical data, preprocessed datasets, model weights, downloaded public datasets, and all synthetically generated data.
     \item \textbf{Other Work-Related Expenses:} A provision of \EUR{100,000} is budgeted for other essential work-related expenses, calculated at \EUR{10,000} per person for the 10 non-PhD members of the project team. This covers costs for specialized training, small equipment, and other unforeseen research-related needs that are critical for the project's success.
+    \item \textbf{External Expert Consultations:} A provision of \EUR{15,000} is budgeted for consultations with external experts. This serves as a strategic contingency to address unforeseen scientific challenges, particularly in the high-risk development of the novel causal models (WP3, WP4).
 \end{itemize}
 
-\textbf{Total Estimated Other Direct Costs: \EUR{233,800}}
+\textbf{Total Estimated Other Direct Costs: \EUR{248,800}}
 
 \subsubsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{3,443,526}}
+\textbf{Total Direct Costs (A): \EUR{3,458,526}}
 
-\textbf{Indirect Costs (B = 25\% of A): \EUR{860,882}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{864,632}}
 
 \subsubsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{4,304,408}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{4,323,158}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
 The budget is strategically allocated to the WPs based on their complexity and personnel requirements. The core technical work is concentrated in WP2, WP3, and WP4, which consequently have the largest budgets. WP3 (Causal VAE) and WP4 (Temporal Modeling) are the most resource-intensive as they involve the development and training of the most novel and computationally demanding models at the heart of this project.
@@ -802,13 +805,13 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \midrule
 WP1: Data Curation & 675800 & 168950 & 844750 \\
 WP2: Supervisor Models & 700000 & 175000 & 875000 \\
-WP3: Causal VAE & 800000 & 200000 & 1000000 \\
-WP4: Temporal Modeling & 800000 & 200000 & 1000000 \\
+WP3: Causal VAE & 807500 & 201875 & 1009375 \\
+WP4: Temporal Modeling & 807500 & 201875 & 1009375 \\
 WP5: Validation & 200000 & 50000 & 250000 \\
 WP6: Dissemination & 67726 & 16932 & 84658 \\
 WP7: Project Management & 200000 & 50000 & 250000 \\
 \midrule
-\textbf{Total} & {\textbf{3443526}} & {\textbf{860882}} & {\textbf{4304408}} \\
+\textbf{Total} & {\textbf{3458526}} & {\textbf{864632}} & {\textbf{4323158}} \\
 \bottomrule
 \end{tabular}
 \end{table}
