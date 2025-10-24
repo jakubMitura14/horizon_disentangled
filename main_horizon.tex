@@ -555,7 +555,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
         \toprule
         & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{Total} \\
         \midrule
-        \textbf{Person-Months} & 112 & 76 & 60 & 54 & 98 & 16 & 44 & 12 & \textbf{468} \\
+        \textbf{Person-Months} & 84 & 72 & 72 & 72 & 72 & 16 & 24 & 12 & \textbf{424} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -709,7 +709,7 @@ Personnel costs are the most significant part of the budget, reflecting the high
 \begin{itemize}
     \item \textbf{Principal Investigator (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Senior Researcher (3 FTEs, 108 PMs):} \EUR{789,423}
-    \item \textbf{PhD Student (3 FTEs, 108 PMs):} \EUR{513,000}
+    \item \textbf{PhD Student (2 FTEs, 48 PMs total):} \EUR{228,000}
     \item \textbf{Mathematician (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Data Scientist (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Programmer (2 FTEs, 72 PMs):} \EUR{405,966}
@@ -718,18 +718,17 @@ Personnel costs are the most significant part of the budget, reflecting the high
     \item \textbf{Student/Research Assistant (40hrs/month, 36 months):} \EUR{33,040}
 \end{itemize}
 
-\textbf{Total Estimated Personnel Costs: \EUR{2,855,626}}
+\textbf{Total Estimated Personnel Costs: \EUR{2,570,626}}
 
 \paragraph{Personnel Justification}
 The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team whose continuous involvement is essential for the full 36-month duration. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs), ensuring that expertise is available from initial research and development through to final validation and dissemination. The justification for each role's full-term engagement is as follows:
 \begin{itemize}
     \item \textbf{Principal Investigator (1 FTE, 36 PMs):} The PI's continuous leadership is non-negotiable for a project of this complexity. They will provide the overall scientific vision, coordinate the interdisciplinary work across all WPs throughout the project, and lead the sustained scientific dissemination and exploitation activities (WP6, WP7) from beginning to end.
     \item \textbf{Senior Researcher (3 FTEs, 108 PMs):} The three senior researchers are the project's scientific backbone and are critical for the entire 36-month duration. Their role will evolve: initially focusing on intensive data curation and model development (WP1-WP4), their effort will transition towards leading the rigorous experimental validation (WP5), supervising PhD students, and preparing high-impact publications (WP6) in the later stages.
-    \item \textbf{PhD Student (3 FTEs, 108 PMs):} The three PhD positions will be filled by medical students whose doctoral work is integral to the project's data integrity. Their clinical expertise is essential for bridging the gap between raw medical data and the technical AI team. Each student will have a distinct focus to ensure comprehensive data governance and validation throughout the project's lifecycle:
+    \item \textbf{PhD Student (2 FTEs, 24 months each):} Two PhD positions will be filled by medical students for a 24-month period each. Their clinical expertise is essential for bridging the gap between raw medical data and the technical AI team during the critical phases of data curation and validation.
         \begin{itemize}
-            \item \textbf{PhD Student 1 (Data Curation Lead):} This student will lead the data acquisition and standardization efforts within \textbf{WP1}. Their primary role involves managing the collection of multi-modal data from partner clinics, ensuring compliance with anonymization protocols, and standardizing diverse data formats. This requires a high level of medical understanding to correctly map clinical vocabularies and imaging parameters, a task far beyond the scope of a non-medical assistant.
-            \item \textbf{PhD Student 2 (Quality Control & Ground Truth):} This student will focus on data quality control (\textbf{WP1}) and the establishment of clinical ground truth for the supervisor models (\textbf{WP2}). They will be responsible for implementing and clinically reviewing the outputs of the VAE-based outlier detection system (Task 1.5) and will perform the meticulous validation of imaging labels and clinical endpoints. This work demands doctoral-level clinical acumen to identify subtle data inconsistencies that could compromise model training.
-            \item \textbf{PhD Student 3 (Clinical Validation Lead):} This student will lead the clinical validation studies in \textbf{WP5}. Their role involves working directly with clinicians to assess the plausibility of the model's outputs, including counterfactual images and prognostic reports. They will design and execute the workflow integration studies, requiring a broad understanding of both the AI technology and the realities of clinical practice to ensure the final tool is not only accurate but also useful.
+            \item \textbf{PhD Student 1 (Data Curation & Quality Control):} This student will focus on data acquisition, standardization (WP1), and quality control, including the clinical review of the VAE-based outlier detection system (Task 1.5). This role requires a high level of medical understanding to ensure the integrity of the data foundation.
+            \item \textbf{PhD Student 2 (Clinical Validation Lead):} This student will lead the clinical validation studies in \textbf{WP5}. Their role involves working directly with clinicians to assess the plausibility of the model's outputs, including counterfactual images and prognostic reports, ensuring the final tool is not only accurate but also clinically useful.
         \end{itemize}
     \item \textbf{Mathematician (1 FTE, 36 PMs):} The mathematician's role is foundational to the project's scientific credibility and is required for the full 36 months. They are responsible for ensuring the theoretical integrity of the entire framework. Their work will be critical in the initial phases for co-designing the novel causal models and loss functions (WP2, WP3) to ensure they are mathematically sound. Their expertise will be paramount in the development and validation of the Neural Jump ODEs (WP4), as this involves complex dynamical systems theory. Furthermore, they will lead the development of the robust uncertainty quantification methods (WP5), a task that is essential for the model's clinical translation and trustworthiness. This is not a consultative role but a core research position that underpins the project's most significant innovations.
     \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for the full 36 months. Their initial focus will be on building and managing the complex data pipeline in WP1 (curation, harmonization, and outlier detection). This role will remain critical for managing the continuous flow of data from clinical partners, ensuring data quality, and supporting the data-intensive validation and refinement cycles in the later stages of the project (WP5).
@@ -755,7 +754,7 @@ A hybrid model utilizing the EuroHPC JU ecosystem is strategically superior for 
 \end{itemize}
 This hybrid model ensures the highest level of data security through on-premise handling of sensitive information while harnessing the immense, AI-optimized power of Europe's sovereign supercomputing infrastructure for the core research tasks. The budget is allocated to cover all associated costs, including dedicated personnel time for code porting and optimization, data management and transfer, and any service fees required for large-scale, production-level access calls.
 
-\textbf{Total Estimated High-Performance Computing Costs: \EUR{321,600}}
+\textbf{Total Estimated High-Performance Computing Costs: \EUR{348,074}}
 
 \subsubsection*{A.3 Travel Costs}
 The travel budget is allocated for project meetings and dissemination of project results at leading international conferences.
@@ -777,19 +776,19 @@ This category includes costs for publications, dataset access, and other minor e
     \item \textbf{External Expert Consultations:} A provision of \EUR{15,000} is budgeted for consultations with external experts. This serves as a strategic contingency to address unforeseen scientific challenges, particularly in the high-risk development of the novel causal models (WP3, WP4).
 \end{itemize}
 
-\textbf{Total Estimated Other Direct Costs: \EUR{248,800}}
+\textbf{Total Estimated Other Direct Costs: \EUR{281,300}}
 
 \subsubsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{3,458,526}}
+\textbf{Total Direct Costs (A): \EUR{3,200,000}}
 
-\textbf{Indirect Costs (B = 25\% of A): \EUR{864,632}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{800,000}}
 
 \subsubsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{4,323,158}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{4,000,000}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
 The budget is strategically allocated to the WPs based on their complexity and personnel requirements. The core technical work is concentrated in WP2, WP3, and WP4, which consequently have the largest budgets. WP3 (Causal VAE) and WP4 (Temporal Modeling) are the most resource-intensive as they involve the development and training of the most novel and computationally demanding models at the heart of this project.
@@ -803,15 +802,16 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 675800 & 168950 & 844750 \\
-WP2: Supervisor Models & 700000 & 175000 & 875000 \\
-WP3: Causal VAE & 807500 & 201875 & 1009375 \\
-WP4: Temporal Modeling & 807500 & 201875 & 1009375 \\
-WP5: Validation & 200000 & 50000 & 250000 \\
-WP6: Dissemination & 67726 & 16932 & 84658 \\
-WP7: Project Management & 200000 & 50000 & 250000 \\
+WP1: Data Curation & 600000 & 150000 & 750000 \\
+WP2: Supervisor Models & 640000 & 160000 & 800000 \\
+WP3: Causal VAE & 680000 & 170000 & 850000 \\
+WP4: Temporal Modeling & 680000 & 170000 & 850000 \\
+WP5: Validation & 320000 & 80000 & 400000 \\
+WP6: Dissemination & 80000 & 20000 & 100000 \\
+WP7: Project Management & 120000 & 30000 & 150000 \\
+WP8: Portfolio Activities & 80000 & 20000 & 100000 \\
 \midrule
-\textbf{Total} & {\textbf{3458526}} & {\textbf{864632}} & {\textbf{4323158}} \\
+\textbf{Total} & {\textbf{3200000}} & {\textbf{800000}} & {\textbf{4000000}} \\
 \bottomrule
 \end{tabular}
 \end{table}
