@@ -152,7 +152,7 @@
     \includegraphics[        trim=30mm 30mm 30mm 30mm, % {left bottom right top}
         clip,                     % This command applies the trim
         width=\textwidth]{graphical_abstract.png}
-    \caption{Graphical abstract}
+    \caption{Objectives and concept}
     \label{fig:graphical_abstract}
 \end{figure}
 
@@ -539,7 +539,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
     \item \textbf{WP2: Foundational Supervisor Model Training (54 PMs):} Develop supervisor models for clinical ground truth.
     \item \textbf{WP3: Causal VAE Development (65 PMs):} Develop the hierarchical \gls{vae} for disentanglement.
     \item \textbf{WP4: Temporal Trajectory Modeling (65 PMs):} Develop the \gls{njde} framework for longitudinal modeling. This work package will extend until the end of the project (M36). Towards the end of this period, the programmers will focus mainly on creating comprehensive documentation and refining the user interfaces for the clinical validation phase.
-    \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility.
+    \item \textbf{WP5: Validation and Clinical Integration (30 PMs):} Evaluate the framework's performance and clinical utility. This work package will now begin earlier, at month 15, to allow for a longer, more iterative validation process in parallel with the ongoing development in other work packages.
     \item \textbf{WP6: Dissemination, Communication, and Exploitation (10 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
     \item \textbf{WP7: Project Management (10 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
     \item \textbf{WP8: Portfolio Activities (10 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio. The project will actively participate in joint workshops, share best practices, and contribute to the development of a common strategic plan for the portfolio, ensuring our work aligns with and amplifies the impact of the broader EIC community.
@@ -596,7 +596,7 @@ Complementing the deliverables, the project's progress will be assessed against 
         M3 & VAE models demonstrate successful disentanglement & WP3 & M24 & Report with quantitative disentanglement metrics (measured by reduced mutual information between dimensions of latent space without trained disentanglement) and qualitative results. \\
         M4 & NJDE model successfully predicts patient trajectories & WP4 & M30 & Report on temporal model performance, with a mean accuracy greater than 0.7 for predicting the TNM stage at the next time point. \\
         M5 & Final model validated for clinical plausibility & WP5 & M36 & Final validation report where a majority of counterfactual images are deemed plausible and useful by testing physicians. \\
-        M6 & Novel $^{177}$Lu-PSMA therapy strategies proposed & WP5 & M36 & Report detailing simulation-backed proposals for optimizing $^{177}$Lu-PSMA therapy. Milestone is passed upon documented confirmation from an external panel of clinical experts that the proposals are credible and warrant consideration for future clinical trials. \\
+        M6 & Novel $^{177}$Lu-PSMA therapy strategies proposed & WP5 & M36 & Report detailing simulation-backed proposals for optimizing $^{177}$Lu-PSMA therapy. Milestone is passed upon documented confirmation from a panel of clinical experts that the proposals are credible and warrant consideration for future clinical trials. \\
         M7 & Cross-modality synthesis validated & WP3 & M27 & Report showing that the quality of synthesized images (e.g., MRI-to-CT) meets a predefined threshold on quantitative metrics (SSIM > 0.85, FID < 50) and is deemed clinically acceptable by radiologists. \\
         \bottomrule
     \end{tabular}
@@ -729,7 +729,7 @@ The personnel budget is structured to support the project's ambitious goals thro
             \item \textbf{PhD Student 2 (Quality Control & Ground Truth):} This student will focus on data quality control (\textbf{WP1}) and the establishment of clinical ground truth for the supervisor models (\textbf{WP2}). They will be responsible for implementing and clinically reviewing the outputs of the VAE-based outlier detection system (Task 1.5) and will perform the meticulous validation of imaging labels and clinical endpoints. This work demands doctoral-level clinical acumen to identify subtle data inconsistencies that could compromise model training.
             \item \textbf{PhD Student 3 (Clinical Validation Lead):} This student will lead the clinical validation studies in \textbf{WP5}. Their role involves working directly with clinicians to assess the plausibility of the model's outputs, including counterfactual images and prognostic reports. They will design and execute the workflow integration studies, requiring a broad understanding of both the AI technology and the realities of clinical practice to ensure the final tool is not only accurate but also useful.
         \end{itemize}
-    \item \textbf{Mathematician (1 FTE, 36 PMs):} The mathematician's involvement is crucial for the entire project lifecycle. They will provide essential theoretical support for the novel causal models, ensure the mathematical soundness of the framework (especially the NJDEs in WP4), and develop robust uncertainty quantification methods, which will need continuous refinement as the models evolve.
+    \item \textbf{Mathematician (1 FTE, 36 PMs):} The mathematician's role is foundational to the project's scientific credibility and is required for the full 36 months. They are responsible for ensuring the theoretical integrity of the entire framework. Their work will be critical in the initial phases for co-designing the novel causal models and loss functions (WP2, WP3) to ensure they are mathematically sound. Their expertise will be paramount in the development and validation of the Neural Jump ODEs (WP4), as this involves complex dynamical systems theory. Furthermore, they will lead the development of the robust uncertainty quantification methods (WP5), a task that is essential for the model's clinical translation and trustworthiness. This is not a consultative role but a core research position that underpins the project's most significant innovations.
     \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for the full 36 months. Their initial focus will be on building and managing the complex data pipeline in WP1 (curation, harmonization, and outlier detection). This role will remain critical for managing the continuous flow of data from clinical partners, ensuring data quality, and supporting the data-intensive validation and refinement cycles in the later stages of the project (WP5).
     \item \textbf{Programmer (2 FTEs, 72 PMs):} The two programmers are required for the entire duration to build and maintain the project's software backbone. Their work will transition from initial development of data pipelines and AI models (WP1-WP4) to creating user-facing clinical validation tools, ensuring software robustness, and providing comprehensive documentation in the final year (WP5).
     \item \textbf{Project Manager (1 FTE, 36 PMs):} A project manager's continuous oversight is essential for the operational success of this multi-partner project. Their responsibilities, including coordinating data sharing (WP1), managing grant reporting, and ensuring EU AI Act compliance (WP7), are ongoing and will persist for all 36 months.
@@ -771,21 +771,22 @@ This category includes costs for publications, dataset access, and other minor e
     \item \textbf{UK Biobank Access:} A fee of \EUR{12,000} is budgeted for access to the UK Biobank dataset.
     \item \textbf{Software Licenses:} A provision of \EUR{36,000} is budgeted for specialized software licenses. This covers subscriptions for AI-powered development tools (e.g., Gemini Ultra), literature analysis platforms (e.g., Scispace), and access to emerging proprietary models for comparative analysis and advanced LLMs to support various project tasks.
     \item \textbf{Long-Term Data Storage (DIZ):} A cost of \EUR{75,800} is allocated for the long-term, secure storage of 200 Terabytes of data within the applicant's Data Integration Center (DIZ). This allocation, calculated at a rate of \EUR{379} per terabyte, is essential for maintaining the project's extensive digital assets, including raw clinical data, preprocessed datasets, model weights, downloaded public datasets, and all synthetically generated data.
+    \item \textbf{Other Work-Related Expenses:} A provision of \EUR{100,000} is budgeted for other essential work-related expenses, calculated at \EUR{10,000} per person for the 10 non-PhD members of the project team. This covers costs for specialized training, small equipment, and other unforeseen research-related needs that are critical for the project's success.
 \end{itemize}
 
-\textbf{Total Estimated Other Direct Costs: \EUR{133,800}}
+\textbf{Total Estimated Other Direct Costs: \EUR{233,800}}
 
 \subsubsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules. These costs cover general institutional overheads.
 
-\textbf{Total Direct Costs (A): \EUR{3,343,526}}
+\textbf{Total Direct Costs (A): \EUR{3,443,526}}
 
-\textbf{Indirect Costs (B = 25\% of A): \EUR{835,882}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{860,882}}
 
 \subsubsection*{C. Total Project Budget}
 The total requested funding is the sum of total direct and indirect costs.
 
-\textbf{Total Estimated Project Cost (A + B):} \EUR{4,179,408}
+\textbf{Total Estimated Project Cost (A + B):} \EUR{4,304,408}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
 The budget is strategically allocated to the WPs based on their complexity and personnel requirements. The core technical work is concentrated in WP2, WP3, and WP4, which consequently have the largest budgets. WP3 (Causal VAE) and WP4 (Temporal Modeling) are the most resource-intensive as they involve the development and training of the most novel and computationally demanding models at the heart of this project.
@@ -805,9 +806,9 @@ WP3: Causal VAE & 800000 & 200000 & 1000000 \\
 WP4: Temporal Modeling & 800000 & 200000 & 1000000 \\
 WP5: Validation & 200000 & 50000 & 250000 \\
 WP6: Dissemination & 67726 & 16932 & 84658 \\
-WP7: Project Management & 100000 & 25000 & 125000 \\
+WP7: Project Management & 200000 & 50000 & 250000 \\
 \midrule
-\textbf{Total} & {\textbf{3343526}} & {\textbf{835882}} & {\textbf{4179408}} \\
+\textbf{Total} & {\textbf{3443526}} & {\textbf{860882}} & {\textbf{4304408}} \\
 \bottomrule
 \end{tabular}
 \end{table}
