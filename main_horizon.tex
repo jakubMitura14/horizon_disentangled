@@ -528,23 +528,23 @@ Our communication and dissemination strategy is designed to maximize the project
 The project is structured into eight interconnected Work Packages (WPs) over a 36-month duration, as visualized in the Gantt chart (Figure~\ref{fig:gantt}). The work plan is designed to directly execute the four-stage methodology described in the Excellence section: Stage 1 (Supervisor Models) is addressed in WP2, Stage 2 (Causal VAEs) in WP3, Stage 3 (Temporal Modeling) in WP4, and Stage 4 (Clinical Application) in WP5.
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (112 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project. To ensure the dataset remains current and captures the latest clinical practices, we will hold yearly meetings with our urology, radiology, and nuclear medicine departments. The goal of these meetings is to verify whether standards of care have changed and, if so, to identify opportunities to incorporate new data to reflect these changes, such as collecting data from patients undergoing novel therapies.
-    \textbf{Lead and Key Personnel:} Data Scientist, PhD Student 1, PhD Student 2.
+    \item \textbf{WP1: Data Curation and Harmonization (93 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project.
+    \textbf{Lead and Key Personnel:} Data Scientist, PhD Student 1.
     The tasks include:
     \begin{itemize}
-        \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions. Implement a robust, automated anonymization pipeline to remove all patient-identifying information in compliance with GDPR.
-        \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets. This includes normalizing clinical vocabulary, standardizing image acquisition parameters, and ensuring the integrity of all data fields. The protocols and tools for this task have been developed as part of the SIKIT project and will be reused here.
-        \item \textbf{Task 1.3: Multi-Modal Data Linkage:} Create a unified patient record by accurately linking data from different sources (e.g., matching a patient's MRI scans with their corresponding EHR records and biopsy results) using a unique, anonymized identifier. The protocols and tools for this task have been developed as part of the SIKIT project and will be reused here.
-        \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines, seminal textbooks, and internal tumor board documents to create a structured knowledge base that will inform the model's training and provide a basis for explainability.
-        \item \textbf{Task 1.5: VAE-based Outlier Detection:} Develop and implement the VAE-based OOD detection mechanism to identify and flag potential outliers and label noise in the curated dataset. Establish a formal review loop with clinical experts to validate and correct the flagged data points.
+        \item \textbf{Task 1.1: Data Acquisition and Anonymization:} Securely transfer all clinical, imaging, and pathological data from partner institutions.
+        \item \textbf{Task 1.2: Data Structuring and Cleaning:} Develop and apply standardized protocols to clean and structure the diverse datasets.
+        \item \textbf{Task 1.3: Multi-Modal Data Linkage:} Create a unified patient record by accurately linking data from different sources.
+        \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines and tumor board documents.
+        \item \textbf{Task 1.5: VAE-based Outlier Detection:} Develop and implement the VAE-based OOD detection mechanism to identify and flag potential outliers.
     \end{itemize}
-    \item \textbf{WP2: Foundational Supervisor Model Training (76 PMs):} Develop supervisor models for clinical ground truth. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, PhD Student 2.
-    \item \textbf{WP3: Causal VAE Development (60 PMs):} Develop the hierarchical \gls{vae} for disentanglement. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
-    \item \textbf{WP4: Temporal Trajectory Modeling (54 PMs):} Develop the \gls{njde} framework for longitudinal modeling. This work package will extend until the end of the project (M36). Towards the end of this period, the programmers will focus mainly on creating comprehensive documentation and refining the user interfaces for the clinical validation phase. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
-    \item \textbf{WP5: Validation and Clinical Integration (98 PMs):} Evaluate the framework's performance and clinical utility. This work package will now begin earlier, at month 15, to allow for a longer, more iterative validation process in parallel with the ongoing development in other work packages. \textbf{Lead and Key Personnel:} PI, Senior Researcher, PhD Student 3.
-    \item \textbf{WP6: Dissemination, Communication, and Exploitation (16 PMs):} This work package will be managed in three 12-month cycles. It is dedicated to ensuring the project's results reach the widest possible audience and are positioned for maximum impact. Activities include publishing in high-impact journals, presenting at international conferences, maintaining the project website and open-source repositories, and engaging with clinical and patient communities. A detailed exploitation plan will be developed and refined throughout the project.
-    \item \textbf{WP7: Project Management (44 PMs):} This work package will also be managed in three 12-month cycles to ensure continuous and effective project oversight. It covers all administrative, financial, and legal aspects of the project. A key responsibility is the implementation of the project's risk management plan and ensuring compliance with the EU AI Act through continuous monitoring and documentation.
-    \item \textbf{WP8: Portfolio Activities (12 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio. The project will actively participate in joint workshops, share best practices, and contribute to the development of a common strategic plan for the portfolio, ensuring our work aligns with and amplifies the impact of the broader EIC community.
+    \item \textbf{WP2: Foundational Supervisor Model Training (72 PMs):} Develop supervisor models for clinical ground truth. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician.
+    \item \textbf{WP3: Causal VAE Development (72 PMs):} Develop the hierarchical \gls{vae} for disentanglement. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
+    \item \textbf{WP4: Temporal Trajectory Modeling (72 PMs):} Develop the \gls{njde} framework for longitudinal modeling. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
+    \item \textbf{WP5: Validation and Clinical Integration (72 PMs):} Evaluate the framework's performance and clinical utility, starting at month 15. \textbf{Lead and Key Personnel:} PI, Senior Researcher, PhD Student 2.
+    \item \textbf{WP6: Dissemination, Communication, and Exploitation (16 PMs):} Managed in three 12-month cycles, this WP ensures the project's results reach the widest possible audience.
+    \item \textbf{WP7: Project Management (36 PMs):} Managed in three 12-month cycles, this WP covers all administrative, financial, and legal aspects of the project.
+    \item \textbf{WP8: Portfolio Activities (11 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio.
 \end{itemize}
 
 \begin{table}[H]
@@ -555,7 +555,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
         \toprule
         & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{Total} \\
         \midrule
-        \textbf{Person-Months} & 84 & 72 & 72 & 72 & 72 & 16 & 24 & 12 & \textbf{424} \\
+        \textbf{Person-Months} & 93 & 72 & 72 & 72 & 72 & 16 & 36 & 11 & \textbf{444} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -701,21 +701,21 @@ Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchi
 \end{longtable}
 
 
-The total requested budget for the CausalPCa project is \textbf{\EUR{2,738,416}} over a period of 36 months. While this amount is below the indicative EUR 4 million ceiling for EIC Pathfinder Challenges, it is the result of a meticulous and strategic planning process. The budget is not a reflection of reduced ambition, but rather of a lean, efficient project design that leverages significant existing institutional resources, including access to high-quality data and established clinical infrastructure. This allows us to focus EU funding on the most critical, high-risk research and development activities, ensuring that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
+The total requested budget for the CausalPCa project is \textbf{\EUR{4,000,000}} over a period of 36 months. This budget is the result of a meticulous and strategic planning process to ensure that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
 
 \subsubsection*{A.1 Personnel Costs}
-Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required for this project. Integrating advanced imaging, clinical data, and multi-omics data requires a diverse team with expertise in nuclear medicine, radiology, mathematics, and software engineering. Costs are calculated for a 36-month project duration based on institutional salary tables (TV-L), including all social security contributions. A total of \textbf{252 person-months (PMs)} are budgeted under this grant, with the total team effort being higher due to externally funded personnel.
+Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required for this project. Integrating advanced imaging, clinical data, and multi-omics data requires a diverse team with expertise in nuclear medicine, radiology, mathematics, and software engineering. Costs are calculated based on institutional salary tables (TV-L), including all social security contributions. A total of \textbf{444 person-months (PMs)} are budgeted under this grant.
 
 \begin{itemize}
     \item \textbf{Principal Investigator (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Senior Researcher (3 FTEs, 108 PMs):} \EUR{789,423}
-    \item \textbf{PhD Student (2 FTEs, 48 PMs total):} \EUR{228,000}
+    \item \textbf{PhD Student (2 FTEs, 24 months each, 48 PMs total):} \EUR{228,000}
     \item \textbf{Mathematician (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Data Scientist (1 FTE, 36 PMs):} \EUR{263,141}
     \item \textbf{Programmer (2 FTEs, 72 PMs):} \EUR{405,966}
     \item \textbf{Project Manager (1 FTE, 36 PMs):} \EUR{202,984}
     \item \textbf{Secretary (1 FTE, 36 PMs):} \EUR{121,790}
-    \item \textbf{Student/Research Assistant (40hrs/month, 36 months):} \EUR{33,040}
+    \item \textbf{Student/Research Assistant (40hrs/month, 36 months equivalent):} \EUR{33,040}
 \end{itemize}
 
 \textbf{Total Estimated Personnel Costs: \EUR{2,570,626}}

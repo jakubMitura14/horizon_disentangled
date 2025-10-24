@@ -136,3 +136,9 @@ print(f"{'TOTAL INDIRECT COSTS:':<25} €{final_total_indirect_costs:,.2f}")
 print("="*40)
 print(f"{'TOTAL PROJECT COST:':<25} €{final_total_cost:,.2f}")
 print(f"({round((final_total_cost/TOTAL_BUDGET_CEILING)*100, 2)}% of €{TOTAL_BUDGET_CEILING:,.2f} ceiling)")
+
+# --- Verification Step ---
+print("\n--- VERIFICATION ---")
+manual_total = total_personnel_cost + total_other_direct_costs + direct_compute_cost + final_total_indirect_costs
+assert round(manual_total) == TOTAL_BUDGET_CEILING, f"Verification failed! Manual total {manual_total} does not match ceiling {TOTAL_BUDGET_CEILING}"
+print(f"✅ Verification successful: Manual sum of all costs is €{manual_total:,.2f}, matching the €{TOTAL_BUDGET_CEILING:,.2f} ceiling.")
