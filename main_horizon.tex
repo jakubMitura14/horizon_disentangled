@@ -418,6 +418,13 @@ All research data and other research outputs generated in this project will be m
 \textbf{Risk:} Real-world clinical data is inherently sparse, incomplete, and irregularly sampled. This could prevent the model from learning the complete, longitudinal patient trajectory, leading to inaccurate predictions. \\
 \textbf{Mitigation:} The Neural Jump ODE architecture (WP4) is specifically chosen for its inherent ability to handle sparse and irregular time-series data. We will pre-train the model on a rule-based system derived from clinical guidelines and then fine-tune it using a masked loss function, which allows the model to learn from all available data points without being penalized for missingness. \\
 \textbf{Expected Effect:} This ensures that the model can effectively leverage the full patient history, even when data is incomplete, leading to more accurate and robust trajectory modeling. \\
+\addlinespace
+
+\textbf{Risk 5 (Technical): Insufficient Computational Power} \\
+\textit{Likelihood: Medium, Impact: High} \\
+\textbf{Risk:} The advanced AI models proposed, particularly the large-scale training of generative models, are computationally intensive. A lack of sufficient and timely access to high-performance computing (HPC) resources could create significant bottlenecks and delay project milestones. \\
+\textbf{Mitigation:} Our computational strategy is designed for resilience through a multi-source approach. We have guaranteed access to three in-house NVIDIA H200 GPUs for core development. Our primary plan is to secure large-scale resources from EuroHPC, leveraging our prior success with the KISSKI supercomputer. As a contingency for peak demand, we will use cloud computing resources, but strictly limited to training on synthetic data to ensure patient privacy. \\
+\textbf{Expected Effect:} This creates multiple, independent sources of computational power, providing the project with the flexibility and redundancy needed to mitigate the risk of HPC-related delays and ensure a consistent development pace. \\
 \bottomrule
 \end{longtable}
 
@@ -739,20 +746,16 @@ The personnel budget is structured to support the project's ambitious goals thro
 \end{itemize>
 
 \subsubsection*{A.2 High-Performance Computing Costs (EuroHPC JU)}
-The project will employ a hybrid computing model that combines secure, on-premise resources for data handling with a strategic utilization of Europe's sovereign supercomputing infrastructure for all high-performance computing (HPC) needs. This approach aligns the project with the EU's strategic goal of digital sovereignty while leveraging world-class, AI-optimized hardware. The budget of \textbf{\EUR{321,600}} is allocated to support the access and effective use of a leading EuroHPC Joint Undertaking (JU) supercomputer. This decision was reached after a careful comparison of various commercial and public compute providers, with a strong preference given to a Germany-based EuroHPC system to ensure close proximity to the project's primary data sources.
+The project's computational strategy is built on a multi-layered, hybrid model designed to maximize both data security and computational power, ensuring resilience and adaptability. This approach combines secure in-house resources with access to Europe's top-tier supercomputing infrastructure and a carefully managed use of cloud services for non-sensitive tasks.
 
-\paragraph{1. Strategic Imperative and Justification for EuroHPC JU Supercomputer Utilization}
-A hybrid model utilizing the EuroHPC JU ecosystem is strategically superior for a flagship European research project. This approach provides a powerful and secure framework for medical AI innovation:
-\begin{itemize}
-    \item \textbf{On-Premise for Security (DIZ):} For critical reasons of data security and patient privacy, the main storage of raw clinical data and the initial preprocessing and anonymization steps will be handled locally within the secure environment of the applicant's Data Integration Center (DIZ). This leverages the validated tools from the SIKIT project, ensuring GDPR compliance.
-    \item \textbf{EuroHPC for Sovereign, High-Performance AI:} Once data is fully anonymized, it will be transferred to a EuroHPC JU supercomputer for all large-scale computational tasks. This project's primary target is the \textbf{JUPITER} exascale system at the Jülich Supercomputing Centre, a flagship of European technological ambition. However, recognizing the dynamic nature of the HPC landscape, the project will apply for access to the most powerful and architecturally suitable EuroHPC system available at the project's start in early 2027, such as LUMI, LEONARDO, or MareNostrum 5. This strategy offers several key advantages:
-    \begin{itemize}
-        \item \textbf{Alignment with EU Strategy:} Utilising the EuroHPC infrastructure directly supports the EU's mission to achieve digital sovereignty and fosters a domestic technology ecosystem.
-        \item \textbf{Access to World-Class, Specialized Hardware:} These systems provide access to state-of-the-art GPU architectures (e.g., NVIDIA GH200, AMD MI300A) that are purpose-built for extreme-scale AI and are often more powerful and cost-effective than commercial cloud offerings.
-        \item \textbf{Integration with AI Factories:} By using a EuroHPC system, the project can leverage the comprehensive support services of the "AI Factories" initiative, including expert technical support and optimized software environments, accelerating the research and development lifecycle.
-    \end{itemize}
-\end{itemize}
-This hybrid model ensures the highest level of data security through on-premise handling of sensitive information while harnessing the immense, AI-optimized power of Europe's sovereign supercomputing infrastructure for the core research tasks. The budget is allocated to cover all associated costs, including dedicated personnel time for code porting and optimization, data management and transfer, and any service fees required for large-scale, production-level access calls.
+\paragraph{1. In-House GPU Resources for Core Development}
+The foundation of our computational power is a set of three state-of-the-art \textbf{NVIDIA H200 GPUs} available directly within the applicant's Data Integration Center (DIZ). These powerful in-house resources will be used for day-to-day model development, debugging, and initial testing, providing the team with immediate and secure access to high-performance hardware.
+
+\paragraph{2. Primary Strategy: European Supercomputing for Large-Scale Training}
+For the most demanding computational tasks, such as large-scale model training and extensive validation runs, our primary strategy is to apply for and leverage resources from the \textbf{EuroHPC Joint Undertaking} or other leading European supercomputing centers. This approach prioritizes data security and aligns with the EU's goal of digital sovereignty. Our team has direct, relevant experience in this area; through the SIKIT project, we have already established a successful cooperation and gained access to the German supercomputer \textbf{KISSKI} (\textit{https://kisski.gwdg.de/en/}). This prior experience will streamline the application and onboarding process for this project.
+
+\paragraph{3. Contingency and Peak Demand: Cloud Computing with Synthetic Data}
+For periods of exceptionally high computational demand, such as extensive hyperparameter tuning, we have a contingency plan to utilize commercial cloud resources. However, this comes with a critical and non-negotiable security constraint: due to strict university data protection policies, \textbf{no original patient data will ever be processed on public cloud infrastructure}. Cloud computing resources will be used \textbf{exclusively for training with synthetic data} generated within our secure DIZ environment. This allows us to harness the scalability of the cloud for computationally intensive, non-sensitive tasks without ever compromising the privacy and security of patient information. This multi-source computational strategy provides significant redundancy and flexibility, mitigating the risk of project delays due to insufficient computing power.
 
 \textbf{Total Estimated High-Performance Computing Costs: \EUR{348,074}}
 
