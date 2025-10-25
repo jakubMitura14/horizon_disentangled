@@ -143,20 +143,26 @@
 \newacronym{lvi}{LVI}{Lymphovascular Invasion}
 \newacronym{psadt}{PSADT}{PSA Doubling Time}
 
+
+
 \begin{document}
+
+\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
 
 \includepdf[pages=-]{title_page.pdf}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[        trim=30mm 30mm 30mm 30mm, % {left bottom right top}
+    \includegraphics[        trim=30mm 30mm 30mm 20mm, % {left bottom right top}
         clip,                     % This command applies the trim
         width=\textwidth]{graphical_abstract.png}
-    \caption{Objectives and concept}
+    \caption{Graphical abstract}
     \label{fig:graphical_abstract}
 \end{figure}
 
-\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
+
+\maketitle
+
 \begin{abstract}
 This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and infuse deep medical domain knowledge into the model's architecture to guide its learning process and disentangle disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
 \end{abstract}
@@ -177,7 +183,7 @@ This project directly answers the call for a paradigm shift in cancer care, movi
     \item \textbf{Medical Knowledge Integration via Strong Inductive Biases (iii):} Our framework moves beyond simplistic "black-box" models by creating a comprehensive medical knowledge base, not as a separate component, but by deeply embedding extensive domain knowledge directly into the model's architecture and training process. This is achieved through a multi-layered strategy of applying strong, clinically-informed inductive biases:
     \begin{itemize}
         \item \textbf{At the Feature Level:} We will incorporate prognostic features explicitly recommended by urological guidelines \cite{guidelines_uro_1,guidelines_uro_2} , such as \gls{psadt} and tumor volume, directly into the model's input, ensuring it is grounded in established clinical practice.
-        \item \textbf{At the Architectural Level:} The core of our knowledge integration lies in the principled disentanglement of the \gls{vae}'s latent space. This approach mirrors the clinical reasoning process where physicians mentally separate the \textbf{disease state} (e.g., TNM stage) from the overall \textbf{patient state} (e.g., age, frailty, comorbidities). Our model operationalizes this by architecturally separating these factors into distinct latent subspaces. Furthermore, this technique is used to explicitly disentangle and isolate known technical \textbf{confounders}, such as differences in scanner type or imaging protocol, ensuring the learned disease representation is robust to these variations.
+        \item \textbf{At the Architectural Level:} The core of our knowledge integration lies in the principled disentanglement of the \gls{vae}'s latent space. This approach mirrors the clinical reasoning process where physicians mentally separate the \textbf{disease state} (e.g., TNM stage) from the overall \textbf{patient state} (e.g., age, frailty, comorbidities) before fusing the information. Our model operationalizes this by architecturally separating these factors into distinct latent subspaces. Furthermore, this technique is used to explicitly disentangle and isolate known technical \textbf{confounders}, such as differences in scanner type or imaging protocol, ensuring the learned disease representation is robust to these variations.
         \item \textbf{At the Objective Level:} We will use specialized, knowledge-infused loss functions. For ordinal variables like Gleason Grade or PI-RADS scores, a \textbf{differential ordinal loss} ensures the model understands their inherent ranking and severity progression, a concept a standard classification loss ignores.
         \item \textbf{At the Training Strategy Level:} The temporal model (\gls{njde}) will be pre-trained on a simplified, rule-based decision algorithm derived directly from established \textbf{\gls{eau} clinical guidelines} \cite{guidelines_uro_1,guidelines_uro_2}. This provides the model with a robust, clinically-valid starting point for understanding disease progression before fine-tuning on complex real-world data.
     \end{itemize}
@@ -194,12 +200,6 @@ This project directly answers the call for a paradigm shift in cancer care, movi
 \subsection{Novelty: A Paradigm Shift from Prediction to Causal Understanding}
 The management of \gls{pca} is complex, with risks of overdiagnosis and undertreatment. The disease's natural history is a multi-stage process influenced by tumor biology, patient characteristics, and interventions. 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{pe.png}
-    \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of a disease at initial diagnosis is the key to the best futher theraphy.}
-    \label{fig:prostate_evolution}
-\end{figure}
 
 This project proposes a paradigm shift from prediction to deep causal reasoning. We will build a dynamic, interactive "digital twin" of a patient’s disease trajectory that (i) encodes heterogeneity, (ii) learns cause-and-effect mechanisms, and (iii) simulates future trajectories, updating predictions with new data.
 
@@ -220,6 +220,13 @@ This is not just a dimensional reduction trick; it is a new paradigm for buildin
 
 By creatively fusing these technologies, we are creating a single, unified pipeline that can accelerate clinical work by auto-generating radiological reports, enhance prediction by modeling the entire patient journey, and enable rapid, low-cost experimentation of new clinical hypotheses. This project forges the technology-to-come: a foundational causal framework that integrates multi-scale evidence into robust, updatable decision processes, establishing a new European reference architecture for trustworthy, explainable, and regulation-ready medical AI. The framework's probabilistic design also allows for robust uncertainty quantification, a critical feature for clinical adoption and trust.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pe.png}
+    \caption{The natural history of prostate cancer, illustrating the stages our model will learn. The disease evolves based on tumor stage, patient state, and interventions, with information inferred from multiple clinical and imaging modalities. Our hypothesis is moreover that stage of a disease at initial diagnosis is the key to the best futher theraphy.}
+    \label{fig:prostate_evolution}
+\end{figure}
+
 \subsection{Plausibility of the Methodology}
 Our methodology is a direct answer to the profound challenges of building trustworthy clinical AI. We aim to design a novel, \textbf{five-stage causal framework} that deconstructs the immense complexity of prostate cancer progression into a series of well-defined, manageable tasks. This modular approach is the key to our project's feasibility: it ensures training stability, enhances model interpretability, and allows us to systematically embed clinical domain knowledge as strong inductive biases. This extensive integration of domain knowledge is crucial for ensuring the model generalizes well beyond its training data. The use of a carefully crafted disentangled latent space is a direct and innovative response to the "curse of dimensionality"; without this approach, reliably training a model on such complex, time-varied, and incomplete data would be practically impossible. Each element of our proposed framework is based on strong, peer-reviewed research, ensuring that our ambitious goals are built on a solid scientific foundation. This guides the model to learn the true underlying causal mechanisms of the disease, rather than superficial correlations.
 
@@ -234,18 +241,18 @@ This approach ensures the model generalizes well and produces more clinically pl
 \end{itemize}
 
 
+\subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
+At the heart of our solution to data heterogeneity is a hierarchical \gls{vae} trained for each imaging modality to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function:
+$$ \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{VAE}} + \lambda_A \mathcal{L}_{\text{Anatomy}} + \lambda_D \mathcal{L}_{\text{Disease}} + \lambda_I \mathcal{L}_{\text{Disentangle}} $$
+The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. Our loss function will apply a \textbf{targeted penalization} of the statistical dependence between latent subspaces. We recognize that some correlations are clinically meaningful (e.g., disease can affect anatomy), while others are spurious. Therefore, the model will be heavily penalized for mutual information between causally independent subspaces (e.g., Disease $Z_D$ and Style $Z_S$, which includes scanner type and data source), while allowing for natural correlations between dependent factors like disease and anatomy. This is accomplished by selectively applying a Total Correlation (TC) penalty, ensuring the learned disease representation is invariant to technical artifacts without sacrificing the reconstruction of clinically valid relationships \cite{FragemannArdizzone2022, AbbasiMonadjemi2018, FayCobos2023}. The entire data curation and preprocessing pipeline is visualized in Figure \ref{fig:data_curation}.
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{dc.png}
     \caption{An infographic summarizing the data acquisition, curation, and preprocessing framework for the study cohort. It details the inclusion and exclusion criteria for patient selection and outlines the multi-step pipeline for processing clinical, histopathological, and imaging data. The \gls{ehr} is a key source of clinical data.}
     \label{fig:data_curation}
 \end{figure}
-
-\subsubsection{Stage 2: Mastering Heterogeneity through Principled Disentanglement}
-At the heart of our solution to data heterogeneity is a hierarchical \gls{vae} trained for each imaging modality to learn a disentangled latent space. The key innovation is partitioning this space into four independent, semantically meaningful components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This separation is enforced through a composite loss function:
-$$ \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{VAE}} + \lambda_A \mathcal{L}_{\text{Anatomy}} + \lambda_D \mathcal{L}_{\text{Disease}} + \lambda_I \mathcal{L}_{\text{Disentangle}} $$
-The disentanglement is achieved by moving beyond simple $\beta$-VAE approaches. Our loss function will apply a \textbf{targeted penalization} of the statistical dependence between latent subspaces. We recognize that some correlations are clinically meaningful (e.g., disease can affect anatomy), while others are spurious. Therefore, the model will be heavily penalized for mutual information between causally independent subspaces (e.g., Disease $Z_D$ and Style $Z_S$, which includes scanner type and data source), while allowing for natural correlations between dependent factors like disease and anatomy. This is accomplished by selectively applying a Total Correlation (TC) penalty, ensuring the learned disease representation is invariant to technical artifacts without sacrificing the reconstruction of clinically valid relationships \cite{FragemannArdizzone2022, AbbasiMonadjemi2018, FayCobos2023}. The entire data curation and preprocessing pipeline is visualized in Figure \ref{fig:data_curation}.
-
 
 
 \subsubsection{Stage 3: VAE-based Out-of-Distribution Detection for Label Noise Resilience}
@@ -287,14 +294,7 @@ The \gls{njde} learns the rules of disease evolution by modeling two phenomena \
 \end{itemize}
 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[        trim=5mm 30mm 5mm 20mm, % {left bottom right top}
-        clip,                     % This command applies the trim
-        width=\textwidth]{ml.png}
-    \caption{The proposed multi-stage causal AI framework.}
-    \label{fig:ml_framework}
-\end{figure}
+
 
 This hybrid approach, which explicitly separates the continuous disease course from the rapid, external impacts of clinical interventions, is critical for accurately modeling a patient's journey \cite{GwakSim2020}. The model is trained using a \textbf{leave-one-out strategy} for each patient's time series: given all but one time point, its goal is to predict the complete state vector for the held-out time point. To handle the pervasive missing data, we will first develop a simplified, rule-based decision algorithm in close consultation with our urology partners. This algorithm, based on the \gls{eau} guidelines, will provide a baseline management recommendation even for cases with incomplete data. The \gls{njde} model will then be pre-trained on the outputs of this decision tree, allowing it to develop an initial, robust understanding of the relationships between patient state, disease status, and appropriate management pathways before being fine-tuned on the full, complex tumour board data. For the fine-tuning stage, we will employ a \textbf{masked loss function}. The loss is calculated only by comparing the predicted values to the ground truth for those elements of the state vector that were actually available (non-zero) at the target time point. This forces the model to learn a probable evolution for every data type, even from a highly incomplete dataset. By distinguishing between smooth progression and intervention-driven shocks, the \gls{njde} learns a more biologically plausible model of the patient's journey.
 
@@ -306,6 +306,15 @@ A key innovation in this stage is the use of clinician interaction patterns as a
     \item \textbf{Personalized Explanations:} By understanding the questions a clinician frequently asks about a particular type of case, the system can proactively generate the most relevant counterfactuals and visualizations, tailoring its explanations to the user's specific cognitive workflow.
     \item \textbf{Adaptive Patient-Facing Visualizations:} The system will use the insights from clinician interactions to create simplified, more intuitive visualizations of the expected disease progression for patients. By knowing what aspects of the data are most critical for decision-making, the system can generate clearer, more focused graphical timelines and outcome predictions, helping patients to better understand their condition and treatment options.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[        trim=5mm 30mm 5mm 20mm, % {left bottom right top}
+        clip,                     % This command applies the trim
+        width=\textwidth]{ml.png}
+    \caption{The proposed multi-stage causal AI framework.}
+    \label{fig:ml_framework}
+\end{figure}
 
 Crucially, the framework will function as a \textbf{Treatment-Choice Helper}. Leveraging the \gls{njde} from Stage 3, the system will simulate multiple future patient trajectories, each conditioned on a different potential treatment intervention and timing. By comparing these simulated outcomes, the model can identify the therapeutic strategy that is explicitly optimized to \textbf{maximize the expected time to progression}. This transforms the "what-if" capability from a simple explanatory tool into a powerful engine for data-driven treatment planning.
 
@@ -418,13 +427,6 @@ All research data and other research outputs generated in this project will be m
 \textbf{Risk:} Real-world clinical data is inherently sparse, incomplete, and irregularly sampled. This could prevent the model from learning the complete, longitudinal patient trajectory, leading to inaccurate predictions. \\
 \textbf{Mitigation:} The Neural Jump ODE architecture (WP4) is specifically chosen for its inherent ability to handle sparse and irregular time-series data. We will pre-train the model on a rule-based system derived from clinical guidelines and then fine-tune it using a masked loss function, which allows the model to learn from all available data points without being penalized for missingness. \\
 \textbf{Expected Effect:} This ensures that the model can effectively leverage the full patient history, even when data is incomplete, leading to more accurate and robust trajectory modeling. \\
-\addlinespace
-
-\textbf{Risk 5 (Technical): Insufficient Computational Power} \\
-\textit{Likelihood: Medium, Impact: High} \\
-\textbf{Risk:} The advanced AI models proposed, particularly the large-scale training of generative models, are computationally intensive. A lack of sufficient and timely access to high-performance computing (HPC) resources could create significant bottlenecks and delay project milestones. \\
-\textbf{Mitigation:} Our computational strategy is designed for resilience through a multi-source approach. We have guaranteed access to three in-house NVIDIA H200 GPUs for core development. Our primary plan is to secure large-scale resources from EuroHPC, leveraging our prior success with the KISSKI supercomputer. As a contingency for peak demand, we will use cloud computing resources, but strictly limited to training on synthetic data to ensure patient privacy. \\
-\textbf{Expected Effect:} This creates multiple, independent sources of computational power, providing the project with the flexibility and redundancy needed to mitigate the risk of HPC-related delays and ensure a consistent development pace. \\
 \bottomrule
 \end{longtable}
 
@@ -519,7 +521,7 @@ Our communication and dissemination strategy is designed to maximize the project
 \begin{itemize}
     \item \textbf{High-Impact Scientific Publications:} We will target leading peer-reviewed journals in medical imaging, artificial intelligence, and oncology and present our findings at premier international conferences (e.g., RSNA, ECR, MICCAI, NeurIPS) to engage the scientific community.
     \item \textbf{Open Science and Open Data:} All code will be made available on a public GitHub repository under a permissive open-source license. Curated, anonymized datasets will be contributed to the \gls{eucaim} platform, creating a lasting resource for the European research community.
-    \item \textbf{Engagement with Clinical and Patient Communities:} We will actively engage with European clinical societies (e.g., \gls{eau}, ESMO, EANM) and patient advocacy groups through workshops, presentations, and co-designed informational materials to ensure our work is clinically relevant and to facilitate its translation into practice.
+    \item \textbf{Engagement with Clinical and Patient Communities:} We will actively engage with European clinical societies (e.g., EANM, \gls{eau}, ESMO) and patient advocacy groups through workshops, presentations, and co-designed informational materials to ensure our work is clinically relevant and to facilitate its translation into practice.
     \item \textbf{Public Outreach:} We will maintain a project website with regular updates, blog posts, and lay summaries of our research. We will also engage with the media and use social media to communicate our project's goals and achievements to a broader audience, highlighting the potential benefits for cancer patients and the European healthcare system.
 \end{itemize}
 
@@ -641,7 +643,7 @@ The project's wide network of collaborators provides a crucial strategic advanta
 \end{itemize}
 
 \subsection{Quality of the applicant}
-The success of this project hinges on the deep integration of clinical and technical expertise. Our team is not merely a collection of specialists but a truly \textbf{interdisciplinary unit} where expertise is shared and fused. This is exemplified by our leadership structure, which is designed to act as a bridge between disciplines. The project's co-coordinator possesses a \textbf{dual specialization in both nuclear medicine and radiology}, providing a unified, multi-modal imaging perspective at the highest level. This is complemented by another coordinating medical doctor who combines a specialization in nuclear medicine with a formal IT background. This unique "bridging" role is critical for translating complex clinical needs into precise technical requirements and for ensuring the developed AI solutions are seamlessly integrated into the clinical workflow. This interdisciplinary-by-design approach mitigates the risk of a disconnect between the technical development and its real-world application. We also have a strong cooperation with IT specialists from the German Medical Informatics Initiative and the Institute for Medical Informatics and Data Science. A key AI coordinator is Prof. Dr. Julian Varghese, the new Director of the Institute for Medical Data Science at the applicant institution. As a physician and computer scientist with a Master's in Artificial Intelligence from Imperial College London, his expertise in clinical decision support systems and research data infrastructures will be invaluable to the project.
+The success of this project hinges on the deep integration of clinical and technical expertise. Our team is not merely a collection of specialists but a truly \textbf{interdisciplinary unit} where expertise is shared and fused. This is exemplified by our leadership structure, which is designed to act as a bridge between disciplines. The project's co-coordinator possesses a dual specialization in both nuclear medicine and radiology, providing a unified, multi-modal imaging perspective at the highest level. This is complemented by another coordinating medical doctor who combines a specialization in nuclear medicine with a formal IT background. This unique "bridging" role is critical for translating complex clinical needs into precise technical requirements and for ensuring the developed AI solutions are seamlessly integrated into the clinical workflow. This interdisciplinary-by-design approach mitigates the risk of a disconnect between the technical development and its real-world application. We also have a strong cooperation with IT specialists from the German Medical Informatics Initiative and the Institute for Medical Informatics and Data Science. A key AI coordinator is Prof. Dr. Julian Varghese, the new Director of the Institute for Medical Data Science at the applicant institution. As a physician and computer scientist with a Master's in Artificial Intelligence from Imperial College London, his expertise in clinical decision support systems and research data infrastructures will be invaluable to the project.
 
 This project is submitted by a single applicant, the applicant institution, which possesses the requisite multimodal data, a proven track record in AI model development, and the critical clinical expertise to ensure the solution's reliability. While there is no formal consortium, the project is built on a foundation of \textbf{strong, established collaborations} with key clinical partners who will contribute specific expertise and data, creating a powerful, synergistic network:
 \begin{itemize}
@@ -755,7 +757,7 @@ The foundation of our computational power is a set of three state-of-the-art \te
 For the most demanding computational tasks, such as large-scale model training and extensive validation runs, our primary strategy is to apply for and leverage resources from the \textbf{EuroHPC Joint Undertaking} or other leading European supercomputing centers. This approach prioritizes data security and aligns with the EU's goal of digital sovereignty. Our team has direct, relevant experience in this area; through the SIKIT project, we have already established a successful cooperation and gained access to the German supercomputer \textbf{KISSKI} (\textit{https://kisski.gwdg.de/en/}). This prior experience will streamline the application and onboarding process for this project.
 
 \paragraph{3. Contingency and Peak Demand: Cloud Computing with Synthetic Data}
-For periods of exceptionally high computational demand, such as extensive hyperparameter tuning, we have a contingency plan to utilize commercial cloud resources. However, this comes with a critical and non-negotiable security constraint: due to strict university data protection policies, \textbf{no original patient data will ever be processed on public cloud infrastructure}. Cloud computing resources will be used \textbf{exclusively for training with synthetic data} generated within our secure DIZ environment. This allows us to harness the scalability of the cloud for computationally intensive, non-sensitive tasks without ever compromising the privacy and security of patient information. This multi-source computational strategy provides significant redundancy and flexibility, mitigating the risk of project delays due to insufficient computing power.
+For periods of exceptionally high computational demand, such as extensive hyperparameter tuning, we have a plan to utilize commercial cloud resources. However, this comes with a critical and non-negotiable security constraint: due to strict university data protection policies, \textbf{no original patient data will ever be processed on public cloud infrastructure} unless it would meet those criteria.  In case security guarantees of cloud provider would be insufficient cloud computing resources will be used \textbf{exclusively for training with synthetic data}. This allows us to harness the scalability of the cloud for computationally intensive, non-sensitive tasks without ever compromising the privacy and security of patient information. This multi-source computational strategy provides significant redundancy and flexibility, mitigating the risk of project delays due to insufficient computing power.
 
 \textbf{Total Estimated High-Performance Computing Costs: \EUR{348,074}}
 
