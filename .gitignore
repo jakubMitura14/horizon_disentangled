@@ -1,15 +1,11 @@
-# LaTeX build artifacts
-*.aux
-*.bbl
-*.blg
-*.log
-*.out
-*.synctex.gz
-
-# Other
-*.DS_Store
-*~
-*.swp
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
-main_horizon.pdf
-budget_standalone.pdf
+
+# Jupyter Notebook
+.ipynb_checkpoints

@@ -5,60 +5,50 @@ from project_analysis import df_alloc_y1, df_alloc_y2, df_alloc_y3
 
 roles = df_alloc_y1.index
 wps = df_alloc_y1.columns
+years = ['Year 1', 'Year 2', 'Year 3']
+alloc_data = {'Year 1': df_alloc_y1, 'Year 2': df_alloc_y2, 'Year 3': df_alloc_y3}
 
 # --- Visualization ---
 
-fig, axes = plt.subplots(len(roles), len(wps), figsize=(20, 15), sharex=True, sharey=True)
-plt.subplots_adjust(wspace=0.1, hspace=0.1)
+# Create a figure with one subplot for each role
+fig, axes = plt.subplots(len(roles), 1, figsize=(12, 20), sharex=True)
+plt.subplots_adjust(hspace=0.5)
+fig.suptitle('Person-Month Allocation by Role and Work Package', fontsize=18, y=0.95)
 
-bar_width = 0.25
-index = np.arange(1)
+# Define a color map for the Work Packages
+colors = plt.cm.get_cmap('tab10', len(wps))
 
 for i, role in enumerate(roles):
+    ax = axes[i]
+    ax.set_title(role, loc='left', fontsize=12, fontweight='bold')
+
+    bottoms = np.zeros(len(years))
+
     for j, wp in enumerate(wps):
-        ax = axes[i, j]
+        values = [alloc_data[year].loc[role, wp] for year in years]
 
-        y1_val = df_alloc_y1.loc[role, wp]
-        y2_val = df_alloc_y2.loc[role, wp]
-        y3_val = df_alloc_y3.loc[role, wp]
+        # Add bars for each year
+        bars = ax.bar(years, values, bottom=bottoms, label=wp, color=colors(j))
 
-        # Plot bars only if there's data
-        if y1_val > 0:
-            ax.bar(index - bar_width, y1_val, bar_width, label='Year 1', color='skyblue')
-        if y2_val > 0:
-            ax.bar(index, y2_val, bar_width, label='Year 2', color='lightgreen')
-        if y3_val > 0:
-            ax.bar(index + bar_width, y3_val, bar_width, label='Year 3', color='salmon')
+        # Add text labels inside the bars
+        for bar in bars:
+            height = bar.get_height()
+            if height > 0:
+                ax.text(bar.get_x() + bar.get_width() / 2,
+                        bar.get_y() + height / 2,
+                        f'{height:.0f}', ha='center', va='center', color='white', fontsize=9)
 
-        ax.set_xticks([])
-        ax.set_yticks(np.arange(0, 21, 5))
-        ax.grid(axis='y', linestyle='--', alpha=0.7)
+        bottoms += values
 
-        # Hide spines
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['bottom'].set_visible(False)
-        ax.spines['left'].set_visible(False)
+    # Formatting for each subplot
+    ax.set_ylabel('Person-Months')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.grid(axis='y', linestyle='--', alpha=0.7)
 
-        # Labels
-        if j == 0:
-            ax.set_ylabel(role, rotation=0, ha='right', va='center', fontsize=10)
-        if i == len(roles) - 1:
-            ax.set_xlabel(wp, fontsize=10)
-
-# Set common labels
-fig.text(0.5, 0.04, 'Work Packages', ha='center', va='center', fontsize=14)
-fig.text(0.08, 0.5, 'Personnel Roles', ha='center', va='center', rotation='vertical', fontsize=14)
-fig.suptitle('Person-Month Allocation per Role and Work Package', fontsize=18)
-
-# Legend
-handles, labels = [], []
-for ax in fig.axes:
-    for h, l in zip(*ax.get_legend_handles_labels()):
-        if l not in labels:
-            handles.append(h)
-            labels.append(l)
-fig.legend(handles, labels, loc='upper right')
+# Common legend
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper right', title='Work Packages', bbox_to_anchor=(0.95, 0.92))
 
 plt.savefig('allocation_visualization.png', dpi=300, bbox_inches='tight')
-print("Visualization saved as allocation_visualization.png")
+print("New visualization saved as allocation_visualization.png")
