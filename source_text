@@ -1075,3 +1075,96 @@ The latent space representation derived from models like VAEs (or similar featur
 2. KNN-Based OOD Identification: A common strategy is employing a K-Nearest Neighbors (KNN) based OOD detection method on the feature space (latent space) \cite{LiaoHu2025}. For a potential noisy sample, an OOD score is computed based on the Euclidean distance between its normalized feature (or latent representation) and the feature of its k-th nearest clean neighbor \cite{ZhangGe2025,LiaoHu2025}.
 3. Leveraging Feature Discrimination: The latent space, when structured correctly (e.g., enhanced by techniques like contrastive learning), promotes feature discrimination between ID and OOD classes, aiding in the accurate identification of open-set noisy samples \cite{LiaoHu2025}. If the feature extraction backbone (like the VAE encoder) creates a coherent representation of the ID samples, the incorrectly labeled OOD samples will appear as outliers in this space, facilitating their identification by distance-based methods \cite{LiaoHu2025}. This identification is important because high predictive uncertainty is often associated with open-set noise due to the model's unfamiliarity with the OOD classes \cite{LiaoHu2025}.
 In summary, the VAE's ability to compress and normalize "healthy" or "ID" features into a tightly structured latent space allows OOD detection through the measurement of reconstruction error or the distance of a sample's latent representation from the learned distribution, a principle directly applicable to mitigating the detrimental effects of open-set label noise \cite{LiaoHu2025}.
+
+
+
+
+
+I. Post-Staging Cancer Progression and Resistance
+Following initial curative-intent treatment for localized PCa (such as radical prostatectomy (RP) or external beam radiation therapy (EBRT)), a substantial proportion of patients (between 20\\\\% and 50\\\\%) experience disease progression, marked first by biochemical recurrence (BCR) \cite{LinezRodrguezFernndez2014,GarznTorres2018}. BCR, defined as a rise in Prostate-Specific Antigen (PSA) levels, precedes the detection of clinical (imaging-detectable) recurrence by months or years \cite{AmalachandranSivathapandi2024,Jadvar2016}.
+A. Progression from Hormone-Sensitive to Castration-Resistant PCa
+The initial standard treatment for metastatic PCa is Androgen Deprivation Therapy (ADT)<910.full.pdf> \cite{UnknownAuthor2014}. While most patients experience an initial response, PCa eventually progresses and develops resistance to androgen blockade, advancing to Castration-Resistant Prostate Cancer (CRPC) \cite{UnknownAuthor2014,HuMao2023}. This transition typically occurs within 18 to 24 months of ADT initiation \cite{HuMao2023}.
+CRPC is a highly heterogeneous and aggressive clinical state, characterized by disease progression despite low serum testosterone levels (≤50 ng/dL) \cite{UnknownAuthor2014,LeePark2020}. The prognosis for patients with metastatic CRPC (mCRPC) remains poor, with a median overall survival often ranging from 2 to 3 years<910.full.pdf> \cite{GoodeWang2023,KleiburgGeusOei2025}.
+B. Molecular Mechanisms of Resistance
+The mechanisms driving resistance to ADT are complex and result in the continued proliferation of PCa cells under castrate conditions \cite{MartinCaraballo2024}. These can be broadly classified as Androgen Receptor (AR)-dependent or AR-independent mechanisms \cite{MartinCaraballo2024,UnknownAuthor2014}:
+1. AR-Dependent Mechanisms: In many cases of CRPC, the cancer retains its addiction to AR signaling \cite{UnknownAuthor2014}. Resistance often emerges due to genomic or metabolic reactivation of the AR axis \cite{UnknownAuthor2014}. Mechanisms include:
+    ◦ AR Overexpression and Amplification: AR gene amplification and subsequent protein overexpression are observed in approximately 30\\\\% of recurrent PCa cases and are considered primary drivers of CRPC \cite{MartinCaraballo2024,UnknownAuthor2014}.
+    ◦ AR Mutations: Mutations in the AR ligand-binding domain (LBD) can cause anti-androgens (e.g., enzalutamide) to act as agonists rather than antagonists, thereby driving tumor growth \cite{UnknownAuthor2014}.
+    ◦ AR Splice Variants: The expression of truncated AR transcripts, such as AR-V7, which lack the LBD, leads to constitutive AR activation independent of androgen binding \cite{UnknownAuthor2014,UnknownAuthor2017}.
+    ◦ Intracrine Androgen Synthesis: Cancer cells maintain AR addiction by acquiring the ability to synthesize androgens locally (intracrine synthesis) or utilize adrenal androgens, which persists despite testicular ablation \cite{UnknownAuthor2014}.
+2. AR-Independent Mechanisms: Progression to CRPC can result in a phenotype entirely independent of AR signaling, sometimes termed Androgen Receptor Pathway-Independent Prostate Cancer (APIPC) \cite{UnknownAuthor2014}.
+    ◦ Neuroendocrine Prostate Cancer (NEPC): This highly aggressive variant often evolves from AR-addicted PCa, frequently induced by ADT or radiation treatment \cite{MartinCaraballo2024,UnknownAuthor2014}. NEPC is characterized by a loss of PSA production, visceral spread, and typically does not respond to AR-targeted treatments \cite{UnknownAuthor2014}. The amount of neuroendocrine differentiation increases with disease progression and castration resistance \cite{UnknownAuthor2014}.
+
+--------------------------------------------------------------------------------
+II. Detection of Progression and Resistance by Modality
+The monitoring and detection of these post-staging changes require a combination of clinical, laboratory, and imaging evaluations.
+1. Clinical and Laboratory Examination
+PSA remains the most sensitive and primary indicator of recurrence, often rising months to years before clinical disease is detectable on imaging \cite{AmalachandranSivathapandi2024,Jadvar2016}.
+Clinical/Laboratory Feature
+Detection/Interpretation in Progression
+Biochemical Recurrence (BCR)
+Defined as PSA ≥0.2 ng/mL (post-RP) or PSA nadir +2 ng/mL (post-RT, Phoenix criteria) \cite{LinezRodrguezFernndez2014,Jadvar2016}.
+CRPC Diagnosis
+Confirmed when biochemical or clinical progression occurs despite castrate levels of testosterone (≤50 ng/dL) \cite{UnknownAuthor2014,LeePark2020}. Progression criteria include two consecutive PSA increases of 50\\\\% over baseline, new imaging evidence of progression, or worsening clinical status \cite{CruzMontijanoAmoSalas2024}.
+PSA Dynamics
+PSA Doubling Time (PSADT) and PSA Velocity (PSAV) are prognostic factors for recurrence and metastatic risk \cite{UnknownAuthor2017,OtsCardo2018}. A short PSADT (≤4 months) and high PSA levels at failure (e.g., ≥1.37 ng/mL post-RP) correlate with an increased likelihood of lymph node or metastatic disease detection \cite{OtsCardo2018}.
+Prognostic Markers
+Serum Alkaline Phosphatase (AP) may be used to assess treatment response in mCRPC, although its reliability is controversial \cite{CruzMontijanoAmoSalas2024}. The presence of visceral metastases or disease-related symptoms are crucial clinical prognostic indicators in mCRPC management \cite{KleiburgGeusOei2025}.
+Digital Rectal Examination (DRE)
+DRE is generally of little help in identifying local recurrence in patients with low PSA levels post-RP due to anatomical changes induced by treatment \cite{UnknownAuthor2017}.
+2. Computed Tomography (CT)
+CT is traditionally utilized for evaluating regional lymph node involvement and distant metastases, often combined with bone scintigraphy \cite{RenYuan2015}.
+CT Feature
+Detection/Interpretation in Progression
+Lymph Node Metastases (LNM)
+CT relies on size and morphological criteria (e.g., short-axis diameter) for LNM detection \cite{UrsoRocca2022,LuiningMeijer2021}. However, its sensitivity is low (pooled sensitivity often around 42\\\\% or less in various cohorts), as many malignant nodes are too small to be visualized or lack definitive morphological changes \cite{RenYuan2015,LuiningMeijer2021}.
+Distant Metastases
+CT is used for initial staging and monitoring systemic progression \cite{ChoIbrahim2015}. Progression may be indicated by the appearance of new lytic lesions \cite{UnknownAuthor2012}.
+Treatment Response Assessment
+CT-based criteria (RECIST 1.1) are limited in mCRPC, as the typical osteoblastic (sclerotic) PCa bone metastases are classified as nonmeasurable lesions \cite{UnknownAuthor2014,UnknownAuthor2012}. Furthermore, new sclerotic lesions may represent a "flare phenomenon" (healing response) rather than true progression, complicating assessment \cite{UnknownAuthor2012}.
+Perfusion CT (PCT)
+PCT parameters (Blood Volume/BV, Blood Flow/BF) show correlation with Gleason score and pathological T stage, suggesting a role in initial staging; BV may predict high-grade tumors better than biopsy Gleason score \cite{HuellnerPauli2014,Stelmach2015}.
+3. Magnetic Resonance Imaging (MRI)
+Multiparametric MRI (mpMRI), incorporating T2-weighted, Diffusion-Weighted Imaging (DWI), and Dynamic Contrast-Enhanced (DCE) sequences, is central to local staging and is considered the cornerstone for evaluating local recurrence (LR) following treatment \cite{GlemserRotkopf2022}.
+MRI Feature
+Detection/Interpretation in Progression
+Local Recurrence (LR) Post-RP
+mpMRI of the pelvis is a highly accurate method for identifying LR after RP, particularly at low PSA levels (<1.0 ng/mL) \cite{GlemserRotkopf2022}. DCE-MRI, specifically, shows high sensitivity (84\\\\%−88\\\\%) and specificity for LR detection at mean PSA levels of 0.8−1.9 ng/mL \cite{UnknownAuthor2017}.
+Post-Treatment Artifacts
+Conventional MRI struggles to distinguish malignant tissue from non-malignant post-treatment changes (e.g., fibrosis, hemorrhage, edema) due to therapy-induced structural alterations \cite{KurhanewiczSwanson2002,FuscoSansone2017}.
+Treatment Response (DW-MRI)
+DWI metrics, particularly Apparent Diffusion Coefficient (ADC), can monitor treatment response in CRPC \cite{UnknownAuthor2014}. Therapeutic response often shows a transient increase in ADC, whereas treatment resistance is associated with persistently low ADC values \cite{UnknownAuthor2014}.
+Metastases Detection
+Whole-body DW-MRI (WB-MRI) offers enhanced accuracy in detecting bone metastases, potentially outperforming bone scintigraphy, and is capable of comprehensive TNM staging in a single session \cite{PasoglouMichoux2016,UnknownAuthor2014}.
+MR Spectroscopy (MRSI)
+MRSI detects metabolic changes; in recurrence after failed hormonal therapy or radiation, abnormal prostatic metabolism (e.g., elevated choline-to-creatine ratio) can identify residual disease, which conventional imaging might miss due to structural changes \cite{KurhanewiczSwanson2002}.
+4. PSMA-PET
+Positron Emission Tomography targeting Prostate-Specific Membrane Antigen (PSMA-PET/CT or PET/MRI) has revolutionized restaging due to its superior sensitivity and specificity compared to conventional imaging, especially in the context of BCR and mCRPC \cite{LiuSandhu2025,MingelsBohn2022}.
+PSMA-PET Feature
+Detection/Interpretation in Progression/Resistance
+Recurrence Detection
+PSMA PET/CT is highly sensitive for restaging BCR, detecting disease earlier, even at low PSA values \cite{MolinBarry2025,AmalachandranSivathapandi2024}. It detects sub-centimeter pathologic nodes and low-volume bone marrow disease that are often occult on CT/Bone Scan \cite{KumarLawrentschuk2020}.
+Clinical Impact
+PSMA PET/CT findings frequently lead to a change in clinical management (in approximately 50\\\\% of restaging cases) by accurately localizing disease (local, regional, distant) to guide salvage therapy or systemic treatment planning \cite{VetroneMei2023,AmalachandranSivathapandi2024}.
+Prognosis and Aggressiveness
+Increased PSMA expression correlates with higher tumor grade (Gleason Score) and disease progression, serving as a marker of disease aggressiveness \cite{VetroneMei2023,LuiningMeijer2021}. Baseline PSMA PET/CT parameters can provide prognostic information regarding overall survival in mCRPC \cite{KleiburgGeusOei2025,SeifertRasul2023}.
+Resistance Mechanisms Detection
+PSMA-PET/CT is mandatory for selecting mCRPC patients for PSMA-directed radioligand therapy (e.g., Lu-177 PSMA-617) \cite{VetroneMei2023,AmalachandranSivathapandi2024}.
+AR-Independent Disease (NEPC Pitfall)
+Approximately 10\\\\% of PCa cases show low or absent PSMA expression \cite{VetroneMei2023}. These PSMA-negative lesions, often poorly differentiated tumors with neuroendocrine transdifferentiation (NEPC), may result in false-negative PSMA PET findings \cite{Jadvar2016,LaudicellaRschoff2022}. In these instances, 18F-FDG PET/CT may be used adjunctively, as NEPC lesions often show intense FDG uptake alongside faint PSMA avidity, reflecting tumor heterogeneity \cite{AmalachandranSivathapandi2024}.
+Response Assessment
+PSMA PET/CT serves as a critical baseline and monitoring tool for systemic treatment response in advanced disease \cite{AmalachandranSivathapandi2024}. Standardized criteria exist for assessing disease progression using PSMA ligands \cite{CruzMontijanoAmoSalas2024}.
+5. Histopathology
+Pathological evaluation of tissue samples remains essential for assessing disease characteristics, grading aggression, and confirming resistance phenotypes.
+Histopathology Feature
+Detection/Interpretation in Progression/Resistance
+Grading Aggressiveness
+Histopathology confirms the degree of differentiation using the Gleason Score (GS) or the International Society of Urological Pathology (ISUP) Grade Groups (GG)<cancers-15-04437.pdf> \cite{LuiningMeijer2021,DuenwegBobholz2023}. High GS/GG is strongly correlated with progression risk \cite{VetroneMei2023}.
+Neuroendocrine Differentiation (NEPC)
+Progression to CRPC may involve biopsy findings showing poorly differentiated tumors with mixed epithelial and neuroendocrine features \cite{UnknownAuthor2014}. Biopsies confirming NE differentiation are crucial for guiding treatment away from AR-targeted therapies \cite{AmalachandranSivathapandi2024}.
+PSMA Expression Correlation
+Histological PSMA expression correlates with tumor aggressiveness (grade, stage, and BCR risk) \cite{VetroneMei2023,GaoZhang2019}. PSMA-negative PCa often exhibits an infiltrative growth pattern upon histopathology \cite{LaudicellaRschoff2022}.
+AR Status
+Immunohistochemistry can evaluate AR expression, revealing heterogeneity within the tumor, which correlates with endocrine response and disease progression in CRPC \cite{BellmuntKheoh2016}.
+Genetic/Molecular Markers
+Commercial tissue-based assays (e.g., Decipher, Prolaris, Oncotype DX) analyze gene expression profiles from biopsy or RP specimens to predict tumor aggression and guide adjuvant treatment decisions for patients with localized disease or risk of BCR<cancers-15-04437.pdf> \cite{UnknownAuthor2017,ChenWang2023}.

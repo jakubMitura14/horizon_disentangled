@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Staging Prostate Cancer Progression & Resistance: A Diagnostic Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --stage-bcr-color: #818cf8; /* indigo-400 */
+            --stage-crpc-hs-color: #38bdf8; /* sky-500 */
+            --stage-crpc-ar-color: #fb7185; /* rose-400 */
+            --stage-crpc-ar-ind-color: #f43f5e; /* rose-500 */
+            --stage-ne-color: #dc2626; /* red-600 */
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            -webkit-print-color-adjust: exact;
+        }
+        .infographic-container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 1rem auto;
+            padding: 2rem;
+            position: relative;
+        }
+        h1, h2, h3 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .stage-row-grid {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr 9fr; /* Adjusted for more space for stage titles */
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+        .timeline-cell {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .timeline-cell::before, .timeline-cell::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            background: #d1d5db;
+            z-index: 1;
+        }
+        .timeline-cell::before { top: 0; bottom: 50%; margin-bottom: 12px; }
+        .timeline-cell::after { top: 50%; bottom: 0; margin-top: 12px; }
+        .stage-row:first-child .timeline-cell::before { display: none; }
+        .stage-row:last-child .timeline-cell::after { display: none; }
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid white;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 0 4px;
+        }
+        .stage-card {
+            text-align: right;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .stage-card h3 { font-size: 1.4rem; line-height: 1.3; } /* Increased size */
+        .stage-card p { font-size: 1.0rem; color: #64748b; } /* Increased size */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+        .modality-header {
+            text-align: center;
+            font-size: 1.1rem; /* Increased size */
+            font-weight: 700;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .finding-card {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            padding: 0.8rem;
+            font-size: 0.95rem; /* Slightly smaller for detail */
+            line-height: 1.5;
+            border-left: 4px solid;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="infographic-container">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-slate-800">Post-Staging Prostate Cancer Progression & Resistance</h1>
+            <p class="text-xl text-slate-600 mt-2">Monitoring Disease Evolution After Curative Treatment</p>
+        </header>
+
+        <!-- Headers for the findings columns --><div class="stage-row-grid mb-4">
+            <div class="col-start-3">
+                <div class="findings-grid">
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>Clinical & Lab</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>CT</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>MRI</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 01-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>PSMA-PET</div>
+                    <div class="modality-header"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M15 4a3 3 0 11-6 0 3 3 0 016 0zM12 2a5 5 0 00-5 5c0 1.284.483 2.45 1.285 3.356L3.11 18.53A1.5 1.5 0 004.225 20h11.55a1.5 1.5 0 001.115-2.47l-5.175-8.174A4.978 4.978 0 0017 7a5 5 0 00-5-5z" /></svg>Histopathology</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stages-container space-y-8">
+            <!-- STAGE: Biochemical Recurrence (BCR) --><div class="stage-row stage-row-grid">
+                <div class="stage-card">
+                    <h3>Biochemical Recurrence (BCR)</h3>
+                    <p>Rise in PSA after curative treatment (20-50% patients) <cite>LinezRodrguezFernndez2014, GarznTorres2018</cite>.</p>
+                </div>
+                <div class="timeline-cell"><div class="timeline-dot" style="background-color: var(--stage-bcr-color); box-shadow: 0 0 0 4px var(--stage-bcr-color);"></div></div>
+                <div class="findings-grid">
+                    <div class="finding-card" style="border-color: var(--stage-bcr-color);"><strong>PSA defined:</strong> ≥0.2 ng/mL (post-RP) or nadir+2 ng/mL (post-RT). Precedes clinical recurrence by months/years <cite>AmalachandranSivathapandi2024, Jadvar2016</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-bcr-color);">Often negative at BCR; limited sensitivity for small recurrences or lymph nodes <cite>RenYuan2015</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-bcr-color);">Pelvic mpMRI highly accurate for local recurrence post-RP, even at low PSA (<1.0 ng/mL) <cite>GlemserRotkopf2022</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-bcr-color);"><strong>Highly sensitive:</strong> detects recurrence earlier, at low PSA values. Locates sub-cm nodes/low-volume bone disease <cite>MolinBarry2025, KumarLawrentschuk2020</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-bcr-color);">Biopsy confirms local recurrence if indicated. Identifies residual disease <cite>VetroneMei2023</cite>.</div>
+                </div>
+            </div>
+
+            <!-- STAGE: Progression to Castration-Resistant PCa (CRPC) --><div class="stage-row stage-row-grid">
+                <div class="stage-card">
+                    <h3>Progression to CRPC</h3>
+                    <p>Disease progression despite low testosterone (≤50 ng/dL) following ADT <cite>UnknownAuthor2014, LeePark2020</cite>. Occurs within 18-24 months of ADT <cite>HuMao2023</cite>.</p>
+                </div>
+                <div class="timeline-cell"><div class="timeline-dot" style="background-color: var(--stage-crpc-hs-color); box-shadow: 0 0 0 4px var(--stage-crpc-hs-color);"></div></div>
+                <div class="findings-grid">
+                    <div class="finding-card" style="border-color: var(--stage-crpc-hs-color);"><strong>Diagnosis:</strong> biochemical or clinical progression + castrate testosterone. Progression: 2 consecutive PSA increases of 50%, new imaging, or worsening clinical status <cite>CruzMontijanoAmoSalas2024</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-hs-color);">Monitors systemic progression; appearance of new lytic lesions <cite>UnknownAuthor2015, UnknownAuthor2012</cite>. Limited by non-measurable sclerotic lesions (RECIST 1.1) <cite>UnknownAuthor2014</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-hs-color);">DWI (ADC) can monitor treatment response: transient increase in ADC with therapeutic response, persistently low ADC with resistance <cite>UnknownAuthor2014</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-hs-color);">Mandatory for selecting patients for PSMA-directed radioligand therapy <cite>VetroneMei2023</cite>. Crucial for response assessment <cite>AmalachandranSivathapandi2024</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-hs-color);">Tissue biopsy confirms CRPC phenotype, guides therapy. IHC for AR expression <cite>BellmuntKheoh2016</cite>.</div>
+                </div>
+            </div>
+
+            <!-- STAGE: AR-Dependent Resistance Mechanisms --><div class="stage-row stage-row-grid">
+                <div class="stage-card">
+                    <h3>AR-Dependent Resistance</h3>
+                    <p>Cancer retains addiction to AR signaling via genomic/metabolic reactivation <cite>UnknownAuthor2014, MartinCaraballo2024</cite>.</p>
+                </div>
+                <div class="timeline-cell"><div class="timeline-dot" style="background-color: var(--stage-crpc-ar-color); box-shadow: 0 0 0 4px var(--stage-crpc-ar-color);"></div></div>
+                <div class="findings-grid">
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-color);">High PSA dynamics (short PSADT) indicate aggressive disease <cite>UnknownAuthor2017</cite>. Often still PSA-producing.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-color);">Imaging findings reflect disease progression (lymph nodes, metastases), but not specific to AR-dependent mechanisms.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-color);">Metabolic changes detected by MRSI (elevated choline-to-creatine ratio) can identify residual/recurrent disease <cite>KurhanewiczSwanson2002</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-color);"><strong>Increased PSMA expression</strong> correlates with higher tumor grade and disease progression <cite>VetroneMei2023, LuiningMeijer2021</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-color);"><strong>Key:</strong> AR overexpression/amplification (30% cases), AR mutations, AR splice variants (AR-V7) lack LBD. Intracrine androgen synthesis <cite>MartinCaraballo2024, UnknownAuthor2014</cite>.</div>
+                </div>
+            </div>
+
+            <!-- STAGE: AR-Independent Mechanisms --><div class="stage-row stage-row-grid">
+                <div class="stage-card">
+                    <h3>AR-Independent Resistance</h3>
+                    <p>Progression to a phenotype entirely independent of AR signaling (APIPC) <cite>UnknownAuthor2014</cite>.</p>
+                </div>
+                <div class="timeline-cell"><div class="timeline-dot" style="background-color: var(--stage-crpc-ar-ind-color); box-shadow: 0 0 0 4px var(--stage-crpc-ar-ind-color);"></div></div>
+                <div class="findings-grid">
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-ind-color);">May show PSA decline or low PSA despite progression, reflecting AR-independent phenotype. Worsening clinical status <cite>UnknownAuthor2014</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-ind-color);">Detects visceral spread more common in AR-independent disease <cite>UnknownAuthor2014</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-ind-color);">WB-MRI offers comprehensive staging for metastases, including visceral <cite>PasoglouMichoux2016</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-ind-color);"><strong>Pitfall:</strong> ~10% PCa shows low/absent PSMA expression <cite>VetroneMei2023</cite>. PSMA-negative lesions (often NEPC) result in false negatives <cite>Jadvar2016</cite>. FDG-PET may be adjunctive <cite>AmalachandranSivathapandi2024</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-crpc-ar-ind-color);">Biopsy confirms poorly differentiated tumors with neuroendocrine differentiation (NEPC). Crucial for guiding non-AR targeted treatment <cite>UnknownAuthor2014, AmalachandranSivathapandi2024</cite>.</div>
+                </div>
+            </div>
+
+            <!-- STAGE: Neuroendocrine Prostate Cancer (NEPC) --><div class="stage-row stage-row-grid">
+                <div class="stage-card">
+                    <h3>Neuroendocrine PCa (NEPC)</h3>
+                    <p>Highly aggressive variant, often induced by ADT/radiation. Loss of PSA production, visceral spread <cite>MartinCaraballo2024, UnknownAuthor2014</cite>.</p>
+                </div>
+                <div class="timeline-cell"><div class="timeline-dot" style="background-color: var(--stage-ne-color); box-shadow: 0 0 0 4px var(--stage-ne-color);"></div></div>
+                <div class="findings-grid">
+                    <div class="finding-card" style="border-color: var(--stage-ne-color);">Characterized by low/normal PSA despite extensive disease. Poor prognosis <cite>UnknownAuthor2014</cite>. Visceral metastases, disease-related symptoms.</div>
+                    <div class="finding-card" style="border-color: var(--stage-ne-color);">Detects rapid systemic progression, extensive visceral metastases (liver, lung) common in NEPC <cite>UnknownAuthor2014</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-ne-color);">WB-MRI useful for detecting extensive visceral and bone metastases, characteristic of aggressive NEPC <cite>PasoglouMichoux2016</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-ne-color);"><strong>Often PSMA-negative;</strong> intense FDG uptake is characteristic, alongside faint PSMA avidity, reflecting heterogeneity <cite>AmalachandranSivathapandi2024</cite>.</div>
+                    <div class="finding-card" style="border-color: var(--stage-ne-color);"><strong>Definitive diagnosis:</strong> Histology shows small cell carcinoma features, neuroendocrine markers (chromogranin, synaptophysin), loss of AR/PSA <cite>UnknownAuthor2014</cite>.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

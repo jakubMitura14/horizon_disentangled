@@ -53,3 +53,6 @@ if __name__ == "__main__":
 
     # Run the conversion
     asyncio.run(html_to_png(input_html, output_png))
+    
+    
+    #  python /media/jm/hddData/projects_new/horizon_disentangled/html_to_png.py /workspaces/notebooklm_bibl/temp.html /workspaces/notebooklm_bibl/temp.png
