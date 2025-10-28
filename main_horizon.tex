@@ -639,7 +639,7 @@ The project is structured into eight interconnected Work Packages (WPs) over a 3
 Compute resources combine secured, already available on-premises GPUs (H200-class) for privacy-sensitive training and EuroHPC for large-scale experiments.
 
 \begin{itemize}
-    \item \textbf{WP1: Data Curation and Harmonization (85 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project.
+    \item \textbf{WP1: Data Curation and Harmonization (78 PMs):} This foundational work package is dedicated to the meticulous gathering, anonymizing, and harmonization of the multi-modal data that underpins the entire project.
     \textbf{Lead and Key Personnel:} Data Scientist, Technician, Clinical Investigator/Consultant.
     The tasks include:
     \begin{itemize}
@@ -649,10 +649,10 @@ Compute resources combine secured, already available on-premises GPUs (H200-clas
         \item \textbf{Task 1.4: Curation of Knowledge Base:} Systematically extract and digitize knowledge from clinical guidelines and tumor board documents.
         \item \textbf{Task 1.5: VAE-based Outlier Detection:} Develop and implement the VAE-based OOD detection mechanism to identify and flag potential outliers.
     \end{itemize}
-    \item \textbf{WP2: Foundational Supervisor Model Training (65 PMs):} Develop supervisor models for clinical ground truth. \textbf{Lead and Key Personnel:} Mathematician, Programmer, Senior Researcher.
-    \item \textbf{WP3: Causal VAE Development (65 PMs):} Develop the hierarchical \gls{vae} for disentanglement. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
-    \item \textbf{WP4: Temporal Trajectory Modeling (65 PMs):} Develop the \gls{njde} framework for longitudinal modeling. \textbf{Lead and Key Personnel:} Senior Researcher, Clinical Investigator/Consultant, Technician.
-    \item \textbf{WP5: Validation and Clinical Integration (64 PMs):} Evaluate the framework's performance and clinical utility, starting at month 15. \textbf{Lead and Key Personnel:} Principal Investigator, Clinical Investigator/Consultant, Secretary.
+    \item \textbf{WP2: Foundational Supervisor Model Training (58 PMs):} Develop supervisor models for clinical ground truth. \textbf{Lead and Key Personnel:} Mathematician, Programmer, Senior Researcher.
+    \item \textbf{WP3: Causal VAE Development (58 PMs):} Develop the hierarchical \gls{vae} for disentanglement. \textbf{Lead and Key Personnel:} Senior Researcher, Mathematician, Programmer.
+    \item \textbf{WP4: Temporal Trajectory Modeling (58 PMs):} Develop the \gls{njde} framework for longitudinal modeling. \textbf{Lead and Key Personnel:} Senior Researcher, Clinical Investigator/Consultant, Technician.
+    \item \textbf{WP5: Validation and Clinical Integration (56 PMs):} Evaluate the framework's performance and clinical utility, starting at month 15. \textbf{Lead and Key Personnel:} Principal Investigator, Clinical Investigator/Consultant, Secretary.
     \item \textbf{WP6: Dissemination, Communication, and Exploitation (16 PMs):} Managed in three 12-month cycles, this WP ensures the project's results reach the widest possible audience. \textbf{Lead and Key Personnel:} Principal Investigator, Secretary.
     \item \textbf{WP7: Project Management (36 PMs):} Managed in three 12-month cycles, this WP covers all administrative, financial, and legal aspects of the project. \textbf{Lead and Key Personnel:} Project Manager, Secretary.
     \item \textbf{WP8: Portfolio Activities (12 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio, and activities like cross-site validation, and EUCAIM/TEF data/tool exchange, as suggested by the Challenge Guide. \textbf{Lead and Key Personnel:} Principal Investigator, Secretary.
@@ -666,7 +666,7 @@ Compute resources combine secured, already available on-premises GPUs (H200-clas
         \toprule
         & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{Total} \\
         \midrule
-        \textbf{Person-Months} & 85 & 65 & 65 & 65 & 64 & 16 & 36 & 12 & \textbf{408} \\
+        \textbf{Person-Months} & 78 & 58 & 58 & 58 & 56 & 16 & 36 & 12 & \textbf{372} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -841,7 +841,7 @@ The personnel budget is structured to support the project's ambitious goals thro
 \begin{itemize}
     \item \textbf{Principal Investigator (1 FTE, 36 PMs):} The PI's continuous leadership is non-negotiable for a project of this complexity. They will provide the overall scientific vision, coordinate the interdisciplinary work across all WPs throughout the project, and lead the sustained scientific dissemination and exploitation activities (WP6, WP7) from beginning to end.
     \item \textbf{Senior Researcher (2 FTEs, 72 PMs):} The two senior researchers are the project's scientific backbone. They will be responsible for coordinating the technical and medical personnel and leading the hands-on work on the most challenging technical tasks (WP2-WP4). They will also be responsible for handling tasks related to Medical Device Regulation (MDR).
-    \item \textbf{Clinical Investigator/Consultant (3 FTEs, 108 PMs):} These experts are essential for ensuring the scientific validity and clinical relevance of the framework, leading validation efforts and ensuring data quality (WP1, WP4, WP5).
+    \item \textbf{Clinical Investigator/Consultant (3 FTEs, 72 PMs):} These three experts (each at 24 PMs) are essential for ensuring the scientific validity and clinical relevance of the framework, leading validation efforts and ensuring data quality (WP1, WP4, WP5).
     \item \textbf{Mathematician (1 FTE, 30 PMs):} The mathematician's role is foundational to the project's scientific credibility, co-designing the novel causal models (WP2, WP3). After the 30-month mark, the core theoretical groundwork will be completed.
     \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for building and managing the complex data pipeline in WP1.
     \item \textbf{Programmer (1 FTE, 36 PMs):} The programmer is required for the entire duration to build and maintain the project's software backbone (WP2, WP3).
@@ -849,7 +849,7 @@ The personnel budget is structured to support the project's ambitious goals thro
     \item \textbf{Project Manager (0.5 FTE, 18 PMs):} A project manager's continuous oversight is essential for coordinating data sharing, managing grant reporting, and ensuring EU AI Act compliance (WP7).
     \item \textbf{Secretary (1 FTE, 36 PMs):} A secretary will provide essential administrative support throughout the project (WP5, WP6, WP7).
 \end{itemize}
-\paragraph{Note on Supportive Roles:} The core project work detailed in the Work Packages is covered by the 408 person-months of the staff listed above. In addition, 37 person-months are budgeted for a \textbf{Student/Research Assistant} who will provide a crucial supportive role for data collection and clinical validation logistics, but whose effort is not allocated to the core WP totals. The funds from this position will also be used to award two scholarships for Bachelor’s theses.
+\paragraph{Note on Supportive Roles:} The core project work detailed in the Work Packages is covered by the 372 person-months of the staff listed above. In addition, 37 person-months are budgeted for a \textbf{Student/Research Assistant} who will provide a crucial supportive role for data collection and clinical validation logistics, but whose effort is not allocated to the core WP totals. The funds from this position will also be used to award two scholarships for Bachelor’s theses.
 \end{itemize>
 
 \subsubsection*{Computing Costs }
