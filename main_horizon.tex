@@ -642,17 +642,18 @@ Compute resources combine secured, already available on-premises GPUs (H200-clas
     \item \textbf{WP6: Dissemination, Communication, and Exploitation (16 PMs):} Managed in three 12-month cycles, this WP ensures the project's results reach the widest possible audience. \textbf{Lead and Key Personnel:} Principal Investigator, Secretary.
     \item \textbf{WP7: Project Management (36 PMs):} Managed in three 12-month cycles, this WP covers all administrative, financial, and legal aspects of the project. \textbf{Lead and Key Personnel:} Project Manager, Secretary.
     \item \textbf{WP8: Portfolio Activities (12 PMs):} This work package, structured in three 12-month cycles, is dedicated to fostering collaboration and synergy across the EIC Pathfinder Challenge portfolio, and activities like cross-site validation, and EUCAIM/TEF data/tool exchange, as suggested by the Challenge Guide. \textbf{Lead and Key Personnel:} Principal Investigator, Secretary.
+    \item \textbf{WP9: Compliance with AI Act and Medical Devices (18 PMs):} This dedicated work package ensures the project's outputs align with the regulatory landscape. It involves a continuous monitoring of the legal requirements, the creation of the necessary technical documentation for certification, and the management of the conformity assessment procedures. \textbf{Lead and Key Personnel:} Senior Researcher, Project Manager.
 \end{itemize}
 
 \begin{table}[H]
     \centering
     \caption{Total Person-Months per Work Package.}
     \label{tab:person_months}
-    \begin{tabular}{lcccccccc|c}
+\begin{tabular}{lccccccccc|c}
         \toprule
-        & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{Total} \\
+& \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{WP9} & \textbf{Total} \\
         \midrule
-        \textbf{Person-Months} & 78 & 58 & 58 & 58 & 56 & 16 & 36 & 12 & \textbf{372} \\
+\textbf{Person-Months} & 78 & 46 & 52 & 52 & 56 & 16 & 36 & 12 & 18 & \textbf{372} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -698,6 +699,7 @@ Complementing the deliverables, the project's progress will be assessed against 
         M5 & Final model validated for clinical plausibility & WP5 & M36 & Final validation report where a majority of counterfactual images are deemed plausible and useful by testing physicians. \\
         M6 & Novel $^{177}$Lu-PSMA therapy strategies proposed & WP5 & M36 & Report detailing simulation-backed proposals for optimizing $^{177}$Lu-PSMA therapy. Milestone is passed upon documented confirmation from a panel of clinical experts that the proposals are credible and warrant consideration for future clinical trials. \\
         M7 & Cross-modality synthesis validated & WP3 & M27 & Report showing that the quality of synthesized images (e.g., MRI-to-CT) is deemed clinically acceptable by radiologists. \\
+        M8 & Compliance Report for AI Act & WP9 & M36 & A comprehensive report detailing the adherence of the developed AI models to the EU AI Act, including technical documentation and risk management files. \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -818,7 +820,7 @@ The total requested budget for the CausalPCa project is \textbf{\EUR{3,998,114.2
 \subsubsection*{A.1 Personnel Costs}
 Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required. Costs are calculated based on the "andere Förderer" column from the detailed financial tables and include all social security contributions. A total of \textbf{372 person-months (PMs)} are budgeted.
 
-\textbf{Total Estimated Personnel Costs: \EUR{2,919,591.41}}
+\textbf{Total Estimated Personnel Costs: \EUR{2,919,591.40}}
 
 \paragraph{Personnel Justification}
 The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs).
@@ -833,7 +835,7 @@ The personnel budget is structured to support the project's ambitious goals thro
     \item \textbf{Clinical Investigator/Consultant (3 FTEs, 72 PMs total):} These three external experts from collaborating clinics are vital for the project's clinical validity. They will ensure the framework is scientifically sound, guide the data curation process (WP1) to reflect real-world clinical practice, and will be primarily responsible for the independent validation of the models (WP5).
     \item \textbf{Secretary (36 PMs):} Provides essential administrative support throughout the project, ensuring the smooth operation of all work packages.
     \item \textbf{Student/Research Assistant (120hrs/month):} A research assistant is needed for the entire project to provide continuous support for data collection efforts (WP1) and the clinical validation studies (WP5).
-\end{itemize>
+\end{itemize}
 
 \subsubsection*{Computing Resources}
 The project's computational strategy is built on a multi-layered model designed to maximize both data security and computational power. The foundation is a set of three state-of-the-art \textbf{NVIDIA H200 GPUs} available directly within the applicant's Data Integration Center (DIZ) for core development. For large-scale training, our primary strategy is to leverage resources from the \textbf{EuroHPC Joint Undertaking}. This ensures that no original patient data will ever be processed on non-secure public cloud infrastructure, mitigating risks related to data privacy.
@@ -858,7 +860,7 @@ This category includes costs for publications, dataset access, and other minor e
 
 \subsubsection*{B. Indirect Costs (Overheads)}
 Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules.
-\textbf{Total Direct Costs (A): \EUR{3,198,491.41}}
+\textbf{Total Direct Costs (A): \EUR{3,198,491.40}}
 \textbf{Indirect Costs (B = 25\% of A): \EUR{799,622.85}}
 
 \subsubsection*{C. Total Project Budget}
@@ -871,20 +873,21 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \caption{Estimated Budget Allocation per Work Package}
 \label{tab:budget_wp}
 \sisetup{group-separator={,}}
-\begin{tabular}{lS[table-format=7.0]S[table-format=7.0]S[table-format=7.0]}
+\begin{tabular}{lS[table-format=7.2]S[table-format=7.2]S[table-format=7.2]}
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 754942 & 188736 & 943678 \\
-WP2: Supervisor Models & 561213 & 140303 & 701516 \\
-WP3: Causal VAE & 561213 & 140303 & 701516 \\
-WP4: Temporal Modeling & 561213 & 140303 & 701516 \\
-WP5: Validation & 541810 & 135453 & 677263 \\
-WP6: Dissemination & 154790 & 38698 & 193488 \\
-WP7: Project Management & 348332 & 87083 & 435415 \\
-WP8: Portfolio Activities & 116111 & 29028 & 145139 \\
+WP1: Data Curation & 670,651.42 & 167,662.86 & 838,314.28 \\
+WP2: Supervisor Models & 395,512.38 & 98,878.09 & 494,390.47 \\
+WP3: Causal VAE & 498,689.52 & 124,672.38 & 623,361.90 \\
+WP4: Temporal Modeling & 447,100.95 & 111,775.24 & 558,876.19 \\
+WP5: Validation & 481,493.33 & 120,373.33 & 601,866.66 \\
+WP6: Dissemination & 137,569.52 & 34,392.38 & 171,961.90 \\
+WP7: Project Management & 309,531.43 & 77,382.86 & 386,914.28 \\
+WP8: Portfolio Activities & 103,177.14 & 25,794.29 & 128,971.43 \\
+WP9: Compliance & 154,765.71 & 38,691.43 & 193,457.14 \\
 \midrule
-\textbf{Total} & {\textbf{3198491.41}} & {\textbf{799622.85}} & {\textbf{3998114.26}} \\
+\textbf{Total} & \textbf{3,198,491.40} & \textbf{799,622.85} & \textbf{3,998,114.25} \\
 \bottomrule
 \end{tabular}
 \end{table}
