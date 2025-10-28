@@ -193,20 +193,6 @@
 
 \begin{document}
 
-\title{A Causal AI Framework for Longitudinal Modelling of Prostate Cancer}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[        trim=30mm 22mm 30mm 19mm, % {left bottom right top}
-        clip,                     % This command applies the trim
-        width=\textwidth]{graphical_abstract.png}
-    \caption{Graphical abstract}
-    \label{fig:graphical_abstract}
-\end{figure}
-
-
-\maketitle
-
 \begin{abstract}
 This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa) at any stage of the disease. We focus on prostate cancer and address both clinical objectives - predictive diagnosis and personalized treatment selection - while advancing all three technological objectives: multimodal integration, medical data augmentation, and knowledge representation. We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified, personalized patient view. Technologically, we will fuse multimodal data from internal and external sources, use GenAI for data augmentation, and infuse deep medical domain knowledge like local and international guidelines into the novel model's architecture to guide its learning process and disentangle disease signals from confounders. This should be a solid basis for generating the synthesized data for further experiments. Clinically, our agent will improve diagnostic interpretation by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI. 
 \end{abstract}
@@ -772,6 +758,10 @@ Secure and interoperable research data flows are supported by the Data Integrati
 The clinical and imaging environment of OVGU/UMMD includes advanced MRI, CT, PET/CT, and SPECT/CT systems integrated into routine clinical practice. These modalities cover all diagnostic pathways relevant for AI-based clinical decision-support systems. A modernisation plan is in place to keep these scanners continuously upgraded and aligned with the latest hardware and software developments over the coming years. This guarantees the highest standards of data quality, imaging performance, and reproducibility for the planned investigation.
 
 Governance, legal, and data-protection aspects are fully embedded within the institutional framework. Dedicated data-protection officers and legal experts provide oversight for data-protection impact assessments, informed-consent processes, and compliance with national and European data-protection regulations.
+
+We hereby declare that we will \textbf{collaborate} with the new Bachelor’s program in Artificial Intelligence (AI Engineering) on the technical campus of OVGU and will award \textbf{two scholarships} for Bachelor’s theses to promote medicine within STEM disciplines and to foster further synergies in all subject-areas.
+
+
 \subsection{Appropriateness of the Allocation of Resources}
 A key strength of this proposal is the direct access to already preprocessed, rich, longitudinal, and multimodal data from the applicant's own clinical institutions and established collaborators as described in Table \ref{tab:data}. This will form the core training dataset, which can be expanded with new cases during the project from our own or collaborating institutions. An ethical approval for this retrospective study will be obtained before the project starts; as a retrospective analysis of fully anonymized data, approval is expected.
 
@@ -785,25 +775,20 @@ The proprietary clinical cohort, detailed in Table \ref{tab:data}, will serve as
 \begin{longtable}{>{\RaggedRight}p{0.4\textwidth} >{\RaggedRight}p{0.4\textwidth} >{\RaggedRight\arraybackslash}p{0.2\textwidth}}
 \caption{Summary of Data Sources and Cohorts}\\
 \label{tab:data} \\
-
 \toprule
 \textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
 \midrule
 \endfirsthead
-
 \multicolumn{3}{c}%
 {{\tablename\ \thetable{} -- continued from previous page}} \\
 \toprule
 \textbf{Data Type} & \textbf{Contributing Institutions} & \textbf{Min. Patient Count} \\
 \midrule
 \endhead
-
 \bottomrule
 \multicolumn{3}{r}{{Continued on next page}} \\
 \endfoot
-
 \endlastfoot
-
 \multicolumn{3}{l}{\textbf{Proprietary Multi-Center Clinical Cohort}} \\
 \midrule
 Paired $^{68}$Ga-PSMA PET/CT \& mpMRI & Applicant institution \& partners & 450 \\
@@ -828,71 +813,60 @@ Longitudinal MRI (297) \& PSA Data & ProstateNET (EUCAIM) \cite{prostateNetArchi
 \bottomrule
 \end{longtable}
 
-
-The total requested budget for the CausalPCa project is \textbf{\EUR{3,998,114.30}} over a period of 36 months. This budget is the result of a meticulous and strategic planning process to ensure that every euro is directed towards achieving the project's transformative goals. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives and to establish a new European standard for trustworthy clinical AI. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below. All costs are estimated in EUR.
+The total requested budget for the CausalPCa project is \textbf{\EUR{3,734,803}} over a period of 36 months. This budget is the result of a meticulous and strategic planning process based on the detailed financial tables provided separately. We are confident that this well-justified budget is both realistic and sufficient to deliver on all the project's ambitious objectives. The costs are broken down by Work Package (WP) and cost category, with detailed justifications provided below.
 
 \subsubsection*{A.1 Personnel Costs}
-Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required for this scientific challenge. Integrating advanced imaging, clinical data, and multi-omics data requires a diverse team with expertise in urology, nuclear medicine, radiology, mathematics, and software engineering. Costs are calculated based on institutional salary tables (TV-L), including all social security contributions. A total of \textbf{444 person-months (PMs)} are budgeted under this grant.
+Personnel costs are the most significant part of the budget, reflecting the highly skilled, interdisciplinary team required. Costs are calculated based on the "andere Förderer" column from the detailed financial tables and include all social security contributions. A total of \textbf{372 person-months (PMs)} are budgeted.
 
-\textbf{Total Estimated Personnel Costs: \EUR{2,919,591.44}}
+\textbf{Total Estimated Personnel Costs: \EUR{2,599,942}}
 
 \paragraph{Personnel Justification}
-The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team whose continuous involvement is essential for the full 36-month duration. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs), ensuring that expertise is available from initial research and development through to final validation and dissemination. The justification for each role's full-term engagement is as follows:
+The personnel budget is structured to support the project's ambitious goals through a dedicated, interdisciplinary team. The allocation of effort for each role has been carefully aligned with the scientific and technical workload of the project's Work Packages (WPs).
 \begin{itemize}
-    \item \textbf{Principal Investigator (1 FTE, 36 PMs):} The PI's continuous leadership is non-negotiable for a project of this complexity. They will provide the overall scientific vision, coordinate the interdisciplinary work across all WPs throughout the project, and lead the sustained scientific dissemination and exploitation activities (WP6, WP7) from beginning to end.
-    \item \textbf{Senior Researcher (2 FTEs, 72 PMs):} The two senior researchers are the project's scientific backbone. They will be responsible for coordinating the technical and medical personnel and leading the hands-on work on the most challenging technical tasks (WP2-WP4). They will also be responsible for handling tasks related to Medical Device Regulation (MDR).
-    \item \textbf{Clinical Investigator/Consultant (3 FTEs, 72 PMs):} These three experts (each at 24 PMs) are essential for ensuring the scientific validity and clinical relevance of the framework, leading validation efforts and ensuring data quality (WP1, WP4, WP5).
-    \item \textbf{Mathematician (1 FTE, 30 PMs):} The mathematician's role is foundational to the project's scientific credibility, co-designing the novel causal models (WP2, WP3). After the 30-month mark, the core theoretical groundwork will be completed.
-    \item \textbf{Data Scientist (1 FTE, 36 PMs):} A full-time Data Scientist is essential for building and managing the complex data pipeline in WP1.
-    \item \textbf{Programmer (1 FTE, 36 PMs):} The programmer is required for the entire duration to build and maintain the project's software backbone (WP2, WP3).
-    \item \textbf{Technician (1 FTE, 36 PMs):} The technician will be responsible for accessing and curating data from histopathology and supporting temporal modeling (WP1, WP4).
-    \item \textbf{Project Manager (0.5 FTE, 18 PMs):} A project manager's continuous oversight is essential for coordinating data sharing, managing grant reporting, and ensuring EU AI Act compliance (WP7).
-    \item \textbf{Secretary (1 FTE, 36 PMs):} A secretary will provide essential administrative support throughout the project (WP5, WP6, WP7).
-\end{itemize}
-\paragraph{Note on Supportive Roles:} The core project work detailed in the Work Packages is covered by the 372 person-months of the staff listed above. In addition, 37 person-months are budgeted for a \textbf{Student/Research Assistant} who will provide a crucial supportive role for data collection and clinical validation logistics, but whose effort is not allocated to the core WP totals. The funds from this position will also be used to award two scholarships for Bachelor’s theses.
+    \item \textbf{Principal Investigator (36 PMs):} Provides continuous scientific vision, coordinates work across all WPs, and leads dissemination and exploitation activities (WP6, WP7).
+    \item \textbf{Project Manager (18 PMs, 50\%):} Provides continuous oversight for this multi-partner project, managing grant reporting, data sharing (WP1), and ensuring EU AI Act compliance (WP7).
+    \item \textbf{Senior Researcher (2 FTEs, 72 PMs):} The two senior researchers are the project's scientific backbone. They will initially focus on data curation and model development (WP1-WP4), then transition to leading experimental validation (WP5) and preparing publications (WP6).
+    \item \textbf{Mathematician (30 PMs):} The mathematician's role is foundational for ensuring the theoretical integrity of the entire framework. Their work is critical for co-designing the novel causal models (WP2, WP3) and for developing the Neural Jump ODEs (WP4). Their work concludes after 30 months, by which time the core theoretical groundwork of the models will be complete.
+    \item \textbf{Data Scientist (36 PMs):} Manages the complex data pipeline (WP1), ensures data quality, and supports the data-intensive validation and refinement cycles throughout the project (WP5).
+    \item \textbf{Programmer (36 PMs):} Builds and maintains the project's software backbone, transitioning from initial development (WP1-WP4) to creating user-facing clinical validation tools and documentation in the final year (WP5).
+    \item \textbf{Technician (36 PMs):} Provides crucial technical support for data management, with a primary focus on accessing, preparing, and curating the complex histopathological imaging data (WP1), which requires specialized handling.
+    \item \textbf{Clinical Investigator/Consultant (3 FTEs, 72 PMs total):} These three external experts from collaborating clinics are vital for the project's clinical validity. They will ensure the framework is scientifically sound, guide the data curation process (WP1) to reflect real-world clinical practice, and will be primarily responsible for the independent validation of the models (WP5).
+    \item \textbf{Secretary (36 PMs):} Provides essential administrative support throughout the project, ensuring the smooth operation of all work packages.
+    \item \textbf{Student/Research Assistant (120hrs/month):} A research assistant is needed for the entire project to provide continuous support for data collection efforts (WP1) and the clinical validation studies (WP5).
 \end{itemize>
 
-\subsubsection*{Computing Costs }
-The project's computational strategy is built on a multi-layered, hybrid model designed to maximize both data security and computational power, ensuring resilience and adaptability. This approach combines secure in-house resources with access to Europe's top-tier supercomputing infrastructure.
+\subsubsection*{Computing Resources}
+The project's computational strategy is built on a multi-layered model designed to maximize both data security and computational power. The foundation is a set of three state-of-the-art \textbf{NVIDIA H200 GPUs} available directly within the applicant's Data Integration Center (DIZ) for core development. For large-scale training, our primary strategy is to leverage resources from the \textbf{EuroHPC Joint Undertaking}. This ensures that no original patient data will ever be processed on non-secure public cloud infrastructure, mitigating risks related to data privacy.
 
-\paragraph{1. In-House GPU Resources for Core Development}
-The foundation of our computational power is a set of three state-of-the-art \textbf{4x} \textbf{NVIDIA H200 GPUs} available directly within the applicant's Data Integration Center (DIZ). These powerful in-house resources will be used for day-to-day model development, debugging, and initial training and testing \textbf{on subsets of the dataset}, providing the team with immediate and secure access to high-performance hardware, and enable faster development cycle.
+\subsubsection*{A.2 Travel Costs}
+The travel budget is allocated for project meetings and the dissemination of project results at leading international conferences and patient organizations.
+\textbf{Total Estimated Travel Costs: \EUR{32,500}}
 
-\paragraph{2. Primary Strategy: European Supercomputing for Large-Scale Training}
-For more demanding computational tasks, such as large-scale model training and extensive validation runs \textbf{on full dataset}, our primary strategy is to apply for and leverage resources from the \textbf{EuroHPC Joint Undertaking} or other leading European supercomputing centers. This approach prioritizes data security and aligns with the EU's goal of digital sovereignty. Our team has direct, relevant experience in this area; through the SIKIT project, we have already established a successful cooperation and gained access to the German supercomputer \textbf{KISSKI} (\textit{https://kisski.gwdg.de/en/}). This prior experience will streamline the application and onboarding process for this project.
+\subsubsection*{A.3 Other Direct Costs – Pre-CE Clinical Investigation (MDR Art. 62, Germany)}
+This category includes all non-personnel costs required to prepare, authorise, and implement the Pre-CE (MDR Art. 62) clinical investigation in Germany, including regulatory fees, ethics review, and insurance. A total of \textbf{\EUR{81,600}} is allocated for these activities.
 
-\textbf{Total Estimated Personnel Costs: \EUR{2,919,591.44}}
-
-\subsubsection*{A.2 Other Direct Costs}
+\subsubsection*{A.4 Other Direct Costs}
 This category includes costs for publications, dataset access, and other minor expenses.
 \begin{itemize}
-    \item \textbf{Travel Costs:} \EUR{32,500} is allocated for project meetings and dissemination at international conferences.
-    \item \textbf{Open Access Publication Fees:} \EUR{15,000} is budgeted for Article Processing Charges (APCs).
-    \item \textbf{UK Biobank Access:} A fee of \EUR{12,000} is budgeted for access to the UK Biobank dataset.
-    \item \textbf{Software Licenses:} A provision of \EUR{36,000} is budgeted for specialized software licenses.
-    \item \textbf{Long-Term Data Storage (DIZ):} A cost of \EUR{75,800} is allocated for 200 Terabytes of secure data storage.
-    \item \textbf{Other Work-Related Expenses:} A provision of \EUR{100,000} is budgeted for essential work-related expenses.
-    \item \textbf{External Expert Consultations:} A provision of \EUR{15,000} is budgeted for external expert consultations.
-    \item \textbf{Pre-CE Clinical Investigation Costs:} \EUR{81,600} is allocated for regulatory fees, ethics review, insurance, and operational study costs.
+    \item \textbf{Open Access Publication Fees:} \EUR{15,000}.
+    \item \textbf{UK Biobank Access:} \EUR{12,000}.
+    \item \textbf{Software Licenses:} \EUR{36,000} for AI-powered development tools and literature analysis platforms.
+    \item \textbf{Long-Term Data Storage (DIZ):} \EUR{75,800} for 200 Terabytes of secure data storage.
+    \item \textbf{Other Work-Related Expenses:} \EUR{120,000} budgeted at \EUR{10,000} per person for the 12 non-student members of the team.
+    \item \textbf{External Expert Consultations:} \EUR{15,000} as a strategic contingency.
 \end{itemize}
-
-\textbf{Total Estimated Other Direct Costs: \EUR{278,900.00}}
+\textbf{Total Estimated Other Direct Costs: \EUR{355,400}}
 
 \subsubsection*{B. Indirect Costs (Overheads)}
-Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules. These costs cover general institutional overheads.
-
-\textbf{Total Direct Costs (A): \EUR{3,198,491.44}}
-
-\textbf{Indirect Costs (B = 25\% of A): \EUR{799,622.86}}
+Indirect costs are calculated as a flat rate of \textbf{25\% of the total direct costs}, in accordance with EIC Lump Sum rules.
+\textbf{Total Direct Costs (A): \EUR{2,987,842}}
+\textbf{Indirect Costs (B = 25\% of A): \EUR{746,961}}
 
 \subsubsection*{C. Total Project Budget}
-The total requested funding is the sum of total direct and indirect costs.
-
-\textbf{Total Estimated Project Cost (A + B):} \EUR{3,998,114.30}
+\textbf{Total Estimated Project Cost (A + B): \EUR{3,734,803}}
 
 \subsubsection*{Budget Allocation per Work Package (in EUR)}
-The budget is strategically allocated to the WPs based on their complexity and personnel requirements. The core technical work is concentrated in WP2, WP3, and WP4, which consequently have the largest budgets. WP3 (Causal VAE) and WP4 (Temporal Modeling) are the most resource-intensive as they involve the development and training of the most novel and computationally demanding models at the heart of this project.
-
+The budget is strategically allocated to the WPs based on their complexity and personnel requirements.
 \begin{table}[H]
 \centering
 \caption{Estimated Budget Allocation per Work Package}
@@ -902,21 +876,19 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 600000 & 150000 & 750000 \\
-WP2: Supervisor Models & 640000 & 160000 & 800000 \\
-WP3: Causal VAE & 680000 & 170000 & 850000 \\
-WP4: Temporal Modeling & 680000 & 170000 & 850000 \\
-WP5: Validation & 320000 & 80000 & 400000 \\
-WP6: Dissemination & 80000 & 20000 & 100000 \\
-WP7: Project Management & 120000 & 30000 & 150000 \\
-WP8: Portfolio Activities & 80000 & 20000 & 100000 \\
+WP1: Data Curation & 626483 & 156621 & 783104 \\
+WP2: Supervisor Models & 465846 & 116462 & 582308 \\
+WP3: Causal VAE & 465846 & 116462 & 582308 \\
+WP4: Temporal Modeling & 465846 & 116462 & 582308 \\
+WP5: Validation & 449782 & 112446 & 562228 \\
+WP6: Dissemination & 128509 & 32127 & 160636 \\
+WP7: Project Management & 289146 & 72287 & 361433 \\
+WP8: Portfolio Activities & 96382 & 24096 & 120478 \\
 \midrule
-\textbf{Total} & {\textbf{3198491.44}} & {\textbf{799622.86}} & {\textbf{3998114.30}} \\
+\textbf{Total} & {\textbf{2987842}} & {\textbf{746961}} & {\textbf{3734803}} \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-
 
 Furthermore, comprehensive \textbf{technical documentation} will be maintained throughout the project as specified in Annex IV of the AI Act, and our system's design includes automatic logging capabilities to ensure traceability of operations, in compliance with the record-keeping requirements of \textbf{Articles 11 and 12}.
 
@@ -928,7 +900,7 @@ The CausalPCa framework is designed to tackle the immense complexity of prostate
 This high-risk, high-gain endeavor will deliver a transformative tool for oncology, establish a new European standard for trustworthy AI, and provide a versatile, foundational technology with the potential to revolutionize how we understand and treat complex diseases. We are confident that the applicant's team, with its deep interdisciplinary expertise and access to unparalleled clinical data, is perfectly positioned to turn this ambitious vision into a reality, generating profound scientific, clinical, and societal impact for Europe.
 
 \section*{Acknowledgements}
-The preparation of this proposal was assisted by several generative artificial intelligence (AI) tools. In compliance with transparency guidelines, we disclose their use as follows: The AI research assistant \textbf{Jules} was utilized for code generation and file modification tasks. \textbf{Gemini 2.5 Pro} was used to enhance style and readability. \textbf{Writefull} was employed for grammar correction. \textbf{Scispace} and \textbf{NotebookLM} were used for literature review and summarization. The title page was created using google nano Banana.
+The preparation of this proposal was assisted by several generative artificial intelligence (AI) tools. In compliance with transparency guidelines, we disclose their use as follows: The AI research assistant \textbf{Jules} was utilized for code generation and file modification tasks. \textbf{Gemini 2.5 Pro} was used to enhance style and readability. \textbf{Writefull} was employed for grammar correction. \textbf{Scispace} and \textbf{NotebookLM} were used for literature review and summarization.
 
 The applicants have thoroughly reviewed, edited, and validated all AI-generated content to ensure its accuracy, originality, and appropriateness. The applicants bear full responsibility for the entire content of this proposal, including all text, data, and citations, regardless of their origin. We acknowledge the limitations of these tools, including the potential for biases or errors, and have taken comprehensive steps to verify the final submission.
 
