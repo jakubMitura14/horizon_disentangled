@@ -534,8 +534,10 @@ Our project directly addresses this urgent societal and economic challenge by pr
 The primary impact of our project will be a paradigm shift in PCa management, moving from a reactive, population-based approach to a proactive, personalized, and predictive model of care. The scale of this impact is defined by the sheer prevalence of the disease. The successful implementation of our AI-driven "digital twin" has the potential to improve outcomes for a significant proportion of the nearly half a million men diagnosed with PCa in Europe each year.
 
 \begin{itemize}
-    \item \textbf{Improved Clinical Decision-Making and Patient Outcomes:} A key benefit of our framework is its ability to provide highly accurate, patient-specific prognostic forecasts. For men with localized disease, this can mean the difference between unnecessary, life-altering treatments and confident active surveillance. Studies have shown that up to 50\% of men with low-risk PCa who undergo radical prostatectomy may be overtreated \cite{HeijnsdijkWever2012}, leading to significant side effects such as incontinence and erectile dysfunction. Our model, by providing a more granular risk assessment, aims to reduce this overtreatment rate. Conversely, for high-risk patients, the model will enable earlier and more aggressive intervention.
+    \item \textbf{Improved Clinical Decision-Making and Patient Outcomes:} A key benefit of our framework is its ability to provide highly accurate, patient-specific prognostic forecasts. For men with localized disease, this can mean the difference between unnecessary, life-altering treatments and confident active surveillance. The model will directly support clinicians in complex decisions, such as determining the optimal moment to transition from active surveillance to a more aggressive strategy like $^{177}$Lu-PSMA therapy or chemotherapy. Studies have shown that up to 50\% of men with low-risk PCa who undergo radical prostatectomy may be overtreated \cite{HeijnsdijkWever2012}, leading to significant side effects such as incontinence and erectile dysfunction. Our model, by providing a more granular risk assessment, aims to reduce this overtreatment rate. Conversely, for high-risk patients, the model will enable earlier and more aggressive intervention.
 
+
+    \item \textbf{Enhanced Patient Autonomy and Awareness:} Our project empowers patients by transforming abstract data into intuitive, visual simulations of their potential disease trajectories. This approach enhances patient awareness and understanding of their own condition, fostering greater autonomy in shared decision-making. By making the reasoning behind clinical recommendations more transparent, we aim to improve patient compliance with treatment plans and strengthen the physician-patient relationship.
 
 \item \textbf{Virtual Intervention Simulation:} The proposed framework will address the current limitations in clinical guidelines, particularly the uncertainty surrounding the integration of new imaging modalities like \gls{psma}-\gls{pet}. By creating a digital model of the patient and the disease, our system will be able to simulate virtual interventions and generate research hypotheses. This capability will be crucial for designing targeted and efficient clinical trials to establish how to best use new diagnostic information, ultimately saving resources and reducing patient risk.
 
@@ -653,7 +655,7 @@ Compute resources combine secured, already available on-premises GPUs (H200-clas
         \toprule
 & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{WP5} & \textbf{WP6} & \textbf{WP7} & \textbf{WP8} & \textbf{WP9} & \textbf{Total} \\
         \midrule
-\textbf{Person-Months} & 78 & 46 & 52 & 52 & 56 & 16 & 36 & 12 & 18 & \textbf{372} \\
+\textbf{Person-Months} & 96 & 48 & 40 & 58 & 42 & 16 & 36 & 18 & 18 & \textbf{372} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -730,6 +732,10 @@ The project's wide network of collaborators provides a crucial strategic advanta
     \item \textbf{Risk (Related to M7):} The synthesized images from cross-modality generation lack sufficient realism or accuracy for use in downstream clinical tasks.
     \begin{itemize}
         \item \textbf{Mitigation:} We will benchmark multiple generative architectures (e.g., GANs, Diffusion Models) to select the best-performing one. We will also employ targeted data augmentation and a final refinement step with a specialized high-fidelity image decoder to enhance the quality of the synthesized outputs.
+    \end{itemize}
+    \item \textbf{Risk (Related to M8/WP9):} The regulatory landscape for AI in medicine is complex and rapidly evolving. Failure to align with the EU AI Act and MDR could prevent the project's outcomes from being translated into clinical practice.
+    \begin{itemize}
+        \item \textbf{Mitigation:} We have dedicated Work Package 9 specifically to address this risk. This WP will continuously monitor the regulatory landscape, manage the creation of all required technical documentation, and oversee the conformity assessment procedures, ensuring the project's outputs are regulation-ready by design.
     \end{itemize}
 \end{itemize}
 
@@ -877,14 +883,14 @@ The budget is strategically allocated to the WPs based on their complexity and p
 \toprule
 \textbf{Work Package} & {\textbf{Direct Costs}} & {\textbf{Indirect Costs}} & {\textbf{Total Cost}} \\
 \midrule
-WP1: Data Curation & 670,651.42 & 167,662.86 & 838,314.28 \\
-WP2: Supervisor Models & 395,512.38 & 98,878.09 & 494,390.47 \\
-WP3: Causal VAE & 498,689.52 & 124,672.38 & 623,361.90 \\
-WP4: Temporal Modeling & 447,100.95 & 111,775.24 & 558,876.19 \\
-WP5: Validation & 481,493.33 & 120,373.33 & 601,866.66 \\
+WP1: Data Curation & 825,417.14 & 206,354.28 & 1,031,771.42 \\
+WP2: Supervisor Models & 412,708.57 & 103,177.14 & 515,885.71 \\
+WP3: Causal VAE & 343,923.81 & 85,980.95 & 429,904.76 \\
+WP4: Temporal Modeling & 498,689.52 & 124,672.38 & 623,361.90 \\
+WP5: Validation & 361,120.00 & 90,280.00 & 451,400.00 \\
 WP6: Dissemination & 137,569.52 & 34,392.38 & 171,961.90 \\
 WP7: Project Management & 309,531.43 & 77,382.86 & 386,914.28 \\
-WP8: Portfolio Activities & 103,177.14 & 25,794.29 & 128,971.43 \\
+WP8: Portfolio Activities & 154,765.71 & 38,691.43 & 193,457.14 \\
 WP9: Compliance & 154,765.71 & 38,691.43 & 193,457.14 \\
 \midrule
 \textbf{Total} & \textbf{3,198,491.40} & \textbf{799,622.85} & \textbf{3,998,114.25} \\
