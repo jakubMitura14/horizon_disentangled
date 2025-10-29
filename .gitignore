@@ -1,11 +1,15 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Other
+*.DS_Store
+*~
+*.swp
+venv/
+main_horizon.pdf
+budget_standalone.pdf
