@@ -5,8 +5,8 @@ import os
 
 def run_final_verification_on_aggregated_csv():
     """
-    Final attempt to fix the verification script by using a more explicit
-    list of categories to filter.
+    Final, fully corrected verification script with the exact category strings
+    for filtering.
     """
     TOLERANCE = 0.05
     GROUND_TRUTH_GRAND_TOTAL_DIRECT = 3198491.40
@@ -28,7 +28,7 @@ def run_final_verification_on_aggregated_csv():
     # --- Verification a: Person-Months ---
     print("--- Verification Step 1: Person-Months per Work Package ---")
 
-    # Use the exact, full names of the categories for filtering.
+    # Use the EXACT strings discovered in the diagnostic step.
     personnel_categories = [
         'SENIOR SCIENTISTS (or equivalent in the private sector)',
         'TECHNICAL PERSONNEL (or equivalent in the private sector)',
@@ -41,7 +41,6 @@ def run_final_verification_on_aggregated_csv():
         sys.exit(1)
 
     df_personnel['ITEMS'] = pd.to_numeric(df_personnel['ITEMS'], errors='coerce').fillna(0)
-
     generated_pms = df_personnel.groupby('Work Package')['ITEMS'].sum().to_dict()
 
     all_pms_ok = True
