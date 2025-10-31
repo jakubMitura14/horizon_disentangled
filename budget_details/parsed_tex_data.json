@@ -1,0 +1,33 @@
+{
+    "person_months_per_wp": {
+        "WP1": 96.0,
+        "WP2": 48.0,
+        "WP3": 40.0,
+        "WP4": 58.0,
+        "WP5": 42.0,
+        "WP6": 16.0,
+        "WP7": 36.0,
+        "WP8": 18.0,
+        "WP9": 18.0
+    },
+    "budget_per_wp": {
+        "WP1": 1031771.42,
+        "WP2": 515885.71,
+        "WP3": 429904.76,
+        "WP4": 623361.9,
+        "WP5": 451400.0,
+        "WP6": 171961.9,
+        "WP7": 386914.28,
+        "WP8": 193457.14,
+        "WP9": 193457.14
+    },
+    "total_personnel_cost": 2919591.4,
+    "other_direct_costs": {
+        "Publication Fees": 15000.0,
+        "UK Biobank Access": 12000.0,
+        "Software Licenses": 36000.0,
+        "Long-Term Data Storage": 75800.0,
+        "External Expert Consultations": 26000.0,
+        "Travel": 32500.0
+    }
+}
