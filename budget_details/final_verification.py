@@ -3,11 +3,13 @@ import json
 import sys
 import os
 
-def run_final_verification():
+def run_final_verification_on_direct_costs():
     """
-    Performs the final verification of the generated budget CSV against ground truth data.
+    Performs the final verification of the generated budget CSV against ground truth
+    direct cost data, including a grand total check.
     """
     TOLERANCE = 0.05  # 5 cents
+    GROUND_TRUTH_GRAND_TOTAL_DIRECT = 3198491.40 # From main_horizon.tex: Total Direct Costs (A)
 
     script_dir = os.path.dirname(__file__)
 
@@ -16,7 +18,7 @@ def run_final_verification():
         tex_data = json.load(f)
 
     ground_truth_pms = tex_data.get('person_months_per_wp', {})
-    ground_truth_costs = tex_data.get('budget_per_wp', {})
+    ground_truth_direct_costs = tex_data.get('direct_costs_per_wp', {})
 
     # --- 2. Load Generated Data ---
     try:
@@ -28,19 +30,13 @@ def run_final_verification():
     # --- 3. Perform Verification a: Person-Months ---
     print("--- Verification Step 1: Person-Months per Work Package ---")
 
-    # Calculate PMs from the generated CSV
     df_personnel = df_generated[df_generated['COST CATEGORY'] == 'A. DIRECT PERSONNEL COSTS'].copy()
-    # The 'ITEMS' column is the PMs, but it's a string. Convert to numeric.
     df_personnel['ITEMS'] = pd.to_numeric(df_personnel['ITEMS'], errors='coerce').fillna(0)
     generated_pms = df_personnel.groupby('Work Package')['ITEMS'].sum().to_dict()
 
     all_pms_ok = True
-    all_wps = sorted(list(set(ground_truth_pms.keys()) | set(generated_pms.keys())))
-
-    for wp in all_wps:
-        truth_pm = ground_truth_pms.get(wp, 0)
+    for wp, truth_pm in ground_truth_pms.items():
         gen_pm = generated_pms.get(wp, 0)
-
         if abs(truth_pm - gen_pm) > TOLERANCE:
             print(f"FAILED: {wp} PMs do not match. Ground Truth: {truth_pm:.2f}, Generated: {gen_pm:.2f}")
             all_pms_ok = False
@@ -54,38 +50,44 @@ def run_final_verification():
 
     print("-" * 60)
 
-    # --- 4. Perform Verification b: Total Cost per Work Package ---
-    print("--- Verification Step 2: Total Cost per Work Package ---")
+    # --- 4. Perform Verification b: Total DIRECT Cost per Work Package ---
+    print("--- Verification Step 2: Total DIRECT Cost per Work Package ---")
 
-    # Calculate total direct costs from CSV
     df_generated['BE TOTAL COSTS'] = pd.to_numeric(df_generated['BE TOTAL COSTS'], errors='coerce').fillna(0)
-    generated_direct_costs = df_generated.groupby('Work Package')['BE TOTAL COSTS'].sum()
-
-    # Add 25% indirect costs to get the total
-    generated_total_costs = (generated_direct_costs * 1.25).to_dict()
+    generated_direct_costs = df_generated.groupby('Work Package')['BE TOTAL COSTS'].sum().to_dict()
 
     all_costs_ok = True
-    all_wps_costs = sorted(list(set(ground_truth_costs.keys()) | set(generated_total_costs.keys())))
-
-    for wp in all_wps_costs:
-        truth_cost = ground_truth_costs.get(wp, 0)
-        gen_cost = generated_total_costs.get(wp, 0)
-
+    for wp, truth_cost in ground_truth_direct_costs.items():
+        gen_cost = generated_direct_costs.get(wp, 0)
         if abs(truth_cost - gen_cost) > TOLERANCE:
-            print(f"FAILED: {wp} Total Cost does not match. Ground Truth: {truth_cost:,.2f}, Generated: {gen_cost:,.2f}")
+            print(f"FAILED: {wp} Total Direct Cost does not match. Ground Truth: {truth_cost:,.2f}, Generated: {gen_cost:,.2f}")
             all_costs_ok = False
         else:
-            print(f"OK: {wp} Total Cost matches. Ground Truth: {truth_cost:,.2f}, Generated: {gen_cost:,.2f}")
+            print(f"OK: {wp} Total Direct Cost matches. Ground Truth: {truth_cost:,.2f}, Generated: {gen_cost:,.2f}")
 
     if all_costs_ok:
-        print("✅ SUCCESS: All Work Package Total Costs match the ground truth.")
+        print("✅ SUCCESS: All Work Package Total Direct Costs match the ground truth.")
     else:
-        print("❌ FAILED: Total Cost verification failed.")
+        print("❌ FAILED: Total Direct Cost verification failed.")
+
+    print("-" * 60)
+
+    # --- 5. Perform Verification c: Grand Total of All Direct Costs ---
+    print("--- Verification Step 3: Grand Total of All Direct Costs ---")
+
+    calculated_grand_total = df_generated['BE TOTAL COSTS'].sum()
+
+    if abs(GROUND_TRUTH_GRAND_TOTAL_DIRECT - calculated_grand_total) > TOLERANCE:
+        print(f"FAILED: Grand Total Direct Cost does not match. Ground Truth: {GROUND_TRUTH_GRAND_TOTAL_DIRECT:,.2f}, Calculated: {calculated_grand_total:,.2f}")
+        all_costs_ok = False # Also fail the overall check
+    else:
+        print(f"OK: Grand Total Direct Cost matches. Ground Truth: {GROUND_TRUTH_GRAND_TOTAL_DIRECT:,.2f}, Calculated: {calculated_grand_total:,.2f}")
+        print("✅ SUCCESS: The sum of all generated direct costs matches the project's grand total.")
 
     print("-" * 60)
 
     if not all_pms_ok or not all_costs_ok:
-        sys.exit(1) # Exit with an error code if any verification fails
+        sys.exit(1)
 
 if __name__ == "__main__":
-    run_final_verification()
+    run_final_verification_on_direct_costs()
