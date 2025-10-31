@@ -2,12 +2,11 @@ import pandas as pd
 import json
 import sys
 import os
-import re
 
-def run_final_verification_on_direct_costs():
+def run_final_verification_on_aggregated_csv():
     """
-    Final, corrected verification script that handles the new granular
-    cost categories and correctly parses person-months from the ITEMS string.
+    Final attempt to fix the verification script by using a more explicit
+    list of categories to filter.
     """
     TOLERANCE = 0.05
     GROUND_TRUTH_GRAND_TOTAL_DIRECT = 3198491.40
@@ -29,16 +28,19 @@ def run_final_verification_on_direct_costs():
     # --- Verification a: Person-Months ---
     print("--- Verification Step 1: Person-Months per Work Package ---")
 
-    # Filter for all personnel categories, not just one.
+    # Use the exact, full names of the categories for filtering.
     personnel_categories = [
-        "SENIOR SCIENTISTS (or equivalent in the private sector)",
-        "TECHNICAL PERSONNEL (or equivalent in the private sector)",
-        "ADMINISTRATIVE PERSONNEL (or equivalent in the private sector)"
+        'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'TECHNICAL PERSONNEL (or equivalent in the private sector)',
+        'ADMINISTRATIVE PERSONNEL (or equivalent in the private sector)'
     ]
     df_personnel = df_generated[df_generated['COST CATEGORY'].isin(personnel_categories)].copy()
 
-    # Correctly parse the float from the 'ITEMS' string (e.g., "36.00 PMs (...)")
-    df_personnel['ITEMS'] = df_personnel['ITEMS'].apply(lambda x: float(re.match(r'([\d\.]+)', str(x)).group(1)) if re.match(r'([\d\.]+)', str(x)) else 0)
+    if df_personnel.empty:
+        print("CRITICAL ERROR: No personnel rows found in the CSV. Filtering has failed.")
+        sys.exit(1)
+
+    df_personnel['ITEMS'] = pd.to_numeric(df_personnel['ITEMS'], errors='coerce').fillna(0)
 
     generated_pms = df_personnel.groupby('Work Package')['ITEMS'].sum().to_dict()
 
@@ -58,12 +60,10 @@ def run_final_verification_on_direct_costs():
 
     print("-" * 60)
 
-    # --- Verification b: Total DIRECT Cost per Work Package ---
+    # --- Verification b & c ---
     print("--- Verification Step 2: Total DIRECT Cost per Work Package ---")
-
     df_generated['BE TOTAL COSTS'] = pd.to_numeric(df_generated['BE TOTAL COSTS'], errors='coerce').fillna(0)
     generated_direct_costs = df_generated.groupby('Work Package')['BE TOTAL COSTS'].sum().to_dict()
-
     all_costs_ok = True
     for wp, truth_cost in ground_truth_direct_costs.items():
         gen_cost = generated_direct_costs.get(wp, 0)
@@ -72,30 +72,24 @@ def run_final_verification_on_direct_costs():
             all_costs_ok = False
         else:
             print(f"OK: {wp} Total Direct Cost matches. Ground Truth: {truth_cost:,.2f}, Generated: {gen_cost:,.2f}")
-
     if all_costs_ok:
         print("✅ SUCCESS: All Work Package Total Direct Costs match the ground truth.")
     else:
         print("❌ FAILED: Total Direct Cost verification failed.")
-
     print("-" * 60)
 
-    # --- Verification c: Grand Total of All Direct Costs ---
     print("--- Verification Step 3: Grand Total of All Direct Costs ---")
-
     calculated_grand_total = df_generated['BE TOTAL COSTS'].sum()
-
     if abs(GROUND_TRUTH_GRAND_TOTAL_DIRECT - calculated_grand_total) > TOLERANCE:
         print(f"FAILED: Grand Total Direct Cost does not match. Ground Truth: {GROUND_TRUTH_GRAND_TOTAL_DIRECT:,.2f}, Calculated: {calculated_grand_total:,.2f}")
         all_costs_ok = False
     else:
         print(f"OK: Grand Total Direct Cost matches. Ground Truth: {GROUND_TRUTH_GRAND_TOTAL_DIRECT:,.2f}, Calculated: {calculated_grand_total:,.2f}")
         print("✅ SUCCESS: The sum of all generated direct costs matches the project's grand total.")
-
     print("-" * 60)
 
     if not all_pms_ok or not all_costs_ok:
         sys.exit(1)
 
 if __name__ == "__main__":
-    run_final_verification_on_direct_costs()
+    run_final_verification_on_aggregated_csv()
