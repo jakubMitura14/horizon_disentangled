@@ -37,15 +37,18 @@ def calculate_budget():
         'WP9': 154765.71
     }
 
-    itemized_other_costs = {
+    fixed_costs_wp1 = { 'UK Biobank Access': 12000, 'Subject Insurance': 20000, }
+    distributable_other_costs = {
         'Travel and subsistence': 32500, 'Publication fees': 15000,
-        'Other': 81600 + 12000 + 36000 + 75800 + 26000
+        'Other': (81600 - 20000) + 36000 + 75800 + 26000,
     }
 
-    # --- 3. Get Allocations & Calculate Personnel Costs ---
+    # --- 3. Get Allocations & Calculate Core Personnel Costs ---
     df_alloc_y1, df_alloc_y2, df_alloc_y3 = get_final_allocations()
     allocations = {'Y1': df_alloc_y1, 'Y2': df_alloc_y2, 'Y3': df_alloc_y3}
     costs = {'Y1': costs_y1, 'Y2': costs_y2, 'Y3': costs_y3}
+
+    df_alloc_total = df_alloc_y1 + df_alloc_y2 + df_alloc_y3
 
     wp_budgets = {}
     total_personnel_costs_all_wps = 0
@@ -59,39 +62,78 @@ def calculate_budget():
                 if pm > 0:
                     cost = pm * cost_map[role]
                     personnel_cost_wp += cost
-                    if role not in personnel_breakdown: personnel_breakdown[role] = 0
-                    personnel_breakdown[role] += cost
+                    if role not in personnel_breakdown: personnel_breakdown[role] = {'cost': 0, 'pm': 0}
+                    personnel_breakdown[role]['cost'] += cost
+                    personnel_breakdown[role]['pm'] += pm
         wp_budgets[wp] = {'personnel_costs': personnel_cost_wp, 'personnel_breakdown': personnel_breakdown}
         total_personnel_costs_all_wps += personnel_cost_wp
 
-    # --- 4. Distribute Other Costs with new adjustment logic ---
+    # --- 4. Calculate and Distribute Student Costs ---
+    student_total_cost = (costs_y1['Student/Research Assistant'] * 12) + (costs_y2['Student/Research Assistant'] * 12) + (costs_y3['Student/Research Assistant'] * 12)
+    wp1_personnel = wp_budgets['WP1']['personnel_costs']
+    wp5_personnel = wp_budgets['WP5']['personnel_costs']
+    student_wp1_share = wp1_personnel / (wp1_personnel + wp5_personnel)
+
+    wp_budgets['WP1']['personnel_costs'] += student_total_cost * student_wp1_share
+    wp_budgets['WP5']['personnel_costs'] += student_total_cost * (1-student_wp1_share)
+    total_personnel_costs_all_wps += student_total_cost
+
+    if 'Student/Research Assistant' not in wp_budgets['WP1']['personnel_breakdown']: wp_budgets['WP1']['personnel_breakdown']['Student/Research Assistant'] = {'cost': 0, 'pm': 0}
+    wp_budgets['WP1']['personnel_breakdown']['Student/Research Assistant']['cost'] += student_total_cost * student_wp1_share
+    if 'Student/Research Assistant' not in wp_budgets['WP5']['personnel_breakdown']: wp_budgets['WP5']['personnel_breakdown']['Student/Research Assistant'] = {'cost': 0, 'pm': 0}
+    wp_budgets['WP5']['personnel_breakdown']['Student/Research Assistant']['cost'] += student_total_cost * (1-student_wp1_share)
+
+
+    # --- 5. Distribute Other Costs and Adjust Personnel if Necessary ---
     for wp in wp_budgets:
         personnel_costs = wp_budgets[wp]['personnel_costs']
-        proportion = personnel_costs / total_personnel_costs_all_wps if total_personnel_costs_all_wps > 0 else 0
+        target_direct = target_direct_costs[wp]
 
-        distributed_costs = {key: value * proportion for key, value in itemized_other_costs.items()}
-        total_distributed_other_costs = sum(distributed_costs.values())
+        if personnel_costs > target_direct:
+            # Personnel costs exceed the total budget for this WP. Reduce them.
+            surplus = personnel_costs - target_direct
+            reduction_ratio = 1 - (surplus / personnel_costs)
 
-        calculated_direct_cost = personnel_costs + total_distributed_other_costs
-        adjustment = target_direct_costs[wp] - calculated_direct_cost
+            # Reduce cost of each role in the breakdown
+            for role in wp_budgets[wp]['personnel_breakdown']:
+                wp_budgets[wp]['personnel_breakdown'][role]['cost'] *= reduction_ratio
 
-        if adjustment < 0:
-            # Distribute negative adjustment proportionally across positive cost items
-            positive_costs_sum = sum(distributed_costs.values())
-            if positive_costs_sum > 0:
-                for key in distributed_costs:
-                    distributed_costs[key] += adjustment * (distributed_costs[key] / positive_costs_sum)
+            # Update total personnel cost to match the target
+            wp_budgets[wp]['personnel_costs'] = target_direct
+
+            # Set other costs to zero
+            distributed_costs = {key: 0 for key in distributable_other_costs}
+            if wp == 'WP1': # Still need to account for this possibility
+                distributed_costs['UK Biobank Access'] = 0
         else:
-            distributed_costs['Other'] += adjustment
+            # Proceed as before
+            proportion = personnel_costs / total_personnel_costs_all_wps if total_personnel_costs_all_wps > 0 else 0
+            distributed_costs = {key: value * proportion for key, value in distributable_other_costs.items()}
+            if wp == 'WP1':
+                distributed_costs['UK Biobank Access'] = fixed_costs_wp1['UK Biobank Access']
+                distributed_costs['Other'] += fixed_costs_wp1['Subject Insurance']
+
+            total_distributed_other_costs = sum(distributed_costs.values())
+            calculated_direct_cost = personnel_costs + total_distributed_other_costs
+            adjustment = target_direct - calculated_direct_cost
+
+            if adjustment < 0:
+                positive_costs_sum = sum(v for v in distributed_costs.values() if v > 0)
+                if positive_costs_sum > 0:
+                    for key in distributed_costs:
+                        if distributed_costs[key] > 0: distributed_costs[key] += adjustment * (distributed_costs[key] / positive_costs_sum)
+            else:
+                if 'Other' not in distributed_costs: distributed_costs['Other'] = 0
+                distributed_costs['Other'] += adjustment
 
         wp_budgets[wp]['other_costs_breakdown'] = distributed_costs
-        wp_budgets[wp]['direct_costs'] = target_direct_costs[wp]
-        wp_budgets[wp]['indirect_costs'] = target_direct_costs[wp] * 0.25
+        wp_budgets[wp]['direct_costs'] = target_direct
+        wp_budgets[wp]['indirect_costs'] = target_direct * 0.25
         wp_budgets[wp]['total_costs'] = wp_budgets[wp]['direct_costs'] + wp_budgets[wp]['indirect_costs']
 
-    return wp_budgets
+    return wp_budgets, df_alloc_total
 
-def generate_latex_tables(budgets):
+def generate_detailed_csv(budgets, df_alloc_total):
     role_to_category = {
         'Principal Investigator': 'SENIOR SCIENTISTS', 'Senior Researcher': 'SENIOR SCIENTISTS',
         'Clinical Investigator/Consultant': 'SENIOR SCIENTISTS', 'Mathematician': 'SENIOR SCIENTISTS',
@@ -100,105 +142,54 @@ def generate_latex_tables(budgets):
         'Secretary': 'TECHNICAL PERSONNEL', 'Student/Research Assistant': 'TECHNICAL PERSONNEL'
     }
 
-    wp_names = {
-        'WP1': 'Data Curation', 'WP2': 'Supervisor Models', 'WP3': 'Causal VAE',
-        'WP4': 'Temporal Modeling', 'WP5': 'Validation', 'WP6': 'Dissemination',
-        'WP7': 'Project Management', 'WP8': 'Portfolio Activities', 'WP9': 'Compliance'
-    }
+    total_pm_by_category = {'SENIOR SCIENTISTS': 0, 'TECHNICAL PERSONNEL': 0}
+    for role, category in role_to_category.items():
+        if role == 'Student/Research Assistant' or role not in df_alloc_total.index: continue
+        total_pm_by_category[category] += df_alloc_total.loc[role].sum()
 
-    latex_string = ""
-    for wp_name, budget_data in budgets.items():
-        costs = {
-            'SENIOR SCIENTISTS': 0, 'JUNIOR SCIENTISTS': 0, 'TECHNICAL PERSONNEL': 0,
-            'ADMINISTRATIVE PERSONNEL': 0, 'OTHERS': 0
-        }
-        for role, cost in budget_data['personnel_breakdown'].items():
-            category = role_to_category.get(role, 'OTHERS')
-            costs[category] += cost
-        for category in costs:
-            costs[category] = f"{costs[category]:.2f}"
-
-        total_personnel = budget_data['personnel_costs']
-        total_direct = budget_data['direct_costs']
-        indirect_costs = budget_data['indirect_costs']
-        total_costs = budget_data['total_costs']
-        other_costs_breakdown = budget_data['other_costs_breakdown']
-
-        table_string = f"""
-\\begin{{table}}[H]
-\\centering
-\\caption{{Budget for {wp_names.get(wp_name, wp_name)}}}
-\\begin{{tabular}}{{|l|l|l|l|}}
-\\hline
-00000001-0001-0001-0001-000000000001 & Otto-von-Guericke-Universität Magdeburg & ~ & ~ \\\\ \\hline
-COST CATEGORY & ITEMS & COST PER ITEM & BE TOTAL COSTS \\\\ \\hline
-~ & ~ & ~ & ~ \\\\ \\hline
-COSTS WORK PACKAGE {wp_name.split('P')[1]}: {wp_names.get(wp_name, wp_name)} & ~ & ~ & ~ \\\\ \\hline
-~ & ~ & ~ & ~ \\\\ \\hline
-A. DIRECT PERSONNEL COSTS & ~ & ~ & {total_personnel:.2f} \\\\ \\hline
-A.1 Employees (or equivalent) & ~ & ~ & ~ \\\\ \\hline
-SENIOR SCIENTISTS (or equivalent in the private sector) & ~ & ~ & {costs['SENIOR SCIENTISTS']} \\\\ \\hline
-JUNIOR SCIENTISTS (or equivalent in the private sector) & ~ & ~ & {costs['JUNIOR SCIENTISTS']} \\\\ \\hline
-TECHNICAL PERSONNEL (or equivalent in the private sector) & ~ & ~ & {costs['TECHNICAL PERSONNEL']} \\\\ \\hline
-ADMINISTRATIVE PERSONNEL (or equivalent in the private sector) & ~ & ~ & {costs['ADMINISTRATIVE PERSONNEL']} \\\\ \\hline
-OTHERS & ~ & ~ & {costs['OTHERS']} \\\\ \\hline
-A.2 Natural Persons under direct contract & ~ & ~ & 0.00 \\\\ \\hline
-A.3 Seconded Persons & ~ & ~ & 0.00 \\\\ \\hline
-A.4 SME owners and natural person beneficiaries & ~ &  & 0.00 \\\\ \\hline
-B. DIRECT SUBCONTRACTING COSTS & ~ & ~ & 0.00\\\\ \\hline
-~ & ~ & ~ & 0.00 \\\\ \\hline
-C. DIRECT PURCHASE COSTS & ~ & ~ & {sum(other_costs_breakdown.values()):.2f} \\\\ \\hline
-C.1 Travel and subsistence & ~ &  & {other_costs_breakdown['Travel and subsistence']:.2f} \\\\ \\hline
-C.2 Equipment (complete 'Depreciation costs' sheet) & ~ & ~ & ~ \\\\ \\hline
-Equipment & ~ &  & 0.00 \\\\ \\hline
-Infrastructure & ~ &  & 0.00 \\\\ \\hline
-Other assets & ~ &  & 0.00 \\\\ \\hline
-C.3 Other goods, works and services & ~ & ~ & ~ \\\\ \\hline
-Consumables & ~ &  & 0.00 \\\\ \\hline
-Services for meetings, seminars & ~ & ~ & 0.00 \\\\ \\hline
-Services for dissemination activities (including website) & ~ & ~ & 0.00 \\\\ \\hline
-Publication fees & ~ & 15000 & {other_costs_breakdown['Publication fees']:.2f} \\\\ \\hline
-Other (shipment, insurance, translation, etc.) & ~ & 0 & {other_costs_breakdown['Other']:.2f} \\\\ \\hline
-D. OTHER COST CATEGORIES & ~ & ~ & 0.00\\\\ \\hline
-D.1 Financial support to third parties (if applicable in the topic specific conditions) & ~ & ~ & 0.00 \\\\ \\hline
-D.2 Internally invoiced goods and services & ~ & ~ & 0.00 \\\\ \\hline
-D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions) & ~ & ~ & 0.00 \\\\ \\hline
-D.4 Virtual access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions) & ~ & ~ & 0.00 \\\\ \\hline
-D.5 PCP/PPI procurement costs (if mentioned as eligible in the topic specific conditions) & ~ & ~ & 0.00 \\\\ \\hline
-~ & ~ & ~ & ~ \\\\ \\hline
-TOTAL DIRECT PERSONNEL COSTS AND PURCHASE COSTS (A+C) & ~ & ~ & {total_direct:.2f} \\\\ \\hline
-TOTAL DIRECT COSTS (A+B+C+D) & ~ & ~ & {total_direct:.2f} \\\\ \\hline
-~ & ~ & ~ & ~ \\\\ \\hline
-E. INDIRECT COSTS (25\\% * (A+C)) & ~ & ~ & {indirect_costs:.2f} \\\\ \\hline
-~ & ~ & ~ & ~ \\\\ \\hline
-F. TOTAL COSTS (A+B+C+D+E) & ~ & ~ & {total_costs:.2f} \\\\ \\hline
-\\end{{tabular}}
-\\end{{table}}
-"""
-        latex_string += table_string
-    return latex_string
-
-def generate_csv(budgets):
-    """
-    Generates a CSV file from the calculated budget data.
-    """
     csv_data = []
+
     for wp_name, budget_data in budgets.items():
-        csv_data.append({
-            'Work Package': wp_name,
-            'Direct Costs': f"{budget_data['direct_costs']:.2f}",
-            'Indirect Costs': f"{budget_data['indirect_costs']:.2f}",
-            'Total Cost': f"{budget_data['total_costs']:.2f}"
-        })
+        pm_by_cat = {'SENIOR SCIENTISTS': 0, 'TECHNICAL PERSONNEL': 0}
+        cost_by_cat = {'SENIOR SCIENTISTS': 0, 'TECHNICAL PERSONNEL': 0}
+        for role, data in budget_data['personnel_breakdown'].items():
+            category = role_to_category.get(role)
+            if category in pm_by_cat:
+                cost_by_cat[category] += data['cost']
+                if role != 'Student/Research Assistant':
+                    pm_by_cat[category] += data['pm']
+
+        effort_ratio_senior = pm_by_cat['SENIOR SCIENTISTS'] / total_pm_by_category['SENIOR SCIENTISTS'] if total_pm_by_category['SENIOR SCIENTISTS'] > 0 else 0
+        effort_ratio_tech = pm_by_cat['TECHNICAL PERSONNEL'] / total_pm_by_category['TECHNICAL PERSONNEL'] if total_pm_by_category['TECHNICAL PERSONNEL'] > 0 else 0
+
+        other_costs = budget_data['other_costs_breakdown']
+        rows = [
+            ('A. DIRECT PERSONNEL COSTS', 'SENIOR SCIENTISTS (or equivalent in the private sector)', f"{effort_ratio_senior:.4f}", f"{cost_by_cat['SENIOR SCIENTISTS']:.2f}"),
+            ('A. DIRECT PERSONNEL COSTS', 'JUNIOR SCIENTISTS (or equivalent in the private sector)', '0.0000', '0.00'),
+            ('A. DIRECT PERSONNEL COSTS', 'TECHNICAL PERSONNEL (or equivalent in the private sector)', f"{effort_ratio_tech:.4f}", f"{cost_by_cat['TECHNICAL PERSONNEL']:.2f}"),
+            ('A. DIRECT PERSONNEL COSTS', 'ADMINISTRATIVE PERSONNEL (or equivalent in the private sector)', '0.0000', '0.00'),
+            ('B. DIRECT SUBCONTRACTING COSTS', '~', '0.0000', '0.00'),
+            ('C. DIRECT PURCHASE COSTS', 'C.1 Travel and subsistence', '~', f"{other_costs.get('Travel and subsistence', 0):.2f}"),
+            ('C. DIRECT PURCHASE COSTS', 'C.3 Publication fees', '~', f"{other_costs.get('Publication fees', 0):.2f}"),
+            ('C. DIRECT PURCHASE COSTS', 'C.3 Other (shipment, insurance, translation, etc.)', '~', f"{other_costs.get('Other', 0):.2f}"),
+            ('D. OTHER COST CATEGORIES', 'D.3 Transnational access to research infrastructure unit costs', '~', f"{other_costs.get('UK Biobank Access', 0):.2f}"),
+            ('TOTALS', 'TOTAL DIRECT COSTS', '~', f"{budget_data['direct_costs']:.2f}"),
+            ('TOTALS', 'INDIRECT COSTS', '~', f"{budget_data['indirect_costs']:.2f}"),
+            ('TOTALS', 'TOTAL COSTS', '~', f"{budget_data['total_costs']:.2f}"),
+        ]
+
+        for cat, item, cost_per, total in rows:
+            csv_data.append({'Work Package': wp_name, 'COST CATEGORY': cat, 'ITEMS': item, 'COST PER ITEM': cost_per, 'BE TOTAL COSTS': total})
+
     df = pd.DataFrame(csv_data)
-    df.to_csv('budget_per_wp.csv', index=False)
+    df.to_csv('detailed_wp_budgets.csv', index=False)
+
+    summary_data = [{'Work Package': wp, 'Direct Costs': f"{d['direct_costs']:.2f}", 'Indirect Costs': f"{d['indirect_costs']:.2f}", 'Total Cost': f"{d['total_costs']:.2f}"} for wp, d in budgets.items()]
+    summary_df = pd.DataFrame(summary_data)
+    summary_df.to_csv('budget_per_wp.csv', index=False)
+
 
 if __name__ == '__main__':
-    budgets = calculate_budget()
-
-    # Generate LaTeX and print to stdout
-    latex_output = generate_latex_tables(budgets)
-    print(latex_output)
-
-    # Generate CSV file
-    generate_csv(budgets)
+    budgets, df_alloc_total = calculate_budget()
+    generate_detailed_csv(budgets, df_alloc_total)
+    print("CSV files 'detailed_wp_budgets.csv' and 'budget_per_wp.csv' generated successfully.")
