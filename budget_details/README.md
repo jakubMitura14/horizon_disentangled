@@ -24,18 +24,27 @@ The calculation relies on three primary sources of truth:
 
 The calculation is a multi-step process designed to reconcile the bottom-up allocation data with the top-down budget constraints:
 
-1.  **Year-by-Year Personnel Cost Calculation**: The script first calculates the personnel costs on a year-by-year basis. It multiplies the person-months allocated for each role in a given year by the corresponding cost for that role in that year (derived from `yearly_personnel_costs.csv`).
+1.  **Year-by-Year Personnel Cost Calculation**: The script first calculates the personnel costs on a year-by-year basis. It calculates a cost per person-month for each year by dividing the annual cost from `yearly_personnel_costs.csv` by 12. This is then multiplied by the person-months allocated for each role in that year.
 
 2.  **Handling of Special Costs**:
     *   **Student/Research Assistant**: The total cost for this role is calculated and treated as an "Other Direct Cost" (ODC), and is not included in the core personnel-month calculations.
-    *   **Registration Fee**: A fixed fee of €81,600 is added to the ODC pool and allocated specifically to WP7 and WP9 (50/50 split).
+    *   **Registration Fee**: A fixed fee of €81,600 is handled as a fixed "Other Direct Cost", allocated specifically to WP7 and WP9 (50/50 split, where possible).
 
 3.  **Backward Calculation & Cost Capping**: This is the most critical step. The script works backward from the ground truth direct cost total for each Work Package (from `main_horizon.tex`).
     *   It compares the calculated personnel cost for a WP against the total available direct cost for that WP.
     *   If the personnel cost exceeds the available budget, it is **capped** at the maximum available amount. This prevents negative "Other Direct Costs".
     *   The remaining budget for each WP after personnel costs are accounted for is then allocated to the ODC pool for that WP.
 
-4.  **ODC Distribution**: The calculated ODC pool for each WP is then distributed among the various ODC items (Travel, Publications, etc.) based on the specified business rules (proportional distribution or fixed allocation).
+4.  **ODC Distribution**: The calculated ODC pool for each WP is then distributed among the various ODC items (Travel, Publications, etc.) based on the specified business rules (proportional distribution or fixed allocation). The script includes logic to prevent negative costs if a fixed cost (like Registration) exceeds the available pool for a given WP.
+
+## Final CSV Structure (`detailed_wp_budgets.csv`)
+
+The final output CSV contains the following columns:
+*   `Work Package`: The Work Package identifier (e.g., "WP1").
+*   `COST CATEGORY`: A granular cost category as specified by the user (e.g., "SENIOR SCIENTISTS (or equivalent in the private sector)", "C.1 Travel and subsistence").
+*   `ITEMS`: A description of the cost item. For personnel, this includes the person-months and the role (e.g., "36.00 PMs (Data Scientist)"). For ODCs, it is the name of the item (e.g., "Travel").
+*   `COST PER ITEM`: For personnel, the calculated average cost per person-month. For ODCs, the grand total for that item across the entire project.
+*   `BE TOTAL COSTS`: The final, calculated direct cost for that specific item within that specific WP.
 
 ## Verification (`final_verification.py`)
 

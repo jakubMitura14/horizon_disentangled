@@ -1,76 +1,91 @@
 Work Package,COST CATEGORY,ITEMS,COST PER ITEM,BE TOTAL COSTS
-WP1,A. DIRECT PERSONNEL COSTS,60.00,7734.23,464053.97
-WP1,A. DIRECT PERSONNEL COSTS,36.00,5728.74,206234.68
-WP1,C. DIRECT PURCHASE COSTS,~,26000.00,13390.45
-WP1,C. DIRECT PURCHASE COSTS,~,75800.00,39038.32
-WP1,C. DIRECT PURCHASE COSTS,~,15000.00,7725.26
-WP1,C. DIRECT PURCHASE COSTS,~,36000.00,18540.63
-WP1,C. DIRECT PURCHASE COSTS,~,103910.18,53515.55
-WP1,C. DIRECT PURCHASE COSTS,~,32500.00,16738.07
-WP1,C. DIRECT PURCHASE COSTS,~,12000.00,6180.21
-WP2,A. DIRECT PERSONNEL COSTS,32.00,7585.35,242731.04
-WP2,A. DIRECT PERSONNEL COSTS,16.00,5579.66,89274.53
-WP2,C. DIRECT PURCHASE COSTS,~,26000.00,6966.16
-WP2,C. DIRECT PURCHASE COSTS,~,75800.00,20309.03
-WP2,C. DIRECT PURCHASE COSTS,~,15000.00,4018.94
-WP2,C. DIRECT PURCHASE COSTS,~,36000.00,9645.45
-WP2,C. DIRECT PURCHASE COSTS,~,103910.18,27840.57
-WP2,C. DIRECT PURCHASE COSTS,~,32500.00,8707.70
-WP2,C. DIRECT PURCHASE COSTS,~,12000.00,3215.15
-WP3,A. DIRECT PERSONNEL COSTS,34.00,7733.68,262945.13
-WP3,A. DIRECT PERSONNEL COSTS,6.00,5983.50,35901.02
-WP3,C. DIRECT PURCHASE COSTS,~,26000.00,3891.03
-WP3,C. DIRECT PURCHASE COSTS,~,75800.00,11343.86
-WP3,C. DIRECT PURCHASE COSTS,~,15000.00,2244.83
-WP3,C. DIRECT PURCHASE COSTS,~,36000.00,5387.59
-WP3,C. DIRECT PURCHASE COSTS,~,103910.18,15550.70
-WP3,C. DIRECT PURCHASE COSTS,~,32500.00,4863.79
-WP3,C. DIRECT PURCHASE COSTS,~,12000.00,1795.86
-WP4,A. DIRECT PERSONNEL COSTS,40.00,8310.50,332419.86
-WP4,A. DIRECT PERSONNEL COSTS,18.00,6182.95,111293.16
-WP4,C. DIRECT PURCHASE COSTS,~,26000.00,4745.49
-WP4,C. DIRECT PURCHASE COSTS,~,75800.00,13834.92
-WP4,C. DIRECT PURCHASE COSTS,~,15000.00,2737.78
-WP4,C. DIRECT PURCHASE COSTS,~,36000.00,6570.67
-WP4,C. DIRECT PURCHASE COSTS,~,103910.18,18965.55
-WP4,C. DIRECT PURCHASE COSTS,~,32500.00,5931.86
-WP4,C. DIRECT PURCHASE COSTS,~,12000.00,2190.22
-WP5,A. DIRECT PERSONNEL COSTS,35.00,8094.49,283307.01
-WP5,A. DIRECT PERSONNEL COSTS,7.00,10658.15,74607.03
-WP5,C. DIRECT PURCHASE COSTS,~,26000.00,276.73
-WP5,C. DIRECT PURCHASE COSTS,~,75800.00,806.78
-WP5,C. DIRECT PURCHASE COSTS,~,15000.00,159.65
-WP5,C. DIRECT PURCHASE COSTS,~,36000.00,383.17
-WP5,C. DIRECT PURCHASE COSTS,~,103910.18,1105.98
-WP5,C. DIRECT PURCHASE COSTS,~,32500.00,345.92
-WP5,C. DIRECT PURCHASE COSTS,~,12000.00,127.72
-WP6,A. DIRECT PERSONNEL COSTS,8.00,8831.57,70652.60
-WP6,A. DIRECT PERSONNEL COSTS,8.00,6712.29,53698.34
-WP6,C. DIRECT PURCHASE COSTS,~,26000.00,1141.01
-WP6,C. DIRECT PURCHASE COSTS,~,75800.00,3326.48
-WP6,C. DIRECT PURCHASE COSTS,~,15000.00,658.27
-WP6,C. DIRECT PURCHASE COSTS,~,36000.00,1579.86
-WP6,C. DIRECT PURCHASE COSTS,~,103910.18,4560.09
-WP6,C. DIRECT PURCHASE COSTS,~,32500.00,1426.26
-WP6,C. DIRECT PURCHASE COSTS,~,12000.00,526.62
-WP7,A. DIRECT PERSONNEL COSTS,9.00,8471.57,76244.15
-WP7,A. DIRECT PERSONNEL COSTS,27.00,4898.34,132255.19
-WP7,C. DIRECT PURCHASE COSTS,~,26000.00,5199.14
-WP7,C. DIRECT PURCHASE COSTS,~,75800.00,15157.50
-WP7,C. DIRECT PURCHASE COSTS,~,15000.00,2999.50
-WP7,C. DIRECT PURCHASE COSTS,~,81600.00,40800.00
-WP7,C. DIRECT PURCHASE COSTS,~,36000.00,7198.81
-WP7,C. DIRECT PURCHASE COSTS,~,103910.18,20778.60
-WP7,C. DIRECT PURCHASE COSTS,~,32500.00,6498.93
-WP7,C. DIRECT PURCHASE COSTS,~,12000.00,2399.60
-WP8,A. DIRECT PERSONNEL COSTS,10.00,9005.98,90059.76
-WP8,A. DIRECT PERSONNEL COSTS,8.00,5353.48,42827.86
-WP8,C. DIRECT PURCHASE COSTS,~,26000.00,1888.48
-WP8,C. DIRECT PURCHASE COSTS,~,75800.00,5505.65
-WP8,C. DIRECT PURCHASE COSTS,~,15000.00,1089.51
-WP8,C. DIRECT PURCHASE COSTS,~,36000.00,2614.82
-WP8,C. DIRECT PURCHASE COSTS,~,103910.18,7547.41
-WP8,C. DIRECT PURCHASE COSTS,~,32500.00,2360.60
-WP8,C. DIRECT PURCHASE COSTS,~,12000.00,871.61
-WP9,A. DIRECT PERSONNEL COSTS,18.00,8070.59,145270.68
-WP9,C. DIRECT PURCHASE COSTS,~,81600.00,9495.02
+WP1,SENIOR SCIENTISTS (or equivalent in the private sector),24.00 PMs (Clinical Investigator/Consultant),7229.69,173512.60
+WP1,SENIOR SCIENTISTS (or equivalent in the private sector),36.00 PMs (Data Scientist),8070.59,290541.37
+WP1,TECHNICAL PERSONNEL (or equivalent in the private sector),36.00 PMs (Technician),5728.74,206234.68
+WP1,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,13390.45
+WP1,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,39038.32
+WP1,Publication fees,Publication Fees,15000.00,7725.26
+WP1,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,18540.63
+WP1,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,53515.55
+WP1,C.1 Travel and subsistence,Travel,32500.00,16738.07
+WP1,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,6180.21
+WP2,SENIOR SCIENTISTS (or equivalent in the private sector),8.00 PMs (Senior Researcher),7534.24,60273.95
+WP2,SENIOR SCIENTISTS (or equivalent in the private sector),6.00 PMs (Clinical Investigator/Consultant),7053.36,42320.14
+WP2,SENIOR SCIENTISTS (or equivalent in the private sector),18.00 PMs (Mathematician),7785.39,140136.95
+WP2,TECHNICAL PERSONNEL (or equivalent in the private sector),12.00 PMs (Programmer),5698.57,68382.89
+WP2,ADMINISTRATIVE PERSONNEL (or equivalent in the private sector),4.00 PMs (Secretary),5222.91,20891.64
+WP2,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,6966.16
+WP2,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,20309.03
+WP2,Publication fees,Publication Fees,15000.00,4018.94
+WP2,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,9645.45
+WP2,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,27840.57
+WP2,C.1 Travel and subsistence,Travel,32500.00,8707.70
+WP2,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,3215.15
+WP3,SENIOR SCIENTISTS (or equivalent in the private sector),28.00 PMs (Senior Researcher),7776.42,217739.66
+WP3,SENIOR SCIENTISTS (or equivalent in the private sector),6.00 PMs (Mathematician),7534.24,45205.46
+WP3,TECHNICAL PERSONNEL (or equivalent in the private sector),6.00 PMs (Programmer),5983.50,35901.02
+WP3,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,3891.03
+WP3,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,11343.86
+WP3,Publication fees,Publication Fees,15000.00,2244.83
+WP3,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,5387.59
+WP3,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,15550.70
+WP3,C.1 Travel and subsistence,Travel,32500.00,4863.79
+WP3,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,1795.86
+WP4,SENIOR SCIENTISTS (or equivalent in the private sector),4.00 PMs (Principal Investigator),8287.41,33149.63
+WP4,SENIOR SCIENTISTS (or equivalent in the private sector),18.00 PMs (Senior Researcher),8766.58,157798.44
+WP4,SENIOR SCIENTISTS (or equivalent in the private sector),12.00 PMs (Clinical Investigator/Consultant),7406.03,88872.31
+WP4,SENIOR SCIENTISTS (or equivalent in the private sector),6.00 PMs (Mathematician),8766.58,52599.48
+WP4,TECHNICAL PERSONNEL (or equivalent in the private sector),18.00 PMs (Programmer),6182.95,111293.16
+WP4,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,4745.49
+WP4,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,13834.92
+WP4,Publication fees,Publication Fees,15000.00,2737.78
+WP4,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,6570.67
+WP4,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,18965.55
+WP4,C.1 Travel and subsistence,Travel,32500.00,5931.86
+WP4,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,2190.22
+WP5,SENIOR SCIENTISTS (or equivalent in the private sector),5.00 PMs (Principal Investigator),9462.27,47311.37
+WP5,SENIOR SCIENTISTS (or equivalent in the private sector),30.00 PMs (Clinical Investigator/Consultant),7866.52,235995.64
+WP5,ADMINISTRATIVE PERSONNEL (or equivalent in the private sector),7.00 PMs (Secretary),10658.15,74607.03
+WP5,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,276.73
+WP5,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,806.78
+WP5,Publication fees,Publication Fees,15000.00,159.65
+WP5,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,383.17
+WP5,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,1105.98
+WP5,C.1 Travel and subsistence,Travel,32500.00,345.92
+WP5,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,127.72
+WP6,SENIOR SCIENTISTS (or equivalent in the private sector),8.00 PMs (Principal Investigator),8831.57,70652.60
+WP6,ADMINISTRATIVE PERSONNEL (or equivalent in the private sector),8.00 PMs (Secretary),6712.29,53698.34
+WP6,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,1141.01
+WP6,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,3326.48
+WP6,Publication fees,Publication Fees,15000.00,658.27
+WP6,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,1579.86
+WP6,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,4560.09
+WP6,C.1 Travel and subsistence,Travel,32500.00,1426.26
+WP6,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,526.62
+WP7,SENIOR SCIENTISTS (or equivalent in the private sector),9.00 PMs (Principal Investigator),8471.57,76244.15
+WP7,TECHNICAL PERSONNEL (or equivalent in the private sector),18.00 PMs (Project Manager),3772.15,67898.71
+WP7,ADMINISTRATIVE PERSONNEL (or equivalent in the private sector),9.00 PMs (Secretary),7150.72,64356.48
+WP7,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,8720.93
+WP7,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,25424.88
+WP7,Publication fees,Publication Fees,15000.00,5031.31
+WP7,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,12075.14
+WP7,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,34853.61
+WP7,C.1 Travel and subsistence,Travel,32500.00,10901.17
+WP7,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,4025.05
+WP8,SENIOR SCIENTISTS (or equivalent in the private sector),10.00 PMs (Principal Investigator),9005.98,90059.76
+WP8,ADMINISTRATIVE PERSONNEL (or equivalent in the private sector),8.00 PMs (Secretary),5353.48,42827.86
+WP8,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,1888.48
+WP8,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,5505.65
+WP8,Publication fees,Publication Fees,15000.00,1089.51
+WP8,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,2614.82
+WP8,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,7547.41
+WP8,C.1 Travel and subsistence,Travel,32500.00,2360.60
+WP8,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,871.61
+WP9,SENIOR SCIENTISTS (or equivalent in the private sector),18.00 PMs (Senior Researcher),8070.59,145270.68
+WP9,"Other (shipment, insurance, translation, etc.)",External Expert Consultations,26000.00,819.60
+WP9,"Other (shipment, insurance, translation, etc.)",Long-Term Data Storage,75800.00,2389.44
+WP9,Publication fees,Publication Fees,15000.00,472.84
+WP9,"Other (shipment, insurance, translation, etc.)",Software Licenses,36000.00,1134.83
+WP9,"Other (shipment, insurance, translation, etc.)",Student/Research Assistant,103910.18,3275.55
+WP9,C.1 Travel and subsistence,Travel,32500.00,1024.49
+WP9,D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions),UK Biobank Access,12000.00,378.28

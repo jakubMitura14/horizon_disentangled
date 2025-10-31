@@ -9,7 +9,7 @@ from allocation_logic import get_final_allocations
 def calculate_final_budget_with_all_corrections():
     """
     Final, fully corrected version.
-    - Prevents negative costs by checking ODC pool before allocating fixed fees.
+    - Removes hardcoded registration fee total.
     """
     script_dir = os.path.dirname(__file__)
 
@@ -22,11 +22,16 @@ def calculate_final_budget_with_all_corrections():
     # --- 2. Ground Truth & Config ---
     wp_ground_truth_direct_costs = tex_data['direct_costs_per_wp']
     other_direct_costs_grand_totals = tex_data.get('other_direct_costs', {})
-    role_to_category = {
-        'Principal Investigator': 'SENIOR SCIENTISTS', 'Senior Researcher': 'SENIOR SCIENTISTS',
-        'Clinical Investigator/Consultant': 'SENIOR SCIENTISTS', 'Mathematician': 'SENIOR SCIENTISTS',
-        'Data Scientist': 'SENIOR SCIENTISTS', 'Programmer': 'TECHNICAL PERSONNEL',
-        'Technician': 'TECHNICAL PERSONNEL', 'Project Manager': 'TECHNICAL PERSONNEL', 'Secretary': 'TECHNICAL PERSONNEL',
+    role_to_granular_category = {
+        'Principal Investigator': 'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'Senior Researcher': 'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'Clinical Investigator/Consultant': 'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'Mathematician': 'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'Data Scientist': 'SENIOR SCIENTISTS (or equivalent in the private sector)',
+        'Programmer': 'TECHNICAL PERSONNEL (or equivalent in the private sector)',
+        'Technician': 'TECHNICAL PERSONNEL (or equivalent in the private sector)',
+        'Project Manager': 'TECHNICAL PERSONNEL (or equivalent in the private sector)',
+        'Secretary': 'ADMINISTRATIVE PERSONNEL (or equivalent in the private sector)'
     }
 
     # --- 3. Personnel Cost Calculation ---
@@ -53,7 +58,7 @@ def calculate_final_budget_with_all_corrections():
             capping_ratio = total_direct / personnel_cost
             df_final_personnel_costs[wp] = df_final_personnel_costs[wp] * capping_ratio
 
-    # --- 6. Final ODC Distribution with Negative Cost Prevention ---
+    # --- 6. Final ODC Distribution ---
     wp_final_personnel_totals = df_final_personnel_costs.sum()
     wp_odc_pool = {
         wp: wp_ground_truth_direct_costs.get(wp, 0) - wp_final_personnel_totals.get(wp, 0)
@@ -61,25 +66,25 @@ def calculate_final_budget_with_all_corrections():
     }
 
     df_other_costs_final = pd.DataFrame(index=list(wp_ground_truth_direct_costs.keys()))
-    df_other_costs_final['Registration'] = 0.0
+    registration_total = other_direct_costs_grand_totals.get('Registration', 0.0)
+    registration_split = registration_total / 2.0
 
-    # Allocate Registration for WP7, checking if possible
-    if wp_odc_pool['WP7'] > 40800.0:
-        df_other_costs_final.loc['WP7', 'Registration'] = 40800.0
-        wp_odc_pool['WP7'] -= 40800.0
-    else:
+    df_other_costs_final['Registration'] = 0.0
+    if 'WP7' in wp_odc_pool and wp_odc_pool['WP7'] > registration_split:
+        df_other_costs_final.loc['WP7', 'Registration'] = registration_split
+        wp_odc_pool['WP7'] -= registration_split
+    elif 'WP7' in wp_odc_pool:
         df_other_costs_final.loc['WP7', 'Registration'] = wp_odc_pool['WP7']
         wp_odc_pool['WP7'] = 0.0
 
-    # Allocate Registration for WP9, checking if possible
-    if wp_odc_pool['WP9'] > 40800.0:
-        df_other_costs_final.loc['WP9', 'Registration'] = 40800.0
-        wp_odc_pool['WP9'] -= 40800.0
-    else:
+    if 'WP9' in wp_odc_pool and wp_odc_pool['WP9'] > registration_split:
+        df_other_costs_final.loc['WP9', 'Registration'] = registration_split
+        wp_odc_pool['WP9'] -= registration_split
+    elif 'WP9' in wp_odc_pool:
         df_other_costs_final.loc['WP9', 'Registration'] = wp_odc_pool['WP9']
         wp_odc_pool['WP9'] = 0.0
 
-    proportional_odc = {k: v for k, v in other_direct_costs_grand_totals.items()}
+    proportional_odc = {k: v for k, v in other_direct_costs_grand_totals.items() if k != 'Registration'}
     total_proportional_odc = sum(proportional_odc.values())
 
     for wp, pool_amount in wp_odc_pool.items():
@@ -90,34 +95,40 @@ def calculate_final_budget_with_all_corrections():
                     df_other_costs_final[item] = 0.0
                 df_other_costs_final.loc[wp, item] = pool_amount * proportion
 
-    # --- 7. Assemble CSV with Zero-Row Filtering ---
-    df_final_personnel_costs['Category'] = df_final_personnel_costs.index.map(role_to_category)
-    wp_personnel_costs_by_cat = df_final_personnel_costs.groupby('Category').sum()
-
-    df_alloc_total = df_alloc_y1.add(df_alloc_y2, fill_value=0).add(df_alloc_y3, fill_value=0)
-    df_alloc_total['Category'] = df_alloc_total.index.map(role_to_category)
-    wp_person_months_by_cat = df_alloc_total.groupby('Category').sum()
+    # --- 7. Assemble CSV ---
+    odc_to_granular_category = {
+        'Travel': 'C.1 Travel and subsistence', 'Publication Fees': 'Publication fees',
+        'UK Biobank Access': 'D.3 Transnational access to research infrastructure unit costs (if mentioned as eligible in the topic specific conditions)',
+        'Software Licenses': 'Other (shipment, insurance, translation, etc.)',
+        'Long-Term Data Storage': 'Other (shipment, insurance, translation, etc.)',
+        'External Expert Consultations': 'Other (shipment, insurance, translation, etc.)',
+        'Registration': 'Other (shipment, insurance, translation, etc.)',
+        'Student/Research Assistant': 'Other (shipment, insurance, translation, etc.)'
+    }
 
     output_rows = []
+    df_alloc_total = df_alloc_y1.add(df_alloc_y2, fill_value=0).add(df_alloc_y3, fill_value=0)
+
     for wp in sorted(wp_ground_truth_direct_costs.keys()):
-        for category in sorted(wp_personnel_costs_by_cat.index.unique()):
-            total_pms = wp_person_months_by_cat.loc[category, wp]
-            total_cost = wp_personnel_costs_by_cat.loc[category, wp]
-            if total_pms > 0 or total_cost > 0: # Filter out zero rows
+        for role, cost_series in df_final_personnel_costs.iterrows():
+            total_pms = df_alloc_total.loc[role, wp] if role in df_alloc_total.index else 0
+            total_cost = cost_series[wp]
+            if abs(total_pms) > 0.001 or abs(total_cost) > 0.001:
                 cost_per_item = total_cost / total_pms if total_pms > 0 else 0
-                output_rows.append({'Work Package': wp, 'COST CATEGORY': 'A. DIRECT PERSONNEL COSTS', 'ITEMS': f"{total_pms:.2f}", 'COST PER ITEM': f"{cost_per_item:.2f}", 'BE TOTAL COSTS': f"{total_cost:.2f}"})
+                category = role_to_granular_category.get(role, 'OTHERS')
+                output_rows.append({'Work Package': wp, 'COST CATEGORY': category, 'ITEMS': f"{total_pms:.2f} PMs ({role})", 'COST PER ITEM': f"{cost_per_item:.2f}", 'BE TOTAL COSTS': f"{total_cost:.2f}"})
 
         for item in sorted(df_other_costs_final.columns):
             be_total_costs = df_other_costs_final.loc[wp, item]
-            if abs(be_total_costs) > 0.001: # Filter out zero cost ODC rows
+            if abs(be_total_costs) > 0.001:
                 grand_total = other_direct_costs_grand_totals.get(item, 0)
-                if item == 'Registration': grand_total = 81600.0
-                output_rows.append({'Work Package': wp, 'COST CATEGORY': 'C. DIRECT PURCHASE COSTS', 'ITEMS': '~', 'COST PER ITEM': f"{grand_total:.2f}", 'BE TOTAL COSTS': f"{be_total_costs:.2f}"})
+                category = odc_to_granular_category.get(item, 'Other (shipment, insurance, translation, etc.)')
+                output_rows.append({'Work Package': wp, 'COST CATEGORY': category, 'ITEMS': item, 'COST PER ITEM': f"{grand_total:.2f}", 'BE TOTAL COSTS': f"{be_total_costs:.2f}"})
 
     df_final = pd.DataFrame(output_rows)
     df_final.to_csv(os.path.join(script_dir, 'detailed_wp_budgets.csv'), index=False)
 
-    print("Successfully generated final CSV with all corrections and negative cost prevention.")
+    print("Successfully generated final CSV with all corrections.")
 
 if __name__ == "__main__":
     calculate_final_budget_with_all_corrections()
