@@ -5,8 +5,7 @@ import os
 
 def run_final_verification_on_aggregated_csv():
     """
-    Final, fully corrected verification script with the exact category strings
-    for filtering.
+    Final verification script, updated to handle the fully aggregated CSV format.
     """
     TOLERANCE = 0.05
     GROUND_TRUTH_GRAND_TOTAL_DIRECT = 3198491.40
@@ -28,7 +27,6 @@ def run_final_verification_on_aggregated_csv():
     # --- Verification a: Person-Months ---
     print("--- Verification Step 1: Person-Months per Work Package ---")
 
-    # Use the EXACT strings discovered in the diagnostic step.
     personnel_categories = [
         'SENIOR SCIENTISTS (or equivalent in the private sector)',
         'TECHNICAL PERSONNEL (or equivalent in the private sector)',
@@ -59,7 +57,7 @@ def run_final_verification_on_aggregated_csv():
 
     print("-" * 60)
 
-    # --- Verification b & c ---
+    # --- Verification b & c (Cost checks) ---
     print("--- Verification Step 2: Total DIRECT Cost per Work Package ---")
     df_generated['BE TOTAL COSTS'] = pd.to_numeric(df_generated['BE TOTAL COSTS'], errors='coerce').fillna(0)
     generated_direct_costs = df_generated.groupby('Work Package')['BE TOTAL COSTS'].sum().to_dict()
