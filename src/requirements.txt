@@ -1,0 +1,11 @@
+torch>=2.0
+monai>=1.2
+torchdiffeq>=0.2.3
+torchdyn>=1.0
+torch-fidelity>=0.3.0
+pycox>=0.2.3
+SimpleITK>=2.2
+tensorboard>=2.10
+numpy
+nibabel
+matplotlib

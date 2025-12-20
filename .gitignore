@@ -13,3 +13,5 @@
 venv/
 main_horizon.pdf
 budget_standalone.pdf
+src/mock_data/
+src/supervisor_checkpoint.pth
