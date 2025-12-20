@@ -15,3 +15,5 @@ main_horizon.pdf
 budget_standalone.pdf
 src/mock_data/
 src/supervisor_checkpoint.pth
+src/vae_checkpoint.pth
+src/njde_checkpoint.pth
