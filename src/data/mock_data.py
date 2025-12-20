@@ -4,14 +4,14 @@ import os
 import pandas as pd
 import random
 
-def create_mock_volume(shape=(96, 96, 32), noise_level=0.1, tumor_present=False):
+def create_mock_volume(shape=(96, 96, 32), noise_level=0.1, tumor_present=False, scanner_bias=0.0):
     """
     Creates a synthetic MRI volume.
     Returns:
         vol: The MRI volume (T2W-like)
         mask: The segmentation mask (0: Background, 1: Prostate, 2: Tumor)
     """
-    vol = np.random.rand(*shape).astype(np.float32) * noise_level
+    vol = np.random.rand(*shape).astype(np.float32) * noise_level + scanner_bias
     mask = np.zeros(shape, dtype=np.float32)
 
     # Create Prostate Blob
@@ -51,6 +51,8 @@ def generate_longitudinal_dataset(output_dir, num_patients=10, max_timepoints=3)
         # Static baselines
         age = np.random.randint(50, 80)
         genetic_risk = np.random.choice([0, 1], p=[0.8, 0.2])
+        scanner_type = np.random.choice(["Siemens", "Philips"])
+        scanner_bias = 0.1 if scanner_type == "Philips" else 0.0
 
         # Generate timepoints
         num_visits = np.random.randint(1, max_timepoints + 1)
@@ -63,9 +65,18 @@ def generate_longitudinal_dataset(output_dir, num_patients=10, max_timepoints=3)
             gleason = np.random.choice([6, 7, 8, 9]) if tumor_present else 0
             psa = 2.0 + (t * 1.5) if tumor_present else 2.0 + np.random.rand()
 
+            # Simulate Biopsy
+            biopsy_performed = (t > 0 and np.random.rand() > 0.6)
+            # Coordinates (normalized 0-1 or absolute). Let's use absolute pixel coords roughly center
+            if biopsy_performed:
+                bx, by, bz = 48 + np.random.randint(-5,5), 48 + np.random.randint(-5,5), 16 + np.random.randint(-2,2)
+                biopsy_coords = f"{bx},{by},{bz}"
+            else:
+                biopsy_coords = ""
+
             # Generate Images
-            t2w, seg = create_mock_volume(tumor_present=tumor_present)
-            adc, _ = create_mock_volume(tumor_present=tumor_present, noise_level=0.2)
+            t2w, seg = create_mock_volume(tumor_present=tumor_present, scanner_bias=scanner_bias)
+            adc, _ = create_mock_volume(tumor_present=tumor_present, noise_level=0.2, scanner_bias=scanner_bias)
 
             # Save NIfTI
             t2w_path = os.path.join(images_dir, f"{timepoint_id}_t2w.nii.gz")
@@ -85,7 +96,9 @@ def generate_longitudinal_dataset(output_dir, num_patients=10, max_timepoints=3)
                 "psa": psa,
                 "gleason": gleason,
                 "genetic_risk": genetic_risk,
-                "intervention": 1 if (t == 1 and np.random.rand() > 0.7) else 0, # Random intervention at T1
+                "scanner_type": scanner_type,
+                "biopsy_performed": 1 if biopsy_performed else 0,
+                "biopsy_coords": biopsy_coords,
                 "t2w_path": t2w_path,
                 "adc_path": adc_path,
                 "seg_path": seg_path,
