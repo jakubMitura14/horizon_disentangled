@@ -7,6 +7,8 @@ using DataFrames
 using NIfTI
 using Statistics
 using Printf
+using TensorBoardLogger
+using Logging
 
 include("models/supervisors.jl")
 
@@ -47,6 +49,9 @@ function train()
     data_dir = "src/mock_data"
     x, seg, df = load_data(data_dir)
 
+    # Logger
+    logger = TBLogger("logs/supervisors", min_level=Logging.Info)
+
     # Model
     model = UnetSupervisor(2, 3) # 3 classes
     rng = Random.default_rng()
@@ -64,17 +69,17 @@ function train()
     end
 
     println("--- Training Segmentation Supervisor (Lux) ---")
-    for i in 1:2
-        # Zygote expects loss to return scalar
-        # We need to extract state out or ignore it for gradient calc if state is non-differentiable (usually is)
-        # Lux recommends using Zygote.pullback or similar for stateful.
-        # Simplified:
-        (l, st_new), back = Zygote.pullback(p -> loss_function(p, x, seg, st), ps)
-        grads = back((1.0f0, nothing))[1]
+    with_logger(logger) do
+        for i in 1:2
+            (l, st_new), back = Zygote.pullback(p -> loss_function(p, x, seg, st), ps)
+            grads = back((1.0f0, nothing))[1]
 
-        st_opt, ps = Optimisers.update(st_opt, ps, grads)
-        st = st_new
-        println("Epoch $i Loss: $l")
+            st_opt, ps = Optimisers.update(st_opt, ps, grads)
+            st = st_new
+
+            @info "train" loss=l epoch=i
+            println("Epoch $i Loss: $l")
+        end
     end
 
     # Save checkpoint (mock)

@@ -6,18 +6,22 @@ using Statistics
 using DifferentialEquations
 using SciMLSensitivity
 using ComponentArrays
+using TensorBoardLogger
+using Logging
 
 include("models/njde.jl")
 
 function train()
     # Mock Data: 1 patient, 3 timepoints
     z_true = randn(Float32, 16, 1) # (D, B) - Initial
-    # Target at t=1.0
     z_target = randn(Float32, 16, 1)
 
     t_span = (0.0f0, 1.0f0)
     jump_times = [0.5f0]
     jump_coords = [rand(Float32, 3)]
+
+    # Logger
+    logger = TBLogger("logs/njde", min_level=Logging.Info)
 
     model_dyn = NJDEDynamics(16)
     model_jump = JumpNet(16)
@@ -37,25 +41,27 @@ function train()
         if sol.retcode != :Success
             return Inf
         end
-        # Loss: distance to z_target at end
         z_end = sol.u[end]
         l = mean(abs2, z_end .- z_target)
         return l
     end
 
     println("--- Training Neural Jump ODE (SciML) ---")
-    # One step
-    grads = Zygote.gradient(loss_fn, ps)
+    with_logger(logger) do
+        # Epoch 1
+        grads = Zygote.gradient(loss_fn, ps)
+        l_val = loss_fn(ps)
+        @info "train" loss=l_val epoch=1
+        println("Epoch 1 Loss: $l_val")
 
-    # Check bounds or NaNs
-    l_val = loss_fn(ps)
-    println("Epoch 1 Loss: $l_val")
+        # Update
+        st_opt, ps = Optimisers.update(st_opt, ps, grads[1])
 
-    # Update
-    st_opt, ps = Optimisers.update(st_opt, ps, grads[1])
-
-    l_val_2 = loss_fn(ps)
-    println("Epoch 2 Loss: $l_val_2")
+        # Epoch 2
+        l_val_2 = loss_fn(ps)
+        @info "train" loss=l_val_2 epoch=2
+        println("Epoch 2 Loss: $l_val_2")
+    end
 
     println("NJDE Trained.")
 end

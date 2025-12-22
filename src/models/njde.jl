@@ -4,7 +4,12 @@ using SciMLSensitivity
 using Random
 using ComponentArrays
 
-# Dynamics ODE Function: dz/dt = f(z, t)
+"""
+    NJDEDynamics(dim)
+
+The continuous dynamics function `f(z, t)` for the Neural ODE.
+Modeled as a simple MLP.
+"""
 function NJDEDynamics(dim)
     return Chain(
         Dense(dim => 32, tanh),
@@ -12,7 +17,12 @@ function NJDEDynamics(dim)
     )
 end
 
-# Jump Function: z+ = z- + g(z)
+"""
+    JumpNet(dim, coord_dim=3)
+
+The instantaneous jump function `g(z, coords)`.
+Updates the state `z` based on intervention coordinates (e.g., biopsy location).
+"""
 function JumpNet(dim, coord_dim=3)
     return Chain(
         Dense(dim + coord_dim => 32, relu),

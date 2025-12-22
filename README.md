@@ -8,6 +8,7 @@ This repository hosts the **Julia/SciML implementation** of a pilot study for a 
 *   **Temporal Modeling (NJDE):** Models continuous disease evolution and discrete interventions (biopsies) using **DifferentialEquations.jl** and **SciMLSensitivity.jl**.
 *   **Supervisor Models:** Includes U-Net for segmentation, ordinal classifiers for Gleason grading, and DeepSurv-like models for survival analysis.
 *   **Out-of-Distribution Detection:** VAE-based anomaly detection to flag inconsistencies or label noise.
+*   **Logging:** Integration with **TensorBoard** for tracking training metrics.
 
 ## Prerequisites
 
@@ -20,7 +21,7 @@ The entire pilot study pipeline, from synthetic data generation to counterfactua
 
 ### 1. Instantiate the Environment
 
-Before running the pipeline, ensure the Julia environment is instantiated. The script handles dependencies, but you can manually verify them:
+Before running the pipeline, ensure the Julia environment is instantiated.
 
 ```bash
 julia --project=src -e 'using Pkg; Pkg.instantiate()'
@@ -36,20 +37,25 @@ Execute the `run_pilot.sh` script to run all phases sequentially:
 
 This script performs the following steps:
 1.  **Data Generation**: Creates synthetic longitudinal 3D MRI data (NIfTI) and clinical records in `src/mock_data`.
-2.  **Supervisor Training**: Trains segmentation, ordinal, and survival models.
-3.  **VAE Training**: Trains the Causal VAE to learn disentangled representations.
-4.  **OOD Training**: Trains the Out-of-Distribution detector.
-5.  **NJDE Training**: Trains the Neural Jump ODE on the longitudinal data.
+2.  **Supervisor Training**: Trains segmentation, ordinal, and survival models. Logs to `logs/supervisors`.
+3.  **VAE Training**: Trains the Causal VAE. Logs to `logs/vae`.
+4.  **OOD Training**: Trains the Out-of-Distribution detector. Logs to `logs/ood`.
+5.  **NJDE Training**: Trains the Neural Jump ODE. Logs to `logs/njde`.
 6.  **Validation**: Performs a counterfactual analysis ("Natural History" vs. "Biopsy Intervention") and generates a plot at `src/counterfactual_plot.png`.
+
+## Documentation
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for a detailed technical breakdown of the model architectures and design choices.
 
 ## Project Structure
 
 *   `src/`: Contains all source code and Julia project configuration (`Project.toml`).
     *   `data/`: Data generation logic.
     *   `models/`: Lux.jl model definitions (VAE, NJDE, Supervisors, OOD).
-    *   `train_*.jl`: Training scripts for each component.
+    *   `train_*.jl`: Training scripts for each component with TensorBoard logging.
     *   `validate_counterfactual.jl`: Validation script.
 *   `run_pilot.sh`: Master script to run the end-to-end pipeline.
+*   `logs/`: TensorBoard logs generated during training.
 
 ## License
 
