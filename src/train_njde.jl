@@ -13,6 +13,7 @@ include("models/njde.jl")
 
 function train()
     # Mock Data: 1 patient, 3 timepoints
+    # In real pipeline, load from DATA_DIR
     z_true = randn(Float32, 16, 1) # (D, B) - Initial
     z_target = randn(Float32, 16, 1)
 

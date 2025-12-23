@@ -10,6 +10,7 @@ include("models/vae.jl")
 
 function train()
     # Mock Data (48, 48, 16, 2, 2)
+    # In real pipeline, we should load from DATA_DIR
     img = rand(Float32, 48, 48, 16, 2, 2)
     mask = rand(Float32, 48, 48, 16, 1, 2)
 

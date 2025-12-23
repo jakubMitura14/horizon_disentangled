@@ -13,14 +13,36 @@ using Logging
 include("models/supervisors.jl")
 
 function load_data(data_dir)
-    df = CSV.read(joinpath(data_dir, "clinical_data.csv"), DataFrame)
+    csv_path = joinpath(data_dir, "clinical_data.csv")
+    if !isfile(csv_path)
+        # Fallback to mock data generation if real data missing (or just for pilot test)
+        println("Data not found at $csv_path. Generating mock data...")
+        include("data/mock_data.jl")
+        generate_longitudinal_dataset(data_dir)
+    end
+
+    df = CSV.read(csv_path, DataFrame)
+
     # Simple loader: yield one batch of 2 samples
+    # Check if we have enough data
+    if nrow(df) < 2
+        error("Not enough data in $csv_path")
+    end
+
     row1 = df[1, :]
     row2 = df[2, :]
 
     # Load NIfTIs
     function load_vol(p)
-        nii = niread(p)
+        # Handle relative paths vs absolute
+        full_path = isabspath(p) ? p : joinpath(data_dir, p)
+        # If still not found (e.g. inside "images" subdir not in path), try adjusting
+        if !isfile(full_path)
+             # Try appending "images" if missing
+             full_path = joinpath(data_dir, "images", basename(p))
+        end
+
+        nii = niread(full_path)
         return Float32.(nii.raw)
     end
 
@@ -46,7 +68,8 @@ function load_data(data_dir)
 end
 
 function train()
-    data_dir = "src/mock_data"
+    # Get DATA_DIR from Env
+    data_dir = get(ENV, "DATA_DIR", "src/mock_data")
     x, seg, df = load_data(data_dir)
 
     # Logger

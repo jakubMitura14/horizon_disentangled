@@ -11,6 +11,7 @@ include("models/ood.jl")
 
 function train()
     # Mock Latents (16, 100)
+    # In real pipeline, load from DATA_DIR (inference from VAE)
     z = randn(Float32, 16, 100)
 
     # Logger
