@@ -2,14 +2,9 @@ using Lux
 using Random
 using Statistics
 
-include("layers.jl")
+include(joinpath(@__DIR__, "layers.jl"))
 
-"""
-    Encoder(in_channels, latent_dim)
-
-Standard 3D convolutional encoder for image-to-vector mapping.
-Returns `mu` and `logvar` concatenated in a single vector.
-"""
+# --- Encoders ---
 function Encoder(in_channels, latent_dim)
     return Chain(
         Conv((3,3,3), in_channels => 16, stride=2, pad=1, relu),
@@ -20,11 +15,6 @@ function Encoder(in_channels, latent_dim)
     )
 end
 
-"""
-    AnatomyEncoder(in_channels=1, out_channels=4)
-
-Encodes segmentation masks into a spatial tensor `s` to preserve anatomical structure.
-"""
 function AnatomyEncoder(in_channels=1, out_channels=4)
     # Output spatial tensor
     return Chain(
@@ -34,15 +24,6 @@ function AnatomyEncoder(in_channels=1, out_channels=4)
 end
 
 # --- VAE Model ---
-"""
-    CausalVAE(latent_dim=16, anatomy_dim=4)
-
-Disentangled Variational Autoencoder based on SDNet.
-Separates input into:
-- Anatomy (s): Spatial tensor from masks.
-- Pathology (z_p): Vector from images.
-- Style (z_s): Vector from images.
-"""
 struct CausalVAE <: Lux.AbstractLuxLayer
     enc_p::Chain
     enc_s::Chain

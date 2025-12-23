@@ -1,6 +1,8 @@
 using Lux
 using Random
 
+include(joinpath(@__DIR__, "layers.jl"))
+
 """
     UnetSupervisor(in_channels=2, out_channels=2)
 
