@@ -17,3 +17,6 @@ src/mock_data/
 src/supervisor_checkpoint.pth
 src/vae_checkpoint.pth
 src/njde_checkpoint.pth
+logs/
+
+src/data_store/

@@ -1,13 +1,9 @@
-name = "PilotStudy"
-uuid = "12345678-1234-1234-1234-1234567890ab"
-version = "0.1.0"
-authors = ["Jules"]
-
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
+Enzyme = "7da242da-08ed-463a-9acd-ee780be4f1d9"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Lux = "b2108857-7c20-44ae-9111-449ecde12c47"
