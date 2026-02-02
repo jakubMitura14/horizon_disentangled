@@ -1,4 +1,5 @@
 [deps]
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
 Lux = "b2108857-7c20-44ae-9111-449ecde12c47"
 MPI = "da04e1cc-30fd-572f-bb4f-1f8673147195"

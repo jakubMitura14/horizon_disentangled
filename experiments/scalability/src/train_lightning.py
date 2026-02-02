@@ -26,7 +26,7 @@ class Simple3DNet(pl.LightningModule):
         super().__init__()
         self.conv1 = nn.Conv3d(1, 16, kernel_size=3, padding=1)
         self.conv2 = nn.Conv3d(16, 32, kernel_size=3, padding=1)
-        # self.fc = nn.Linear(32 * 16 * 48 * 48, 10) # Removed unused layer to fix DDP error
+        # self.fc = nn.Linear(32 * 16 * 48 * 48, 10)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -47,32 +47,45 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--epochs", type=int, default=2)
     parser.add_argument("--gpus", type=int, default=0) # 0 for CPU
+    parser.add_argument("--nodes", type=int, default=1)
     parser.add_argument("--accelerator", type=str, default="cpu")
     parser.add_argument("--strategy", type=str, default="ddp")
     parser.add_argument("--num_processes", type=int, default=1)
     args = parser.parse_args()
 
-    print(f"Starting PyTorch Lightning Training with {args.num_processes} processes (Strategy: {args.strategy})...")
+    # Detect environment for Slurm
+    num_nodes = args.nodes
+    if "SLURM_NNODES" in os.environ:
+        num_nodes = int(os.environ["SLURM_NNODES"])
+        print(f"Detected Slurm environment: Running on {num_nodes} nodes.")
+
+    print(f"Starting PyTorch Lightning Training...")
+    print(f"  Nodes: {num_nodes}")
+    print(f"  Accelerator: {args.accelerator}")
+    print(f"  Strategy: {args.strategy}")
 
     dataset = Mock3DDataset()
+    # In DDP, the batch size is per-device
     dataloader = DataLoader(dataset, batch_size=4)
 
     model = Simple3DNet()
 
-    # Configure Trainer
-    # Use find_unused_parameters=True if needed, but better to remove unused params.
-    # I removed self.fc, so hopefully it works now.
-    # But to be safe, let's explicitly enable it if the error persists or for robustness in this mock.
-
+    # Configure Strategy
+    # Explicitly set process group backend if on GPU (NCCL) vs CPU (Gloo)
     strategy = args.strategy
     if strategy == "ddp":
-        strategy = DDPStrategy(find_unused_parameters=True)
+        # Enable find_unused_parameters for robustness in experimental models
+        if args.accelerator == "gpu":
+            strategy = DDPStrategy(find_unused_parameters=True, process_group_backend="nccl")
+        else:
+            strategy = DDPStrategy(find_unused_parameters=True, process_group_backend="gloo")
 
     trainer = pl.Trainer(
         max_epochs=args.epochs,
         accelerator=args.accelerator,
         strategy=strategy,
         devices=args.num_processes if args.accelerator == "cpu" else args.gpus,
+        num_nodes=num_nodes,
         enable_progress_bar=False,
         logger=False
     )
