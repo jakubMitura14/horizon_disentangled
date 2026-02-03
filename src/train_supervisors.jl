@@ -9,76 +9,32 @@ using Statistics
 using Printf
 using TensorBoardLogger
 using Logging
+using CUDA
+using LuxCUDA
+using MLUtils # For DataLoader logic inside loader
 
 include("models/supervisors.jl")
-
-function load_data(data_dir)
-    csv_path = joinpath(data_dir, "clinical_data.csv")
-    if !isfile(csv_path)
-        # Fallback to mock data generation if real data missing (or just for pilot test)
-        println("Data not found at $csv_path. Generating mock data...")
-        include("data/mock_data.jl")
-        generate_longitudinal_dataset(data_dir)
-    end
-
-    df = CSV.read(csv_path, DataFrame)
-
-    # Simple loader: yield one batch of 2 samples
-    # Check if we have enough data
-    if nrow(df) < 2
-        error("Not enough data in $csv_path")
-    end
-
-    row1 = df[1, :]
-    row2 = df[2, :]
-
-    # Load NIfTIs
-    function load_vol(p)
-        # Handle relative paths vs absolute
-        full_path = isabspath(p) ? p : joinpath(data_dir, p)
-        # If still not found (e.g. inside "images" subdir not in path), try adjusting
-        if !isfile(full_path)
-             # Try appending "images" if missing
-             full_path = joinpath(data_dir, "images", basename(p))
-        end
-
-        nii = niread(full_path)
-        return Float32.(nii.raw)
-    end
-
-    t2w1 = load_vol(row1.t2w_path)
-    adc1 = load_vol(row1.adc_path)
-    seg1 = load_vol(row1.seg_path)
-
-    t2w2 = load_vol(row2.t2w_path)
-    adc2 = load_vol(row2.adc_path)
-    seg2 = load_vol(row2.seg_path)
-
-    # Concat channels: (W, H, D, C, B)
-    # W=48, H=48, D=16
-    # Input: 2 channels (T2W, ADC)
-
-    x1 = cat(t2w1, adc1, dims=4) # (48,48,16,2)
-    x2 = cat(t2w2, adc2, dims=4)
-
-    batch_x = cat(x1, x2, dims=5) # (48,48,16,2,2)
-    batch_seg = cat(seg1, seg2, dims=5)
-
-    return batch_x, batch_seg, df
-end
+include("data/loader.jl")
 
 function train()
     # Get DATA_DIR from Env
     data_dir = get(ENV, "DATA_DIR", "src/mock_data")
-    x, seg, df = load_data(data_dir)
+    loader = get_data_loader(data_dir, batchsize=1, shuffle=true)
 
     # Logger
     logger = TBLogger("logs/supervisors", min_level=Logging.Info)
+
+    # Device Setup (GPU if available)
+    dev = gpu_device()
+    println("Using device: $dev")
 
     # Model
     model = UnetSupervisor(2, 3) # 3 classes
     rng = Random.default_rng()
     ps, st = Lux.setup(rng, model)
+    
+    ps = ps |> dev
+    st = st |> dev
 
     opt = Optimisers.Adam(1e-3)
     st_opt = Optimisers.setup(opt, ps)
@@ -86,22 +42,55 @@ function train()
     # Loss
     function loss_function(p, x, y, st)
         pred, st_new = model(x, p, st)
-        # Simple MSE proxy for Dice for pilot compilation speed
         l = mean(abs2, pred .- y)
         return l, st_new
     end
 
     println("--- Training Segmentation Supervisor (Lux) ---")
+    println("Dataset size: $(length(loader.data)) patients")
+    
+    # Early Stopping Config
+    max_epochs = 50
+    patience = 3
+    best_loss = Inf
+    patience_counter = 0
+
     with_logger(logger) do
-        for i in 1:2
-            (l, st_new), back = Zygote.pullback(p -> loss_function(p, x, seg, st), ps)
-            grads = back((1.0f0, nothing))[1]
+        for i in 1:max_epochs
+            epoch_loss = 0.0f0
+            steps = 0
+            
+            for (x, seg) in loader
+                # Move to device
+                x = x |> dev
+                seg = seg |> dev
+                
+                (l, st_new), back = Zygote.pullback(p -> loss_function(p, x, seg, st), ps)
+                grads = back((1.0f0, nothing))[1]
 
-            st_opt, ps = Optimisers.update(st_opt, ps, grads)
-            st = st_new
-
-            @info "train" loss=l epoch=i
-            println("Epoch $i Loss: $l")
+                st_opt, ps = Optimisers.update(st_opt, ps, grads)
+                st = st_new
+                
+                epoch_loss += l
+                steps += 1
+            end
+            
+            avg_loss = epoch_loss / steps
+            @info "train" loss=avg_loss epoch=i
+            println("Epoch $i Avg Loss: $avg_loss")
+            
+            # Early Stopping
+            if avg_loss < best_loss
+                best_loss = avg_loss
+                patience_counter = 0
+            else
+                patience_counter += 1
+            end
+            
+            if patience_counter >= patience
+                println("Early stopping at epoch $i (Best: $best_loss)")
+                break
+            end
         end
     end
 
@@ -112,3 +101,4 @@ end
 if abspath(PROGRAM_FILE) == @__FILE__
     train()
 end
+

@@ -24,3 +24,9 @@ src/data_store/
 lightning_logs/
 checkpoints/
 data/
+external_sources/
+verification_data/
+src/classifiers/__pycache__/
+src/bin/
+src/classifiers/best_model.pth
+src/classifiers/best_model.pth

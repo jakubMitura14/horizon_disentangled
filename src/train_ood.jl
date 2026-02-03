@@ -6,6 +6,8 @@ using Statistics
 using ComponentArrays
 using TensorBoardLogger
 using Logging
+using CUDA
+using LuxCUDA
 
 include("models/ood.jl")
 
@@ -17,8 +19,15 @@ function train()
     # Logger
     logger = TBLogger("logs/ood", min_level=Logging.Info)
 
+    # Device
+    dev = gpu_device()
+    println("Using device: $dev")
+    
+    # Move
+    z = z |> dev
+
     # Model
-    model_def = OODDetector(16, 4)
+    # model_def = OODDetector(16, 4) # Unused in original, keeping logic consistent
     enc = Chain(Dense(16 => 12, relu), Dense(12 => 8)) # 4*2
     dec = Chain(Dense(4 => 12, relu), Dense(12 => 16))
 
@@ -26,6 +35,10 @@ function train()
 
     rng = Random.default_rng()
     ps, st = Lux.setup(rng, model)
+    
+    ps = ps |> dev
+    st = st |> dev
+
     opt = Optimisers.Adam(1e-3)
     st_opt = Optimisers.setup(opt, ps)
 
@@ -36,8 +49,14 @@ function train()
     end
 
     println("--- Training OOD Detector (Lux) ---")
+    
+    max_epochs = 50
+    patience = 3
+    best_loss = Inf
+    patience_counter = 0
+
     with_logger(logger) do
-        for i in 1:2
+        for i in 1:max_epochs
             (l, st_new), back = Zygote.pullback(p -> loss_fn(p, z, st), ps)
             grads = back((1.0f0, nothing))[1]
             st_opt, ps = Optimisers.update(st_opt, ps, grads)
@@ -45,6 +64,19 @@ function train()
 
             @info "train" loss=l epoch=i
             println("Epoch $i Loss: $l")
+            
+            # Early Stopping
+            if l < best_loss
+                best_loss = l
+                patience_counter = 0
+            else
+                patience_counter += 1
+            end
+            
+            if patience_counter >= patience
+                println("Early stopping at epoch $i (Best: $best_loss)")
+                break
+            end
         end
     end
 
