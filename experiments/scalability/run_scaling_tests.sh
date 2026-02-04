@@ -28,9 +28,10 @@ run_julia() {
     if [[ "$MODE" == "local" ]]; then
         mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     else
-        # Slurm Mode: Use srun
-        # Assume 1 GPU per task
-        srun --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
+        # Slurm Mode: Single Node Scaling
+        # We enforce --nodes=1 to test intra-node scaling on the provided node.
+        # --ntasks=$NP (e.g., 1, 2, 4) matches the number of GPUs used.
+        srun --nodes=1 --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
              julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     fi
 
@@ -54,12 +55,18 @@ run_python() {
     if [[ "$MODE" == "local" ]]; then
         python3 "$SRC_DIR/train_lightning.py" --accelerator cpu --strategy ddp --num_processes $NP > "$LOG_FILE" 2>&1
     else
-        # Slurm Mode: Use srun
-        # PyTorch Lightning with DDP can be launched via srun (if using DDPStrategy)
-        # or python (if using sbatch environment vars).
-        # We use srun to be explicit about resource mapping.
-        srun --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
-             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus 1 --num_nodes $SLURM_JOB_NUM_NODES > "$LOG_FILE" 2>&1
+        # Slurm Mode: Single Node Scaling
+        # Explicitly use --nodes=1 and vary --gpus (devices in PL)
+        # Using srun to launch python directly can conflict with PL's DDP spawning if not careful.
+        # But if we use srun --ntasks=1 and let PL spawn:
+        # python script.py --gpus $NP --nodes 1 --strategy ddp
+
+        # However, srun provides the resource isolation.
+        # Let's use srun --ntasks=1 (one orchestrator) and let PL handle the GPUs visible.
+        # But we need to ensure $NP GPUs are visible.
+
+        srun --nodes=1 --ntasks=1 --gpus=$NP --cpus-per-task=$((4*NP)) \
+             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
@@ -91,27 +98,18 @@ if [[ "$MODE" == "local" ]]; then
     done
 
 elif [[ "$MODE" == "slurm" ]]; then
-    echo "Starting Scalability Experiments (Slurm/GPU Mode)..."
-    echo "===================================================="
+    echo "Starting Scalability Experiments (Slurm/GPU Mode - Single Node)..."
+    echo "=================================================================="
     echo "Framework,Num_Procs,Epoch_Time_s" > "$RESULTS_FILE"
 
-    # Detect available resources
-    # SLURM_NTASKS might be set, or we infer from gpus.
-    # We assume we are inside an allocation (e.g. 4 GPUs).
-    # We want to run scaling: 1 GPU, 2 GPUs, 4 GPUs... up to limit.
-
-    MAX_GPUS=${SLURM_GPUS_ON_NODE:-1}
-    # If multiple nodes, multiply
-    if [ -n "$SLURM_NNODES" ]; then
-        MAX_GPUS=$((MAX_GPUS * SLURM_NNODES))
-    fi
-
-    # Or rely on user input if provided, else detect
+    # Check max GPUs on this node
+    MAX_GPUS=${SLURM_GPUS_ON_NODE:-4}
+    # Or passed arg
     if [ -n "$2" ]; then MAX_GPUS=$2; fi
 
-    echo "Max Available GPUs: $MAX_GPUS"
+    echo "Max GPUs available: $MAX_GPUS"
 
-    # Generate Steps: 1, 2, 4, 8... <= MAX_GPUS
+    # Generate Steps: 1, 2, 4, ... <= MAX_GPUS
     STEPS=()
     curr=1
     while [ $curr -le $MAX_GPUS ]; do

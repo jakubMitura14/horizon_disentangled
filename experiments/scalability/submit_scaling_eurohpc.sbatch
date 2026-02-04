@@ -6,6 +6,8 @@
 #SBATCH -p kisski-h100
 #SBATCH --constraint=inet
 #SBATCH -G H100:4
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
 #SBATCH --mail-user=jakub.mitura14@gmail.com
 #SBATCH --mail-type=all
 #SBATCH --output=/user/joanna.wybranska/u10867/.project/dir.project/logs/scaling_job_%j.out
@@ -69,17 +71,12 @@ cd "$PROJECT_ROOT"
 echo "Instantiating Julia Environment..."
 julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.instantiate()'
 
-echo "Starting Scalability Tests..."
-# Determine Total GPUs from Slurm
-TOTAL_GPUS=4 # Default from SBATCH
-if [ -n "$SLURM_GPUS_ON_NODE" ]; then
-    TOTAL_GPUS=$SLURM_GPUS_ON_NODE
-    if [ -n "$SLURM_NNODES" ]; then
-        TOTAL_GPUS=$((TOTAL_GPUS * SLURM_NNODES))
-    fi
-fi
+echo "Starting Scalability Tests (Single Node Strong Scaling)..."
+# Pass --slurm flag to orchestrator.
+# Arguments: <MAX_GPUS>
+# We explicitly check for 4 GPUs (or SLURM_GPUS_ON_NODE)
+TOTAL_GPUS=${SLURM_GPUS_ON_NODE:-4}
 
-# Run the full suite (1, 2, 4 GPUs)
 bash experiments/scalability/run_scaling_tests.sh --slurm $TOTAL_GPUS
 
 echo "Job Complete."
