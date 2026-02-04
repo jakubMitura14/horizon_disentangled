@@ -18,78 +18,114 @@ if [[ "$1" == "--slurm" ]]; then
     MODE="slurm"
 fi
 
+# Function to run Julia Benchmark
+run_julia() {
+    local NP=$1
+    local MODE=$2
+    local LOG_FILE="$LOG_DIR/julia_lux_${NP}proc.log"
+    echo "  [Julia] Running with $NP Processes..."
+
+    if [[ "$MODE" == "local" ]]; then
+        mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+    else
+        # Slurm Mode: Single Node Scaling
+        # We enforce --nodes=1 to test intra-node scaling on the provided node.
+        # --ntasks=$NP (e.g., 1, 2, 4) matches the number of GPUs used.
+        srun --nodes=1 --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
+             julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+    fi
+
+    if [ $? -eq 0 ]; then
+        TIME=$(grep "Epoch 2" "$LOG_FILE" | head -n 1 | awk '{print $7}' | sed 's/s//')
+        [ -z "$TIME" ] && TIME="N/A"
+        echo "    Success: ${TIME}s"
+        echo "Julia,$NP,$TIME" >> "$RESULTS_FILE"
+    else
+        echo "    Failed. Check log: $LOG_FILE"
+    fi
+}
+
+# Function to run Python Benchmark
+run_python() {
+    local NP=$1
+    local MODE=$2
+    local LOG_FILE="$LOG_DIR/python_pl_${NP}proc.log"
+    echo "  [Python] Running with $NP Processes..."
+
+    if [[ "$MODE" == "local" ]]; then
+        python3 "$SRC_DIR/train_lightning.py" --accelerator cpu --strategy ddp --num_processes $NP > "$LOG_FILE" 2>&1
+    else
+        # Slurm Mode: Single Node Scaling
+        # Explicitly use --nodes=1 and vary --gpus (devices in PL)
+        # Using srun to launch python directly can conflict with PL's DDP spawning if not careful.
+        # But if we use srun --ntasks=1 and let PL spawn:
+        # python script.py --gpus $NP --nodes 1 --strategy ddp
+
+        # However, srun provides the resource isolation.
+        # Let's use srun --ntasks=1 (one orchestrator) and let PL handle the GPUs visible.
+        # But we need to ensure $NP GPUs are visible.
+
+        srun --nodes=1 --ntasks=1 --gpus=$NP --cpus-per-task=$((4*NP)) \
+             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 > "$LOG_FILE" 2>&1
+    fi
+
+    if [ $? -eq 0 ]; then
+        TOTAL_TIME=$(grep "Training finished in" "$LOG_FILE" | awk '{print $4}')
+        EPOCH_TIME=$(echo "$TOTAL_TIME / 2" | bc -l)
+        echo "    Success: ${EPOCH_TIME}s"
+        echo "Python,$NP,$EPOCH_TIME" >> "$RESULTS_FILE"
+    else
+        echo "    Failed. Check log: $LOG_FILE"
+    fi
+}
+
+
 if [[ "$MODE" == "local" ]]; then
     echo "Starting Distributed Scalability Experiments (Localhost Simulation)..."
     echo "===================================================================="
-    echo "Initialize results file"
     echo "Framework,Num_Procs,Epoch_Time_s" > "$RESULTS_FILE"
 
     STEPS=(1 2 4)
     export OMPI_MCA_rmaps_base_oversubscribe=1
     export OMPI_MCA_btl_vader_single_copy_mechanism=none
 
-    # --- Julia (Lux + MPI) ---
-    echo "--- Benchmarking Julia (Lux + MPI) ---"
     for NP in "${STEPS[@]}"; do
-        echo "Running Julia with $NP Processes..."
-        LOG_FILE="$LOG_DIR/julia_lux_${NP}proc.log"
-        mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
-
-        if [ $? -eq 0 ]; then
-            TIME=$(grep "Epoch 2" "$LOG_FILE" | head -n 1 | awk '{print $7}' | sed 's/s//')
-            [ -z "$TIME" ] && TIME="N/A"
-            echo "  Time: ${TIME}s"
-            echo "Julia,$NP,$TIME" >> "$RESULTS_FILE"
-        else
-            echo "  Failed. Check log: $LOG_FILE"
-        fi
+        run_julia $NP "local"
     done
 
-    # --- Python (PyTorch Lightning DDP) ---
-    echo "--- Benchmarking Python (PyTorch Lightning DDP) ---"
     for NP in "${STEPS[@]}"; do
-        echo "Running Python with $NP Processes..."
-        LOG_FILE="$LOG_DIR/python_pl_${NP}proc.log"
-        python3 "$SRC_DIR/train_lightning.py" --accelerator cpu --strategy ddp --num_processes $NP > "$LOG_FILE" 2>&1
-
-        if [ $? -eq 0 ]; then
-            TOTAL_TIME=$(grep "Training finished in" "$LOG_FILE" | awk '{print $4}')
-            EPOCH_TIME=$(echo "$TOTAL_TIME / 2" | bc -l)
-            echo "  Time (Approx/Epoch): ${EPOCH_TIME}s"
-            echo "Python,$NP,$EPOCH_TIME" >> "$RESULTS_FILE"
-        else
-            echo "  Failed. Check log: $LOG_FILE"
-        fi
+        run_python $NP "local"
     done
 
 elif [[ "$MODE" == "slurm" ]]; then
-    echo "Starting Scalability Experiments (Slurm/GPU Mode)..."
-    echo "===================================================="
-    # Note: This block is intended to be run INSIDE an sbatch allocation or via sbatch submission loop.
-    # Here we demonstrate the command structure.
+    echo "Starting Scalability Experiments (Slurm/GPU Mode - Single Node)..."
+    echo "=================================================================="
+    echo "Framework,Num_Procs,Epoch_Time_s" > "$RESULTS_FILE"
 
-    # We assume this script is called with specific params by the user or scheduler.
-    # Usage: ./run_scaling_tests.sh --slurm <NODES> <GPUS_PER_NODE>
+    # Check max GPUs on this node
+    MAX_GPUS=${SLURM_GPUS_ON_NODE:-4}
+    # Or passed arg
+    if [ -n "$2" ]; then MAX_GPUS=$2; fi
 
-    NODES=${2:-1}
-    GPUS_PER_NODE=${3:-4}
-    TOTAL_GPUS=$((NODES * GPUS_PER_NODE))
+    echo "Max GPUs available: $MAX_GPUS"
 
-    echo "Configuration: $NODES Nodes, $GPUS_PER_NODE GPUs/Node ($TOTAL_GPUS Total)"
+    # Generate Steps: 1, 2, 4, ... <= MAX_GPUS
+    STEPS=()
+    curr=1
+    while [ $curr -le $MAX_GPUS ]; do
+        STEPS+=($curr)
+        curr=$((curr * 2))
+    done
 
-    # Julia Run
-    LOG_FILE_JL="$LOG_DIR/slurm_julia_${TOTAL_GPUS}gpu.log"
-    echo "Launching Julia..."
-    srun --ntasks=$TOTAL_GPUS --ntasks-per-node=$GPUS_PER_NODE --gpus-per-node=$GPUS_PER_NODE \
-         julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE_JL" 2>&1
+    echo "Planned Steps: ${STEPS[@]}"
 
-    # Python Run
-    LOG_FILE_PY="$LOG_DIR/slurm_python_${TOTAL_GPUS}gpu.log"
-    echo "Launching Python..."
-    srun --ntasks=$TOTAL_GPUS --ntasks-per-node=$GPUS_PER_NODE --gpus-per-node=$GPUS_PER_NODE \
-         python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $GPUS_PER_NODE --nodes $NODES > "$LOG_FILE_PY" 2>&1
+    for NP in "${STEPS[@]}"; do
+        run_julia $NP "slurm"
+    done
 
-    echo "Jobs submitted/ran. Check logs in $LOG_DIR."
+    for NP in "${STEPS[@]}"; do
+        run_python $NP "slurm"
+    done
 fi
 
-echo "Done."
+echo "Done. Results saved to $RESULTS_FILE"
