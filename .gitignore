@@ -22,3 +22,5 @@ logs/
 src/data_store/
 *.ckpt
 lightning_logs/
+checkpoints/
+data/
