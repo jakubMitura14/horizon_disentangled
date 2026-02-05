@@ -26,11 +26,11 @@ run_julia() {
     echo "  [Julia] Running with $NP Processes..."
 
     if [[ "$MODE" == "local" ]]; then
-        mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+        mpiexecjl --project="$EXPERIMENT_DIR" -n $NP julia --project="$EXPERIMENT_DIR" "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     else
         # Slurm Mode: Single Node Scaling
         srun --nodes=1 --ntasks=$NP --gpus=$NP --cpus-per-task=4 \
-             julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+             julia --project="$EXPERIMENT_DIR" "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
