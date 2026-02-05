@@ -1,2 +1,9 @@
 Framework,Num_Procs,Epoch_Time_s
-Julia,1,24.0326
+Julia,1,0.9154
+Julia,2,0.9589
+Julia,4,0.9813
+Python,1,1.15000000000000000000
+Python,2,.87000000000000000000
+Python,4,2.58000000000000000000
+
+
