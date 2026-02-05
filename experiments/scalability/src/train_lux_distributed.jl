@@ -14,7 +14,7 @@ using CUDA
 # It automatically detects if CUDA GPUs are available and moves data/models accordingly.
 # It uses MPI for gradient synchronization (Data Parallelism).
 
-# --- Heavier Architecture: 3D ResNet-50 Block ---
+# --- Heavier Architecture: 3D ResNet Block ---
 struct ResNetBlock3D <: Lux.AbstractLuxLayer
     conv1::Conv
     conv2::Conv
@@ -25,7 +25,7 @@ struct ResNetBlock3D <: Lux.AbstractLuxLayer
     shortcut::Union{Chain, NoOpLayer}
 end
 
-# Bottleneck Block for ResNet-50+
+# Bottleneck Block for ResNet-152+
 function ResNetBottleneck(in_channels::Int, out_channels::Int; stride::Int=1, expansion::Int=4)
     mid_channels = out_channels
     final_channels = out_channels * expansion
@@ -92,9 +92,9 @@ function (l::ResNetBlock3D)(x, ps, st)
     return relu.(y .+ sc), (conv1=st_c1, conv2=st_c2, conv3=st_c3, norm1=st_n1, norm2=st_n2, norm3=st_n3, shortcut=st_sc)
 end
 
-function HeavyResNet3D_Deep()
-    # ResNet-50 3D Style
-    # Layers: [3, 4, 6, 3] blocks
+function SuperHeavyResNet152_3D()
+    # ResNet-152 3D Style (Wide)
+    # Layers: [3, 8, 36, 3] blocks for ResNet-152
 
     layers = []
 
@@ -112,17 +112,17 @@ function HeavyResNet3D_Deep()
         in_ch = 64 * 4
     end
 
-    # Layer 2 (4 blocks)
+    # Layer 2 (8 blocks)
     push!(layers, ResNetBottleneck(in_ch, 128, stride=2))
     in_ch = 128 * 4
-    for i in 2:4
+    for i in 2:8
         push!(layers, ResNetBottleneck(in_ch, 128))
     end
 
-    # Layer 3 (6 blocks)
+    # Layer 3 (36 blocks) - The heavy part
     push!(layers, ResNetBottleneck(in_ch, 256, stride=2))
     in_ch = 256 * 4
-    for i in 2:6
+    for i in 2:36
         push!(layers, ResNetBottleneck(in_ch, 256))
     end
 
@@ -153,10 +153,10 @@ function main()
         println("--- Lux Distributed Training (MPI) ---")
         println("World Size: $size")
         println("Device: $(use_cuda ? "GPU (CUDA)" : "CPU")")
-        println("Model: Heavy ResNet-50 3D")
+        println("Model: Super Heavy ResNet-152 3D (Wide)")
     end
 
-    model = HeavyResNet3D_Deep()
+    model = SuperHeavyResNet152_3D()
 
     rng = Random.default_rng()
     ps, st = Lux.setup(rng, model)
@@ -179,8 +179,8 @@ function main()
     st_opt = Optimisers.setup(opt, ps_ca)
 
     local_batch_size = 4
-    # Input Volume: 96x96x64 (Large)
-    x = rand(Float32, 96, 96, 64, 1, local_batch_size) |> device
+    # Increased Volume: 128x128x64
+    x = rand(Float32, 128, 128, 64, 1, local_batch_size) |> device
     y = rand(Float32, 10, local_batch_size) |> device
 
     function loss_fn(p, x, y, st)
@@ -188,7 +188,7 @@ function main()
         return mean(abs2, y_pred .- y), st_new
     end
 
-    epochs = 3
+    epochs = 2 # Reduced epochs for massive model simulation
     MPI.Barrier(comm)
 
     for epoch in 1:epochs
