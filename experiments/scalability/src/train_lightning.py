@@ -17,8 +17,8 @@ class Mock3DDataset(Dataset):
         return self.size
 
     def __getitem__(self, idx):
-        # 3D Volume: [C, D, H, W] -> 96x96x64
-        return torch.randn(1, 64, 96, 96)
+        # Increased 3D Volume: [C, D, H, W] -> 128x128x64
+        return torch.randn(1, 64, 128, 128)
 
 class ResNetBlockBottleneck(nn.Module):
     expansion = 4
@@ -51,18 +51,18 @@ class ResNetBlockBottleneck(nn.Module):
         out += self.shortcut(x)
         return F.relu(out)
 
-class HeavyResNet3D_Deep(pl.LightningModule):
+class HeavyResNet152_3D(pl.LightningModule):
     def __init__(self):
         super().__init__()
-        # ResNet-50 3D structure: [3, 4, 6, 3] blocks
+        # ResNet-152 3D structure: [3, 8, 36, 3] blocks
         self.in_channels = 64
         self.conv1 = nn.Conv3d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm3d(64)
         self.maxpool = nn.MaxPool3d(kernel_size=3, stride=2, padding=1)
 
         self.layer1 = self._make_layer(64, 3, stride=1)
-        self.layer2 = self._make_layer(128, 4, stride=2)
-        self.layer3 = self._make_layer(256, 6, stride=2)
+        self.layer2 = self._make_layer(128, 8, stride=2)
+        self.layer3 = self._make_layer(256, 36, stride=2)
         self.layer4 = self._make_layer(512, 3, stride=2)
 
         self.avgpool = nn.AdaptiveAvgPool3d((1, 1, 1))
@@ -113,7 +113,7 @@ def main():
     dataset = Mock3DDataset()
     dataloader = DataLoader(dataset, batch_size=4)
 
-    model = HeavyResNet3D_Deep()
+    model = HeavyResNet152_3D()
 
     strategy = args.strategy
     if strategy == "ddp":
