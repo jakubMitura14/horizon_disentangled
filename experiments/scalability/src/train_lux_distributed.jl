@@ -188,7 +188,7 @@ function main()
         return mean(abs2, y_pred .- y), st_new
     end
 
-    epochs = 2 # Reduced epochs for massive model simulation
+    epochs = 2
     MPI.Barrier(comm)
 
     for epoch in 1:epochs
@@ -198,10 +198,18 @@ function main()
         grads = back((Float32(1.0) |> device, nothing))[1]
 
         if use_cuda
-             grad_data = Array(grads)
+             # OPTIMIZATION: Use CUDA-aware MPI directly on the GPU buffer.
+             # We assume the MPI build supports CUDA pointers.
+             # ComponentArray backed by CuArray can be passed via `getdata` to MPI.jl
+
+             grad_data = getdata(grads)
              MPI.Allreduce!(grad_data, MPI.SUM, comm)
              grad_data ./= size
-             grads = ComponentArray(grad_data, getaxes(ps_ca)) |> gpu_device()
+
+             # Note: grads is already on GPU, modifications to getdata(grads)
+             # reflect in grads if it's a view/wrapper.
+             # ComponentArray(CuArray) -> getdata returns the CuArray.
+             # Modifying it updates the gradients in place.
         else
              grad_data = getdata(grads)
              MPI.Allreduce!(grad_data, MPI.SUM, comm)
