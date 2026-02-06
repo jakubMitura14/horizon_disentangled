@@ -111,7 +111,9 @@ def main():
         num_nodes = int(os.environ["SLURM_NNODES"])
 
     dataset = Mock3DDataset()
-    dataloader = DataLoader(dataset, batch_size=4)
+    # OPTIMIZATION: Set num_workers and pin_memory to prevent data loading bottlenecks
+    # Use 4 workers per GPU (typical heuristic)
+    dataloader = DataLoader(dataset, batch_size=4, num_workers=4, pin_memory=True)
 
     model = HeavyResNet152_3D()
 
