@@ -78,10 +78,19 @@ julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.add("LuxCUDA"); Pkg.instanti
 echo "Checking Julia CUDA status..."
 julia --project="$JULIA_PROJECT" -e 'using CUDA; @show CUDA.functional(); using Lux, LuxCUDA; @show cpu_device(); @show gpu_device()' || true
 
+# --- Precompilation (PackageCompiler) ---
+# Check if sysimage needs building
+if [ ! -f "$PROJECT_ROOT/experiments/scalability/lib/sysimage.so" ]; then
+    echo "Building Julia System Image (PackageCompiler) to reduce JIT overhead..."
+    mkdir -p "$PROJECT_ROOT/experiments/scalability/lib"
+    julia --project="$JULIA_PROJECT" "$PROJECT_ROOT/experiments/scalability/precompile_sysimage.jl"
+else
+    echo "Found existing sysimage.so, skipping build."
+fi
+
 echo "Starting Scalability Tests (Single Node Strong Scaling)..."
 # Pass --slurm flag to orchestrator.
 # Arguments: <MAX_GPUS>
-# We explicitly check for 4 GPUs (or SLURM_GPUS_ON_NODE)
 TOTAL_GPUS=${SLURM_GPUS_ON_NODE:-4}
 
 bash horizon_disentangled/experiments/scalability/run_scaling_tests.sh --slurm $TOTAL_GPUS

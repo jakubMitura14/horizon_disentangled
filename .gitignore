@@ -22,6 +22,20 @@ logs/
 src/data_store/
 *.ckpt
 lightning_logs/
+<<<<<<< HEAD
+data/
+checkpoints/
+external_sources/
+MOOSE/
+verification_data/
+src/bin/dcm2niix.zip
+src/classifiers/best_model.pth
+src/bin/dcm2niix
+src/classifiers/__pycache__/dataset.cpython-312.pyc
+src/classifiers/__pycache__/encoder.cpython-312.pyc
+src/classifiers/__pycache__/encode_labels.cpython-312.pyc
+src/classifiers/__pycache__/ordinal_loss.cpython-312.pyc
+=======
 checkpoints/
 data/
 external_sources/
@@ -31,3 +45,4 @@ src/bin/
 src/classifiers/best_model.pth
 src/classifiers/best_model.pth
 checkpoints/
+>>>>>>> origin/main

@@ -1,3 +1,4 @@
+using ArgParse
 using Lux
 using MPI
 using Random
@@ -15,7 +16,7 @@ using LuxCUDA
 # It automatically detects if CUDA GPUs are available and moves data/models accordingly.
 # It uses MPI for gradient synchronization (Data Parallelism).
 
-# --- Heavier Architecture: 3D ResNet Block ---
+# --- Heavier Architecture: 3D ResNet-50 Block ---
 struct ResNetBlock3D <: Lux.AbstractLuxLayer
     conv1::Conv
     conv2::Conv
@@ -141,7 +142,21 @@ function SuperHeavyResNet152_3D()
     return Chain(layers...)
 end
 
+function parse_commandline()
+    s = ArgParseSettings()
+    @add_arg_table s begin
+        "--epochs"
+            help = "Number of epochs"
+            arg_type = Int
+            default = 1000
+    end
+    return parse_args(s)
+end
+
 function main()
+    args = parse_commandline()
+    epochs = args["epochs"]
+
     MPI.Init()
     comm = MPI.COMM_WORLD
     rank = MPI.Comm_rank(comm)
@@ -155,6 +170,7 @@ function main()
         println("World Size: $size")
         println("Device: $(use_cuda ? "GPU (CUDA)" : "CPU")")
         println("Model: Super Heavy ResNet-152 3D (Wide)")
+        println("Epochs: $epochs")
     end
 
     model = SuperHeavyResNet152_3D()
@@ -184,7 +200,6 @@ function main()
     st_opt = Optimisers.setup(opt, ps)
 
     local_batch_size = 4
-    # Increased Volume: 128x128x64
     x = rand(Float32, 128, 128, 64, 1, local_batch_size) |> device
     y = rand(Float32, 10, local_batch_size) |> device
 
@@ -193,7 +208,6 @@ function main()
         return mean(abs2, y_pred .- y), st_new
     end
 
-    epochs = 2
     MPI.Barrier(comm)
 
     for epoch in 1:epochs
@@ -206,29 +220,24 @@ function main()
         gs_flat, _ = destructure(grads)
 
         if use_cuda
-             # Synchronize via CPU if not sure about CUDA-aware MPI
-             gs_cpu = gs_flat |> cpu_device()
-             MPI.Allreduce!(gs_cpu, MPI.SUM, comm)
-             gs_cpu ./= size
-             gs_flat = gs_cpu |> device
+             grad_data = getdata(grads)
+             MPI.Allreduce!(grad_data, MPI.SUM, comm)
+             grad_data ./= size
         else
-             MPI.Allreduce!(gs_flat, MPI.SUM, comm)
-             gs_flat ./= size
+             grad_data = getdata(grads)
+             MPI.Allreduce!(grad_data, MPI.SUM, comm)
+             grad_data ./= size
         end
 
-        # Reconstruct gradient structure
-        grads = relabel(gs_flat)
-
-        st_opt, ps = Optimisers.update(st_opt, ps, grads)
+        st_opt, ps_ca = Optimisers.update(st_opt, ps_ca, grads)
 
         t_end = time()
         epoch_time = t_end - t_start
 
-        check_sum = sum(gs_flat[1:1])
-
-        if rank == 0
-            @printf("Epoch %d: Loss %.4f | Time %.4fs | Grad Check Sum: %.4f | Device: %s\n",
-                    epoch, loss, epoch_time, check_sum, use_cuda ? "GPU" : "CPU")
+        # Checksum every 10 epochs or first few
+        if rank == 0 && (epoch <= 5 || epoch % 10 == 0)
+            @printf("Epoch %d: Loss %.4f | Time %.4fs | Device: %s\n",
+                    epoch, loss, epoch_time, use_cuda ? "GPU" : "CPU")
         end
     end
 
