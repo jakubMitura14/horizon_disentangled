@@ -8,6 +8,7 @@ using Statistics
 using Printf
 using ComponentArrays
 using CUDA
+using LuxCUDA
 
 # Lux Distributed Training Script (Hybrid CPU/GPU)
 # ================================================
@@ -180,19 +181,23 @@ function main()
     ps = ps |> device
     st = st |> device
 
-    ps_ca = ComponentArray(ps)
+    # Use Optimisers.destructure for efficient flattening (idiomatic for Lux + GPU)
+    ps_flat, relabel = destructure(ps)
 
-    ps_cpu = ps_ca |> cpu_device()
-    MPI.Bcast!(getdata(ps_cpu), 0, comm)
-
+    # Synchronize initial parameters
     if use_cuda
-        ps_ca = ComponentArray(ps_cpu, getaxes(ps_ca)) |> gpu_device()
+        # If using CUDA, we assume CUDA-aware MPI or fallback to CPU copy
+        # We'll use a CPU buffer for Bcast to be safe if MPI is not CUDA-aware
+        ps_cpu = ps_flat |> cpu_device()
+        MPI.Bcast!(ps_cpu, 0, comm)
+        ps_flat = ps_cpu |> device
     else
-        ps_ca = ps_cpu
+        MPI.Bcast!(ps_flat, 0, comm)
     end
+    ps = relabel(ps_flat)
 
     opt = Optimisers.Adam(1e-3)
-    st_opt = Optimisers.setup(opt, ps_ca)
+    st_opt = Optimisers.setup(opt, ps)
 
     local_batch_size = 4
     x = rand(Float32, 128, 128, 64, 1, local_batch_size) |> device
@@ -208,8 +213,11 @@ function main()
     for epoch in 1:epochs
         t_start = time()
 
-        (loss, st), back = Zygote.pullback(p -> loss_fn(p, x, y, st), ps_ca)
+        (loss, st), back = Zygote.pullback(p -> loss_fn(p, x, y, st), ps)
         grads = back((Float32(1.0) |> device, nothing))[1]
+
+        # Flatten gradients for MPI synchronization
+        gs_flat, _ = destructure(grads)
 
         if use_cuda
              grad_data = getdata(grads)

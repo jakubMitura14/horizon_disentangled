@@ -8,7 +8,8 @@ fi
 
 # Configuration
 export DATA_DIR="src/data_store"
-export DEBUG_MODE="true" # Default to debug
+export DEBUG_MODE="false" # Default to debug
+export CUDA_VISIBLE_DEVICES=1
 
 echo "============================================================"
 echo "Starting End-to-End Pilot Study (Julia/Lux.jl)"

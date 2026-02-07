@@ -7,11 +7,12 @@
 #SBATCH --constraint=inet
 #SBATCH -G H100:4
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
 #SBATCH --mail-user=jakub.mitura14@gmail.com
 #SBATCH --mail-type=all
-#SBATCH --output=/user/joanna.wybranska/u10867/.project/dir.project/logs/scaling_job_%j.out
-#SBATCH --error=/user/joanna.wybranska/u10867/.project/dir.project/logs/scaling_job_%j.err
+#SBATCH --output=/user/joanna.wybranska/u10867/.project/dir.project/horizon_disentangled/experiments/scalability/logs/scaling_job_%j.out
+#SBATCH --error=/user/joanna.wybranska/u10867/.project/dir.project/horizon_disentangled/experiments/scalability/logs/scaling_job_%j.err
 
 set -e
 
@@ -21,7 +22,7 @@ echo "--- Setting up the environment... ---"
 # Load modules
 module load apptainer
 module load miniforge3
-module load julia
+module load julia/1.11.6
 
 # Initialize Conda
 echo "Initializing Conda..."
@@ -34,7 +35,7 @@ fi
 
 # Define paths
 PROJECT_ROOT="/user/joanna.wybranska/u10867/.project/dir.project"
-ENV_YAML_PATH="$PROJECT_ROOT/experiments/scalability/environment.yml"
+ENV_YAML_PATH="$PROJECT_ROOT/horizon_disentangled/experiments/scalability/environment.yml"
 CONDA_ENV_DIR="/mnt/vast-kisski/projects/ovgu_medicine_llm/ollama_data/conda_env_causalpca"
 
 # Create/Update Conda Environment
@@ -55,9 +56,11 @@ if [ -f "$CONDA_ENV_DIR/lib/libcurand.so.10.3.7.77" ] && [ ! -L "$CONDA_ENV_DIR/
 fi
 
 # Export Paths
+# NOTE: We keep LD_LIBRARY_PATH for Python, but Julia might conflict.
+# We will check if Julia can find the GPU.
 export LD_LIBRARY_PATH=$CONDA_ENV_DIR/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$PROJECT_ROOT:$PYTHONPATH
-export JULIA_PROJECT="$PROJECT_ROOT/experiments/scalability"
+export JULIA_PROJECT="$PROJECT_ROOT/horizon_disentangled/experiments/scalability"
 export JULIA_DEPOT_PATH="$PROJECT_ROOT/.julia_depot"
 
 # Verify
@@ -69,7 +72,11 @@ nvidia-smi
 cd "$PROJECT_ROOT"
 
 echo "Instantiating Julia Environment..."
-julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.instantiate()'
+# Added Pkg.add to ensure registration of required packages on compute nodes
+julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.add("LuxCUDA"); Pkg.instantiate()'
+
+echo "Checking Julia CUDA status..."
+julia --project="$JULIA_PROJECT" -e 'using CUDA; @show CUDA.functional(); using Lux, LuxCUDA; @show cpu_device(); @show gpu_device()' || true
 
 # --- Precompilation (PackageCompiler) ---
 # Check if sysimage needs building
@@ -86,6 +93,6 @@ echo "Starting Scalability Tests (Single Node Strong Scaling)..."
 # Arguments: <MAX_GPUS>
 TOTAL_GPUS=${SLURM_GPUS_ON_NODE:-4}
 
-bash experiments/scalability/run_scaling_tests.sh --slurm $TOTAL_GPUS
+bash horizon_disentangled/experiments/scalability/run_scaling_tests.sh --slurm $TOTAL_GPUS
 
 echo "Job Complete."

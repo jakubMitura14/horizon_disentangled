@@ -33,12 +33,13 @@ run_julia() {
     fi
 
     if [[ "$MODE" == "local" ]]; then
-        # Local simulation: use fewer epochs to avoid waiting hours
-        mpiexecjl --project=experiments/scalability -n $NP julia $SYSIMAGE_FLAG --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" --epochs 5 > "$LOG_FILE" 2>&1
+        mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     else
-        # Slurm Mode: Full run (1000 epochs)
+        # Slurm Mode: Single Node Scaling
+        # We enforce --nodes=1 to test intra-node scaling on the provided node.
+        # --ntasks=$NP (e.g., 1, 2, 4) matches the number of GPUs used.
         srun --nodes=1 --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
-             julia $SYSIMAGE_FLAG --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" --epochs 1000 > "$LOG_FILE" 2>&1
+             julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
@@ -61,9 +62,18 @@ run_python() {
     if [[ "$MODE" == "local" ]]; then
         python3 "$SRC_DIR/train_lightning.py" --accelerator cpu --strategy ddp --num_processes $NP --epochs 5 > "$LOG_FILE" 2>&1
     else
-        # Slurm Mode: Full run
+        # Slurm Mode: Single Node Scaling
+        # Explicitly use --nodes=1 and vary --gpus (devices in PL)
+        # Using srun to launch python directly can conflict with PL's DDP spawning if not careful.
+        # But if we use srun --ntasks=1 and let PL spawn:
+        # python script.py --gpus $NP --nodes 1 --strategy ddp
+
+        # However, srun provides the resource isolation.
+        # Let's use srun --ntasks=1 (one orchestrator) and let PL handle the GPUs visible.
+        # But we need to ensure $NP GPUs are visible.
+
         srun --nodes=1 --ntasks=1 --gpus=$NP --cpus-per-task=$((4*NP)) \
-             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 --epochs 1000 > "$LOG_FILE" 2>&1
+             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
