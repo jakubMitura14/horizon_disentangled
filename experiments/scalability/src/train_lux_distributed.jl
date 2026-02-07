@@ -7,6 +7,7 @@ using Statistics
 using Printf
 using ComponentArrays
 using CUDA
+using LuxCUDA
 
 # Lux Distributed Training Script (Hybrid CPU/GPU)
 # ================================================
@@ -164,19 +165,23 @@ function main()
     ps = ps |> device
     st = st |> device
 
-    ps_ca = ComponentArray(ps)
+    # Use Optimisers.destructure for efficient flattening (idiomatic for Lux + GPU)
+    ps_flat, relabel = destructure(ps)
 
-    ps_cpu = ps_ca |> cpu_device()
-    MPI.Bcast!(getdata(ps_cpu), 0, comm)
-
+    # Synchronize initial parameters
     if use_cuda
-        ps_ca = ComponentArray(ps_cpu, getaxes(ps_ca)) |> gpu_device()
+        # If using CUDA, we assume CUDA-aware MPI or fallback to CPU copy
+        # We'll use a CPU buffer for Bcast to be safe if MPI is not CUDA-aware
+        ps_cpu = ps_flat |> cpu_device()
+        MPI.Bcast!(ps_cpu, 0, comm)
+        ps_flat = ps_cpu |> device
     else
-        ps_ca = ps_cpu
+        MPI.Bcast!(ps_flat, 0, comm)
     end
+    ps = relabel(ps_flat)
 
     opt = Optimisers.Adam(1e-3)
-    st_opt = Optimisers.setup(opt, ps_ca)
+    st_opt = Optimisers.setup(opt, ps)
 
     local_batch_size = 4
     # Increased Volume: 128x128x64
@@ -194,37 +199,35 @@ function main()
     for epoch in 1:epochs
         t_start = time()
 
-        (loss, st), back = Zygote.pullback(p -> loss_fn(p, x, y, st), ps_ca)
+        (loss, st), back = Zygote.pullback(p -> loss_fn(p, x, y, st), ps)
         grads = back((Float32(1.0) |> device, nothing))[1]
 
+        # Flatten gradients for MPI synchronization
+        gs_flat, _ = destructure(grads)
+
         if use_cuda
-             # OPTIMIZATION: Use CUDA-aware MPI directly on the GPU buffer.
-             # We assume the MPI build supports CUDA pointers.
-             # ComponentArray backed by CuArray can be passed via `getdata` to MPI.jl
-
-             grad_data = getdata(grads)
-             MPI.Allreduce!(grad_data, MPI.SUM, comm)
-             grad_data ./= size
-
-             # Note: grads is already on GPU, modifications to getdata(grads)
-             # reflect in grads if it's a view/wrapper.
-             # ComponentArray(CuArray) -> getdata returns the CuArray.
-             # Modifying it updates the gradients in place.
+             # Synchronize via CPU if not sure about CUDA-aware MPI
+             gs_cpu = gs_flat |> cpu_device()
+             MPI.Allreduce!(gs_cpu, MPI.SUM, comm)
+             gs_cpu ./= size
+             gs_flat = gs_cpu |> device
         else
-             grad_data = getdata(grads)
-             MPI.Allreduce!(grad_data, MPI.SUM, comm)
-             grad_data ./= size
+             MPI.Allreduce!(gs_flat, MPI.SUM, comm)
+             gs_flat ./= size
         end
 
-        st_opt, ps_ca = Optimisers.update(st_opt, ps_ca, grads)
+        # Reconstruct gradient structure
+        grads = relabel(gs_flat)
+
+        st_opt, ps = Optimisers.update(st_opt, ps, grads)
 
         t_end = time()
         epoch_time = t_end - t_start
 
-        check_sum = sum(ps_ca[1:1])
+        check_sum = sum(gs_flat[1:1])
 
         if rank == 0
-            @printf("Epoch %d: Loss %.4f | Time %.4fs | Check Sum: %.4f | Device: %s\n",
+            @printf("Epoch %d: Loss %.4f | Time %.4fs | Grad Check Sum: %.4f | Device: %s\n",
                     epoch, loss, epoch_time, check_sum, use_cuda ? "GPU" : "CPU")
         end
     end

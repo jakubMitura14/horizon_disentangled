@@ -56,6 +56,8 @@ if [ -f "$CONDA_ENV_DIR/lib/libcurand.so.10.3.7.77" ] && [ ! -L "$CONDA_ENV_DIR/
 fi
 
 # Export Paths
+# NOTE: We keep LD_LIBRARY_PATH for Python, but Julia might conflict.
+# We will check if Julia can find the GPU.
 export LD_LIBRARY_PATH=$CONDA_ENV_DIR/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$PROJECT_ROOT:$PYTHONPATH
 export JULIA_PROJECT="$PROJECT_ROOT/horizon_disentangled/experiments/scalability"
@@ -70,7 +72,11 @@ nvidia-smi
 cd "$PROJECT_ROOT"
 
 echo "Instantiating Julia Environment..."
-julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.instantiate()'
+# Added Pkg.add to ensure registration of required packages on compute nodes
+julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.add("LuxCUDA"); Pkg.instantiate()'
+
+echo "Checking Julia CUDA status..."
+julia --project="$JULIA_PROJECT" -e 'using CUDA; @show CUDA.functional(); using Lux, LuxCUDA; @show cpu_device(); @show gpu_device()' || true
 
 echo "Starting Scalability Tests (Single Node Strong Scaling)..."
 # Pass --slurm flag to orchestrator.
