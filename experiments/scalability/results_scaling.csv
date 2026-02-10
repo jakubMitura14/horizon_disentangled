@@ -1,10 +1,7 @@
 Framework,Num_Procs,Epoch_Time_s
-<<<<<<< HEAD
-=======
-Julia,1,0.5010
-Julia,2,0.6583
-Julia,4,0.7798
-Python,1,9.34000000000000000000
-Python,2,6.96000000000000000000
-Python,4,8.03000000000000000000
->>>>>>> origin/main
+Julia,1,0.8267
+Julia,2,0.8436
+Julia,4,0.8477
+Python,1,1.9499
+Python,2,1.0769
+Python,4,0.6644

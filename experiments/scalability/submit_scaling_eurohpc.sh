@@ -73,20 +73,12 @@ cd "$PROJECT_ROOT"
 
 echo "Instantiating Julia Environment..."
 # Added Pkg.add to ensure registration of required packages on compute nodes
-julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.add("LuxCUDA"); Pkg.instantiate()'
+julia --project="$JULIA_PROJECT" -e 'using Pkg; Pkg.add(["LuxCUDA", "ArgParse", "Statistics", "Random", "Printf", "ComponentArrays", "Lux", "MPI", "Optimisers", "Zygote", "NCCL"]); Pkg.instantiate()'
 
 echo "Checking Julia CUDA status..."
 julia --project="$JULIA_PROJECT" -e 'using CUDA; @show CUDA.functional(); using Lux, LuxCUDA; @show cpu_device(); @show gpu_device()' || true
 
-# --- Precompilation (PackageCompiler) ---
-# Check if sysimage needs building
-if [ ! -f "$PROJECT_ROOT/experiments/scalability/lib/sysimage.so" ]; then
-    echo "Building Julia System Image (PackageCompiler) to reduce JIT overhead..."
-    mkdir -p "$PROJECT_ROOT/experiments/scalability/lib"
-    julia --project="$JULIA_PROJECT" "$PROJECT_ROOT/experiments/scalability/precompile_sysimage.jl"
-else
-    echo "Found existing sysimage.so, skipping build."
-fi
+# Skipping sysimage building as it has issues on this cluster and timing skip first epoch anyway.
 
 echo "Starting Scalability Tests (Single Node Strong Scaling)..."
 # Pass --slurm flag to orchestrator.

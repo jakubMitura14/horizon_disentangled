@@ -17,8 +17,8 @@ class Mock3DDataset(Dataset):
         return self.size
 
     def __getitem__(self, idx):
-        # Increased 3D Volume: [C, D, H, W] -> 128x128x64
-        return torch.randn(1, 64, 128, 128)
+        # Increased 3D Volume: [C, D, H, W] -> 128x128x128
+        return torch.randn(1, 128, 128, 128)
 
 class ResNetBlockBottleneck(nn.Module):
     expansion = 4
@@ -50,6 +50,15 @@ class ResNetBlockBottleneck(nn.Module):
         out = self.bn3(self.conv3(out))
         out += self.shortcut(x)
         return F.relu(out)
+
+class EpochTimer(pl.Callback):
+    def on_train_epoch_start(self, trainer, pl_module):
+        self.start_time = time.time()
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        epoch_time = time.time() - self.start_time
+        if trainer.global_rank == 0:
+            print(f"Epoch {trainer.current_epoch + 1}: Time {epoch_time:.4f}s")
 
 class HeavyResNet152_3D(pl.LightningModule):
     def __init__(self):
@@ -113,7 +122,7 @@ def main():
     dataset = Mock3DDataset()
     # OPTIMIZATION: Set num_workers and pin_memory to prevent data loading bottlenecks
     # Use 4 workers per GPU (typical heuristic)
-    dataloader = DataLoader(dataset, batch_size=4, num_workers=4, pin_memory=True)
+    dataloader = DataLoader(dataset, batch_size=32, num_workers=4, pin_memory=True)
 
     model = HeavyResNet152_3D()
 
@@ -131,7 +140,8 @@ def main():
         devices=args.num_processes if args.accelerator == "cpu" else args.gpus,
         num_nodes=num_nodes,
         enable_progress_bar=False,
-        logger=False
+        logger=False,
+        callbacks=[EpochTimer()]
     )
 
     start_time = time.time()

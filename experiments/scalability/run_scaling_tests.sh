@@ -6,7 +6,7 @@
 # Mode 1: Localhost Simulation (MPI/OpenMPI) - Default
 # Mode 2: Slurm/GPU Cluster Execution - Triggered by --slurm flag
 
-EXPERIMENT_DIR=$(dirname "$0")
+EXPERIMENT_DIR=$(realpath "$(dirname "$0")")
 SRC_DIR="$EXPERIMENT_DIR/src"
 LOG_DIR="$EXPERIMENT_DIR/logs"
 RESULTS_FILE="$EXPERIMENT_DIR/results_scaling.csv"
@@ -33,17 +33,17 @@ run_julia() {
     fi
 
     if [[ "$MODE" == "local" ]]; then
-        mpiexecjl --project=experiments/scalability -n $NP julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+        mpiexecjl --project="$EXPERIMENT_DIR" -n $NP julia --project="$EXPERIMENT_DIR" "$SRC_DIR/train_lux_distributed.jl" --epochs 10 > "$LOG_FILE" 2>&1
     else
         # Slurm Mode: Single Node Scaling
         # We enforce --nodes=1 to test intra-node scaling on the provided node.
         # --ntasks=$NP (e.g., 1, 2, 4) matches the number of GPUs used.
-        srun --nodes=1 --ntasks=$NP --gpus-per-task=1 --cpus-per-task=4 \
-             julia --project=experiments/scalability "$SRC_DIR/train_lux_distributed.jl" > "$LOG_FILE" 2>&1
+        srun --nodes=1 --ntasks=$NP --cpus-per-task=4 \
+             julia --project="$EXPERIMENT_DIR" "$SRC_DIR/train_lux_distributed.jl" --epochs 10 > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
-        TIME=$(grep "Epoch 2" "$LOG_FILE" | head -n 1 | awk '{print $7}' | sed 's/s//')
+        TIME=$(grep "Epoch 10" "$LOG_FILE" | head -n 1 | awk '{print $7}' | sed 's/s//')
         [ -z "$TIME" ] && TIME="N/A"
         echo "    Success: ${TIME}s"
         echo "Julia,$NP,$TIME" >> "$RESULTS_FILE"
@@ -73,14 +73,14 @@ run_python() {
         # But we need to ensure $NP GPUs are visible.
 
         srun --nodes=1 --ntasks=1 --gpus=$NP --cpus-per-task=$((4*NP)) \
-             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 > "$LOG_FILE" 2>&1
+             python3 "$SRC_DIR/train_lightning.py" --accelerator gpu --strategy ddp --gpus $NP --nodes 1 --epochs 10 > "$LOG_FILE" 2>&1
     fi
 
     if [ $? -eq 0 ]; then
-        TOTAL_TIME=$(grep "Training finished in" "$LOG_FILE" | awk '{print $4}')
-        # If epochs changed, this average calculation is rough but okay for the proposal check
-        echo "    Success: ${TOTAL_TIME}s (Total)"
-        echo "Python,$NP,$TOTAL_TIME" >> "$RESULTS_FILE"
+        TIME=$(grep "Epoch 10" "$LOG_FILE" | awk '{print $4}' | sed 's/s//')
+        [ -z "$TIME" ] && TIME="N/A"
+        echo "    Success: ${TIME}s"
+        echo "Python,$NP,$TIME" >> "$RESULTS_FILE"
     else
         echo "    Failed. Check log: $LOG_FILE"
     fi

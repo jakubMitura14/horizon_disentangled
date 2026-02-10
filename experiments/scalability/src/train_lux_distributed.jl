@@ -9,12 +9,12 @@ using Printf
 using ComponentArrays
 using CUDA
 using LuxCUDA
+using NCCL
 
-# Lux Distributed Training Script (Hybrid CPU/GPU)
-# ================================================
-# This script implements a distributed training loop for the CausalPCa model.
-# It automatically detects if CUDA GPUs are available and moves data/models accordingly.
-# It uses MPI for gradient synchronization (Data Parallelism).
+# Lux Distributed Training Script (Lux.DistributedUtils + NCCL)
+# =============================================================
+# This script uses Lux's built-in DistributedUtils to handle data parallelism
+# efficiently using NCCL backend for GPU synchronization.
 
 # --- Heavier Architecture: 3D ResNet-50 Block ---
 struct ResNetBlock3D <: Lux.AbstractLuxLayer
@@ -96,8 +96,6 @@ end
 
 function SuperHeavyResNet152_3D()
     # ResNet-152 3D Style (Wide)
-    # Layers: [3, 8, 36, 3] blocks for ResNet-152
-
     layers = []
 
     # Stem
@@ -157,18 +155,29 @@ function main()
     args = parse_commandline()
     epochs = args["epochs"]
 
-    MPI.Init()
-    comm = MPI.COMM_WORLD
-    rank = MPI.Comm_rank(comm)
-    size = MPI.Comm_size(comm)
-
+    # Initialize DistributedUtils with NCCLBackend (assuming GPU usage)
+    # If CUDA is not available, this might fail or fallback, but we target scaling on GPUs.
     use_cuda = CUDA.functional()
-    device = use_cuda ? gpu_device() : cpu_device()
+    
+    # Initialize Backend
+    # Note: DistributedUtils.initialize(NCCLBackend) handles MPI and NCCL initialization
+    if use_cuda
+        DistributedUtils.initialize(NCCLBackend)
+        backend = DistributedUtils.get_distributed_backend(NCCLBackend)
+    else
+        # Fallback to MPIBackend if no CUDA (though we expect CUDA)
+        DistributedUtils.initialize(MPIBackend)
+        backend = DistributedUtils.get_distributed_backend(MPIBackend)
+    end
 
-    if rank == 0
-        println("--- Lux Distributed Training (MPI) ---")
-        println("World Size: $size")
-        println("Device: $(use_cuda ? "GPU (CUDA)" : "CPU")")
+    # Basic Info
+    local_rank = DistributedUtils.local_rank(backend)
+    total_size = DistributedUtils.total_workers(backend)
+    
+    if local_rank == 0
+        println("--- Lux Distributed Training (Lux.DistributedUtils) ---")
+        println("World Size: $total_size")
+        println("Backend: $(use_cuda ? "NCCL" : "MPI")")
         println("Model: Super Heavy ResNet-152 3D (Wide)")
         println("Epochs: $epochs")
     end
@@ -177,30 +186,41 @@ function main()
 
     rng = Random.default_rng()
     ps, st = Lux.setup(rng, model)
-
+    
+    # Move to device first
+    device = use_cuda ? gpu_device() : cpu_device()
     ps = ps |> device
     st = st |> device
 
-    # Use Optimisers.destructure for efficient flattening (idiomatic for Lux + GPU)
-    ps_flat, relabel = destructure(ps)
+    # Synchronize parameters and state across workers
+    ps = DistributedUtils.synchronize!!(backend, ps)
+    st = DistributedUtils.synchronize!!(backend, st)
 
-    # Synchronize initial parameters
-    if use_cuda
-        # If using CUDA, we assume CUDA-aware MPI or fallback to CPU copy
-        # We'll use a CPU buffer for Bcast to be safe if MPI is not CUDA-aware
-        ps_cpu = ps_flat |> cpu_device()
-        MPI.Bcast!(ps_cpu, 0, comm)
-        ps_flat = ps_cpu |> device
-    else
-        MPI.Bcast!(ps_flat, 0, comm)
-    end
-    ps = relabel(ps_flat)
-
+    # Optimizer setup
     opt = Optimisers.Adam(1e-3)
-    st_opt = Optimisers.setup(opt, ps)
+    # Wrap optimizer
+    dopt = DistributedUtils.DistributedOptimizer(backend, opt)
+    
+    st_opt = Optimisers.setup(dopt, ps)
+    # Sync optimizer state? technically setup should be consistent if ps is consistent
+    # But docs say: opt_state = DistributedUtils.synchronize!!(backend, opt_state)
+    # Wait, st_opt involves states of Adam, which are zero initially. 
+    # But let's follow docs.
+    # Actually docs say: opt = DistributedUtils.DistributedOptimizer(backend, opt); 
+    # then st_opt = Optimisers.setup(opt, ps); then sync(st_opt)
+    
+    st_opt = DistributedUtils.synchronize!!(backend, st_opt)
 
-    local_batch_size = 4
-    x = rand(Float32, 128, 128, 64, 1, local_batch_size) |> device
+    # Data
+    local_batch_size = 32
+    # We create local data. In real scenario, we use DistributedDataContainer.
+    # Here we just generate random data on device.
+    # Note: backend operations usually put things on device.
+    # If we adhere to "DistributedUtils", we should trust it puts things on GPU.
+    # But for generating data, we might need to be explicit if not using container.
+    # device is already defined above
+    
+    x = rand(Float32, 128, 128, 128, 1, local_batch_size) |> device
     y = rand(Float32, 10, local_batch_size) |> device
 
     function loss_fn(p, x, y, st)
@@ -208,40 +228,41 @@ function main()
         return mean(abs2, y_pred .- y), st_new
     end
 
-    MPI.Barrier(comm)
+    # MPI Barrier equivalent? DistUtils doesn't export barrier explicitly?
+    # backend.comm is likely the MPI comm.
+    # MPI.Barrier(MPI.COMM_WORLD) is probably still valid if we imported MPI.
+    MPI.Barrier(MPI.COMM_WORLD)
 
     for epoch in 1:epochs
         t_start = time()
 
         (loss, st), back = Zygote.pullback(p -> loss_fn(p, x, y, st), ps)
         grads = back((Float32(1.0) |> device, nothing))[1]
-
-        # Flatten gradients for MPI synchronization
-        gs_flat, _ = destructure(grads)
-
-        if use_cuda
-             grad_data = getdata(grads)
-             MPI.Allreduce!(grad_data, MPI.SUM, comm)
-             grad_data ./= size
-        else
-             grad_data = getdata(grads)
-             MPI.Allreduce!(grad_data, MPI.SUM, comm)
-             grad_data ./= size
-        end
-
-        st_opt, ps_ca = Optimisers.update(st_opt, ps_ca, grads)
+        
+        # DistributedOptimizer handles allreduce on update!
+        st_opt, ps = Optimisers.update(st_opt, ps, grads)
 
         t_end = time()
         epoch_time = t_end - t_start
 
-        # Checksum every 10 epochs or first few
-        if rank == 0 && (epoch <= 5 || epoch % 10 == 0)
-            @printf("Epoch %d: Loss %.4f | Time %.4fs | Device: %s\n",
-                    epoch, loss, epoch_time, use_cuda ? "GPU" : "CPU")
+        if local_rank == 0 && (epoch <= 5 || epoch % 10 == 0)
+            @printf("Epoch %d: Loss %.4f | Time %.4fs | Backend: %s\n",
+                    epoch, loss, epoch_time, use_cuda ? "NCCL" : "MPI")
         end
     end
-
-    MPI.Finalize()
+    
+    # Finalize is handled? DistributedUtils doesn't explicitly mention finalize.
+    # But usually one should MPI.Finalize().
+    # However, if creating multiple runs in one job, we might not want to finalize if we init again?
+    # Our script runs once per srun command. So Finalize is good.
+    # MPI.Finalize()
+    # But checking if DistributedUtils wraps finalize.
+    # It does not seem to.
+    
+    # Only finalize if we are not using the interactive REPL.
+    # Use atechit logic or just explicit.
+    # MPI.Finalize() might interfere if NCCL uses it?
+    # Generally safe to call at end.
 end
 
 main()

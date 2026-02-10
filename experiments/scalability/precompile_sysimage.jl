@@ -14,7 +14,7 @@ packages = [:Lux, :MPI, :Zygote, :Optimisers, :CUDA, :ComponentArrays, :Statisti
 # For full benefit, we should run the `train_lux_distributed.jl` with small epochs during build.
 
 create_sysimage(packages;
-    sysimage_path="lib/sysimage.so",
-    precompile_execution_file="src/train_lux_distributed.jl", # Dry run
-    script="src/train_lux_distributed.jl" # Or just the entry point
+    sysimage_path=joinpath(@__DIR__, "lib/sysimage.so"),
+    precompile_execution_file=joinpath(@__DIR__, "src/train_lux_distributed.jl"), # Dry run
+    script=joinpath(@__DIR__, "src/train_lux_distributed.jl") # Or just the entry point
 )
