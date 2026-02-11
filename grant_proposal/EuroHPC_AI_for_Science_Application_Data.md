@@ -84,7 +84,7 @@
 ### Partition information
 *   **Partition name:** JUPITER Booster (GPU)
 *   **Requested amount of resources (node hours):** 25000
-    *(Calculation: 200,000 GPU-hours / 8 GPUs per node = 25,000 Node Hours. Assuming Quad-GH200 or similar density)*
+    *(Calculation: 25,000 Node Hours * 4 GPUs/Node = 100,000 GPU-Hours. This fits the "Large Scale" AI for Science scope for a 6-month intensive campaign.)*
 *   **Code(s) used:** Julia (Lux.jl, DifferentialEquations.jl, CUDA.jl), Python (PyTorch, Monai, NVIDIA Apex)
 
 ## Jobs
@@ -109,7 +109,7 @@
 *   **Minimum job memory (total usage over all nodes in GB):** 300
 *   **Average job memory (total usage over all nodes in GB):** 1200
 *   **Maximum job memory (total usage over all nodes in GB):** 2400
-    *(Justification: 75GB HBM3 per GPU * 32 GPUs = 2400 GB total distributed memory)*
+    *(Justification: 75GB HBM3 per GPU * 32 GPUs = 2400 GB total distributed memory. The model is memory-bound.)*
 
 ### Storage
 *   **Maximum amount of SCRATCH needed at a time (TB):** 200
@@ -143,9 +143,9 @@
 *   **Will you be using containerized solution?:** Yes (Apptainer/Singularity with custom Julia system images).
 *   **If the project develops an AI model/method/software/workflow will it be available as open source?:** Yes (Apache 2.0 License).
 *   **Please provide a monthly plan of CPU/GPU resource usage by the project:**
-    *   **Months 1-3:** Code porting, environment setup, and scaling tests (10% usage).
-    *   **Months 4-9:** Production training of VAEs and Diffusion Models (60% usage).
-    *   **Months 10-12:** NJDE training, refinement, and validation (30% usage).
+    *   **Months 1-2:** Code porting, environment setup, and strong scaling tests on JUPITER Booster (10% usage).
+    *   **Months 3-5:** Intensive production training of Foundation Models (VAEs, Diffusion) utilizing full allocation (80% usage).
+    *   **Month 6:** NJDE training, refinement, and final validation runs (10% usage).
 
 ### Scalability and performance
 *   **Describe the scalability and performance of the application:**
