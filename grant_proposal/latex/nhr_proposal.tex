@@ -86,43 +86,53 @@ Accelerators (such as GPUs) & 4x NVIDIA H100 (GH200) \\ \hline
 \BenchmarkData
 We performed strong scaling tests on a single node (1 to 4 GPUs).
 \begin{itemize}
-    \item 1 GPU: 31.3 samples/sec
+    \item 1 GPU: 31.3 samples/sec (Peak Mem: 93.1 GB)
     \item 2 GPUs: 61.4 samples/sec (1.96x speedup)
     \item 4 GPUs: 117.2 samples/sec (3.74x speedup)
 \end{itemize}
-The Julia implementation shows excellent scaling efficiency (93.6\%) and high raw throughput.
+The Julia implementation shows excellent scaling efficiency (93.6\%) and high raw throughput (over 2x faster than Python on single GPU).
 
 \BenchmarkDiscussion
-The Julia implementation is significantly faster than the Python baseline (see below) due to reduced overhead and optimized kernel launch. This efficiency justifies the use of Julia for the computationally intensive core training loops.
+The Julia implementation exploits the H100 hardware effectively but has a high memory footprint (~93 GB unoptimized, reduced to ~75 GB with batch size 24), necessitating high-memory nodes (A100 80GB or H100). The high throughput justifies its use for the core training loops.
 
 \Benchmark{PyTorch (Python)}
 \BenchmarkDescription
-We also benchmarked a PyTorch Lightning implementation of the same 3D ResNet-152 model.
+We also benchmarked a PyTorch Lightning implementation of the same 3D ResNet-152 model for comparison.
 
 \BenchmarkSystem
 Same as above (JUPITER).
 
 \BenchmarkData
 \begin{itemize}
-    \item 1 GPU: 13.2 samples/sec
+    \item 1 GPU: 13.2 samples/sec (Peak Mem: 24.3 GB)
     \item 2 GPUs: 43.7 samples/sec
-    \item 4 GPUs: 120.5 samples/sec
+    \item 4 GPUs: 120.5 samples/sec (9.1x speedup)
 \end{itemize}
 
 \BenchmarkDiscussion
-While PyTorch shows super-linear scaling (likely due to overhead amortization), its single-GPU performance is lower than Julia's. We will use PyTorch for specific sub-tasks (e.g., data preprocessing, specific pre-trained models) where ecosystem support outweighs raw performance.
+PyTorch demonstrates super-linear scaling, likely due to the amortization of Python's orchestration overhead across multiple devices. However, its single-GPU performance is significantly lower (13.2 vs 31.3 samples/sec). PyTorch will be reserved for ecosystem-dependent tasks (e.g., specific pre-trained models) and inference pipelines where memory efficiency (24.3 GB) is prioritized over raw training throughput.
 
 
 \ResourceJustification
-We request 96,000 GPU hours to train the 5-stage causal framework. The training involves:
+We request a total of \textbf{96,000 GPU hours} to develop and train the CausalPCa framework. This estimate is based on our scalability benchmarks and the complexity of the proposed 5-stage architecture. The breakdown is as follows:
+
 \begin{itemize}
-    \item \textbf{Stage 1 (Supervisors):} Lightweight, approx 5,000 GPUh.
-    \item \textbf{Stage 2 (VAEs):} Heavyweight. 3 modalities x 5 models (hyperopt) x 1000 GPUh = 15,000 GPUh.
-    \item \textbf{Stage 3 (OOD):} Medium. 5,000 GPUh.
-    \item \textbf{Stage 4 (NJDE):} Very Heavy. Temporal modeling on latent sequences. 46,000 GPUh for extensive architecture search and pre-training.
-    \item \textbf{Stage 5 (Generative):} Diffusion models. 25,000 GPUh.
+    \item \textbf{Stage 1 (Supervisors):} Training lightweight ordinal classifiers and survival regressors.
+    (100 runs $\times$ 1 GPU $\times$ 10 hours = 1,000 GPUh). To allow for hyperparameter tuning and cross-validation, we budget \textbf{1,000 GPUh}.
+
+    \item \textbf{Stage 2 (Causal VAEs):} Training hierarchical VAEs for 3 modalities (MRI, PET, SPECT).
+    (100 runs $\times$ 4 GPUs $\times$ 37.5 hours = 15,000 GPUh). This covers disentanglement experiments and composite loss tuning. Budget: \textbf{15,000 GPUh}.
+
+    \item \textbf{Stage 3 (OOD Detection):} Training VAEs on latent embeddings for outlier detection.
+    (50 runs $\times$ 4 GPUs $\times$ 25 hours = 5,000 GPUh). Budget: \textbf{5,000 GPUh}.
+
+    \item \textbf{Stage 4 (Neural Jump ODEs):} The most computationally intensive stage, involving temporal modeling of latent trajectories.
+    (200 runs $\times$ 4 GPUs $\times$ 62.5 hours = 50,000 GPUh). This includes architecture search for the ODE function and jump networks. Budget: \textbf{50,000 GPUh}.
+
+    \item \textbf{Stage 5 (Generative Synthesis):} Training diffusion models for image generation and counterfactuals.
+    (100 runs $\times$ 4 GPUs $\times$ 62.5 hours = 25,000 GPUh). Budget: \textbf{25,000 GPUh}.
 \end{itemize}
-Total: 96,000 GPU hours.
+\textbf{Total Request: 96,000 GPU hours.}
 
 %ResourceTable
 %first argument: resource type, e.g, CPU, GPU, FPGA,...
@@ -142,10 +152,11 @@ Total: 96,000 GPU hours.
 
 \ResourceTable{GPU}{
 %subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#GPUs per run
-1;Stage1;Lux.jl;N=1290;100;10;10;1\\
-1;Stage2;Lux.jl;N=1290;100;10;3.75;4\\
-1;Stage4;Lux.jl;N=1290;200;10;5.75;4\\
-1;Stage5;PyTorch;N=1290;100;10;6.25;4\\
+1;Stage1;Lux.jl;N=1290;100;1;10.0;1\\
+1;Stage2;Lux.jl;N=1290;100;1;37.5;4\\
+1;Stage3;Lux.jl;N=1290;50;1;25.0;4\\
+1;Stage4;Lux.jl;N=1290;200;1;62.5;4\\
+1;Stage5;PyTorch;N=1290;100;1;62.5;4\\
 }
 
 %alternative ResourceTable for molecular dynamics simulations
