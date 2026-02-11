@@ -8,11 +8,11 @@
     This project aims to develop a novel Causal AI framework for optimizing nuclear medicine procedures, specifically focusing on prostate cancer management. By leveraging the Exascale capabilities of the JUPITER supercomputer, we will train high-fidelity 3D Generative Models (Diffusion Models, VAEs) and Neural Jump ODEs to simulate disease progression and treatment outcomes. The framework serves as a "Digital Twin" for patients, integrating multi-modal data (PET/CT, MRI, clinical notes) to provide explainable, counterfactual reasoning for clinical decision support. The project addresses the critical need for personalized dosimetry and treatment planning, utilizing synthetic data generation to overcome privacy and scarcity constraints in medical imaging.
 *   **Keywords:**
     Generative AI, Nuclear Medicine, Digital Twin, Causal AI, Neuro-symbolic AI, Prostate Cancer, Exascale Computing, Synthetic Data
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 *   **Proposal for civilian purposes:** Yes
 *   **Is any part of the project confidential?:** No
 *   **Does your proposal involve handling of personal data?:** Yes
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 
 ### Submission details
 *   **Type of submission:** New Submission
@@ -40,7 +40,7 @@
 *   **Website:** https://www.med.uni-magdeburg.de/nuklearmedizin.html
 
 ### Organization details
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 *   **Organization name:** Otto-von-Guericke University Magdeburg
 *   **Organization type:** Higher Education Establishment (Public)
 *   **Organization with research activity:** Yes
@@ -79,7 +79,7 @@
 ## Partitions
 
 ### Instructions
-(Read and Understood)
+[Checked]
 
 ### Partition information
 *   **Partition name:** JUPITER Booster (GPU)
@@ -100,9 +100,11 @@
 *   **Average # GPUs to be used per job:** 16
 *   **Maximum # GPUs to be used per job:** 32
 *   **# GPUs used per node:** 4
-*   **Maximum # CPU cores per job:** 288 (72 cores per GH200 x 4)
+*   **Maximum # CPU cores per job:** 2304
+    *(Calculation: 32 GPUs = 8 nodes. 8 nodes * 288 cores/node = 2304 cores)*
 *   **Maximum number of jobs running simultaneously on the GPU partition:** 4
-*   **Average # CPU cores per job:** 144
+*   **Average # CPU cores per job:** 1152
+    *(Calculation: 16 GPUs = 4 nodes. 4 nodes * 288 cores/node = 1152 cores)*
 *   **# of CPU cores used per node:** 288
 
 ### Memory
@@ -132,7 +134,7 @@
 ## Code details, Development and Data management
 
 ### Instructions
-(Read and Understood)
+[Checked]
 
 ### Workflows
 *   **Please describe the workflows you will be using:**
@@ -157,17 +159,17 @@
 *   **Will the generated data by the project (if any) be open to other communities?:** Yes (Synthetic data cohorts will be released).
 
 ### Application Support Team (AST)
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 *   **Does your proposal require assistance from an AST on the selected partition(s)?:** No
 
 ### Collaboration and Funding
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 *   **Select one or more funding options applicable to this project:** Horizon Europe (EIC Pathfinder Challenge)
 
 ## Dissemination Strategy
 
 ### Instructions
-(Read and Understood)
+[Checked]
 
 ### Dissemination strategy description:
 We will publish results in high-impact journals (Nature Medicine, Lancet Digital Health) and AI conferences (NeurIPS, MICCAI). We will organize workshops on "Generative AI in Nuclear Medicine" and release open-source models (Hugging Face) and synthetic datasets to the research community. Regular updates will be provided via the project website and social media.
@@ -175,7 +177,7 @@ We will publish results in high-impact journals (Nature Medicine, Lancet Digital
 ## Ethics Self-Assessment
 
 ### Instructions
-(Read and Understood)
+[Checked]
 
 ### Respect for Human Agency
 *   **Please describe how your system ensures that end-users have the ability to control vital decisions about their own lives:**
@@ -207,15 +209,27 @@ We will publish results in high-impact journals (Nature Medicine, Lancet Digital
     We implement a "human-in-the-loop" feedback mechanism. Clinicians can flag incorrect or hallucinated outputs, which are logged for model retraining. An Ethics Board monitors the project's progress and can halt deployment if adverse effects are detected.
 
 ## Excluded Reviewers
-(None needed unless specific conflicts exist)
+*   **Excluded Reviewer #1**
+    *   **Full Name:** None
+    *   **E-mail:** None
+    *   **Affiliation:** None
+*   **Excluded Reviewer #2**
+    *   **Full Name:** None
+    *   **E-mail:** None
+    *   **Affiliation:** None
+*   **Excluded Reviewer #3**
+    *   **Full Name:** None
+    *   **E-mail:** None
+    *   **Affiliation:** None
 
 ## Data Consent
-*   **Instructions:** (Read and Understood)
+*   **Instructions:** [Checked]
 *   **In case the proposal is awarded, EuroHPC JU would like to publish...:** Yes
 *   **In order to submit the proposal, you must accept the call's Terms of Reference...:** Yes
 *   **In case the proposal is recommended to be awarded but due to the first-come-first-serve principle...:** Yes
 
 ## Administrative self-assessment checklist
+*   **Administrative self-assessment checklist**
 *   **PI CV uploaded (most recent):** Yes
 *   **Correct Project Scope and Plan template used:** Yes
 *   **Maximum page limit of the Project Scope and Plan respected (10 pages):** Yes
