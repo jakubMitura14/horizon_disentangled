@@ -1,0 +1,127 @@
+\documentclass[whitelistedextension,showhints]{nhrproposal}
+
+\newcommand\projecttitle{[Project title here]}
+\newcommand\authors{[PI/PC of the proposal here]}
+\newcommand\projectlogo{figures/some_logo.png} %comment out if no logo should be included
+
+\begin{document}
+\Titlepage
+
+\ProgressReport
+\ProgressReportSummary
+\SubprojectReport{[Sub-project title]}
+\SubprojectReportProgress
+\SubprojectReportChallenges
+\SubprojectReportProblems
+
+\SubprojectReport{[Sub-project title]}
+
+\ProgressImprovements
+
+\ShortProjectExtensionDescription
+\ShortSubprojectDescription{[Sub-project title]}
+\ShortSubprojectDescription{[Sub-project title]}
+
+\ComputeResourcesExtension
+\CodeOverview
+%for one code
+\begin{Codetable}{1}{0.6\linewidth}{0.3\linewidth}{0}{0} %first value: number of codes/programs, other values: column widths
+%for two codes
+%\begin{Codetable}{2}{0.5\linewidth}{0.2\linewidth}{0.2\linewidth}{0} %first value: number of codes/programs, other values: column widths
+%for three codes
+%\begin{Codetable}{3}{0.4\linewidth}{0.2\linewidth}{0.2\linewidth}{0.2\linewidth} %first value: number of codes/programs, other values: column widths
+ Name           &  \\ \hline
+ Version number &  \\ \hline
+ Web page       & \url{...}   \\ \hline
+ Citation or reference &   \\ \hline 
+ Are you a developer, collaborator or end user of the program? &   \\ \hline
+ Is the source code available? (publicly, upon request, no) &   \\ \hline
+ Is it a commercially licensed software? If yes, do you already have a license that is useable at the requested NHR center?  &  \\ \hline
+ Are there usage limitation for this software like the maximal number of simultaneous runs, license server,...?  &  \\ \hline
+ How is the code parallelized (pure MPI, hybrid MPI/OpenMP, CUDA,...)? &  \\ \hline
+ Which programming languages are used? (optional) &  \\ \hline
+ Are there other further requirements (e.g. special libraries) for the program? (optional) &   \\ \hline
+\end{Codetable}
+
+\CodeBenchmarks
+\Benchmark{Program A Name}
+\BenchmarkDescription
+
+\BenchmarkSystem
+\begin{center}
+\begin{tabular}{|G{5cm}|L{10cm}|}\hline
+Cluster location &  \\ \hline
+Cluster name & \\ \hline
+CPUs per node & \\ \hline
+CPU type & \\ \hline
+Physical CPU-cores per CPU & \\ \hline
+Main memory per node & \\ \hline
+Interconnect & \\ \hline
+Accelerators (such as GPUs) & \\ \hline
+\end{tabular}
+\end{center}
+
+\BenchmarkData
+
+\BenchmarkDiscussion
+
+\Benchmark{Program B Name}
+%\BenchmarkDescription
+%
+%\BenchmarkSystem
+%\begin{center}
+%\begin{tabular}{|G{5cm}|L{10cm}|}\hline
+%Cluster location &  \\ \hline
+%Cluster name & \\ \hline
+%CPUs per node & \\ \hline
+%CPU type & \\ \hline
+%Physical CPU-cores per CPU & \\ \hline
+%Main memory per node & \\ \hline
+%Interconnect & \\ \hline
+%Accelerators (such as GPUs) & \\ \hline
+%\end{tabular}
+%\end{center}
+
+%\BenchmarkData
+
+%\BenchmarkDiscussion
+
+
+\ResourceJustification
+%ResourceTable
+%first argument: resource type, e.g, CPU, GPU, FPGA,...
+%second argument: resource usage specification, i.e., subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#CPU-cores/run
+
+\ResourceTable{CPU}{
+%subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#CPU-cores per run
+1;Preproc;program A;N=1000;100;20;3.4;128\\
+1;Type1;program B;N=15000;1000;20;3.4;128\\
+2;Type2;program C;N=100000;100;200;3.4;512\\
+}
+\ResourceTable{GPU}{
+%subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#GPUs per run
+1;Type1;program B;N=1000;100;20;3.4;4\\
+}
+
+\ResourcePlan
+%PlanTable
+%first argument: table width in cm
+%second argument: identifiers of resource types for sum columns, e.g. CPU, GPU, FPGA,...
+%third argument: planed usage separated by sub projects, resource types and months
+\PlanTable{14}{CPU,GPU}{ 
+  Sub-project 1;
+    CPU,0.1,1.2,3.3,1.4,1.5,1.6,1.7,1.8,1.9,2.10,2.11,2.12;
+    GPU,1.1,1.2,3.3,1.4,1.5,1.6,1.7,1.8,1.9,2.10,2.11,2.12;
+  \\
+  Sub-project 2;
+    CPU,1.1,1.2,3.3,1.4,1.5,1.6,1.7,1.8,1.9,2.10,2.11,2.12;
+  \\
+}
+
+\SpecialRequirements
+
+\References{references} %first argument is name of bibtex file
+
+%\BenchmarkExample
+
+\end{document}
