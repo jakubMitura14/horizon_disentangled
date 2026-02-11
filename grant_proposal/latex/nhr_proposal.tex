@@ -1,0 +1,185 @@
+\documentclass[new,showhints]{nhrproposal}
+
+\newcommand\projecttitle{Generative AI for Nuclear Medicine Optimization}
+\newcommand\authors{Prof. Dr. Michael Kreißl (PI), Jakub Mitura, Joanna Wybrańska}
+% \newcommand\projectlogo{figures/some_logo.png} %comment out if no logo should be included
+
+\begin{document}
+\Titlepage
+
+\Introduction
+This project, titled "CausalPCa", aims to develop a novel AI framework for managing prostate cancer by moving beyond simple prediction to a deep, causal understanding of disease progression. The goal is to create a transparent decision support tool that can integrate diverse, irregularly sampled clinical data (MRI, PET/CT, SPECT/CT, PSA, notes) and provide explainable insights through counterfactual reasoning. By disentangling the underlying biological signals from technical confounders, the model will simulate disease trajectories and treatment outcomes, mirroring a clinician's own reasoning process and fostering clinical trust.
+
+The framework is designed as a "digital twin" to transparently model the disease trajectory. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and infuse deep medical domain knowledge into the model's architecture. Clinically, our agent will improve diagnostic interpretation by simulating disease progression and enable personalized treatment selection by forecasting outcomes.
+
+\PreliminaryWork
+Our team has established a strong foundation for this project through preliminary experiments and scalability testing. We have developed a prototype pipeline that integrates multimodal imaging data.
+
+\textbf{Scalability and Performance:}
+We have conducted rigorous scalability tests on the JUPITER supercomputer (NVIDIA GH200/H100) to validate our training infrastructure. Our results demonstrate linear strong scaling for a "Super Heavy 3D ResNet-152" workload. Key findings include:
+\begin{itemize}
+    \item \textbf{Julia vs. Python:} We benchmarked both Julia (Lux.jl) and Python (PyTorch Lightning) frameworks. Julia demonstrated 2.3x higher raw throughput in single-GPU mode and maintained high scaling efficiency.
+    \item \textbf{Memory Efficiency:} We optimized batch sizes (24 per process) to fit within the 80GB HBM3 limit of H100 GPUs, addressing the extreme memory requirements of 3D medical imaging.
+    \item \textbf{Speedup:} We achieved a 3.9x speedup on 4 GPUs using Julia, confirming the readiness of our code for large-scale HPC resources.
+\end{itemize}
+
+These preliminary results confirm that our proposed architecture is both computationally feasible and scalable to the NHR systems (e.g., Noctua 2).
+
+\ProjectDescription
+The framework is built upon a sequential, multi-stage training process. This modular approach ensures stability, manages the complexity of multimodal data, and allows each stage to build upon the robust foundations of the previous one.
+
+\SubprojectDescription{Stage 1: Supervisor Models}
+The initial stage focuses on training a suite of specialized "supervisor" models. These expert models provide strong, clinically-validated signals that will guide and constrain the more complex generative models. We train Ordinal Clinical Score Classifiers (TNM Staging, PI-RADS) using differential ordinal loss, and a Censored Survival Regressor to predict time-to-progression (TTP) handling right-censored data.
+
+\SubprojectDescription{Stage 2: Per-Modality Causal Representation Learning}
+For each imaging modality (MRI, PET, SPECT), a separate hierarchical Variational Autoencoder (VAE) will be trained to learn a disentangled latent space. This process separates the image content into four independent components: Anatomy ($Z_A$), Disease ($Z_D$), Patient State ($Z_P$), and Style/Confounders ($Z_S$). This disentanglement is crucial for robustness against scanner variations and for generating valid counterfactuals.
+
+\SubprojectDescription{Stage 3: Out-of-Distribution Detection}
+To enhance robustness against label noise, we incorporate a VAE-based Out-of-Distribution (OOD) detection mechanism. This stage identifies atypical or potentially mislabeled data points by analyzing reconstruction error and KNN distance in the latent space, flagging them for expert review.
+
+\SubprojectDescription{Stage 4: Temporal Trajectory Modeling with Neural Jump ODEs}
+This stage models disease evolution over time using a Neural Jump Ordinary Differential Equation (NJDE) framework. The NJDE models continuous disease evolution with a Neural ODE and discrete interventions (e.g., surgery, therapy) as "jumps". This architecture is uniquely suited for sparse and irregularly-sampled clinical data, allowing the model to learn from incomplete patient histories using a masked loss function.
+
+\SubprojectDescription{Stage 5: Generative Synthesis and Clinical Outputs}
+The final stage translates the model's learned representations into clinically actionable outputs. We generate structured radiological reports and visual counterfactuals (e.g., "how would this patient's scan look in 5 years without treatment?"). This stage enables the "Treatment-Choice Helper", simulating multiple future trajectories to identify therapeutic strategies that maximize expected time to progression.
+
+\ComputeResources
+\CodeOverview
+%for one code
+%\begin{Codetable}{1}{0.6\linewidth}{0.3\linewidth}{0}{0} %first value: number of codes/programs, other values: column widths
+%for two codes
+\begin{Codetable}{2}{0.3\linewidth}{0.3\linewidth}{0.3\linewidth}{0} %first value: number of codes/programs, other values: column widths
+%for three codes
+%\begin{Codetable}{3}{0.4\linewidth}{0.2\linewidth}{0.2\linewidth}{0.2\linewidth} %first value: number of codes/programs, other values: column widths
+ Name           & Lux.jl & PyTorch \\ \hline
+ Version number & 0.5 & 2.1 \\ \hline
+ Web page       & \url{https://lux.csail.mit.edu/} & \url{https://pytorch.org/}  \\ \hline
+ Citation or reference &  &  \\ \hline
+ Are you a developer, collaborator or end user of the program? & Developer & End User \\ \hline
+ Is the source code available? (publicly, upon request, no) & Publicly & Publicly \\ \hline
+ Is it a commercially licensed software? If yes, do you already have a license that is useable at the requested NHR center?  & No & No \\ \hline
+ Are there usage limitation for this software like the maximal number of simultaneous runs, license server,...?  & No & No \\ \hline
+ How is the code parallelized (pure MPI, hybrid MPI/OpenMP, CUDA,...)? & CUDA, MPI & CUDA, DDP \\ \hline
+ Which programming languages are used? (optional) & Julia & Python \\ \hline
+ Are there other further requirements (e.g. special libraries) for the program? (optional) &  &  \\ \hline
+\end{Codetable}
+
+\CodeBenchmarks
+\Benchmark{Lux.jl (Julia)}
+\BenchmarkDescription
+We benchmarked our custom Julia implementation using Lux.jl, Flux.jl, and CUDA.jl. The model is a 3D ResNet-152 trained on 128x128x128 volumes.
+
+\BenchmarkSystem
+\begin{center}
+\begin{tabular}{|G{5cm}|L{10cm}|}\hline
+Cluster location & FZJ (Jülich) \\ \hline
+Cluster name & JUPITER (Booster) \\ \hline
+CPUs per node & NVIDIA Grace CPU \\ \hline
+CPU type & ARM64 \\ \hline
+Physical CPU-cores per CPU & 72 \\ \hline
+Main memory per node & 512 GB \\ \hline
+Interconnect & NVIDIA NVLink / InfiniBand NDR \\ \hline
+Accelerators (such as GPUs) & 4x NVIDIA H100 (GH200) \\ \hline
+\end{tabular}
+\end{center}
+
+\BenchmarkData
+We performed strong scaling tests on a single node (1 to 4 GPUs).
+\begin{itemize}
+    \item 1 GPU: 31.3 samples/sec
+    \item 2 GPUs: 61.4 samples/sec (1.96x speedup)
+    \item 4 GPUs: 117.2 samples/sec (3.74x speedup)
+\end{itemize}
+The Julia implementation shows excellent scaling efficiency (93.6\%) and high raw throughput.
+
+\BenchmarkDiscussion
+The Julia implementation is significantly faster than the Python baseline (see below) due to reduced overhead and optimized kernel launch. This efficiency justifies the use of Julia for the computationally intensive core training loops.
+
+\Benchmark{PyTorch (Python)}
+\BenchmarkDescription
+We also benchmarked a PyTorch Lightning implementation of the same 3D ResNet-152 model.
+
+\BenchmarkSystem
+Same as above (JUPITER).
+
+\BenchmarkData
+\begin{itemize}
+    \item 1 GPU: 13.2 samples/sec
+    \item 2 GPUs: 43.7 samples/sec
+    \item 4 GPUs: 120.5 samples/sec
+\end{itemize}
+
+\BenchmarkDiscussion
+While PyTorch shows super-linear scaling (likely due to overhead amortization), its single-GPU performance is lower than Julia's. We will use PyTorch for specific sub-tasks (e.g., data preprocessing, specific pre-trained models) where ecosystem support outweighs raw performance.
+
+
+\ResourceJustification
+We request 96,000 GPU hours to train the 5-stage causal framework. The training involves:
+\begin{itemize}
+    \item \textbf{Stage 1 (Supervisors):} Lightweight, approx 5,000 GPUh.
+    \item \textbf{Stage 2 (VAEs):} Heavyweight. 3 modalities x 5 models (hyperopt) x 1000 GPUh = 15,000 GPUh.
+    \item \textbf{Stage 3 (OOD):} Medium. 5,000 GPUh.
+    \item \textbf{Stage 4 (NJDE):} Very Heavy. Temporal modeling on latent sequences. 46,000 GPUh for extensive architecture search and pre-training.
+    \item \textbf{Stage 5 (Generative):} Diffusion models. 25,000 GPUh.
+\end{itemize}
+Total: 96,000 GPU hours.
+
+%ResourceTable
+%first argument: resource type, e.g, CPU, GPU, FPGA,...
+%second argument: resource usage specification, i.e., subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#CPU-cores per run
+%\ResourceTable{CPU}{
+%%subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#CPU-cores per run
+%1;Preproc;program A;N=1000;100;20;3.4;128\\
+%1;Type1;program B;N=15000;1000;20;3.4;128\\
+%2;Type2;program C;N=100000;100;200;3.4;512\\
+%}
+
+%alternative ResourceTable for molecular dynamics simulations
+%\ResourceTableMD{CPU}{
+%%subproject;run type;programs used;problem size;#runs;simulation time in mus; performance ns/day;#CPU-cores per run
+%1;Type1;program B;N=100k;10;15;110.5;128\\
+%}
+
+\ResourceTable{GPU}{
+%subproject;run type;programs used;problem size;#runs;#steps per run; Wall time per step [hours];#GPUs per run
+1;Stage1;Lux.jl;N=1290;100;10;10;1\\
+1;Stage2;Lux.jl;N=1290;100;10;3.75;4\\
+1;Stage4;Lux.jl;N=1290;200;10;5.75;4\\
+1;Stage5;PyTorch;N=1290;100;10;6.25;4\\
+}
+
+%alternative ResourceTable for molecular dynamics simulations
+%\ResourceTableMD{GPU}{
+%%subproject;run type;programs used;problem size;#runs;simulation time in mus; performance ns/day;#CPU-cores per run
+%1;Type1;program B;N=100k;10;15;110.5;4\\
+%}
+
+
+%manual resource table
+%\begin{tabular}{|p{1.3cm}|p{2cm}|p{2cm}|p{2cm}|p{1.2cm}|p{1.2cm}|p{1.3cm}|p{1.2cm}|p{1.7cm}|} \hline
+%    \rowcolor{Gray}    Sub-project & Run type & Programs used &  Problem size & \#runs & \#steps per run & Wall time per step [hours] & \#CPU-cores / run & Total \\ \hline
+%  1 & Preproc & program A & $PS1$ & $R1$ & $S1$ & $W1$ & $C1$ & $R1\cdot S1\cdot W1\cdot C1\cdot 10^{-6}$ \\ \hline
+%  ... & Type 1 & program B & $PS2$ & $R2$ & $S2$ & $W2$ & $C2$ & $R2\cdot S2\cdot W2\cdot C2\cdot 10^{-6}$ \\ \hline
+%  TOTAL& - & - & -& -&-&-&-& Sum here \\ \hline
+%\end{tabular}
+
+
+\ResourcePlan
+%PlanTable
+%first argument: table width in cm
+%second argument: identifiers of resource types for sum columns, e.g. CPU, GPU, FPGA,...
+%third argument: planed usage separated by sub projects, resource types and months
+\PlanTable{14}{GPU}{
+  Project;
+    GPU,8000,8000,8000,8000,8000,8000,8000,8000,8000,8000,8000,8000;
+  \\
+}
+
+\SpecialRequirements
+Our 3D models require significant GPU memory. On H100 (80GB), we utilize ~75GB with batch size 24. We require GPUs with at least 80GB memory (A100 80GB or H100).
+Privacy: All data is pseudonymized.
+
+\References{bibl} %first argument is name of bibtex file
+
+
+\end{document}
