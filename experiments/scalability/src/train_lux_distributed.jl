@@ -188,7 +188,8 @@ function main()
     ps, st = Lux.setup(rng, model)
     
     # Move to device first
-    device = use_cuda ? gpu_device() : cpu_device()
+    # Use local_rank to select the correct GPU
+    device = use_cuda ? gpu_device(local_rank + 1) : cpu_device()
     ps = ps |> device
     st = st |> device
 
@@ -212,7 +213,7 @@ function main()
     st_opt = DistributedUtils.synchronize!!(backend, st_opt)
 
     # Data
-    local_batch_size = 32
+    local_batch_size = 24
     # We create local data. In real scenario, we use DistributedDataContainer.
     # Here we just generate random data on device.
     # Note: backend operations usually put things on device.
@@ -246,8 +247,12 @@ function main()
         epoch_time = t_end - t_start
 
         if local_rank == 0 && (epoch <= 5 || epoch % 10 == 0)
-            @printf("Epoch %d: Loss %.4f | Time %.4fs | Backend: %s\n",
-                    epoch, loss, epoch_time, use_cuda ? "NCCL" : "MPI")
+            # Memory Check
+            free_bytes, total_bytes = CUDA.Mem.info()
+            used_gb = (total_bytes - free_bytes) / 1024^3
+            
+            @printf("Epoch %d: Loss %.4f | Time %.4fs | GPU Mem %.2fGB | Backend: %s\n",
+                    epoch, loss, epoch_time, used_gb, use_cuda ? "NCCL" : "MPI")
         end
     end
     

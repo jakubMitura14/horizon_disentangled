@@ -58,7 +58,9 @@ class EpochTimer(pl.Callback):
     def on_train_epoch_end(self, trainer, pl_module):
         epoch_time = time.time() - self.start_time
         if trainer.global_rank == 0:
-            print(f"Epoch {trainer.current_epoch + 1}: Time {epoch_time:.4f}s")
+            max_mem = torch.cuda.max_memory_allocated() / 1024**3
+            print(f"Epoch {trainer.current_epoch + 1}: Time {epoch_time:.4f}s | Peak Mem {max_mem:.2f} GB")
+            torch.cuda.reset_peak_memory_stats()
 
 class HeavyResNet152_3D(pl.LightningModule):
     def __init__(self):
@@ -122,7 +124,7 @@ def main():
     dataset = Mock3DDataset()
     # OPTIMIZATION: Set num_workers and pin_memory to prevent data loading bottlenecks
     # Use 4 workers per GPU (typical heuristic)
-    dataloader = DataLoader(dataset, batch_size=32, num_workers=4, pin_memory=True)
+    dataloader = DataLoader(dataset, batch_size=24, num_workers=4, pin_memory=True)
 
     model = HeavyResNet152_3D()
 

@@ -85,6 +85,14 @@ echo "Starting Scalability Tests (Single Node Strong Scaling)..."
 # Arguments: <MAX_GPUS>
 TOTAL_GPUS=${SLURM_GPUS_ON_NODE:-4}
 
+echo "Starting Background Memory Monitor..."
+chmod +x horizon_disentangled/experiments/scalability/monitor_memory.sh
+./horizon_disentangled/experiments/scalability/monitor_memory.sh "horizon_disentangled/experiments/scalability/logs/memory_log_${SLURM_JOB_ID}.csv" &
+MONITOR_PID=$!
+
 bash horizon_disentangled/experiments/scalability/run_scaling_tests.sh --slurm $TOTAL_GPUS
+
+echo "Stopping Memory Monitor..."
+kill $MONITOR_PID
 
 echo "Job Complete."
