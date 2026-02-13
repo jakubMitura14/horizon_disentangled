@@ -19,6 +19,8 @@
 \usepackage{hyperref}
 \usepackage{microtype}
 \usepackage{amsmath}
+\usepackage{float}
+\usepackage{tabularx}
 
 % --- COLOR DEFINITIONS ---
 \definecolor{primary}{HTML}{0A369D}
@@ -313,38 +315,181 @@ We plan to maximize impact through:
 
 \subsection{Work plan and allocation of resources}
 
-The project follows a structured work plan over 36 months (or 12 months for the Development Access phase), organized into the following Work Packages (WPs):
+The project is organized into 4 work packages (WPs) to ensure the timely achievement of the objectives. The scalability testing results justify the resource request for the JUPITER Booster module.
 
-\subsubsection*{WP1: Data Collection \& Curation}
-Collection of retrospective data from multiple centers, ensuring GDPR compliance and high-quality annotations.
-
-\subsubsection*{WP2: Model Development}
-Implementation of the multi-stage framework:
+\subsubsection*{Scalability and Resource Request}
+\textbf{Scalability Results:} Benchmarks performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}) demonstrate linear scaling.
 \begin{itemize}
-    \item Training of Supervisor models.
-    \item Development of VAEs for disentanglement.
-    \item Implementation of NJDEs for temporal modeling.
+    \item \textbf{Linear Scaling}: We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency) on a "Super Heavy 3D ResNet-152" workload.
+    \item \textbf{Resource Request}: 25,000 Node Hours (approx. 100,000 GPU Hours) on JUPITER Booster (NVIDIA GH200) for 12 months.
 \end{itemize}
 
-\subsubsection*{WP3: Scalability \& Training}
-Large-scale training on EuroHPC systems.
-\textbf{Scalability Results:}
-We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume) to simulate the computational load of our generative models. These benchmarks were performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}).
-\begin{itemize}
-    \item \textbf{Linear Scaling}: We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency).
-    \item \textbf{Optimizations}: We utilize \texttt{MPI.jl} for communication and optimized DataLoaders with \texttt{num\_workers=4} and \texttt{pin\_memory=True} to eliminate bottlenecks.
-\end{itemize}
+\subsubsection*{Tables for section 3.1}
 
-\textbf{Resource Request:}
-This project targets the \textbf{JUPITER} supercomputer (Booster Module).
-\begin{itemize}
-    \item \textbf{System}: JUPITER Booster (NVIDIA GH200).
-    \item \textbf{Request}: 25,000 Node Hours (approx. 100,000 GPU Hours).
-    \item \textbf{Duration}: 12 Months (Development Access).
-\end{itemize}
+\begin{table}[H]
+\centering
+\caption{Table 3.1a: List of work packages}
+\begin{tabular}{|c|l|l|l|l|l|}
+\hline
+\textbf{WP No} & \textbf{Work Package Title} & \textbf{Lead Participant} & \textbf{Lead Name} & \textbf{Start} & \textbf{End} \\ \hline
+1 & Data Collection \& Curation & UKMD & Prof. Kreißl & M1 & M12 \\ \hline
+2 & Model Development & UKMD & J. Mitura & M3 & M24 \\ \hline
+3 & Scalability \& Training & UKMD & J. Mitura & M6 & M30 \\ \hline
+4 & Validation & UKMD & J. Wybrańska & M24 & M36 \\ \hline
+\end{tabular}
+\end{table}
 
-\subsubsection*{WP4: Validation}
-Clinical validation of model predictions against ground truth outcomes and expert assessment of counterfactual explanations.
+\begin{table}[H]
+\centering
+\caption{Table 3.1b: Work package description - WP1}
+\begin{tabular}{|p{0.95\textwidth}|}
+\hline
+\textbf{WP Number:} 1 \hfill \textbf{WP Title:} Data Collection \& Curation \\ \hline
+\textbf{Objectives:} To establish a standardized, longitudinal, and multimodal dataset of prostate cancer patients. \\ \hline
+\textbf{Description of Work:} \\
+- T1.1: Ethical approval and data protection setup. \\
+- T1.2: Retrieval of retrospective data (MRI, PET/CT, Clinical) from hospital PACS/RIS. \\
+- T1.3: Curation, pseudonymization, and conversion to NIfTI format. \\
+- T1.4: Preprocessing (Spatial padding, normalization) and storage in XNAT. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1b: Work package description - WP2}
+\begin{tabular}{|p{0.95\textwidth}|}
+\hline
+\textbf{WP Number:} 2 \hfill \textbf{WP Title:} Model Development \\ \hline
+\textbf{Objectives:} To design and implement the Causal AI framework components. \\ \hline
+\textbf{Description of Work:} \\
+- T2.1: Implementation and training of Supervisor models (Ordinal Classifiers, Segmentation). \\
+- T2.2: Development of Disentangled VAEs for each modality. \\
+- T2.3: Implementation of Neural Jump ODEs (NJDE) for temporal trajectory modeling. \\
+- T2.4: Integration of components into the full generative framework. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1b: Work package description - WP3}
+\begin{tabular}{|p{0.95\textwidth}|}
+\hline
+\textbf{WP Number:} 3 \hfill \textbf{WP Title:} Scalability \& Training \\ \hline
+\textbf{Objectives:} To scale the model training to Exascale systems (JUPITER). \\ \hline
+\textbf{Description of Work:} \\
+- T3.1: Optimization of data loaders and I/O (HDF5, MPI). \\
+- T3.2: Implementation of distributed training (DDP/MPI.jl). \\
+- T3.3: Large-scale hyperparameter tuning and model training on JUPITER Booster. \\
+- T3.4: Checkpointing and model serialization. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1b: Work package description - WP4}
+\begin{tabular}{|p{0.95\textwidth}|}
+\hline
+\textbf{WP Number:} 4 \hfill \textbf{WP Title:} Validation \\ \hline
+\textbf{Objectives:} To validate the clinical utility and trustworthiness of the model. \\ \hline
+\textbf{Description of Work:} \\
+- T4.1: Quantitative evaluation (Classification metrics, Generative fidelity/FID). \\
+- T4.2: Clinical validation study with radiologists (Counterfactual assessment). \\
+- T4.3: Comparison against classical prognostic baselines. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1c: List of Deliverables}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{No} & \textbf{Deliverable Name} & \textbf{WP} & \textbf{Lead} & \textbf{Type} & \textbf{Due} \\ \hline
+D1.1 & Data Management Plan & 1 & UKMD & DMP & M6 \\ \hline
+D1.2 & Curated Dataset & 1 & UKMD & DATA & M12 \\ \hline
+D2.1 & Trained Supervisor Models & 2 & UKMD & OTHER & M12 \\ \hline
+D2.2 & Causal AI Framework Code & 2 & UKMD & OTHER & M24 \\ \hline
+D3.1 & Scalability Report & 3 & UKMD & R & M12 \\ \hline
+D3.2 & Final Trained Model Weights & 3 & UKMD & OTHER & M30 \\ \hline
+D4.1 & Validation Report & 4 & UKMD & R & M36 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1d: List of milestones}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{No} & \textbf{Milestone Name} & \textbf{WP} & \textbf{Due Date} \\ \hline
+M1 & Ethical Approval Obtained & 1 & M3 \\ \hline
+M2 & First Prototype (Supervisors) Ready & 2 & M12 \\ \hline
+M3 & Scalable Training Pipeline Operational & 3 & M18 \\ \hline
+M4 & Final Model Validation Complete & 4 & M36 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1e: Critical risks for implementation}
+\begin{tabular}{|p{0.3\textwidth}|p{0.1\textwidth}|p{0.5\textwidth}|}
+\hline
+\textbf{Description of risk} & \textbf{WP} & \textbf{Mitigation measures} \\ \hline
+Training Instability (High Likelihood) & 2, 3 & Use sequential training framework; decompose problem into sub-tasks (Supervisors -> VAE -> NJDE). \\ \hline
+Overfitting to Spurious Correlations (Medium Likelihood) & 2 & Explicit disentanglement of technical artifacts ($Z_S$) and use of domain knowledge (inductive biases). \\ \hline
+Performance with Incomplete Data (High Likelihood) & 1, 2 & Neural Jump ODE architecture specifically designed for sparse/irregular data; masked loss functions. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1f: Summary of staff effort}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Participant} & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{Total} \\ \hline
+UKMD & 12 & 24 & 24 & 12 & 72 \\ \hline
+\textbf{Total} & \textbf{12} & \textbf{24} & \textbf{24} & \textbf{12} & \textbf{72} \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1g: Subcontracting costs items}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Cost (€)} & \textbf{Description} \\ \hline
+UKMD & 0 & N/A \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1h: Purchase costs items}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Cost (€)} & \textbf{Justification} \\ \hline
+UKMD & 321,600 & High-performance GPU workstations for local development. \\ \hline
+UKMD & 32,500 & Travel to conferences (EANM, RSNA) for dissemination. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1i: Other costs categories items}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Cost (€)} & \textbf{Justification} \\ \hline
+UKMD & 112,000 & Cloud storage, publication fees, and software licenses. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Table 3.1j: In-kind contributions provided by third parties}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Third party} & \textbf{Category} & \textbf{Justification} \\ \hline
+UKMD & N/A & N/A & None planned. \\ \hline
+\end{tabular}
+\end{table}
 
 \subsection{Quality of the applicant/consortium}
 The consortium brings together world-class expertise in nuclear medicine, medical physics, and artificial intelligence.
