@@ -1,0 +1,196 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- ESSENTIAL PACKAGES ---
+
+% Font Encoding and Input
+\usepackage[T1]{fontenc} % Use 8-bit T1 fonts to ensure proper character rendering
+\usepackage[utf8]{inputenc} % Allows direct use of UTF-8 characters (e.g., é, ö, à)
+\usepackage{amsmath} % For \text{} in math mode
+
+% Page Layout and Margins
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=2.5cm,
+    right=2.5cm,
+    top=3cm,
+    bottom=3cm
+}
+
+% Professional Fonts (Latin Modern)
+\usepackage{lmodern}
+\usepackage{helvet} % For Helvetica font, used for the main title
+
+% --- COLOR AND STYLING ---
+
+% Color Management
+\usepackage[dvipsnames]{xcolor} % Use dvipsnames for a wider range of predefined colors
+
+% Define a professional color palette
+\definecolor{primary}{HTML}{0A369D}  % A deep, professional blue
+\definecolor{secondary}{HTML}{4472CA} % A lighter, complementary blue
+\definecolor{darkgray}{HTML}{333333}  % For body text, better than pure black
+\definecolor{customgreen}{HTML}{5E8B7E} % A muted green for accents
+\definecolor{titleblue}{HTML}{082A75} % A darker, rich blue for the main title
+
+\color{darkgray} % Set the default text color
+
+% Section and Title Styling
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}} % Format for the section title
+  {\thesection}{1em}{} % Section number, spacing, and the title itself
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondary}}
+  {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\color{customgreen}}
+  {\thesubsubsection}{1em}{}
+
+% --- IMAGES AND GRAPHICS ---
+
+% Standard package for including images
+\usepackage{graphicx}
+\graphicspath{{../images/}} % Images are in grant_proposal/images/
+\usepackage{float} % Improved control over figure placement with [H] option
+
+% --- LISTS AND ENUMERATIONS ---
+
+% Customize list environments
+\usepackage{enumitem}
+% The 'textcolor' option sets the color for the item's text
+\setlist[itemize,1]{label=\textcolor{primary}{\textbullet}, textcolor=primary}
+\setlist[itemize,2]{label=\textcolor{secondary}{\textendash}, textcolor=secondary}
+
+% --- HYPERLINKS ---
+
+% Hyperlink styling for URLs and cross-references
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    filecolor=magenta,
+    urlcolor=secondary,
+    citecolor=customgreen,
+    pdftitle={Generative AI for Nuclear Medicine Optimization},
+    pdfpagemode=FullScreen,
+}
+
+% --- TYPOGRAPHY AND MICRO-ADJUSTMENTS ---
+
+% Improves the justification and spacing of text for a cleaner look
+\usepackage{microtype}
+
+% --- TITLE PAGE ---
+
+\title{Generative AI for Nuclear Medicine Optimization}
+\author{Prof. Dr. Michael Kreißl, Jakub Mitura, Joanna Wybrańska}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI. The project leverages the EuroHPC JUPITER system to scale Neural Jump ODEs and 3D Generative Models.
+\end{abstract}
+
+\section{Introduction}
+Prostate cancer (PCa) represents a paramount public health challenge, ranking as the second most common cancer in men worldwide \cite{CaraccioloCastello2024,DulleaOSullivan2025}. In 2020 alone, over 1.4 million new cases were diagnosed globally \cite{CereserEvangelista2023,GammelSolari2024,DharCendejasGomez2024}. The epidemiological trajectory is alarming, with projections indicating that the number of cases will more than double to 2.9 million by 2040 \cite{UdovicichJia2025,SungFerlay2021}.
+
+The management of PCa is fraught with complexity, stemming from the dual risks of overdiagnosis and undertreatment. Widespread screening with PSA has led to the frequent detection of indolent cancers, resulting in overtreatment \cite{PadhaniSchoots2023,JenaTaneja2018,CaraccioloCastello2022}. Conversely, many PCa deaths are due to the late diagnosis of aggressive disease \cite{PadhaniSchoots2023}. This diagnostic dilemma is exacerbated by the limitations of conventional tools \cite{EsenSeymen2023,GiovacchiniPicchio2014,LingJong2021}.
+
+\section{Scientific Objectives and Aims}
+The primary aim of this work is to lay the groundwork for a new generation of predictive models in prostate cancer. The core objectives are:
+\begin{itemize}
+    \item To create a standardized, longitudinal, and multimodal dataset that captures the complete patient journey.
+    \item To conceptualize a disentangled generative model that leverages this high-quality data, incorporating strong inductive biases based on domain knowledge (TNM-based pathophysiological evolution).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+ \includegraphics[width=\textwidth]{pe.png}
+ \caption{An infographic illustrating the natural history of prostate cancer.}
+\label{fig:prostate_evolution}
+\end{figure}
+
+\section{Methodology: A Causal AI Framework}
+Our proposed solution moves beyond conventional "black-box" approaches by introducing a multi-stage causal AI model.
+
+\subsection{Model Architecture}
+To ensure stability and manage the complexity of multimodal data, the model is constructed using a sequential, multi-stage training framework.
+
+\subsubsection{Stage 1: Training Foundational Supervisors}
+We train specialized "supervisor" models (Ordinal Classifiers, Censored Survival Regressor, Anatomical Segmentator) to providing strong signals that enforce clinically valid structure.
+
+\subsubsection{Stage 2: Per-Modality Causal Representation Learning}
+For each imaging modality, we train a hierarchical Variational Autoencoder (VAE) to learn a disentangled latent space $Z_m = Z_A \oplus Z_D \oplus Z_P \oplus Z_S$ (Anatomy, Disease, Patient State, Style).
+
+\subsubsection{Stage 3: Temporal Trajectory Modeling with Neural Jump ODEs}
+We use a \textbf{Neural Jump Differential Equation (NJDE)} framework \cite{GwakSim2020}.
+\begin{itemize}
+    \item \textbf{Continuous Evolution:} A Neural ODE models the smooth disease state evolution between clinical events.
+    \item \textbf{Discrete Jumps:} A separate network models instantaneous changes caused by interventions (e.g., prostatectomy).
+\end{itemize}
+
+\subsubsection{Stage 4: Generative Synthesis}
+The final stage translates learned representations into clinically useful outputs, including high-fidelity images and structured reports.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{wf.png}
+    \caption{The Multidisciplinary Workflow of Prostate Cancer Diagnosis.}
+    \label{fig:workflow}
+\end{figure}
+
+\section{Implementation and Work Plan}
+The project follows a structured work plan:
+\begin{itemize}
+    \item \textbf{WP1: Data Collection \& Curation}: Collection of retrospective data from multiple centers.
+    \item \textbf{WP2: Model Development}: Implementation of the multi-stage framework (Supervisors, VAEs, NJDE).
+    \item \textbf{WP3: Scalability & Training}: Large-scale training on EuroHPC systems.
+    \item \textbf{WP4: Validation}: Clinical validation and counterfactual assessment.
+\end{itemize}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{dc.png}
+        \caption{Data acquisition and curation framework.}
+        \label{fig:data_curation}
+\end{figure}
+
+\section{Resources and Scalability}
+This project targets the \textbf{JUPITER} supercomputer (Booster Module) to leverage its Exascale capabilities for memory-intensive 3D volume processing.
+
+\subsection{Resource Request}
+\begin{itemize}
+    \item \textbf{System}: JUPITER Booster (NVIDIA GH200).
+    \item \textbf{Request}: 25,000 Node Hours (approx. 100,000 GPU Hours).
+    \item \textbf{Duration}: 12 Months (Development Access).
+\end{itemize}
+
+\subsection{Scalability Results}
+We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume) to simulate the computational load of our generative models.
+\begin{itemize}
+    \item \textbf{Linear Scaling}: We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency).
+    \item \textbf{Optimizations}: We utilize `MPI.jl` for communication and optimized DataLoaders with `num_workers=4` and `pin_memory=True` to eliminate bottlenecks.
+\end{itemize}
+
+\subsection{Software Stack}
+The project employs a hybrid stack:
+\begin{itemize}
+    \item \textbf{Julia}: SciML ecosystem (`Lux.jl`, `DifferentialEquations.jl`) for the core NJDE and Neural ODE components.
+    \item \textbf{Python}: PyTorch and MONAI for standard deep learning tasks and preprocessing.
+    \item \textbf{I/O}: HDF5 for efficient parallel data access.
+\end{itemize}
+
+\section{Team}
+\begin{itemize}
+    \item \textbf{Principal Investigator}: Prof. Dr. Michael Kreißl (Universitätsklinik für Radiologie und Nuklearmedizin, Magdeburg).
+    \item \textbf{Team Members}: Jakub Mitura, Joanna Wybrańska.
+\end{itemize}
+
+\bibliographystyle{unsrt}
+\bibliography{../bibl}
+
+\end{document}
