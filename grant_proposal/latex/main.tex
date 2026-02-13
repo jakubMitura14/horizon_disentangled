@@ -11,526 +11,208 @@
     top=3cm,
     bottom=3cm
 }
-\usepackage{booktabs}
-\usepackage{eurosym}
 \usepackage{xcolor}
-\usepackage{titlesec}
-\usepackage{enumitem}
 \usepackage{hyperref}
-\usepackage{microtype}
-\usepackage{amsmath}
-\usepackage{float}
-\usepackage{tabularx}
+\usepackage{enumitem}
 
-% --- COLOR DEFINITIONS ---
-\definecolor{primary}{HTML}{0A369D}
-\definecolor{secondary}{HTML}{4472CA}
-\definecolor{darkgray}{HTML}{333333}
-\definecolor{customgreen}{HTML}{5E8B7E}
-
-% --- STYLING ---
-\titleformat{\section}
-  {\normalfont\Large\bfseries\color{primary}}
-  {\thesection}{1em}{}
-\titleformat{\subsection}
-  {\normalfont\large\bfseries\color{secondary}}
-  {\thesubsection}{1em}{}
-\titleformat{\subsubsection}
-    {\normalfont\bfseries\color{darkgray}}
-    {\thesubsubsection}{1em}{}
-
-\setlist[itemize,1]{label=\textcolor{primary}{\textbullet}}
-\setlist[itemize,2]{label=\textcolor{secondary}{\textendash}}
-
+% --- HYPERLINKS ---
 \hypersetup{
     colorlinks=true,
-    linkcolor=primary,
-    filecolor=magenta,
-    urlcolor=secondary,
-    citecolor=customgreen,
-    pdftitle={CausalPCa Proposal},
-    pdfpagemode=FullScreen,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdftitle={Project Application - Jakub Mitura},
 }
 
+% --- DOCUMENT ---
 \begin{document}
 
-% --- PART A: ADMINISTRATIVE FORMS ---
+\section*{Project Application - Jakub Mitura}
 
-\begin{center}
-\huge\bfseries Horizon Europe Programme \\
-\Large\bfseries Standard Application Form (HE EIC Pathfinder Challenges)
-\end{center}
+\section*{The Project}
 
-\tableofcontents
-\newpage
+\subsection*{Project details}
 
-\section*{Application form (Part A)}
+\noindent\textbf{Project title:} Generative AI for Nuclear Medicine Optimization (CausalPCa)
 
-\subsection*{1 – General information}
+\vspace{0.5em}
+\noindent\textbf{Project summary (abstract):} \\
+This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
 
-\begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Field} & \textbf{Value} \\
-\midrule
-Acronym & CausalPCa \\
-Proposal title & A Causal AI Framework for Longitudinal Modelling of Prostate Cancer \\
-Duration in months & 36 \\
-Fixed keyword & Medical AI, Generative AI, Causal Inference, Prostate Cancer, Oncology \\
-Free keywords & Digital Twin, Neural Jump ODE, Multimodal Data Fusion, Explainable AI \\
-\addlinespace
-\multicolumn{2}{p{\textwidth}}{\textbf{Abstract}} \\
-\multicolumn{2}{p{\textwidth}}{This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI. The project leverages the EuroHPC JUPITER system to scale Neural Jump ODEs and 3D Generative Models.} \\
-\addlinespace
-Has this proposal been submitted in the past 2 years? & No \\
-\bottomrule
-\end{tabular}
+\vspace{0.5em}
+\noindent\textbf{Explain the scientific case of the project for which you intend to use the code(s):} \\
+The project aims to develop a multi-stage Causal AI framework.
+1. \textbf{Supervisors}: Training ordinal classifiers and segmentation models on multimodal data (PET/CT, MRI).
+2. \textbf{Disentanglement}: Using hierarchical VAEs to separate anatomy, disease, and style factors.
+3. \textbf{Temporal Modeling}: Employing Neural Jump ODEs (NJDE) to model continuous disease evolution and discrete treatment interventions.
+4. \textbf{Generative Synthesis}: Creating high-fidelity counterfactual images for clinical decision support.
+This requires substantial GPU resources for training large-scale 3D models (ResNet-152 backbones, VAEs) on high-dimensional volumetric data.
 
-\subsection*{Declarations}
-\begin{enumerate}
-    \item We declare to have the explicit consent of all applicants on their participation and on the content of this proposal. [\textbf{X}]
-    \item We confirm that the information contained in this proposal is correct and complete and that none of the project activities have started before the proposal was submitted. [\textbf{X}]
-    \item We declare to be fully compliant with the eligibility criteria set out in the call, not to be subject to any exclusion grounds under the EU Financial Regulation, and to have the financial and operational capacity to carry out the proposed project. [\textbf{X}]
-    \item We acknowledge that all communication will be made through the Funding \& Tenders Portal electronic exchange system and that access and use of this system is subject to the Funding \& Tenders Portal Terms \& Conditions. [\textbf{X}]
-    \item We have read, understood and accepted the Funding \& Tenders Portal Terms \& Conditions and Privacy Statement. [\textbf{X}]
-    \item We declare that the proposal complies with ethical principles and applicable international and national law. [\textbf{X}]
-    \item We declare that the proposal has an exclusive focus on civil applications. [\textbf{X}]
-    \item We confirm that the activities proposed do not aim at human cloning for reproductive purposes, intend to modify the genetic heritage of human beings which could make such changes heritable, intend to create human embryos solely for the purpose of research or for the purpose of stem cell procurement, or lead to the destruction of human embryos. [\textbf{X}]
-    \item We confirm that for activities carried out outside the Union, the same activities would have been allowed in at least one EU Member State. [\textbf{X}]
-    \item We understand and accept that the EU lump sum grants must be reliable proxies for the actual costs of a project and confirm that the detailed budget for the proposal has been established in accordance with our usual cost accounting practices. [\textbf{X}]
-\end{enumerate}
+\vspace{0.5em}
+\noindent\textbf{Keywords:} \\
+Medical AI, Generative AI, Causal Inference, Prostate Cancer, Oncology, Digital Twin, Neural Jump ODE.
 
-\subsection*{2 – Participants}
+\vspace{0.5em}
+\noindent\textbf{Instructions:} Completed.
 
-\subsubsection*{Participant 1: Universitätsklinik für Radiologie und Nuklearmedizin, Magdeburg (Coordinator)}
-\begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Field} & \textbf{Value} \\
-\midrule
-PIC & [PIC for UKMD] \\
-Legal name & Universitätsklinik für Radiologie und Nuklearmedizin, Magdeburg \\
-Short name & UKMD \\
-Address & Leipziger Str. 44, 39120 Magdeburg, Germany \\
-Webpage & [Website for UKMD] \\
-\midrule
-\multicolumn{2}{l}{\textbf{Departments carrying out the proposed work}} \\
-\midrule
-Department name & Klinik für Radiologie und Nuklearmedizin \\
-Address & Same as organisation address \\
-\midrule
-\multicolumn{2}{l}{\textbf{Main contact person}} \\
-\midrule
-Name & Prof. Dr. Michael Kreißl \\
-Position & Principal Investigator \\
-E-mail & [Email of PI] \\
-Phone & [Phone of PI] \\
-\bottomrule
-\end{tabular}
+\vspace{0.5em}
+\noindent\textbf{Proposal for civilian purposes:} Yes.
 
-\subsubsection*{Researchers involved in the proposal (UKMD)}
-\begin{tabular}{p{0.2\textwidth} p{0.15\textwidth} p{0.1\textwidth} p{0.15\textwidth} p{0.2\textwidth} p{0.2\textwidth}}
-\toprule
-\textbf{Name} & \textbf{Gender} & \textbf{Nationality} & \textbf{Career Stage} & \textbf{Role} & \textbf{Identifier} \\
-\midrule
-Prof. Dr. Michael Kreißl & Male & German & A - Top grade & Leading & [ORCID] \\
-Jakub Mitura & Male & Polish & C - Recognised & Team member & [ORCID] \\
-Joanna Wybrańska & Female & Polish & C - Recognised & Team member & [ORCID] \\
-\bottomrule
-\end{tabular}
+\vspace{0.5em}
+\noindent\textbf{Is any part of the project confidential?:} No.
 
-\subsubsection*{Role of participating organisation in the project (UKMD)}
+\vspace{0.5em}
+\noindent\textbf{AI set of technologies selection:} Machine Learning, Deep Learning, Generative Models.
+
+\subsection*{Submission details}
+
+\noindent\textbf{Project duration:} 12 Months
+
+\vspace{0.5em}
+\noindent\textbf{Preferable starting date:} 01/05/2025
+
+\vspace{0.5em}
+\noindent\textbf{Industry involvement:} None.
+
+\vspace{0.5em}
+\noindent\textbf{Public sector involvement:} Yes (University Hospitals).
+
+\section*{Principal Investigator}
+
+\subsection*{Personal information}
+
+\noindent\textbf{Gender:} Male \\
+\textbf{Title:} Prof. Dr. \\
+\textbf{First (given) name:} Michael \\
+\textbf{Last (family) name:} Kreißl \\
+\textbf{Initials:} MK \\
+\textbf{Date of birth:} [Confidential] \\
+\textbf{E-mail address:} [Email of PI] \\
+\textbf{ID:} EHPC-DEV-2026D03-079 \\
+\textbf{Secondary e-mail address:} [Secondary Email] \\
+\textbf{Nationality:} German \\
+\textbf{Phone Number:} [Phone Number] \\
+\textbf{Job title:} Head of Nuclear Medicine \\
+\textbf{Employment contract valid for more than 3 months after end allocation:} Yes \\
+\textbf{Website:} https://www.med.uni-magdeburg.de/kln/
+
+\subsection*{Organization details}
+
+\noindent\textbf{Instructions:} Completed.
+
+\vspace{0.5em}
+\noindent\textbf{Organization name:} Universitätsklinik für Radiologie und Nuklearmedizin Magdeburg (UKMD) \\
+\textbf{Organization type:} Higher Education / Research Organisation \\
+\textbf{Organization with research activity:} Yes \\
+\textbf{Organization head office is located in Europe:} Yes \\
+\textbf{Percentage of R\&D in Europe vs total R\&D:} 100\% \\
+\textbf{Organization department:} Klinik für Radiologie und Nuklearmedizin \\
+\textbf{Organization group:} Nuclear Medicine Research Group \\
+\textbf{Organization address:} Leipziger Str. 44 \\
+\textbf{Organization postal code:} 39120 \\
+\textbf{Organization city:} Magdeburg \\
+\textbf{Organization country:} Germany
+
+\section*{Contact Person and Team Members Information}
+
+\subsection*{Contact Person}
+
+\noindent\textbf{First (given) name:} Jakub \\
+\textbf{Last (family) name:} Mitura \\
+\textbf{E-mail address:} [Email of Contact]
+
+\section*{Partitions}
+\noindent\textbf{System Selection:} JUPITER Booster Module (NVIDIA GH200) \\
+\textbf{Resource Request:} 25,000 Node Hours (approx. 100,000 GPU Hours)
+
+\section*{Code Details and Development}
+\noindent\textbf{ID:} EHPC-DEV-2026D03-079
+
+\vspace{0.5em}
+\noindent\textbf{Instructions:} Completed.
+
+\vspace{0.5em}
+\noindent\textbf{Development of the code(s) description:} \\
+The project utilizes a hybrid software stack:
 \begin{itemize}
-    \item Project management
-    \item Communication, dissemination and engagement
-    \item Provision of research and technology infrastructure
-    \item Research performer
-    \item Technology developer
-    \item Testing/validation of approaches and ideas
-    \item Prototyping and demonstration
-    \item IPR management incl. technology transfer
+    \item \textbf{Julia (SciML):} Used for the core Neural Jump ODE (NJDE) and Neural ODE components due to its superior performance in solving differential equations. Libraries include `Lux.jl`, `DifferentialEquations.jl`, `DiffEqFlux.jl`.
+    \item \textbf{Python (PyTorch/MONAI):} Used for standard deep learning tasks (Supervisors, VAEs) and data preprocessing. Libraries include `PyTorch`, `PyTorch Lightning`, `MONAI`.
+    \item \textbf{I/O:} `HDF5.jl` and `h5py` are used for efficient parallel data access.
 \end{itemize}
 
-\subsubsection*{List of up to 5 publications, datasets, or other achievements (UKMD)}
-\begin{itemize}
-    \item [Publication] [Details of relevant publication 1]
-    \item [Publication] [Details of relevant publication 2]
-    \item [Dataset] [Details of relevant dataset 1]
-\end{itemize}
+\subsection*{Scalability and performance}
 
-\subsubsection*{List of up to 5 relevant previous projects (UKMD)}
-\begin{itemize}
-    \item [Project] [Details of relevant project 1]
-    \item [Project] [Details of relevant project 2]
-\end{itemize}
+\noindent\textbf{Describe the scalability of the application and performance of the application:} \\
+We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume). We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency). Benchmarks were performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}).
 
-\subsubsection*{Description of any significant infrastructure (UKMD)}
-\begin{itemize}
-    \item Access to PET/CT, MRI, and SPECT/CT scanners.
-    \item High-performance computing cluster for AI model training.
-    \item XNAT platform for secure data hosting and management.
-\end{itemize}
+\vspace{0.5em}
+\noindent\textbf{What is the target for scalability and performance?:} \\
+We aim to scale the NJDE training to 32 concurrent GPUs on the JUPITER Booster module to handle the full dataset of longitudinal 3D volumes.
 
-\subsubsection*{Gender equality plan}
-Does the organisation have a Gender Equality Plan (GEP) covering the elements listed below? \\
-\textbf{Yes} [\textbf{X}] \quad \textbf{No} [ ]
+\subsection*{Optimization of the work proposed}
 
-\subsection*{3 – Budget for the proposal}
+\noindent\textbf{Explain how the optimization work proposed will contribute to future Tier-0 projects:} \\
+The development of scalable Neural Jump ODEs for high-dimensional 3D medical data will provide a blueprint for other "Digital Twin" initiatives in healthcare, demonstrating how to handle irregular time-series data at Exascale.
 
-\begin{tabular}{p{0.05\textwidth} p{0.15\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth}}
-\toprule
-\textbf{No} & \textbf{Participant} & \textbf{Personnel Costs (€)} & \textbf{Equipment Costs (€)} & \textbf{Travel Costs (€)} & \textbf{Other Direct Costs (€)} & \textbf{Indirect Costs (€)} & \textbf{Total Costs (€)} \\
-\midrule
-1 & UKMD & 662,591 & 321,600 & 10,833 & 37,333 & 222,354 & 1,254,711 \\
-2 & UKH & 662,591 & 0 & 10,833 & 37,333 & 166,779 & 877,536 \\
-3 & Charité & 662,592 & 0 & 10,834 & 37,334 & 166,780 & 877,540 \\
-4 & Rad Sudenburg & 0 & 0 & 0 & 0 & 0 & 0 \\
-\midrule
-\textbf{Total} & & \textbf{1,987,774} & \textbf{321,600} & \textbf{32,500} & \textbf{112,000} & \textbf{667,069} & \textbf{3,120,943} \\
-\bottomrule
-\end{tabular}
+\vspace{0.5em}
+\noindent\textbf{Describe the impact of the optimization work proposed - is the code widely used; can it be used for other research projects and in other research fields with minor modifications; would these modifications be easy to add to the main release of the software?:} \\
+The core NJDE implementation in Julia is highly modular. It can be adapted for other progressive diseases (e.g., Alzheimer's, Glioblastoma) by changing the data loaders and supervisor constraints. We plan to release the optimized solvers as open-source contributions to the SciML ecosystem.
 
-\subsection*{4 – Ethics and Security}
+\vspace{0.5em}
+\noindent\textbf{Describe the main algorithms and how they have been implemented and parallelized:} \\
+1. \textbf{Neural ODEs:} Implemented using `DifferentialEquations.jl` with adjoint sensitivity analysis for memory-efficient backpropagation.
+2. \textbf{VAE:} Standard variational inference parallelized using Distributed Data Parallel (DDP) in PyTorch and MPI in Julia.
+3. \textbf{Optimization:} We use CUDA-aware MPI for gradient averaging to avoid CPU-GPU bottlenecks.
 
-\subsubsection*{Ethics issues table}
-\begin{tabular}{p{0.8\textwidth} p{0.1\textwidth} p{0.1\textwidth}}
-\toprule
-\textbf{Question} & \textbf{Yes/No} & \textbf{Page} \\
-\midrule
-\textbf{1. HUMAN EMBRYONIC STEM CELLS AND HUMAN EMBRYOS} & & \\
-Does this activity involve Human Embryonic Stem Cells (hESCs)? & No & \\
-Does this activity involve the use of human embryos? & No & \\
-\midrule
-\textbf{2. HUMANS} & & \\
-Does this activity involve human participants? & Yes & 18 \\
-Are they patients for medical studies? & Yes & 18 \\
-Does this activity involve interventions on the study participants? & Yes & 18 \\
-Does it involve collection of biological samples? & Yes & 18 \\
-\midrule
-\textbf{3. HUMAN CELLS / TISSUES} & & \\
-Does this activity involve the use of human cells or tissues? & Yes & 18 \\
-Are they obtained from another project, laboratory or institution? & Yes & 18 \\
-\midrule
-\textbf{4. PERSONAL DATA} & & \\
-Does this activity involve processing of personal data? & Yes & 18 \\
-Does it involve the processing of special categories of personal data (e.g.: sexual lifestyle, ethnicity, genetic, biometric and health data, political opinion, religious or philosophical beliefs)? & Yes & 18 \\
-Does it involve processing of genetic, biometric or health data? & Yes & 18 \\
-Does this activity involve further processing of previously collected personal data? & Yes & 18 \\
-Is it planned to export personal data from the EU to non-EU countries? & No & \\
-Is it planned to import any material (other than data) from non-EU countries into the EU? & No & \\
-\midrule
-\textbf{5. ANIMALS} & & \\
-Does this activity involve animals? & No & \\
-\midrule
-\textbf{6. NON-EU COUNTRIES} & & \\
-Will some of the activities be carried out in non-EU countries? & No & \\
-\midrule
-\textbf{7. ENVIRONMENT, HEALTH and SAFETY} & & \\
-Does this activity involve the use of substances or processes that may cause harm to the environment, to animals or plants? & No & \\
-Does this activity involve the use of substances or processes that may cause harm to humans, including those performing the activity? & No & \\
-\midrule
-\textbf{8. ARTIFICIAL INTELLIGENCE} & & \\
-Does this activity involve the development, deployment and/or use of Artificial Intelligence based systems? & Yes & 20 \\
-\midrule
-\textbf{9. OTHER ETHICS ISSUES} & & \\
-Are there any other ethics issues that should be taken into consideration? & No & \\
-\bottomrule
-\end{tabular}
+\subsection*{Performance}
 
-\subsubsection*{ETHICS SELF-ASSESSMENT}
-\textbf{Ethical dimension of the objectives, methodology and likely impact:} \\
-The project involves retrospective analysis of patient data. Strict pseudonymization protocols will be enforced. No new interventions on patients are planned. \\
-\textbf{Compliance with ethical principles and relevant legislations:} \\
-All activities will comply with GDPR and the Declaration of Helsinki. Ethical approval will be obtained from the local ethics committee before data collection begins.
+\noindent\textbf{Main performance bottlenecks:} \\
+1. \textbf{I/O Latency:} Loading large 3D medical volumes during training.
+2. \textbf{ODE Solver Overhead:} The computational cost of solving stiff differential equations for every patient in the batch.
 
-\subsubsection*{Security issues table}
-\begin{tabular}{p{0.8\textwidth} p{0.1\textwidth} p{0.1\textwidth}}
-\toprule
-\textbf{Question} & \textbf{Yes/No} & \textbf{Page} \\
-\midrule
-\textbf{1. EU classified information (EUCI)} & & \\
-Does this activity involve information and/or materials requiring protection against unauthorised disclosure (EUCI)? & No & \\
-\midrule
-\textbf{2. MISUSE} & & \\
-Does this activity have the potential for misuse of results? & No & \\
-\midrule
-\textbf{3. OTHER SECURITY ISSUES} & & \\
-Does this activity involve information and/or materials subject to national security restrictions? & No & \\
-Are there any other security issues that should be taken into consideration? & No & \\
-\bottomrule
-\end{tabular}
+\vspace{0.5em}
+\noindent\textbf{Describe possible solutions you have considered to improve the performance of the project:} \\
+1. \textbf{I/O:} We implemented HDF5 storage with chunking and use `num_workers=4` with `pin_memory=True` in DataLoaders.
+2. \textbf{Solver:} We are using custom system images (`precompile_sysimage.jl`) in Julia to reduce startup time and JIT compilation overhead. We select stiff-capable solvers (e.g., `TRBDF2`) only when necessary.
 
-\subsubsection*{SECURITY SELF-ASSESSMENT}
-\textit{Not applicable as no security issues were identified.}
+\vspace{0.5em}
+\noindent\textbf{Describe the application enabling/optimization work that needs to be performed to achieve the target performance:} \\
+Further tuning of the MPI communication primitives for the Grace-Hopper architecture on JUPITER and optimization of the custom Julia system image for the specific cluster environment.
 
-\subsection*{5 – Other questions}
+\vspace{0.5em}
+\noindent\textbf{Which computational performance limitations do you wish to solve with this project?:} \\
+We aim to solve the bottleneck of training continuous-time models (ODEs) on high-dimensional 3D data, which is currently computationally prohibitive on standard clusters.
 
-\subsubsection*{Two-stage calls}
-Are there substantial differences compared to the stage-1 proposal? \\
-\textbf{Yes} [ ] \quad \textbf{No} [\textbf{X}]
+\section*{Application Support Team (AST)}
 
-\subsubsection*{Clinical trials}
-\begin{tabular}{p{0.8\textwidth} p{0.2\textwidth}}
-\toprule
-\textbf{Question} & \textbf{Answer} \\
-\midrule
-Are clinical studies / trials / investigations included in the work plan of this project? & Yes \\
-\bottomrule
-\end{tabular}
-\\
-\textit{Please upload the dedicated annex ‘Essential information for clinical studies / trials / investigations’.}
+\noindent\textbf{Instructions:} Completed.
 
-\newpage
+\vspace{0.5em}
+\noindent\textbf{Does your proposal require assistance from an AST on the selected partition(s)?:} No.
 
-% --- PART B: TECHNICAL DESCRIPTION ---
+\vspace{0.5em}
+\noindent\textbf{Is your proposal a follow up of another submitted Epicure project to use EuroHPC quota for providing application support?:} No.
 
-\section*{Project proposal – Technical description (Part B)}
+\section*{Eligibility Confirmation and Data Consent}
+\noindent\textbf{ID:} EHPC-DEV-2026D03-079
 
-\begin{center}
-\Large\textbf{TITLE OF THE PROPOSAL} \\
-\large A Causal AI Framework for Longitudinal Modelling of Prostate Cancer
-\end{center}
+\subsection*{Eligibility confirmation}
 
-\section{Excellence}
+\noindent\textbf{Instructions:} Completed.
 
-\subsection{Objectives and relevance to the Challenge}
-The primary aim of this work is to lay the groundwork for a new generation of predictive models in prostate cancer by addressing the fundamental challenges of data heterogeneity and model interpretability. The core objectives are:
-\begin{itemize}
-    \item To create a standardized, longitudinal, and multimodal dataset that captures the complete patient journey.
-    \item To conceptualize a disentangled generative model that leverages this high-quality data, incorporating strong inductive biases based on domain knowledge (TNM-based pathophysiological evolution).
-    \item To enable trustworthy AI for medical decision support through causal reasoning and counterfactual explanations.
-\end{itemize}
-This relevance to the challenge is demonstrated by the project's focus on "Generative AI for Nuclear Medicine Optimization" and its alignment with the "AI for Science" objectives of developing robust, scalable AI solutions for complex scientific problems.
+\vspace{0.5em}
+\noindent\textbf{I confirm that the Principal Investigator and Team Members are affiliated with organizations listed on the Horizon 2020 countries list.:} Yes.
 
-\subsection{Novelty}
-This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view.
-Technologically, we will:
-\begin{itemize}
-    \item Fuse multimodal data (PET/CT, MRI, Clinical Data).
-    \item Use GenAI for data augmentation to address data scarcity.
-    \item Create a medical knowledge base by disentangling disease signals from confounders using a Causal AI Framework.
-\end{itemize}
-This moves beyond the state-of-the-art in "black-box" predictive models by providing an explainable, mechanism-based approach to disease modeling.
+\vspace{0.5em}
+\noindent\textbf{I confirm that the submitted information is correct and complete and comply for the entire duration of the action with the eligibility criteria set out in the call conditions.:} Yes.
 
-\subsection{Plausibility of the methodology}
-Our proposed solution employs a multi-stage causal AI model to ensure plausibility and robustness:
-\begin{itemize}
-    \item \textbf{Stage 1: Training Foundational Supervisors:} We train specialized "supervisor" models (Ordinal Classifiers, Censored Survival Regressor, Anatomical Segmentator) to provide strong signals that enforce clinically valid structure.
-    \item \textbf{Stage 2: Per-Modality Causal Representation Learning:} For each imaging modality, we train a hierarchical Variational Autoencoder (VAE) to learn a disentangled latent space $Z_m = Z_A \oplus Z_D \oplus Z_P \oplus Z_S$ (Anatomy, Disease, Patient State, Style).
-    \item \textbf{Stage 3: Temporal Trajectory Modeling with Neural Jump ODEs:} We use a \textbf{Neural Jump Differential Equation (NJDE)} framework. A Neural ODE models the smooth disease state evolution between clinical events, while a separate network models instantaneous changes (jumps) caused by interventions (e.g., prostatectomy).
-    \item \textbf{Stage 4: Generative Synthesis:} The final stage translates learned representations into clinically useful outputs, including high-fidelity images and structured reports.
-\end{itemize}
+\subsection*{Data consent}
 
-\section{Impact}
+\noindent\textbf{Instructions:} Completed.
 
-\subsection{Potential Impact}
-The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
-\begin{itemize}
-    \item \textbf{Clinical Impact:} Improving diagnosis by simulating disease progression and enabling personalized treatment selection by forecasting outcomes.
-    \item \textbf{Scientific Impact:} Providing a scalable methodology for causal modeling in medicine, applicable to other disease domains.
-    \item \textbf{Societal Impact:} Reducing overtreatment and improving quality of life for prostate cancer patients.
-\end{itemize}
+\vspace{0.5em}
+\noindent\textbf{In case the proposal is awarded, EuroHPC JU would like to publish the Principal Investigator’s and Team Members’ names and organizations. This may involve sharing this information on our website, social media channels, or in other promotional materials related to the project. Please provide your consent below.:} Yes, I consent.
 
-\subsection{Innovation potential}
-The project leverages the EuroHPC JUPITER system to scale Neural Jump ODEs and 3D Generative Models, pushing the boundaries of what is computationally feasible in medical AI. The development of a "digital twin" for prostate cancer represents a significant innovation with potential for commercial exploitation in clinical decision support systems.
-
-\subsection{Communication and Dissemination}
-We plan to maximize impact through:
-\begin{itemize}
-    \item Publication of results in high-impact journals (e.g., Nature Medicine, Lancet Digital Health).
-    \item Open-source release of the model code and anonymized benchmark datasets.
-    \item Engagement with the medical community through conferences (EANM, RSNA) and tumor board demonstrations.
-\end{itemize}
-
-\section{Quality and efficiency of the implementation}
-
-\subsection{Work plan and allocation of resources}
-
-The project is organized into 4 work packages (WPs) to ensure the timely achievement of the objectives. The scalability testing results justify the resource request for the JUPITER Booster module.
-
-\subsubsection*{Scalability and Resource Request}
-\textbf{Scalability Results:} Benchmarks performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}) demonstrate linear scaling.
-\begin{itemize}
-    \item \textbf{Linear Scaling}: We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency) on a "Super Heavy 3D ResNet-152" workload.
-    \item \textbf{Resource Request}: 25,000 Node Hours (approx. 100,000 GPU Hours) on JUPITER Booster (NVIDIA GH200) for 12 months.
-\end{itemize}
-
-\subsubsection*{Tables for section 3.1}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1a: List of work packages}
-\begin{tabular}{|c|l|l|l|l|l|}
-\hline
-\textbf{WP No} & \textbf{Work Package Title} & \textbf{Lead Participant} & \textbf{Lead Name} & \textbf{Start} & \textbf{End} \\ \hline
-1 & Data Collection \& Curation & UKMD & Prof. Kreißl & M1 & M12 \\ \hline
-2 & Model Development & UKMD & J. Mitura & M3 & M24 \\ \hline
-3 & Scalability \& Training & UKMD & J. Mitura & M6 & M30 \\ \hline
-4 & Validation & UKMD & J. Wybrańska & M24 & M36 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1b: Work package description - WP1}
-\begin{tabular}{|p{0.95\textwidth}|}
-\hline
-\textbf{WP Number:} 1 \hfill \textbf{WP Title:} Data Collection \& Curation \\ \hline
-\textbf{Objectives:} To establish a standardized, longitudinal, and multimodal dataset of prostate cancer patients. \\ \hline
-\textbf{Description of Work:} \\
-- T1.1: Ethical approval and data protection setup. \\
-- T1.2: Retrieval of retrospective data (MRI, PET/CT, Clinical) from hospital PACS/RIS. \\
-- T1.3: Curation, pseudonymization, and conversion to NIfTI format. \\
-- T1.4: Preprocessing (Spatial padding, normalization) and storage in XNAT. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1b: Work package description - WP2}
-\begin{tabular}{|p{0.95\textwidth}|}
-\hline
-\textbf{WP Number:} 2 \hfill \textbf{WP Title:} Model Development \\ \hline
-\textbf{Objectives:} To design and implement the Causal AI framework components. \\ \hline
-\textbf{Description of Work:} \\
-- T2.1: Implementation and training of Supervisor models (Ordinal Classifiers, Segmentation). \\
-- T2.2: Development of Disentangled VAEs for each modality. \\
-- T2.3: Implementation of Neural Jump ODEs (NJDE) for temporal trajectory modeling. \\
-- T2.4: Integration of components into the full generative framework. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1b: Work package description - WP3}
-\begin{tabular}{|p{0.95\textwidth}|}
-\hline
-\textbf{WP Number:} 3 \hfill \textbf{WP Title:} Scalability \& Training \\ \hline
-\textbf{Objectives:} To scale the model training to Exascale systems (JUPITER). \\ \hline
-\textbf{Description of Work:} \\
-- T3.1: Optimization of data loaders and I/O (HDF5, MPI). \\
-- T3.2: Implementation of distributed training (DDP/MPI.jl). \\
-- T3.3: Large-scale hyperparameter tuning and model training on JUPITER Booster. \\
-- T3.4: Checkpointing and model serialization. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1b: Work package description - WP4}
-\begin{tabular}{|p{0.95\textwidth}|}
-\hline
-\textbf{WP Number:} 4 \hfill \textbf{WP Title:} Validation \\ \hline
-\textbf{Objectives:} To validate the clinical utility and trustworthiness of the model. \\ \hline
-\textbf{Description of Work:} \\
-- T4.1: Quantitative evaluation (Classification metrics, Generative fidelity/FID). \\
-- T4.2: Clinical validation study with radiologists (Counterfactual assessment). \\
-- T4.3: Comparison against classical prognostic baselines. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1c: List of Deliverables}
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\textbf{No} & \textbf{Deliverable Name} & \textbf{WP} & \textbf{Lead} & \textbf{Type} & \textbf{Due} \\ \hline
-D1.1 & Data Management Plan & 1 & UKMD & DMP & M6 \\ \hline
-D1.2 & Curated Dataset & 1 & UKMD & DATA & M12 \\ \hline
-D2.1 & Trained Supervisor Models & 2 & UKMD & OTHER & M12 \\ \hline
-D2.2 & Causal AI Framework Code & 2 & UKMD & OTHER & M24 \\ \hline
-D3.1 & Scalability Report & 3 & UKMD & R & M12 \\ \hline
-D3.2 & Final Trained Model Weights & 3 & UKMD & OTHER & M30 \\ \hline
-D4.1 & Validation Report & 4 & UKMD & R & M36 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1d: List of milestones}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{No} & \textbf{Milestone Name} & \textbf{WP} & \textbf{Due Date} \\ \hline
-M1 & Ethical Approval Obtained & 1 & M3 \\ \hline
-M2 & First Prototype (Supervisors) Ready & 2 & M12 \\ \hline
-M3 & Scalable Training Pipeline Operational & 3 & M18 \\ \hline
-M4 & Final Model Validation Complete & 4 & M36 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1e: Critical risks for implementation}
-\begin{tabular}{|p{0.3\textwidth}|p{0.1\textwidth}|p{0.5\textwidth}|}
-\hline
-\textbf{Description of risk} & \textbf{WP} & \textbf{Mitigation measures} \\ \hline
-Training Instability (High Likelihood) & 2, 3 & Use sequential training framework; decompose problem into sub-tasks (Supervisors -> VAE -> NJDE). \\ \hline
-Overfitting to Spurious Correlations (Medium Likelihood) & 2 & Explicit disentanglement of technical artifacts ($Z_S$) and use of domain knowledge (inductive biases). \\ \hline
-Performance with Incomplete Data (High Likelihood) & 1, 2 & Neural Jump ODE architecture specifically designed for sparse/irregular data; masked loss functions. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1f: Summary of staff effort}
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-\textbf{Participant} & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} & \textbf{Total} \\ \hline
-UKMD & 12 & 24 & 24 & 12 & 72 \\ \hline
-\textbf{Total} & \textbf{12} & \textbf{24} & \textbf{24} & \textbf{12} & \textbf{72} \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1g: Subcontracting costs items}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Participant} & \textbf{Cost (€)} & \textbf{Description} \\ \hline
-UKMD & 0 & N/A \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1h: Purchase costs items}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Participant} & \textbf{Cost (€)} & \textbf{Justification} \\ \hline
-UKMD & 321,600 & High-performance GPU workstations for local development. \\ \hline
-UKMD & 32,500 & Travel to conferences (EANM, RSNA) for dissemination. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1i: Other costs categories items}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Participant} & \textbf{Cost (€)} & \textbf{Justification} \\ \hline
-UKMD & 112,000 & Cloud storage, publication fees, and software licenses. \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Table 3.1j: In-kind contributions provided by third parties}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Participant} & \textbf{Third party} & \textbf{Category} & \textbf{Justification} \\ \hline
-UKMD & N/A & N/A & None planned. \\ \hline
-\end{tabular}
-\end{table}
-
-\subsection{Quality of the applicant/consortium}
-The consortium brings together world-class expertise in nuclear medicine, medical physics, and artificial intelligence.
-\begin{itemize}
-    \item \textbf{Universitätsklinik für Radiologie und Nuklearmedizin, Magdeburg (UKMD)}: Coordinator.
-    \item \textbf{Prof. Dr. Michael Kreißl (PI)}: Expert in Nuclear Medicine and Theranostics.
-    \item \textbf{Jakub Mitura}: Lead AI Researcher, specializing in Generative Models and Julia programming.
-    \item \textbf{Joanna Wybrańska}: Medical Physicist and Data Scientist.
-\end{itemize}
-The team uses a hybrid software stack (\textbf{Julia} for SciML/NJDEs and \textbf{Python} for standard DL/Preprocessing) to maximize performance and flexibility.
-
-\bibliographystyle{unsrt}
-\bibliography{../bibl}
+\vspace{0.5em}
+\noindent\textbf{In order to submit the proposal, you must accept the terms and conditions stated in the Access Policy, hence confirming that you have read and understood the call procedures. The documentation can be found at \url{https://eurohpc-ju.europa.eu/eurohpc-ju-call-proposals-development-access_en}:} Yes, I accept.
 
 \end{document}
