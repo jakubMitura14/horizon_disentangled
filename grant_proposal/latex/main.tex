@@ -170,7 +170,7 @@ This project targets the \textbf{JUPITER} supercomputer (Booster Module) to leve
 \end{itemize}
 
 \subsection{Scalability Results}
-We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume) to simulate the computational load of our generative models.
+We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume) to simulate the computational load of our generative models. These benchmarks were performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}).
 \begin{itemize}
     \item \textbf{Linear Scaling}: We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency).
     \item \textbf{Optimizations}: We utilize `MPI.jl` for communication and optimized DataLoaders with `num_workers=4` and `pin_memory=True` to eliminate bottlenecks.
