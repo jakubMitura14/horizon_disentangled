@@ -1,0 +1,131 @@
+PARA: Project Scope and Plan – Regular Access
+PARA: Principal Investigator (PI)
+PARA: Co-PIs/Team members (same information)
+PARA: Provide the details of any Co-PIs and Team members in the project, including Title, First (given) name, Last (family) name, Organisation, Department, Group and Country.
+PARA: It is mandatory to include all team members on the online form.
+PARA: Co-Principal Investigator (Co-PI)/Team member
+PARA: IMPORTANT NOTICE
+PARA: All of the sections and subsections below MUST BE COMPLETED (unless stated otherwise). In case you wish to leave a section empty, please provide a reason. The Domain Panel Chairs, appointed by the Access Resource Committee (ARC) will not be able to evaluate proposals that neither provide the requested information nor a justification for the lack of such information for each section.
+PARA: Applicants are strongly encouraged to base their proposal on reliable benchmark data obtained on the target machine(s) from previous calls or access programmes. Such data and support to properly collect these can be obtained from the EuroHPC Benchmark Access call. In order to have the necessary data on time, please submit your Benchmark proposals at least 1 month before the submission deadline. For additional questions, please contact the Peer-Review office at access@eurohpc-ju.europa.eu.
+PARA: The structure and formatting settings of this template must be preserved and respected (change in font size or margin and spacing settings are not allowed). The maximum number of pages allowed is 10 pages, including graphs, tables and references, but not counting the cover page and the appendix. Reviewers will be instructed not to consider any pages out of the limit. Instruction paragraphs and picture examples can be removed from the proposal text.
+PARA: Upload a single document, based on the present template, in PDF format without exceeding 8 MB.
+PARA: Proposals that do not follow the template or that are incomplete will be administratively rejected and will not be further evaluated.
+PARA: Key scientific/societal/technological contribution of the proposal (200 words max.)
+PARA: Outline the scientific/societal/technological importance of your project, how High Performance Computing (HPC) will help you achieve your goals and what the major expected outcomes are. This section would typically be the same as the abstract of the proposal in the submission form.
+PARA: <Enter your text here>
+PARA: Detailed proposal information (Maximum 8 pages, graphs and tables included)
+PARA: The information should be understandable to peer-review experts in your discipline. It must also have appropriate information for a broader audience as your proposal will be evaluated by a Panel and in parallel with proposals in other disciplines.
+PARA: Justification for the importance of the scientific problem and the requested resources (1 page)
+PARA: Describe the proposed research and the main scientific/technical advances you will achieve with the requested EuroHPC allocation. For industrial applications, proposals should demonstrate the innovation and industrial impact on the specific market and the broader socio-economic impact. For public sector applications, the proposal should demonstrate the innovative aspects of the applications, the expected societal impact, and how the application will contribute to the delivery of quality and efficient public sector services. The justification of the requested resources must be clearly linked to the software performance evaluation (Section 2.6).
+PARA: <Enter your text here>
+PARA: Overview of the project (2 pages)
+PARA: Describe the motivation, objectives and scientific challenges of the problem. Describe and justify the choice of computational methods. State the advances that will be enabled through the requested EuroHPC Regular Access award (e.g. impact on community paradigms, valuable insights or solving a long-standing challenge, new technology/therapy, etc.). Provide a list of expected outcomes of your proposal and, if relevant, the interdisciplinary value of your proposal.
+PARA: <Enter your text here>
+PARA: Validation, verification, state of the art (1 page)
+PARA: Please describe the validity of the simulations and predictions made with this proposal. In case you provide references to relevant publications please include here also the key relevant results. Please address issues of reproducibility and highlight the predictive capabilities of your simulations.
+PARA: Validation & Verification
+PARA: Please summarize the validation of your model against experiments or other established reference data. Please also provide how the numerical consistency and stability of your computational method has been verified or provide evidence of existing verifications.
+PARA: <Enter your text here>
+PARA: Comparison with state of the art
+PARA: Place the project in the context of competing work. Explain the relative advantages AND drawbacks of your approach.
+PARA: <Enter your text here>
+PARA: Software and Attributes (1 page)
+PARA: (Please see also Examples of Performance Reporting in Section 2.6.2.1). Describe the software that will be used including a discussion of the state of the art in the field. The description should mention:
+PARA: Software
+PARA: Please describe all codes you are using in the proposal. Justify your choices and describe alternatives (if any).
+PARA: <Enter your text here>
+PARA: Particular libraries
+PARA: Describe particular libraries required by the production and analysis software, algorithms and numerical techniques employed (e.g. finite element, iterative solver), programming languages. Please specify requirements for compilation or build environment (build system (e.g. cmake, python version), version control system (e.g. git, subversion) etc.).
+PARA: <Enter your text here>
+PARA: Parallel programming
+PARA: Model(s) used (e.g., MPI, OpenMP/Pthreads, CUDA, OpenACC, etc.).
+PARA: <Enter your text here>
+PARA: I/O requirements
+PARA: I/O requirements (e.g., amount, size, bandwidth, etc.) for execution, input files, restart and other output. Describe I/O strategy (number of files, frequency, read/write size) and I/O behaviour of your code during the period of calculations. Concerning the number of files, please indicate the largest associated number of files on the system at any given time also taking into consideration the temporary files. Pay attention to the system limits while indicating the number of files, refer to the Technical Guidelines document for exact values per system. Please specify the restart overhead, not only for I/O; (e.g., a code may have to perform a costly domain decomposition first).
+PARA: <Enter your text here>
+PARA: Data: Management Plan, Storage, Analysis and Visualization (~1 page)
+PARA: Data Management Plan covering
+PARA: Data Management Plan covering both short-term and long-term aspects, including needs for I/O bandwidth, number of files and input/output data volumes. Specify for which system the data will be provided, how long the data must be stored at the computing centre after the termination of the project, how it will be moved from the centre, and how subsequent analysis will be performed. Specify the availability of both code and data to other researchers, and how this will be handled. EuroHPC should be given credit for all data produced through EuroHPC allocations when publishing, and described in the provenance when depositing to other infrastructures.
+PARA: <Enter your text here>
+PARA: Project workflow
+PARA: Project workflow including the role and timeline of data analysis and visualisation identify where the analysis will be done and any potential bottlenecks in the analysis process. Describe any analysis and/or data reduction tools used.
+PARA: <Enter your text here>
+PARA: Software workflow solution
+PARA: Software workflow solution (e.g. pre- and post-processing scripts that automate run management and analysis) to facilitate this volume of work.
+PARA: <Enter your text here>
+PARA: I/O requirements
+PARA: I/O requirements (e.g., amount, size, bandwidth, etc.) for data analysis and visualisation. Highlight any exceptional I/O needs. Please provide data for (one or several) precise systems that will be simulated.
+PARA: <Enter your text here>
+PARA: Performance of Software (Maximum 2 pages)
+PARA: Testing of your code on the requested machine
+PARA: It is strongly recommended that your production code is tested in the requested machine(s) (see also the text referring to Benchmark Access in the Important Notice at the top of page 1). Please specify the EuroHPC Benchmark Access project (if any) or other projects (previous PRACE Calls, national calls, etc.) used to prepare the Regular Access proposal. If the preparatory host machine is different from the target machine, specify why you think the data is relevant. In the latter case, please report briefly the conversion factor (in terms of ratio of time to solution, flops or requested node hours) from the machine where the preparatory tests were performed to the requested system. Moreover, your proposal must account for all technical constraints and requirements of the targeted machine(s) as documented in the separate Technical Guidelines for Applicants document; failing to do so will significantly increase the risk that your project will be technically rejected.
+PARA: <Enter your text here>
+PARA: Quantify the HPC performance of your project
+PARA: The presented data must be representative of the entire workflow of the project proposed and refer to the main application code you intend for the production work. The software scalability data (see Examples of Performance Reporting below) must be used to choose the most efficient job size(s) for the simulations planned in production: the corresponding software performance must be clearly linked to the justification of the computing resources requested. The Domain Panels will not accept estimates based on related codes and/or data related to parts of your production. All data must refer to the targeted systems in your production runs or a system with comparable size, software stack and with the same architecture, and network (e.g. a project can be accepted on MeluXina GPU if it was benchmarked on another GPU machine with the same NVIDIA GPU). Please coordinate with the centres if in doubt about the portability of your code. Specify that performance results are reported on the basis of one of the following: whole application including I/O; whole application except I/O; kernel only; other (specify). More specifically you must include:
+PARA: Strong and weak scalability
+PARA: Starting with the minimum size of the computer necessary to run the problem (usually 1 core or 1 node). Justify the minimum size for your scaling if it is larger than 1 core or 1 node (e.g. memory limitations). Please provide a justification in case that either the weak (e.g. study of one particular bio-molecule) or the strong (e.g. study of an ensemble) scalability metric is not considered relevant to your project. See Examples of Performance Reporting below for the requested format.
+PARA: <Enter your text here>
+PARA: Examples of Performance Reporting. For the weak and strong scaling please start with the minimum and finish with the maximum number of nodes that are suitable for your application. Please mark the number of nodes that you expect to perform the main load of your work. On the Y axis you may use time to solution (scaled or otherwise) or speedup with respect to the minimum number of cores. The table with the timings is mandatory.
+PARA: The table should include the speedup and the parallel efficiency. Log/log plots are useful to span many orders of magnitude.
+PARA: Precision reported
+PARA: One of: single precision, double precision, mixed precision. Only the precision you use in the simulation is relevant.
+PARA: <Enter your text here>
+PARA: Time-to-solution
+PARA: Time-to-solution as normalised/averaged per iteration,
+PARA: AND the normalized total time to solution
+PARA: with  the time per iteration,  the total time to solution,  the number of cores and  the number of computational elements (size of the problem).
+PARA: IMPORTANT: Justify the choice of your code (e.g., comparison with existing codes, methods or any other scientifically rigorous argumentation). See also the text referring to Benchmark Access in the Important Notice at the top of Page 1.
+PARA: <Enter your text here>
+PARA: System scale
+PARA: One of: results measured on full-scale system, projected from results of smaller system, other (specify).
+PARA: <Enter your text here>
+PARA: Measurement mechanism
+PARA: One of: timers, FLOP count, static analysis tool, performance modelling, other (specify).
+PARA: <Enter your text here>
+PARA: Memory usage
+PARA: Specify requirements per node or core depending on the size of the problem.
+PARA: <Enter your text here>
+PARA: OPTIONAL: Percentage of available peak performance
+PARA: Please collaborate with the Centres on obtaining this information (see also the text referring to Benchmark Access in the Important Notice at the top of Page 1). Alternatively provide code specific metrics for the requested machine (FLOPS, etc.).
+PARA: <Enter your text here>
+PARA: Milestones (quarterly basis) (Maximum 1 page)
+PARA: Goals and milestones should articulate simulation and developmental objectives and be sufficiently detailed to assess the progress of the project. It is especially important that you provide clear connections between the project’s overarching milestones, the planned production simulations, and the compute time expected to be required for these simulations. Please clarify any dependencies of milestones on other milestones. Please ensure that the node hour consumption is regular throughout the allocation or provide a requested schedule after consultation with the centres.
+PARA: <Enter your text here>
+PARA: Gantt Chart
+PARA: Provide a Gantt Chart of the simulation plan in production indicating job sizes and scheduling of computing tasks highlighting the consumption peaks. The Gantt Chart should also include a data transfer plan and a communication plan, strategy and timeline for the dissemination of the results.
+PARA: Please take into consideration that the homogenous consumption is encouraged.
+PARA: <Enter your text here>
+PARA: Personnel and Management Plan (0,5 page)
+PARA: What personnel are already in place and what are their roles on the project? If applicable, describe (i) personnel that will be hired for the project in the future and their responsibilities and (ii) potential personnel turnover that may occur during the project and a strategy for replacing them. The EuroHPC Regular Access calls welcome proposals from individual PIs or teams of collaborators. Outline the focus of each individual or subgroup and their interrelationships.
+PARA: It is mandatory to include all team members on the online form.
+PARA: <Enter your text here>
+PARA: References (Maximum 30)
+PARA: <Enter your text here>
+PARA: Confidentiality (0,5 page)
+PARA: Is any part of the project covered by confidentiality? yes/no
+PARA: If YES, specify which aspect is confidential and justify (Maximum 500 words):
+PARA: <Enter your text here>
+PARA: Does your project involve handling of personal data? yes/no
+PARA: If YES please confirm to take care of the data controller’s responsibilities as described in applicable data protection legislation – and note that you will need to make a data processing agreement with the production site.
+PARA: <Enter your text here>
+TABLE ROW: Project name
+TABLE ROW: Research field
+TABLE ROW: Title (Dr., Prof., etc.)
+TABLE ROW: First (given) name
+TABLE ROW: Last (family) name
+TABLE ROW: Organisation name
+TABLE ROW: Department
+TABLE ROW: Group
+TABLE ROW: Country
+TABLE ROW: Title (Dr., Prof., etc.)
+TABLE ROW: First (given) name
+TABLE ROW: Last (family) name
+TABLE ROW: Organisation name
+TABLE ROW: Department
+TABLE ROW: Group
+TABLE ROW: Country
+TABLE ROW: Run Type | Code(s) | No. of runs | No. of nodes | No. of steps per run | Time per step(s) | Total node hours
+TABLE ROW: A (init. condition prep.) | Code 1
+TABLE ROW: B (low resolution) | Code 2
+TABLE ROW: C (high resolution) | Code 2
+TABLE ROW: D (post processing) | Code 3

@@ -1,0 +1,388 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textbf{ID: EHPC-AIF-2026SC01-062}}
+\cfoot{\thepage}
+
+\title{\textbf{Project Application - Jakub Mitura}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section*{The Project}
+
+\subsection*{Project details}
+
+\textbf{Project title:} Generative AI for Nuclear Medicine Optimization
+
+\textbf{Project summary (abstract):} \\
+Objective: To leverage advanced generative architectures—including but not limited to Diffusion Models, Variational Autoencoders (VAEs), and Transformers—to synthesize high-fidelity medical imagery (such as CT scans and dose maps). The project aims to enhance diagnostic precision while prioritizing patient safety.
+
+Core Methodologies:
+\begin{itemize}
+    \item Generative Modeling: Utilizing a flexible modular framework for generative tasks to create realistic synthetic datasets.
+    \item Multi-Task Learning: Developing unified models capable of simultaneous segmentation, reconstruction, and generation.
+    \item Generative Augmentation: Expanding limited medical datasets to improve the robustness of downstream AI tasks.
+\end{itemize}
+
+Key Goals:
+\begin{itemize}
+    \item Radiation Reduction: Minimizing patient exposure by synthesizing high-quality diagnostic images from low-dose inputs.
+    \item Foundation Model Development: Building scalable pre-trained models for diverse nuclear medicine tasks, including segmentation and regression.
+\end{itemize}
+
+Expected Impact: By integrating generative augmentation, we can overcome the scarcity of labeled medical data, leading to more "generalizable" AI tools that perform reliably across different patient demographics and hardware.
+
+\textbf{Keywords:} Deep Learning, Generative Language Modeling, Vision, Medical Imaging, Synthetic Data
+
+\textbf{Instructions:} Not provided
+
+\textbf{Proposal for civilian purposes:} Yes
+
+\textbf{Is any part of the project confidential?:} No
+
+\textbf{Does your proposal involve handling of personal data?:} Yes (Anonymized medical data)
+
+\textbf{Instructions:} Not provided
+
+\subsection*{Submission details}
+
+\textbf{Type of submission:} New
+
+\subsection*{Industry, academia and public sector involvement}
+
+\textbf{Industry involvement:} None
+
+\textbf{Academic involvement:} Yes (Otto-von-Guericke University Magdeburg)
+
+\textbf{Public sector involvement:} Yes (University Hospital Magdeburg)
+
+\section*{Principal Investigator}
+
+\subsection*{Personal information}
+
+\textbf{Gender:} Not provided
+
+\textbf{Title:} Not provided
+
+\textbf{First (given) name:} Not provided
+
+\textbf{Last (family) name:} Not provided
+
+\textbf{Initials:} Not provided
+
+\textbf{Date of birth:} Not provided
+
+\textbf{E-mail address:} Not provided
+
+\textbf{Secondary e-mail address:} Not provided
+
+\textbf{Nationality:} Not provided
+
+\textbf{Phone number:} Not provided
+
+\textbf{Job title:} Not provided
+
+\textbf{Employment contract valid for more than 3 months after end allocation:} Not provided
+
+\textbf{Website:} Not provided
+
+\subsection*{Organization details}
+
+\textbf{Instructions:} Not provided
+
+\textbf{Organization name:} Otto-von-Guericke University Magdeburg (OVGU)
+
+\textbf{Organization type:} University / Public Research Organization
+
+\textbf{Organization with research activity:} Yes
+
+\textbf{Organization head office is located in Europe:} Yes
+
+\textbf{Percentage of R\&D in Europe vs total R\&D:} 100\%
+
+\textbf{Organization department:} Clinic for Nuclear Medicine
+
+\textbf{Organization group:} AI in Medicine Group
+
+\textbf{Organization address:} Leipziger Str. 44
+
+\textbf{Organization postal code:} 39120
+
+\textbf{Organization city:} Magdeburg
+
+\textbf{Organization country:} Germany
+
+\subsection*{Track record of the PI}
+
+\textbf{Granted patents and other measures for the relevance of the work:} \\
+Not provided
+
+\textbf{Prior allocation history in EuroHPC, PRACE, national calls, as well as international programs such as INCITE of the US DoE:} \\
+Not provided
+
+\textbf{Participation of team members in other European Commission (EC) actions, such as ERC or Marie Skłodowska-Curie EC grants, etc.:} \\
+Not provided
+
+\textbf{Previous presentations at EuroHPC Summit, EuroHPC User day or PRACE days:} \\
+Not provided
+
+\section*{Contact Person and Team Members}
+
+\subsection*{Contact person}
+
+\textbf{First (given) name:} Jakub
+
+\textbf{Last (family) name:} Mitura
+
+\textbf{E-mail address:} jakub.mitura@ovgu.de
+
+\subsection*{Team Members}
+Jakub Mitura, Joanna Wybrańska, Medical Faculty of OVGU Team.
+
+\section*{Partitions}
+
+\textbf{Instructions:} Not provided
+
+\subsection*{Partition information}
+
+\textbf{Partition name:} Jupiter Booster (FZJ)
+
+\textbf{Requested amount of resources (node hours):} 75,000 Node Hours (approx. 300,000 GPU Hours) - 100,000 GPU Hours/Year over 3 Years
+
+\textbf{Code(s) used:} CausalPCa / GenAI-Med
+
+\subsection*{Jobs}
+
+\textbf{Number of jobs simultaneously:} 4
+
+\textbf{Wall clock time of a typical job execution (hours):} 5.75
+
+\subsection*{Checkpoints}
+
+\textbf{Are you able to write checkpoint?:} Yes
+
+\textbf{Maximum time between 2 checkpoints (hours):} 2
+
+\textbf{Desirable maximum time between 2 checkpoints (hours):} 4
+
+\subsection*{Cores/nodes}
+
+\textbf{Average \# GPUs to be used per job:} 4
+
+\textbf{Maximum \# GPUs to be used per job:} 32
+
+\textbf{\# GPUs used per node:} 4
+
+\textbf{Maximum \# CPU cores per job:} 288
+
+\textbf{Maximum number of jobs running simultaneously on the GPU partition:} 4
+
+\textbf{Average \# CPU cores per job:} 288
+
+\textbf{\# of CPU cores used per node:} 288
+
+\subsection*{Memory}
+
+\textbf{Minimum job memory (total usage over all nodes in GB):} 300
+
+\textbf{Average job memory (total usage over all nodes in GB):} 300
+
+\textbf{Maximum job memory (total usage over all nodes in GB):} 2400
+
+\subsection*{Storage}
+
+\textbf{Maximum amount of SCRATCH needed at a time (TB):} 300
+
+\textbf{Maximum amount of WORK needed at a time (TB):} 50
+
+\textbf{Maximum amount of HOME needed at a time (TB):} 2
+
+\textbf{Maximum amount of ARCHIVE needed at a time (TB):} 300
+
+\textbf{Maximum \# files to be stored on SCRATCH (thousands):} 100
+
+\textbf{Maximum \# files to be stored on WORK (thousands):} 10
+
+\textbf{Maximum \# files to be stored on HOME (thousands):} 5
+
+\textbf{Maximum \# files to be stored on ARCHIVE (thousands):} 100
+
+\textbf{Total amount of data to transfer to/from (TB):} 300
+
+\textbf{Justification of data transfer:} \\
+Dataset: $\sim$300 TB (Raw/Processed). $\sim$100,000 DICOM/NIfTI files. Stored in HDF5 format for efficient parallel I/O. Access to JUPITER's Exascale capabilities is vital for training high-fidelity generative models on this large dataset. The substantial memory footprint (300GB+ per node) is necessitated by our hybrid Julia/Python stack, which keeps high-dimensional voxel data and gradients in GPU memory to minimize I/O bottlenecks during training.
+
+\textbf{I/O Strategy:} \\
+We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel reading/writing of large 3D volumes and checkpoints across multiple nodes.
+
+\subsection*{I/O}
+
+\textbf{I/O data traffic R/W per hour:} 10 TB
+
+\textbf{I/O files generated per hour:} 100
+
+\textbf{Specify if you would need to transfer the data to/from any of the following external data repositories or through data transfer federations:} None
+
+\section*{Code details, Development and Data management}
+
+\textbf{Instructions:} Not provided
+
+\subsection*{Workflows}
+
+\textbf{Please describe the workflows you will be using:} \\
+We will port the Julia/Python hybrid workflow to JUPITER's architecture. Key focus: optimizing large-scale training pipelines for various backbone architectures (e.g., Transformers, CNNs, Neural Operators) and accelerating differential equation solvers. The workflow is designed to be model-agnostic, supporting rapid experimentation with new generative and segmentation techniques.
+Technical implementation details:
+\begin{itemize}
+    \item \textbf{Julia (SciML):} Leveraging `EnsembleGPUArray` for massively parallel ODE solving and `KernelAbstractions.jl` for portable GPU kernels.
+    \item \textbf{Python (PyTorch/Monai):} Utilizing `DistributedDataParallel` and `TorchDynamo` for efficient multi-node training of foundation models.
+    \item \textbf{Interoperability:} Seamless data exchange via `PythonCall.jl` / `DLPack` to combine the best-in-class differential equation solvers from Julia with the rich deep learning ecosystem of Python.
+\end{itemize}
+
+\textbf{Will you be using containerized solution?:} Yes (Apptainer/Singularity)
+
+\textbf{If the project develops an AI model/method/software/workflow will it be available as open source?:} Yes (Apache 2.0)
+
+\textbf{Please provide a monthly plan of CPU/GPU resource usage by the project:} \\
+Total Target: 100,000 GPU Hours per year (300,000 GPU Hours total).
+Usage plan: 1. Profiling \& Porting (10\%): Adapting code to Grace-Hopper. 2. Scaling Tests (30\%): Weak/Strong scaling to 512+ nodes. 3. Production Training \& Exploration (60\%): Full-scale training of foundation models and exploratory architecture search for generative and segmentation tasks.
+
+\subsection*{Scalability and performance}
+
+\textbf{Describe the scalability and performance of the application:} \\
+We performed strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 32). We observed linear throughput scaling for Julia (Lux.jl), achieving 3.9x speedup on 4 GPUs (151 Samples/s) compared to 1 GPU (38.7 Samples/s). Python (PyTorch Lightning) also performed well but showed slightly lower scaling efficiency (2.9x on 4 GPUs).
+Relevance to proposed work: While the specific architecture (ResNet-152) serves as a benchmark, the memory access patterns and gradient synchronization overhead are representative of the proposed Transformers and Neural Operators. The demonstrated linear scaling confirms that our hybrid infrastructure can effectively utilize the massive parallelism of the JUPITER Booster for any compute-intensive backbone we deploy.
+
+Benchmarks executed at KI Servicezentrum Schleswig-Holstein \& KI (KISSKI) (https://kisski.gwdg.de/en/) supercomputer.
+
+\textbf{Do you face bottlenecks in your AI solution? If yes select the type below::} I/O bound (potentially), Compute bound (training)
+
+\subsection*{Data details}
+
+\textbf{Is the data used in the project open for communities?:} Yes (Synthetic data will be open)
+
+\textbf{Will the generated data by the project (if any) be open to other communities?:} Yes
+
+\section*{Application Support Team (AST)}
+
+\textbf{Instructions:} Not provided
+
+\textbf{Does your proposal require assistance from an AST on the selected partition(s)?:} Yes (JSC offers comprehensive support via Simulation Labs)
+
+\section*{Collaboration and Funding}
+
+\textbf{Instructions:} Not provided
+
+\textbf{Select one or more funding options applicable to this project:} Public Funding (University/Hospital)
+
+\section*{Dissemination Strategy}
+
+\textbf{Instructions:} Not provided
+
+\textbf{Dissemination strategy description:} \\
+We intend to publish results in high-impact journals (e.g., Nature Machine Intelligence, Medical Image Analysis) and present at major conferences (MICCAI, NeurIPS). Code and models will be released open-source.
+
+\section*{Ethics Self-Assessment}
+
+\textbf{Instructions:} Not provided
+
+\subsection*{Respect for Human Agency}
+
+\textbf{Please describe how your system ensures that end-users have the ability to control vital decisions about their own lives:} \\
+The AI system is designed as a decision support tool for medical professionals. Final diagnostic and treatment decisions remain with human doctors. The system provides probabilistic outputs and uncertainty estimates to aid, not replace, human judgment.
+
+\subsection*{Privacy \& Data Governance}
+
+\textbf{Please describe how data is collected and processed from the aspect of lawfulness, fairness and transparency:} \\
+All data used in this project is strictly synthetic and/or fully anonymized before entering the system, complying with GDPR and local regulations. No personal identifying information (PII) is handled on the HPC systems. Data usage is strictly for research purposes with appropriate ethics committee approval.
+
+\textbf{What measures (such as anonymization, pseudonymisation, encryption, and aggregation) you took to safeguard the rights of data subjects?:} \\
+Data is pseudonymized at source and anonymized for processing. Access is restricted to authorized personnel. Secure storage and transfer protocols are enforced.
+
+\textbf{Please describe the measures you employ to prevent data breaches and leakages:} \\
+We utilize secure, access-controlled computing environments (JUPITER). Data transfer uses encrypted channels.
+
+\subsection*{Fairness}
+
+\textbf{How do you ensure avoiding algorithmic bias, in input data, modelling and algorithm design?:} \\
+We employ diverse datasets covering various demographics. We actively monitor for bias during model training and evaluation, using fairness metrics. Generative augmentation is used to balance underrepresented classes.
+
+\subsection*{Individual, and Social and Environmental Well-being}
+
+\textbf{If relevant, describe how the AI system is mindful of all stakeholders and the environment:} \\
+The project aims to improve patient outcomes and reduce radiation exposure. We optimize code efficiency to minimize energy consumption on HPC resources.
+
+\subsection*{Transparency}
+
+\textbf{Are the end-users aware that they are interacting with an AI system?:} Yes
+
+\textbf{Please describe how the participants and/or end-users will be informed about interacting with an AI system, and about its purpose, capabilities, limitations, benefits and risks:} \\
+Medical professionals are trained on the system's capabilities and limitations. Patients are informed about the use of AI in their care pathway where applicable.
+
+\subsection*{Accountability}
+
+\textbf{Please describe how your system ensures that potential ethically and socially undesirable effects will be detected, stopped, and prevented from reoccurring:} \\
+We implement continuous monitoring and feedback loops. Any adverse events or unexpected behaviors are logged and reviewed by the oversight committee.
+
+\section*{Excluded Reviewers}
+
+\textbf{Excluded Reviewer \#1}
+
+\textbf{Full Name:} Not provided
+
+\textbf{E-mail:} Not provided
+
+\textbf{Affiliation:} Not provided
+
+\textbf{Excluded Reviewer \#2}
+
+\textbf{Full Name:} Not provided
+
+\textbf{E-mail:} Not provided
+
+\textbf{Affiliation:} Not provided
+
+\textbf{Excluded Reviewer \#3}
+
+\textbf{Full Name:} Not provided
+
+\textbf{E-mail:} Not provided
+
+\textbf{Affiliation:} Not provided
+
+\section*{Data Consent}
+
+\textbf{Instructions:} Not provided
+
+\textbf{In case the proposal is awarded, EuroHPC JU would like to publish the Principal Investigator’s and Team Members’ names and organizations. This may involve sharing this information on our website, social media channels, or in other promotional materials related to the project. Please provide your consent below.:} Yes
+
+\textbf{In order to submit the proposal, you must accept the call's Terms of Reference available as a document at https://www.eurohpc-ju.europa.eu/eurohpc-ju-call-proposals-ai-science-and-collaborative-eu-projects\_en. By ticking the box below you confirm that you have read and understood the terms and conditions of the call.:} Yes
+
+\textbf{In case the proposal is recommended to be awarded but due to the first-come-first-serve principle is not funded, do you agree on moving your proposal to the next cut-off period with a priority in funding?:} Yes
+
+\section*{Administrative self-assessment checklist}
+
+\textbf{PI CV uploaded (most recent):} Yes
+
+\textbf{Correct Project Scope and Plan template used:} Yes
+
+\textbf{Maximum page limit of the Project Scope and Plan respected (10 pages):} Yes
+
+\textbf{All sections of the Project Scope and Plan are completed:} Yes
+
+\textbf{Total amount of resources in the milestones table (section 3.2) matches the resources requested in the online form (Partitions):} Yes
+
+\end{document}
