@@ -48,7 +48,8 @@ Expected Impact: By integrating generative augmentation, we can overcome the sca
 
 \textbf{Keywords:} Deep Learning, Generative Language Modeling, Vision, Medical Imaging, Synthetic Data
 
-\textbf{Instructions:} Not provided
+
+\textbf{Instructions:} Provide a clear and concise description of the project. The summary should be suitable for publication and explain the main objectives, methodologies, and expected impact of the AI for Science project. Select keywords that best describe the scientific and technical scope.
 
 \textbf{Proposal for civilian purposes:} Yes
 
@@ -56,7 +57,7 @@ Expected Impact: By integrating generative augmentation, we can overcome the sca
 
 \textbf{Does your proposal involve handling of personal data?:} Yes (Anonymized medical data)
 
-\textbf{Instructions:} Not provided
+
 
 \subsection*{Submission details}
 
@@ -102,7 +103,7 @@ Expected Impact: By integrating generative augmentation, we can overcome the sca
 
 \subsection*{Organization details}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Provide details of the Principal Investigator's primary affiliation. This organization will be the main contact point for administrative matters. Ensure the address and R\&D figures are accurate.
 
 \textbf{Organization name:} Otto-von-Guericke University Magdeburg (OVGU)
 
@@ -155,7 +156,7 @@ Jakub Mitura, Joanna Wybrańska, Medical Faculty of OVGU Team.
 
 \section*{Partitions}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Select the specific partition(s) on the target supercomputer (e.g., JUPITER Booster). Specify the total amount of resources requested in Node Hours or GPU Hours. Ensure the request matches the resource justification provided in the Project Scope and Plan (Part B). Note the typical job characteristics (wall clock time, checkpoints, core/GPU counts).
 
 \subsection*{Partition information}
 
@@ -239,7 +240,12 @@ We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel readin
 
 \section*{Code details, Development and Data management}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Describe the technical implementation of your project.
+\begin{itemize}
+    \item Workflows: Detail the AI/HPC workflows, including training, inference, and data processing steps. Mention specific frameworks (PyTorch, Julia, etc.) and parallelization strategies.
+    \item Scalability: Provide evidence of your code's performance and scalability on the target architecture (or similar). Include strong/weak scaling results and benchmark data (e.g., from KISSKI).
+    \item Data: Confirm if the project data and results will be open to the community.
+\end{itemize}
 
 \subsection*{Workflows}
 
@@ -278,26 +284,33 @@ Benchmarks executed at KI Servicezentrum Schleswig-Holstein \& KI (KISSKI) (http
 
 \section*{Application Support Team (AST)}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Indicate if your project requires dedicated support from the hosting centre's Application Support Team (AST) or Simulation Labs for code porting, optimization, or workflow development.
 
 \textbf{Does your proposal require assistance from an AST on the selected partition(s)?:} Yes (JSC offers comprehensive support via Simulation Labs)
 
 \section*{Collaboration and Funding}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Specify any existing collaborations with industry, academia, or the public sector. Indicate the funding sources supporting this project (e.g., University grants, EC projects, National funding).
 
 \textbf{Select one or more funding options applicable to this project:} Public Funding (University/Hospital)
 
 \section*{Dissemination Strategy}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Outline the plan for disseminating the results of the project. This includes scientific publications, conference presentations, open-source code releases, and public datasets.
 
 \textbf{Dissemination strategy description:} \\
 We intend to publish results in high-impact journals (e.g., Nature Machine Intelligence, Medical Image Analysis) and present at major conferences (MICCAI, NeurIPS). Code and models will be released open-source.
 
 \section*{Ethics Self-Assessment}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} This section is specific to the ``AI for Science'' call. Address the ethical guidelines for Trustworthy AI.
+\begin{itemize}
+    \item Human Agency: How does the system support human decision-making?
+    \item Privacy: How is personal data protected?
+    \item Fairness: How is algorithmic bias mitigated?
+    \item Transparency: How are users informed about the AI system?
+    \item Accountability: What measures are in place for oversight and error correction?
+\end{itemize}
 
 \subsection*{Respect for Human Agency}
 
@@ -365,7 +378,7 @@ We implement continuous monitoring and feedback loops. Any adverse events or une
 
 \section*{Data Consent}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Please confirm your consent for the publication of project details if awarded. Acknowledge that you have read and understood the EuroHPC JU Access Policy and Terms of Reference.
 
 \textbf{In case the proposal is awarded, EuroHPC JU would like to publish the Principal Investigator’s and Team Members’ names and organizations. This may involve sharing this information on our website, social media channels, or in other promotional materials related to the project. Please provide your consent below.:} Yes
 
