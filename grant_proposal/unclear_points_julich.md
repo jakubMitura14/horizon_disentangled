@@ -3,9 +3,7 @@
 The following information is missing or marked as "Not provided" in the current draft of the proposal and requires your input to finalize the submission.
 
 ## Administrative Information
-*   **PI Date of Birth:** Currently marked as "Not provided". This is a mandatory field.
-*   **PI Phone Number:** Currently marked as "Not provided". This is a mandatory field.
-*   **Secondary Email:** Currently set to `jakub.mitura@ovgu.de` (PI: Michael Kreißl). Confirm if this is the correct secondary contact or if it should be the PI's secondary email.
+*   **Principal Investigator:** All PI details (Name, Title, Email, etc.) have been removed as per instructions. You will need to re-enter this information before final submission.
 *   **Team Member Participation:** Section regarding participation in other EC actions (ERC, Marie Curie) is marked "Not provided". Please confirm if any team members are involved in such grants.
 *   **Previous Presentations:** Information on previous EuroHPC/PRACE presentations is "Not provided". If applicable, list dates/titles.
 
