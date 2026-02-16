@@ -29,19 +29,19 @@
 \textbf{Project title:} Generative AI for Nuclear Medicine Optimization
 
 \textbf{Project summary (abstract):} \\
-Objective: To leverage advanced generative architectures—specifically Diffusion Models and Variational Autoencoders (VAEs)—to synthesize high-fidelity medical imagery (such as CT scans and dose maps). The project aims to enhance diagnostic precision while prioritizing patient safety.
+Objective: To leverage advanced generative architectures—including but not limited to Diffusion Models, Variational Autoencoders (VAEs), and Transformers—to synthesize high-fidelity medical imagery (such as CT scans and dose maps). The project aims to enhance diagnostic precision while prioritizing patient safety.
 
 Core Methodologies:
 \begin{itemize}
-    \item Generative Modeling: Utilizing Diffusion and VAE frameworks to create realistic synthetic datasets.
-    \item Dose Map Synthesis: Generating accurate dose distributions to predict and optimize treatment planning.
+    \item Generative Modeling: Utilizing a flexible modular framework for generative tasks to create realistic synthetic datasets.
+    \item Multi-Task Learning: Developing unified models capable of simultaneous segmentation, reconstruction, and generation.
     \item Generative Augmentation: Expanding limited medical datasets to improve the robustness of downstream AI tasks.
 \end{itemize}
 
 Key Goals:
 \begin{itemize}
     \item Radiation Reduction: Minimizing patient exposure by synthesizing high-quality diagnostic images from low-dose inputs.
-    \item Model Enhancement: Synthetic data will be used to train and refine Segmentation and Regression models.
+    \item Foundation Model Development: Building scalable pre-trained models for diverse nuclear medicine tasks, including segmentation and regression.
 \end{itemize}
 
 Expected Impact: By integrating generative augmentation, we can overcome the scarcity of labeled medical data, leading to more "generalizable" AI tools that perform reliably across different patient demographics and hardware.
@@ -231,7 +231,7 @@ We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel readin
 
 \subsection*{I/O}
 
-\textbf{I/O data trafic R/W per hour:} 10 TB
+\textbf{I/O data traffic R/W per hour:} 10 TB
 
 \textbf{I/O files generated per hour:} 100
 
@@ -244,7 +244,7 @@ We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel readin
 \subsection*{Workflows}
 
 \textbf{Please describe the workflows you will be using:} \\
-We will port the Julia/Python hybrid workflow to JUPITER's architecture. Key focus: optimizing `solve` calls for NJDEs using `EnsembleGPUArray`, implementing distributed training for 3D Diffusion Models, and leveraging the Transformer Engine on H100 GPUs.
+We will port the Julia/Python hybrid workflow to JUPITER's architecture. Key focus: optimizing large-scale training pipelines for various backbone architectures (e.g., Transformers, CNNs, Neural Operators) and accelerating differential equation solvers. The workflow is designed to be model-agnostic, supporting rapid experimentation with new generative and segmentation techniques.
 Hybrid implementation using both Julia (SciML) and Python (PyTorch/Monai).
 
 \textbf{Will you be using containerized solution?:} Yes (Apptainer/Singularity)
@@ -252,12 +252,12 @@ Hybrid implementation using both Julia (SciML) and Python (PyTorch/Monai).
 \textbf{If the project develops an AI model/method/software/workflow will it be available as open source?:} Yes (Apache 2.0)
 
 \textbf{Please provide a monthly plan of CPU/GPU resource usage by the project:} \\
-Usage plan: 1. Profiling \& Porting (10\%): Adapting code to Grace-Hopper. 2. Scaling Tests (30\%): Weak/Strong scaling to 512+ nodes. 3. Production Training (60\%): Full-scale generation of synthetic cohorts.
+Usage plan: 1. Profiling \& Porting (10\%): Adapting code to Grace-Hopper. 2. Scaling Tests (30\%): Weak/Strong scaling to 512+ nodes. 3. Production Training \& Exploration (60\%): Full-scale training of foundation models and exploratory architecture search for generative and segmentation tasks.
 
 \subsection*{Scalability and performance}
 
 \textbf{Describe the scalability and performance of the application:} \\
-We performed strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a Super Heavy 3D ResNet-152 architecture (128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 32). We observed linear throughput scaling for Julia (Lux.jl), achieving 3.9x speedup on 4 GPUs (151 Samples/s) compared to 1 GPU (38.7 Samples/s). Python (PyTorch Lightning) also performed well but showed slightly lower scaling efficiency (2.9x on 4 GPUs).
+We performed strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 32). We observed linear throughput scaling for Julia (Lux.jl), achieving 3.9x speedup on 4 GPUs (151 Samples/s) compared to 1 GPU (38.7 Samples/s). Python (PyTorch Lightning) also performed well but showed slightly lower scaling efficiency (2.9x on 4 GPUs). These benchmarks demonstrate the readiness of our underlying infrastructure to scale various compute-intensive AI workloads.
 
 Benchmarks executed at KI Servicezentrum Schleswig-Holstein \& KI (KISSKI) (https://kisski.gwdg.de/en/) supercomputer.
 
