@@ -224,7 +224,7 @@ Prof. Dr. Michael Kreißl (OVGU), Jakub Mitura, Joanna Wybrańska, Medical Facul
 \textbf{Total amount of data to transfer to/from (TB):} 200
 
 \textbf{Justification of data transfer:} \\
-Dataset: $\sim$200 TB (Raw/Processed). $\sim$100,000 DICOM/NIfTI files. Stored in HDF5 format for efficient parallel I/O. Access to JUPITER's Exascale capabilities is vital for training high-fidelity generative models on this large dataset.
+Dataset: $\sim$200 TB (Raw/Processed). $\sim$100,000 DICOM/NIfTI files. Stored in HDF5 format for efficient parallel I/O. Access to JUPITER's Exascale capabilities is vital for training high-fidelity generative models on this large dataset. The substantial memory footprint (300GB+ per node) is necessitated by our hybrid Julia/Python stack, which keeps high-dimensional voxel data and gradients in GPU memory to minimize I/O bottlenecks during training.
 
 \textbf{I/O Strategy:} \\
 We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel reading/writing of large 3D volumes and checkpoints across multiple nodes.
@@ -245,7 +245,12 @@ We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel readin
 
 \textbf{Please describe the workflows you will be using:} \\
 We will port the Julia/Python hybrid workflow to JUPITER's architecture. Key focus: optimizing large-scale training pipelines for various backbone architectures (e.g., Transformers, CNNs, Neural Operators) and accelerating differential equation solvers. The workflow is designed to be model-agnostic, supporting rapid experimentation with new generative and segmentation techniques.
-Hybrid implementation using both Julia (SciML) and Python (PyTorch/Monai).
+Technical implementation details:
+\begin{itemize}
+    \item \textbf{Julia (SciML):} Leveraging `EnsembleGPUArray` for massively parallel ODE solving and `KernelAbstractions.jl` for portable GPU kernels.
+    \item \textbf{Python (PyTorch/Monai):} Utilizing `DistributedDataParallel` and `TorchDynamo` for efficient multi-node training of foundation models.
+    \item \textbf{Interoperability:} Seamless data exchange via `PythonCall.jl` / `DLPack` to combine the best-in-class differential equation solvers from Julia with the rich deep learning ecosystem of Python.
+\end{itemize}
 
 \textbf{Will you be using containerized solution?:} Yes (Apptainer/Singularity)
 
@@ -257,7 +262,8 @@ Usage plan: 1. Profiling \& Porting (10\%): Adapting code to Grace-Hopper. 2. Sc
 \subsection*{Scalability and performance}
 
 \textbf{Describe the scalability and performance of the application:} \\
-We performed strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 32). We observed linear throughput scaling for Julia (Lux.jl), achieving 3.9x speedup on 4 GPUs (151 Samples/s) compared to 1 GPU (38.7 Samples/s). Python (PyTorch Lightning) also performed well but showed slightly lower scaling efficiency (2.9x on 4 GPUs). These benchmarks demonstrate the readiness of our underlying infrastructure to scale various compute-intensive AI workloads.
+We performed strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 32). We observed linear throughput scaling for Julia (Lux.jl), achieving 3.9x speedup on 4 GPUs (151 Samples/s) compared to 1 GPU (38.7 Samples/s). Python (PyTorch Lightning) also performed well but showed slightly lower scaling efficiency (2.9x on 4 GPUs).
+Relevance to proposed work: While the specific architecture (ResNet-152) serves as a benchmark, the memory access patterns and gradient synchronization overhead are representative of the proposed Transformers and Neural Operators. The demonstrated linear scaling confirms that our hybrid infrastructure can effectively utilize the massive parallelism of the JUPITER Booster for any compute-intensive backbone we deploy.
 
 Benchmarks executed at KI Servicezentrum Schleswig-Holstein \& KI (KISSKI) (https://kisski.gwdg.de/en/) supercomputer.
 
