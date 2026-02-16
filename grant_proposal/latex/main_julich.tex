@@ -161,7 +161,7 @@ Prof. Dr. Michael Kreißl (OVGU), Jakub Mitura, Joanna Wybrańska, Medical Facul
 
 \textbf{Partition name:} Jupiter Booster (FZJ)
 
-\textbf{Requested amount of resources (node hours):} 25,000 Node Hours (approx. 100,000 GPU Hours)
+\textbf{Requested amount of resources (node hours):} 75,000 Node Hours (approx. 300,000 GPU Hours) - 100,000 GPU Hours/Year over 3 Years
 
 \textbf{Code(s) used:} CausalPCa / GenAI-Med
 
@@ -187,13 +187,13 @@ Prof. Dr. Michael Kreißl (OVGU), Jakub Mitura, Joanna Wybrańska, Medical Facul
 
 \textbf{\# GPUs used per node:} 4
 
-\textbf{Maximum \# CPU cores per job:} Not provided
+\textbf{Maximum \# CPU cores per job:} 288
 
 \textbf{Maximum number of jobs running simultaneously on the GPU partition:} 4
 
-\textbf{Average \# CPU cores per job:} Not provided
+\textbf{Average \# CPU cores per job:} 288
 
-\textbf{\# of CPU cores used per node:} Not provided
+\textbf{\# of CPU cores used per node:} 288
 
 \subsection*{Memory}
 
@@ -205,13 +205,13 @@ Prof. Dr. Michael Kreißl (OVGU), Jakub Mitura, Joanna Wybrańska, Medical Facul
 
 \subsection*{Storage}
 
-\textbf{Maximum amount of SCRATCH needed at a time (TB):} 200
+\textbf{Maximum amount of SCRATCH needed at a time (TB):} 300
 
 \textbf{Maximum amount of WORK needed at a time (TB):} 50
 
-\textbf{Maximum amount of HOME needed at a time (TB):} 1
+\textbf{Maximum amount of HOME needed at a time (TB):} 2
 
-\textbf{Maximum amount of ARCHIVE needed at a time (TB):} 200
+\textbf{Maximum amount of ARCHIVE needed at a time (TB):} 300
 
 \textbf{Maximum \# files to be stored on SCRATCH (thousands):} 100
 
@@ -221,10 +221,10 @@ Prof. Dr. Michael Kreißl (OVGU), Jakub Mitura, Joanna Wybrańska, Medical Facul
 
 \textbf{Maximum \# files to be stored on ARCHIVE (thousands):} 100
 
-\textbf{Total amount of data to transfer to/from (TB):} 200
+\textbf{Total amount of data to transfer to/from (TB):} 300
 
 \textbf{Justification of data transfer:} \\
-Dataset: $\sim$200 TB (Raw/Processed). $\sim$100,000 DICOM/NIfTI files. Stored in HDF5 format for efficient parallel I/O. Access to JUPITER's Exascale capabilities is vital for training high-fidelity generative models on this large dataset. The substantial memory footprint (300GB+ per node) is necessitated by our hybrid Julia/Python stack, which keeps high-dimensional voxel data and gradients in GPU memory to minimize I/O bottlenecks during training.
+Dataset: $\sim$300 TB (Raw/Processed). $\sim$100,000 DICOM/NIfTI files. Stored in HDF5 format for efficient parallel I/O. Access to JUPITER's Exascale capabilities is vital for training high-fidelity generative models on this large dataset. The substantial memory footprint (300GB+ per node) is necessitated by our hybrid Julia/Python stack, which keeps high-dimensional voxel data and gradients in GPU memory to minimize I/O bottlenecks during training.
 
 \textbf{I/O Strategy:} \\
 We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel reading/writing of large 3D volumes and checkpoints across multiple nodes.
@@ -306,7 +306,7 @@ The AI system is designed as a decision support tool for medical professionals. 
 \subsection*{Privacy \& Data Governance}
 
 \textbf{Please describe how data is collected and processed from the aspect of lawfulness, fairness and transparency:} \\
-All patient data is fully anonymized before entering the system, complying with GDPR and local regulations. Data usage is strictly for research purposes with appropriate ethics committee approval.
+All data used in this project is strictly synthetic and/or fully anonymized before entering the system, complying with GDPR and local regulations. No personal identifying information (PII) is handled on the HPC systems. Data usage is strictly for research purposes with appropriate ethics committee approval.
 
 \textbf{What measures (such as anonymization, pseudonymisation, encryption, and aggregation) you took to safeguard the rights of data subjects?:} \\
 Data is pseudonymized at source and anonymized for processing. Access is restricted to authorized personnel. Secure storage and transfer protocols are enforced.
