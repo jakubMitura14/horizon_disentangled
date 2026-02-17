@@ -1,0 +1,205 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% Use adjustwidth environment to exceed column width (see example in text)
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8x]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% fixltx2e package for \textsubscript
+% \usepackage{fixltx2e}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% color can be used to apply background shading to table cells only
+\usepackage[table]{xcolor}
+
+% array package and thick rules for tables
+\usepackage{array}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
+
+% Remove comment for double spacing
+%\usepackage{setspace}
+%\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Use the PLoS provided BiBTeX style
+% \bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+% \pagestyle{myheadings}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \setlength{\headheight}{27.023pt}
+% \lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+% \rfoot{\thepage/\pageref{LastPage}}
+% \renewcommand{\headrulewidth}{0pt}
+% \renewcommand{\footrulewidth}{0pt}
+
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{CausalPCa: A Generative AI Framework for Nuclear Medicine Optimization} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email.
+\\
+Jakub Mitura\textsuperscript{1,2*},
+Joanna Wybrańska\textsuperscript{1},
+Michael Kreißl\textsuperscript{1}
+\\
+\bigskip
+\textbf{1} Clinic for Nuclear Medicine, Otto-von-Guericke University Magdeburg, Magdeburg, Germany
+\\
+\textbf{2} AI in Medicine Group, Otto-von-Guericke University Magdeburg, Magdeburg, Germany
+\\
+\bigskip
+
+% Insert additional author notes using the symbols described below. Insert symbol callouts after author names as necessary.
+%
+% Remove or modify the following if you do not have equal contribution notes
+% These authors contributed equally to this work.
+%
+% Current address notes
+% \textcurrency Current Address: Dept/Program/Center, Institution Name, City, State, Country
+% \textsuperscript{\textpilcrow} Current Address: Dept/Program/Center, Institution Name, City, State, Country
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+* jakub.mitura@ovgu.de
+
+\end{flushleft}
+% Please keep the abstract below 300 words
+\section*{Abstract}
+This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa) at any stage of the disease. We focus on prostate cancer and address both clinical objectives - predictive diagnosis and personalized treatment selection - while advancing all three technological objectives: multimodal integration, medical data augmentation, and knowledge representation. We will build a causal ``digital twin'' to transparently model the disease trajectory by integrating complex multimodal data into a unified, personalized patient view. Technologically, we will fuse multimodal data from internal and external sources, use GenAI for data augmentation, and infuse deep medical domain knowledge like local and international guidelines into the novel model's architecture to guide its learning process and disentangle disease signals from confounders. This should be a solid basis for generating the synthesized data for further experiments. Clinically, our agent will improve diagnostic interpretation by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
+
+% Please keep the Author Summary between 150 and 200 words
+% Use first person. PLOS Computational Biology requires this.
+\section*{Author Summary}
+We have developed CausalPCa, an open-source software framework that uses advanced artificial intelligence to create "digital twins" of prostate cancer patients. By analyzing data from medical imaging (like PET/CT scans) and clinical records, our software simulates how the disease might progress under different treatment scenarios. A key innovation is our use of generative AI to synthesize high-quality medical images, allowing doctors to visualize potential future states of the patient's anatomy and disease burden. This tool is designed to assist clinicians in making more precise, personalized treatment decisions while minimizing unnecessary radiation exposure from diagnostic scans. We are releasing this framework as open source to accelerate research in medical AI and provide a robust foundation for building trustworthy, regulation-ready clinical decision support systems.
+
+\linenumbers
+
+% Use "Eq" instead of "Equation" for equation citations.
+\section*{Introduction}
+Prostate cancer (PCa) management requires integrating diverse multimodal data, including imaging (PET/CT), histopathology, and clinical biomarkers (PSA). Conventional methods often struggle to synthesize these disparate sources into a coherent, time-resolved patient model. This leads to diagnostic uncertainty and suboptimal treatment planning.
+
+We present CausalPCa, a software framework designed to bridge this gap using Causal AI and Generative Modeling. Our software enables:
+\begin{enumerate}
+    \item \textbf{High-Fidelity Image Synthesis:} Generating diagnostic-quality CT and dose maps from low-dose inputs for precise dosimetry.
+    \item \textbf{Causal Reasoning:} simulating counterfactual treatment trajectories to support clinical decision-making.
+    \item \textbf{Holistic Modeling:} Integrating multi-modal data into a unified latent representation.
+\end{enumerate}
+
+\section*{Design and Implementation}
+
+\subsection*{Architecture}
+The software is built on a hybrid architecture combining the computational efficiency of Julia (SciML) with the rich deep learning ecosystem of Python (PyTorch/MONAI).
+\begin{itemize}
+    \item \textbf{Julia Components:} We leverage `EnsembleGPUArray` for massively parallel ODE solving and `KernelAbstractions.jl` for portable GPU kernels. This powers the Neural Jump ODE (NJDE) backbone for temporal modeling.
+    \item \textbf{Python Components:} We utilize `DistributedDataParallel` and `TorchDynamo` for training large-scale generative models (VAEs, Diffusion Models).
+    \item \textbf{Interoperability:} Seamless data exchange is handled via `PythonCall.jl` and `DLPack`, allowing best-in-class tools from both languages to coexist in a single pipeline.
+\end{itemize}
+
+\subsection*{Algorithms}
+CausalPCa implements a novel causal disentanglement mechanism. A hierarchical VAE separates patient-specific static features (anatomy) from dynamic disease features (tumor progression). This allows for targeted manipulation of latent variables to generate counterfactual "what-if" scenarios without altering the patient's core anatomical identity.
+
+\section*{Results}
+
+\subsection*{Scalability}
+We evaluated the software's performance on the JUPITER Booster cluster (NVIDIA GH200/H100). Benchmarks demonstrate linear strong scaling on multi-GPU nodes.
+\begin{itemize}
+    \item \textbf{Throughput:} Julia (Lux.jl) achieved a 3.9x speedup on 4 GPUs compared to a single GPU baseline.
+    \item \textbf{Efficiency:} The hybrid stack maintains high GPU utilization (93.6\%) for compute-bound workloads like 3D ResNet-152 training.
+\end{itemize}
+
+\section*{Availability and Future Directions}
+The CausalPCa software is available as open source under the Apache 2.0 license.
+\begin{itemize}
+    \item \textbf{Source Code:} [Insert GitHub Repository Link]
+    \item \textbf{Documentation:} [Insert Documentation Link]
+    \item \textbf{Container Images:} Docker/Apptainer images are provided for reproducibility.
+\end{itemize}
+
+Future development will focus on integrating federated learning capabilities to allow multi-site training without data sharing, further enhancing patient privacy and data security.
+
+\section*{Supporting Information}
+
+% Include only the SI item label in the subsection heading. Use the \nameref{label} command to cite SI items in the text.
+\subsection*{S1 File}
+\label{S1_File}
+{\bf Software Manual.} Detailed instructions for installation, configuration, and usage of the CausalPCa framework.
+
+\section*{Acknowledgments}
+We acknowledge the EuroHPC Joint Undertaking for providing access to the JUPITER supercomputer. This work was supported by the Otto-von-Guericke University Magdeburg.
+
+\nolinenumbers
+
+% \bibliography{references}
+
+\end{document}
