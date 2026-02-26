@@ -40,7 +40,7 @@
 
 \section{Preliminary Work}
 \label{sec:prelim}
-We have performed extensive strong scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 24).
+We have performed extensive scaling tests on a single node with 8x NVIDIA H100 GPUs using a representative high-load architecture (Super Heavy 3D ResNet-152, 128x128x128 volume). The workload was compute-bound and memory-intensive, fully utilizing the 80GB HBM3 capacity per GPU (Batch Size 24).
 
 We observed linear throughput scaling for our Julia (Lux.jl) implementation, achieving a 3.74x speedup on 4 GPUs (117.2 Samples/s) compared to 1 GPU (31.3 Samples/s). We also benchmarked a PyTorch implementation which showed good scaling but lower raw throughput on single GPU.
 
@@ -85,15 +85,15 @@ We present the scaling behavior of our code (Lux.jl) on NVIDIA H100 GPUs (compar
 
 \begin{table}[h]
 \centering
-\caption{Scaling behavior of Lux.jl on NVIDIA H100 GPU Cluster. Problem size: 128x128x128 3D Volume (ResNet-152).}
+\caption{Scaling behavior of Lux.jl on NVIDIA H100 GPU Cluster. Problem size: 128x128x128 3D Volume (ResNet-152). Time reported per epoch (approx).}
 \label{tab:scaling}
-\begin{tabular}{ccc}
+\begin{tabular}{cccccc}
 \toprule
-\# GPUs & Throughput (Samples/s) & Speedup \\
+\# GPUs & Time (s) & Throughput (Samples/s) & Speedup & Parallel Efficiency \\
 \midrule
-1 & 31.3 & 1.0 \\
-2 & 61.4 & 1.96 \\
-4 & 117.2 & 3.74 \\
+1 & 0.77 & 31.3 & 1.0 & 100\% \\
+2 & 0.78 & 61.4 & 1.96 & 98.0\% \\
+4 & 0.82 & 117.2 & 3.74 & 93.5\% \\
 \bottomrule
 \end{tabular}
 \end{table}
