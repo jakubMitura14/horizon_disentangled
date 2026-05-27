@@ -29,7 +29,9 @@
 \textbf{Project title:} Generative AI for Nuclear Medicine Optimization
 
 \textbf{Project summary (abstract):} \\
-Objective: To leverage advanced generative architectures—including but not limited to Diffusion Models, Variational Autoencoders (VAEs), and Transformers—to synthesize high-fidelity medical imagery (such as CT scans and dose maps). The project aims to enhance diagnostic precision while prioritizing patient safety.
+\textbf{Context:} Nuclear medicine (NUK) is a specialized medical field that uses small amounts of radioactive substances (radiopharmaceuticals) to diagnose and treat diseases by visualizing molecular processes within the body. This allows for the early detection and targeted therapy of conditions such as cancer, distinct from anatomical imaging like X-rays.
+
+\textbf{Objective:} To leverage advanced generative architectures—including but not limited to Diffusion Models, Variational Autoencoders (VAEs), and Transformers—to synthesize high-fidelity medical imagery (such as CT scans and dose maps). Specifically, this allows for the generation of diagnostic-quality anatomical references and personalized radiation dose distributions from low-dose inputs. This approach directly supports precise treatment planning for radionuclide therapy while minimizing patient radiation exposure. All model development is conducted on retrospective data, ensuring no direct patient risk during the project.
 
 Core Methodologies:
 \begin{itemize}
@@ -40,15 +42,19 @@ Core Methodologies:
 
 Key Goals:
 \begin{itemize}
-    \item Radiation Reduction: Minimizing patient exposure by synthesizing high-quality diagnostic images from low-dose inputs.
-    \item Foundation Model Development: Building scalable pre-trained models for diverse nuclear medicine tasks, including segmentation and regression.
+    \item \textbf{Radiation Reduction:} Minimizing patient exposure by synthesizing high-quality diagnostic images from low-dose inputs.
+    \item \textbf{Foundation Model Development:} Building scalable pre-trained models for diverse nuclear medicine tasks, including segmentation and regression.
+    \item \textbf{Causal Reasoning:} Enabling counterfactual simulations ("what-if" treatment scenarios) to predict patient-specific outcomes and support "digital twin" trajectories.
+    \item \textbf{Reliability \& Safety:} Implementing robust Out-of-Distribution (OOD) detection to flag uncertain predictions in clinical settings, ensuring the system is trustworthy and regulation-ready.
+    \item \textbf{Holistic Modeling:} Integrating multi-modal data (imaging, clinical reports, lab values) into a unified latent representation for comprehensive patient profiling.
 \end{itemize}
 
 Expected Impact: By integrating generative augmentation, we can overcome the scarcity of labeled medical data, leading to more "generalizable" AI tools that perform reliably across different patient demographics and hardware.
 
 \textbf{Keywords:} Deep Learning, Generative Language Modeling, Vision, Medical Imaging, Synthetic Data
 
-\textbf{Instructions:} Not provided
+
+\textbf{Public Project Description:} This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa) at any stage of the disease. We focus on prostate cancer and address both clinical objectives - predictive diagnosis and personalized treatment selection - while advancing all three technological objectives: multimodal integration, medical data augmentation, and knowledge representation. We will build a causal ``digital twin'' to transparently model the disease trajectory by integrating complex multimodal data into a unified, personalized patient view. Technologically, we will fuse multimodal data from internal and external sources, use GenAI for data augmentation, and infuse deep medical domain knowledge like local and international guidelines into the novel model's architecture to guide its learning process and disentangle disease signals from confounders. This should be a solid basis for generating the synthesized data for further experiments. Clinically, our agent will improve diagnostic interpretation by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
 
 \textbf{Proposal for civilian purposes:} Yes
 
@@ -56,7 +62,7 @@ Expected Impact: By integrating generative augmentation, we can overcome the sca
 
 \textbf{Does your proposal involve handling of personal data?:} Yes (Anonymized medical data)
 
-\textbf{Instructions:} Not provided
+
 
 \subsection*{Submission details}
 
@@ -102,7 +108,7 @@ Expected Impact: By integrating generative augmentation, we can overcome the sca
 
 \subsection*{Organization details}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Provide details of the Principal Investigator's primary affiliation. This organization will be the main contact point for administrative matters. Ensure the address and R\&D figures are accurate.
 
 \textbf{Organization name:} Otto-von-Guericke University Magdeburg (OVGU)
 
@@ -150,12 +156,14 @@ Not provided
 
 \textbf{E-mail address:} jakub.mitura@ovgu.de
 
+\textbf{divider:} Not provided
+
 \subsection*{Team Members}
 Jakub Mitura, Joanna Wybrańska, Medical Faculty of OVGU Team.
 
 \section*{Partitions}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Select the specific partition(s) on the target supercomputer (e.g., JUPITER Booster). Specify the total amount of resources requested in Node Hours or GPU Hours. Ensure the request matches the resource justification provided in the Project Scope and Plan (Part B). Note the typical job characteristics (wall clock time, checkpoints, core/GPU counts).
 
 \subsection*{Partition information}
 
@@ -239,7 +247,12 @@ We use HDF5 with MPI-IO drivers (via HDF5.jl and h5py) to enable parallel readin
 
 \section*{Code details, Development and Data management}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Describe the technical implementation of your project.
+\begin{itemize}
+    \item Workflows: Detail the AI/HPC workflows, including training, inference, and data processing steps. Mention specific frameworks (PyTorch, Julia, etc.) and parallelization strategies.
+    \item Scalability: Provide evidence of your code's performance and scalability on the target architecture (or similar). Include strong/weak scaling results and benchmark data (e.g., from KISSKI).
+    \item Data: Confirm if the project data and results will be open to the community.
+\end{itemize}
 
 \subsection*{Workflows}
 
@@ -278,26 +291,33 @@ Benchmarks executed at KI Servicezentrum Schleswig-Holstein \& KI (KISSKI) (http
 
 \section*{Application Support Team (AST)}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Indicate if your project requires dedicated support from the hosting centre's Application Support Team (AST) or Simulation Labs for code porting, optimization, or workflow development.
 
 \textbf{Does your proposal require assistance from an AST on the selected partition(s)?:} Yes (JSC offers comprehensive support via Simulation Labs)
 
 \section*{Collaboration and Funding}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Specify any existing collaborations with industry, academia, or the public sector. Indicate the funding sources supporting this project (e.g., University grants, EC projects, National funding).
 
 \textbf{Select one or more funding options applicable to this project:} Public Funding (University/Hospital)
 
 \section*{Dissemination Strategy}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Outline the plan for disseminating the results of the project. This includes scientific publications, conference presentations, open-source code releases, and public datasets.
 
 \textbf{Dissemination strategy description:} \\
 We intend to publish results in high-impact journals (e.g., Nature Machine Intelligence, Medical Image Analysis) and present at major conferences (MICCAI, NeurIPS). Code and models will be released open-source.
 
 \section*{Ethics Self-Assessment}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} This section is specific to the ``AI for Science'' call. Address the ethical guidelines for Trustworthy AI.
+\begin{itemize}
+    \item Human Agency: How does the system support human decision-making?
+    \item Privacy: How is personal data protected?
+    \item Fairness: How is algorithmic bias mitigated?
+    \item Transparency: How are users informed about the AI system?
+    \item Accountability: What measures are in place for oversight and error correction?
+\end{itemize}
 
 \subsection*{Respect for Human Agency}
 
@@ -365,13 +385,21 @@ We implement continuous monitoring and feedback loops. Any adverse events or une
 
 \section*{Data Consent}
 
-\textbf{Instructions:} Not provided
+\textbf{Instructions:} Please confirm your consent for the publication of project details if awarded. Acknowledge that you have read and understood the EuroHPC JU Access Policy and Terms of Reference.
+
+\textbf{space:} Not provided
 
 \textbf{In case the proposal is awarded, EuroHPC JU would like to publish the Principal Investigator’s and Team Members’ names and organizations. This may involve sharing this information on our website, social media channels, or in other promotional materials related to the project. Please provide your consent below.:} Yes
 
 \textbf{In order to submit the proposal, you must accept the call's Terms of Reference available as a document at https://www.eurohpc-ju.europa.eu/eurohpc-ju-call-proposals-ai-science-and-collaborative-eu-projects\_en. By ticking the box below you confirm that you have read and understood the terms and conditions of the call.:} Yes
 
+
+
+\textbf{space:} Not provided
+
 \textbf{In case the proposal is recommended to be awarded but due to the first-come-first-serve principle is not funded, do you agree on moving your proposal to the next cut-off period with a priority in funding?:} Yes
+
+\textbf{Administrative self-assessment checklist}
 
 \section*{Administrative self-assessment checklist}
 
