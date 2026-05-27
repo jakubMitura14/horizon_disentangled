@@ -1,0 +1,241 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- ESSENTIAL PACKAGES ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=2.5cm,
+    right=2.5cm,
+    top=3cm,
+    bottom=3cm
+}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% --- HYPERLINKS ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdftitle={Project Application - Jakub Mitura},
+}
+
+% --- DOCUMENT ---
+\begin{document}
+
+\section*{Project Application - Jakub Mitura}
+
+\section*{The Project}
+
+\subsection*{Project details}
+
+\noindent\textbf{Project title:} Generative AI for Nuclear Medicine Optimization (CausalPCa)
+
+\vspace{0.5em}
+\noindent\textbf{Project summary (abstract):} \\
+This project introduces a new paradigm in oncology with an interactive, Generative AI (GenAI)-based agent for managing prostate cancer (PCa). We will build a causal "digital twin" to transparently model the disease trajectory by integrating complex multimodal data into a unified patient view. Technologically, we will fuse multimodal data, use GenAI for data augmentation, and create a medical knowledge base by disentangling disease signals from confounders. Clinically, our agent will improve diagnosis by simulating disease progression and enable personalized treatment selection by forecasting outcomes. The framework is designed as a trustworthy, explainable, and safe AI system compliant with the EU AI Act, establishing a new European standard for medical GenAI.
+
+\vspace{0.5em}
+\noindent\textbf{Explain the scientific case of the project for which you intend to use the code(s):} \\
+The project aims to develop a multi-stage Causal AI framework.
+1. \textbf{Supervisors}: Training ordinal classifiers and segmentation models on multimodal data (PET/CT, MRI).
+2. \textbf{Disentanglement}: Using hierarchical VAEs to separate anatomy, disease, and style factors.
+3. \textbf{Temporal Modeling}: Employing Neural Jump ODEs (NJDE) to model continuous disease evolution and discrete treatment interventions.
+4. \textbf{Generative Synthesis}: Creating high-fidelity counterfactual images for clinical decision support.
+This requires substantial GPU resources for training large-scale 3D models (ResNet-152 backbones, VAEs) on high-dimensional volumetric data.
+
+\vspace{0.5em}
+\noindent\textbf{Keywords:} \\
+Medical AI, Generative AI, Causal Inference, Prostate Cancer, Oncology, Digital Twin, Neural Jump ODE.
+
+\vspace{0.5em}
+\noindent\textbf{Instructions:} Completed.
+
+\vspace{0.5em}
+\noindent\textbf{Proposal for civilian purposes:} Yes.
+
+\vspace{0.5em}
+\noindent\textbf{Is any part of the project confidential?:} No.
+
+\vspace{0.5em}
+\noindent\textbf{AI set of technologies selection:} Machine Learning, Deep Learning, Generative Models.
+
+\subsection*{Submission details}
+
+\noindent\textbf{Project duration:} 12 Months
+
+\vspace{0.5em}
+\noindent\textbf{Preferable starting date:} 01/05/2025
+
+\vspace{0.5em}
+\noindent\textbf{Industry involvement:} None.
+
+\vspace{0.5em}
+\noindent\textbf{Public sector involvement:} Yes (University Hospitals).
+
+\section*{Principal Investigator}
+
+\subsection*{Personal information}
+
+\noindent\textbf{Gender:} Male \\
+\textbf{Title:} Prof. Dr. \\
+\textbf{First (given) name:} Michael \\
+\textbf{Last (family) name:} Kreißl \\
+\textbf{Initials:} MK \\
+\textbf{Date of birth:} [Confidential] \\
+\textbf{E-mail address:} [Email of PI] \\
+\textbf{ID:} EHPC-DEV-2026D03-079
+
+\vspace{0.5em}
+\noindent\textbf{1/4}
+
+\vspace{0.5em}
+\noindent\textbf{Secondary e-mail address:} [Secondary Email] \\
+\textbf{Nationality:} German \\
+\textbf{Phone Number:} [Phone Number] \\
+\textbf{Job title:} Head of Nuclear Medicine \\
+\textbf{Employment contract valid for more than 3 months after end allocation:} Yes \\
+\textbf{Website:} https://www.med.uni-magdeburg.de/kln/
+
+\subsection*{Organization details}
+
+\noindent\textbf{Instructions:} Not provided
+
+\vspace{0.5em}
+\noindent\textbf{Organization name:} Universitätsklinik für Radiologie und Nuklearmedizin Magdeburg (UKMD) \\
+\textbf{Organization type:} Higher Education / Research Organisation \\
+\textbf{Organization with research activity:} Yes \\
+\textbf{Organization head office is located in Europe:} Yes \\
+\textbf{Percentage of R\&D in Europe vs total R\&D:} 100\% \\
+\textbf{Organization department:} Klinik für Radiologie und Nuklearmedizin \\
+\textbf{Organization group:} Nuclear Medicine Research Group \\
+\textbf{Organization address:} Leipziger Str. 44 \\
+\textbf{Organization postal code:} 39120 \\
+\textbf{Organization city:} Magdeburg \\
+\textbf{Organization country:} Germany
+
+\section*{Contact Person and Team Members Information}
+
+\subsection*{Contact Person}
+
+\noindent\textbf{First (given) name:} Jakub \\
+\textbf{Last (family) name:} Mitura \\
+\textbf{E-mail address:} [Email of Contact]
+
+\vspace{0.5em}
+\noindent\textbf{divider:} Not provided
+
+\section*{Partitions}
+\noindent\textbf{System Selection:} JUPITER Booster Module (NVIDIA GH200) \\
+\textbf{Resource Request:} 25,000 Node Hours (approx. 100,000 GPU Hours)
+
+\section*{Code Details and Development}
+\noindent\textbf{ID:} EHPC-DEV-2026D03-079
+
+\vspace{0.5em}
+\noindent\textbf{2/4}
+
+\vspace{0.5em}
+\noindent\textbf{Instructions:} Not provided
+
+\vspace{0.5em}
+\noindent\textbf{Development of the code(s) description:} \\
+The project utilizes a hybrid software stack:
+\begin{itemize}
+    \item \textbf{Julia (SciML):} Used for the core Neural Jump ODE (NJDE) and Neural ODE components due to its superior performance in solving differential equations. Libraries include `Lux.jl`, `DifferentialEquations.jl`, `DiffEqFlux.jl`.
+    \item \textbf{Python (PyTorch/MONAI):} Used for standard deep learning tasks (Supervisors, VAEs) and data preprocessing. Libraries include `PyTorch`, `PyTorch Lightning`, `MONAI`.
+    \item \textbf{I/O:} `HDF5.jl` and `h5py` are used for efficient parallel data access.
+\end{itemize}
+
+\subsection*{Scalability and performance}
+
+\noindent\textbf{Describe the scalability of the application and performance of the application:} \\
+We have benchmarked our framework using a "Super Heavy 3D ResNet-152" backbone (128x128x64 volume). We observed positive strong scaling from 1 GPU (40s/epoch) to 4 GPUs (12s/epoch), achieving a 3.3x speedup (82.5\% efficiency). Benchmarks were performed using the services and supercomputing resources of the \textbf{KI Servicezentrum Schleswig-Holstein \& KI (KISSKI)} (\url{https://kisski.gwdg.de/en/}).
+
+\vspace{0.5em}
+\noindent\textbf{What is the target for scalability and performance?:} \\
+We aim to scale the NJDE training to 32 concurrent GPUs on the JUPITER Booster module to handle the full dataset of longitudinal 3D volumes.
+
+\subsection*{Optimization of the work proposed}
+
+\noindent\textbf{Explain how the optimization work proposed will contribute to future Tier-0 projects:} \\
+The development of scalable Neural Jump ODEs for high-dimensional 3D medical data will provide a blueprint for other "Digital Twin" initiatives in healthcare, demonstrating how to handle irregular time-series data at Exascale.
+
+\vspace{0.5em}
+\noindent\textbf{Describe the impact of the optimization work proposed - is the code widely used; can it be used for other research projects and in other research fields with minor modifications; would these modifications be easy to add to the main release of the software?:} \\
+The core NJDE implementation in Julia is highly modular. It can be adapted for other progressive diseases (e.g., Alzheimer's, Glioblastoma) by changing the data loaders and supervisor constraints. We plan to release the optimized solvers as open-source contributions to the SciML ecosystem.
+
+\vspace{0.5em}
+\noindent\textbf{Describe the main algorithms and how they have been implemented and parallelized:} \\
+1. \textbf{Neural ODEs:} Implemented using `DifferentialEquations.jl` with adjoint sensitivity analysis for memory-efficient backpropagation.
+2. \textbf{VAE:} Standard variational inference parallelized using Distributed Data Parallel (DDP) in PyTorch and MPI in Julia.
+3. \textbf{Optimization:} We use CUDA-aware MPI for gradient averaging to avoid CPU-GPU bottlenecks.
+
+\subsection*{Performance}
+
+\noindent\textbf{Main performance bottlenecks:} \\
+1. \textbf{I/O Latency:} Loading large 3D medical volumes during training.
+2. \textbf{ODE Solver Overhead:} The computational cost of solving stiff differential equations for every patient in the batch.
+
+\vspace{0.5em}
+\noindent\textbf{Describe possible solutions you have considered to improve the performance of the project:} \\
+1. \textbf{I/O:} We implemented HDF5 storage with chunking and use `num_workers=4` with `pin_memory=True` in DataLoaders.
+2. \textbf{Solver:} We are using custom system images (`precompile_sysimage.jl`) in Julia to reduce startup time and JIT compilation overhead. We select stiff-capable solvers (e.g., `TRBDF2`) only when necessary.
+
+\vspace{0.5em}
+\noindent\textbf{Describe the application enabling/optimization work that needs to be performed to achieve the target performance:} \\
+Further tuning of the MPI communication primitives for the Grace-Hopper architecture on JUPITER and optimization of the custom Julia system image for the specific cluster environment.
+
+\vspace{0.5em}
+\noindent\textbf{Which computational performance limitations do you wish to solve with this project?:} \\
+We aim to solve the bottleneck of training continuous-time models (ODEs) on high-dimensional 3D data, which is currently computationally prohibitive on standard clusters.
+
+\section*{Application Support Team (AST)}
+
+\noindent\textbf{Instructions:} Completed.
+
+\vspace{0.5em}
+\noindent\textbf{Does your proposal require assistance from an AST on the selected partition(s)?:} No.
+
+\vspace{0.5em}
+\noindent\textbf{Is your proposal a follow up of another submitted Epicure project to use EuroHPC quota for providing application support?:} No.
+
+\section*{Eligibility Confirmation and Data Consent}
+\noindent\textbf{ID:} EHPC-DEV-2026D03-079
+
+\vspace{0.5em}
+\noindent\textbf{3/4}
+
+\subsection*{Eligibility confirmation}
+
+\noindent\textbf{Instructions:} Not provided
+
+\vspace{0.5em}
+\noindent\textbf{I confirm that the Principal Investigator and Team Members are affiliated with organizations listed on the Horizon 2020 countries list.:} Yes.
+
+\vspace{0.5em}
+\noindent\textbf{I confirm that the submitted information is correct and complete and comply for the entire duration of the action with the eligibility criteria set out in the call conditions.:} Yes.
+
+\subsection*{Data consent}
+
+\noindent\textbf{Instructions:} Not provided
+
+\vspace{0.5em}
+\noindent\textbf{space:} Not provided
+
+\vspace{0.5em}
+\noindent\textbf{In case the proposal is awarded, EuroHPC JU would like to publish the Principal Investigator’s and Team Members’ names and organizations. This may involve sharing this information on our website, social media channels, or in other promotional materials related to the project. Please provide your consent below.:} Yes, I consent.
+
+\vspace{0.5em}
+\noindent\textbf{In order to submit the proposal, you must accept the terms and conditions stated in the Access Policy, hence confirming that you have read and understood the call procedures. The documentation can be found at \url{https://eurohpc-ju.europa.eu/eurohpc-ju-call-proposals-development-access_en}:} Yes, I accept.
+
+\vspace{0.5em}
+\noindent\textbf{ID:} EHPC-DEV-2026D03-079
+
+\vspace{0.5em}
+\noindent\textbf{4/4}
+
+\end{document}
