@@ -1,5 +1,5 @@
 import pandas as pd
-from allocation_logic import get_final_allocations
+from grant_proposal.old.allocation_logic import get_final_allocations
 
 def calculate_reconciled_budget(target_total):
     df_alloc_y1, df_alloc_y2, df_alloc_y3 = get_final_allocations()
