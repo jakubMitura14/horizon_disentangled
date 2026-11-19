@@ -1,48 +1,99 @@
-# LaTeX build artifacts
+# ============================================================
+# Large binary data — stored on XNAT / external storage
+# ============================================================
+
+# HDF5 datasets (uploaded to XNAT temp/HORIZON_HDF5)
+hdf5/
+*.h5
+*.hdf5
+
+# Model checkpoints & weights
+models/
+experiments/checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+*.bin
+
+# Raw source data
+data/
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# ============================================================
+# Jupyter
+# ============================================================
+.ipynb_checkpoints/
+*.ipynb
+
+# ============================================================
+# Experiment outputs (large)
+# ============================================================
+lightning_logs/
+logs/
+wandb/
+mlruns/
+
+# ============================================================
+# Credentials — never commit
+# ============================================================
+scripts/xnat_credentials.txt
+*.env
+.env*
+secrets/
+
+# ============================================================
+# OS / Editor
+# ============================================================
+.DS_Store
+*~
+*.swp
+*.swo
+Thumbs.db
+
+# ============================================================
+# LaTeX / PDFs
+# ============================================================
 *.aux
 *.bbl
 *.blg
 *.log
 *.out
 *.synctex.gz
-
-# Other
-*.DS_Store
-*~
-*.swp
-venv/
+*.pdf
 main_horizon.pdf
 budget_standalone.pdf
+
+# ============================================================
+# Project-specific large files
+# ============================================================
 src/mock_data/
+src/data_store/
+src/bin/dcm2niix
+src/bin/dcm2niix.zip
 src/supervisor_checkpoint.pth
 src/vae_checkpoint.pth
 src/njde_checkpoint.pth
-logs/
-
-src/data_store/
-*.ckpt
-lightning_logs/
-<<<<<<< HEAD
-data/
-checkpoints/
-external_sources/
-MOOSE/
-verification_data/
-src/bin/dcm2niix.zip
 src/classifiers/best_model.pth
-src/bin/dcm2niix
-src/classifiers/__pycache__/dataset.cpython-312.pyc
-src/classifiers/__pycache__/encoder.cpython-312.pyc
-src/classifiers/__pycache__/encode_labels.cpython-312.pyc
-src/classifiers/__pycache__/ordinal_loss.cpython-312.pyc
-=======
-checkpoints/
-data/
 external_sources/
 verification_data/
-src/classifiers/__pycache__/
-src/bin/
-src/classifiers/best_model.pth
-src/classifiers/best_model.pth
-checkpoints/
->>>>>>> origin/main
+manifests/
+artifacts/

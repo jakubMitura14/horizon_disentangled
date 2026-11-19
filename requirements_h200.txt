@@ -1,0 +1,52 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Horizon Disentangled — Pip Requirements for H200 Cluster
+# Compatible with Python 3.10+, PyTorch 2.6+/2.12+, CUDA 12.4–13.0, Hopper SM90
+# ═══════════════════════════════════════════════════════════════════════════
+
+# PyTorch Core & Hopper Triton Compiler
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch>=2.6.0
+torchvision>=0.21.0
+torchaudio
+triton>=3.2.0
+
+# Medical Imaging & Volume Transforms
+monai>=1.4.0
+nibabel>=5.2.0
+SimpleITK>=2.4.0
+torchio>=1.0.0
+
+# High-Performance HDF5 I/O (Bitshuffle, Blosc, Zstd)
+h5py>=3.11.0
+hdf5plugin>=5.0.0
+
+# Distributed Multi-GPU (FSDP-2, DeepSpeed ZeRO-3, Accelerate)
+accelerate>=1.2.0
+deepspeed>=0.16.0
+
+# Foundation Vision-Language Models & Efficient Inference
+transformers>=4.48.0
+tokenizers>=0.21.0
+safetensors>=0.5.0
+huggingface-hub>=0.28.0
+sentencepiece>=0.2.0
+bitsandbytes>=0.45.0
+peft>=0.14.0
+open-clip-torch>=2.24.0
+
+# Biostatistics, Survival Analysis & Scientific Computing
+numpy>=1.26.0,<2.0.0
+scipy>=1.14.0
+pandas>=2.2.0
+scikit-learn>=1.5.0
+pycox>=0.3.0
+torchtuples>=0.2.2
+lifelines>=0.29.0
+einops>=0.8.0
+timm>=1.0.0
+pydantic>=2.10.0
+
+# Testing & Observability
+pytest>=8.3.0
+rich>=13.9.0
+psutil>=6.0.0

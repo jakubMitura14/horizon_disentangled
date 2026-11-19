@@ -1,0 +1,64 @@
+{
+  "test_1_environment": {
+    "status": "PASS",
+    "device": "NVIDIA H100 PCIe",
+    "compute_capability": "9.0",
+    "total_vram_gb": 79.2,
+    "bf16_supported": true,
+    "fp8_supported": true
+  },
+  "test_2_uncropped_3d": {
+    "status": "PASS",
+    "gbm_volume_shape": [
+      2,
+      4,
+      256,
+      256,
+      192
+    ],
+    "breast_volume_shape": [
+      4,
+      3,
+      256,
+      256,
+      64
+    ],
+    "peak_vram_gb": 1.13,
+    "latency_s": 0.17
+  },
+  "test_3_fsdp2_sharding": {
+    "status": "PASS",
+    "total_params": 1160000000,
+    "sharded_weights_per_gpu_gb": 0.27,
+    "sharded_adamw_per_gpu_gb": 2.16,
+    "total_static_per_gpu_gb": 2.43,
+    "headroom_pct": 98.3
+  },
+  "test_4_contrastive_queue": {
+    "status": "PASS",
+    "global_batch_size": 64,
+    "negative_pool_size": 2048,
+    "loss": 3.0023,
+    "latency_s": 0.161,
+    "peak_vram_gb": 0.07
+  },
+  "test_5_spectral_pde": {
+    "status": "PASS",
+    "grid_shape": [
+      48,
+      56,
+      40
+    ],
+    "total_voxels": 107520,
+    "parallel_trajectories": 16,
+    "latency_10_days_s": 0.172,
+    "ms_per_step": 17.15,
+    "peak_vram_gb": 0.39
+  },
+  "test_6_io_prefetch": {
+    "status": "PASS",
+    "batches": 8,
+    "throughput_mb_s": 886.5,
+    "transfer_time_s": 0.289
+  }
+}

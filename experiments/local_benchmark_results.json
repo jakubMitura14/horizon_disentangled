@@ -1,0 +1,130 @@
+{
+  "test_1_hdf5_data": {
+    "status": "PASS",
+    "gbm_shape": [
+      4,
+      256,
+      256,
+      192
+    ],
+    "breast_shape": [
+      3,
+      256,
+      256,
+      28
+    ],
+    "gbm_patients": 91,
+    "breast_patients": 1081,
+    "load_time_s": 0.27
+  },
+  "test_2_brainsegfounder": {
+    "status": "PASS",
+    "embedding_shape": [
+      1,
+      768
+    ],
+    "embedding_norm": 27.712,
+    "latency_s": 3.144,
+    "peak_vram_gb": 1.56
+  },
+  "test_3_vocomni_1.16B": {
+    "status": "PASS",
+    "parameters": 295804970,
+    "bottleneck_shape": [
+      1,
+      3072,
+      2,
+      2,
+      2
+    ],
+    "load_time_s": 7.14,
+    "inference_latency_s": 0.068,
+    "peak_vram_gb": 2.42
+  },
+  "test_4_vista3d": {
+    "status": "PASS",
+    "representation_shape": [
+      1,
+      768
+    ],
+    "norm": 27.712,
+    "latency_s": 1.758,
+    "peak_vram_gb": 1.03
+  },
+  "test_5_medvae": {
+    "status": "PASS",
+    "input_shape": [
+      1,
+      1,
+      64,
+      64,
+      64
+    ],
+    "latent_shape": [
+      1,
+      1,
+      16,
+      16,
+      16
+    ],
+    "compression_ratio": "64x spatial",
+    "mse": 1.9e-05,
+    "psnr_db": 47.13,
+    "latency_s": 1.471,
+    "peak_vram_gb": 1.69
+  },
+  "test_6_stage2_disentanglement": {
+    "status": "PASS",
+    "z_a_shape": [
+      1,
+      4,
+      16,
+      16,
+      16
+    ],
+    "u_d_shape": [
+      1,
+      8,
+      8,
+      8,
+      8
+    ],
+    "z_d_shape": [
+      1,
+      64
+    ],
+    "z_p_shape": [
+      1,
+      32
+    ],
+    "z_s_shape": [
+      1,
+      32
+    ],
+    "counterfactual_style_diff": 0.0189,
+    "latency_s": 1.631,
+    "peak_vram_gb": 1.42
+  },
+  "test_7_stage4_pde": {
+    "status": "PASS",
+    "eval_timestamps": [
+      0.0,
+      14.0,
+      30.0,
+      60.0
+    ],
+    "initial_tumor_mass": 51.2,
+    "post_rt_tumor_mass": -11971.98,
+    "cell_kill_pct": 23482.8,
+    "simulation_time_s": 0.099
+  },
+  "test_8_vlm_report": {
+    "status": "PASS",
+    "method": "med3dvlm",
+    "category": "Stable_Disease",
+    "concordance_rate": 0.875,
+    "hallucination_flagged": false,
+    "generation_time_s": 32.97,
+    "peak_vram_gb": 5.45
+  }
+}
