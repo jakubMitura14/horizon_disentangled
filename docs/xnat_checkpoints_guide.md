@@ -4,7 +4,7 @@
 **Project**: `temp`  
 **Resource Label**: `HORIZON_CHECKPOINTS` (ID: 40121)  
 **Upload Tool**: [`scripts/upload_checkpoints.py`](../scripts/upload_checkpoints.py)  
-**Total Size**: ~76.6 GB across 66 source files (split parts may be larger in count)
+**Total Size**: ~76.6 GB weights + ~100 MB configs across 100+ XNAT files
 
 > [!NOTE]
 > Files larger than **3 GB** are split into binary `.part00`, `.part01`, … pieces due to the
@@ -32,6 +32,11 @@ Produced by running the full 5-stage pipeline on the local H100 GPU:
 | `checkpoints/stage4_breast_real.pt` | 15 MB | Stage 4 PDE-NJDE dynamics — Breast Fast-Slow Tofts |
 | `checkpoints/stage4_gbm_dynamics.pt` | 15 MB | Stage 4 PDE-NJDE dynamics — GBM Fisher-KPP |
 | `checkpoints/stage4_gbm_real.pt` | 15 MB | Stage 4 GBM dynamics — real data |
+
+> [!NOTE]
+> These checkpoints were trained on a **single H100 PCIe GPU** (small batch / local scale).
+> For the full 4× H200 FSDP cluster run, these will be replaced by distributed checkpoints.
+> See [Section 6](#6-h200-readiness-gaps) for details.
 
 ### 1.2 Foundation Model Weights (`models/`)
 
@@ -123,6 +128,46 @@ Pre-trained backbone weights used by the pipeline stages:
 | `MAISI/controlnet_20datasets.pt` | 280 MB | ControlNet (20 datasets) |
 | `MAISI/input_unet3d_v1.pt` | 690 MB | Input 3D UNet v1 |
 
+### 1.3 Config / Tokenizer Files
+
+> [!IMPORTANT]
+> These small files are **required to instantiate** the VLMs and VAEs. Without them,
+> `from_pretrained()` calls will fail even if all weights are present.
+
+#### Packed Archive (easiest to download)
+| Remote Name | Size | Description |
+|:---|---:|:---|
+| `model_configs.tar.gz` | 9.3 MB | **All** config/tokenizer/YAML/architecture files packed together ✅ uploaded |
+
+Extract with:
+```bash
+mkdir -p /tmp/horizon_models
+tar -xzf model_configs.tar.gz -C /tmp/horizon_models/
+# Results in /tmp/horizon_models/Med3DVLM-Qwen-2.5-7B/, /tmp/horizon_models/BrainGemma3D/, etc.
+```
+
+#### Individual Config Files
+Uploaded individually as `Med3DVLM/config.json`, `BrainGemma3D/tokenizer.json`, etc.:
+
+| Remote Name | Description |
+|:---|:---|
+| `Med3DVLM/config.json` | Model architecture config |
+| `Med3DVLM/tokenizer_config.json` | Qwen-2.5 tokenizer config |
+| `Med3DVLM/vocab.json` + `merges.txt` | BPE vocabulary |
+| `Med3DVLM/model.safetensors.index.json` | Shard index |
+| `Med3DVLM/modeling.py` | Custom model class |
+| `BrainGemma3D/model_config.json` | Full model config |
+| `BrainGemma3D/braingemma3d_architecture.py` | Architecture definition |
+| `BrainGemma3D/tokenizer.json` | Gemma tokenizer (32 MB) |
+| `BrainGemma3D/tokenizer.model` | SentencePiece model |
+| `BrainGemma3D/language_model_config.json` | LM head config |
+| `MedVAE/config.json` + `medvae_*.yaml` | VAE arch configs (5 files) |
+| `Merlin/config.json` | Merlin inference config |
+| `VISTA3D/config.json` + `metadata.json` | VISTA3D configs |
+| `NV-Generate/config.json` | NV-Generate config |
+| `MAISI/configs/inference.json` | MAISI inference config |
+| `MAISI/configs/label_dict.json` | Anatomy label map |
+
 ---
 
 ## 2. Authentication
@@ -162,7 +207,29 @@ with xnat.connect(server=SERVER, user=ALIAS, password=SECRET) as session:
 print("Done!")
 ```
 
-### 3.2 Reconstruct Split Files
+### 3.2 Download Only Configs (fastest for quick start)
+
+```python
+import xnat
+from pathlib import Path
+
+SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
+ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
+SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+OUT    = Path("/tmp/horizon_configs")
+OUT.mkdir(parents=True, exist_ok=True)
+
+with xnat.connect(server=SERVER, user=ALIAS, password=SECRET) as session:
+    res = session.projects["temp"].resources["40121"]
+    # Download the packed config archive — only 9.3 MB
+    res.files["model_configs.tar.gz"].download(str(OUT / "model_configs.tar.gz"))
+
+import subprocess
+subprocess.run(["tar", "-xzf", str(OUT / "model_configs.tar.gz"), "-C", str(OUT)])
+print(f"Configs extracted to {OUT}")
+```
+
+### 3.3 Reconstruct Split Files
 
 After downloading, reassemble any `.partXX` files:
 
@@ -175,24 +242,21 @@ cat VoComni_H.pt.part* > VoComni_H.pt
 # BrainGemma3D language model
 cat language_model-00001-of-00002.safetensors.part* > language_model-00001-of-00002.safetensors
 cat language_model-00002-of-00002.safetensors.part* > language_model-00002-of-00002.safetensors
+cat vision_model.safetensors.part* > vision_model.safetensors
 
 # Med3DVLM shards (models 1–6 are split)
 for i in 1 2 3 4 5 6; do
     cat model-0000${i}-of-00007.safetensors.part* > model-0000${i}-of-00007.safetensors
 done
-```
 
-Or use the helper script:
-
-```bash
-# Reconstruct all .partXX files in a directory
+# Or reconstruct all split files at once
 for base in $(ls *.part00 2>/dev/null | sed 's/\.part00$//'); do
     echo "Reconstructing $base ..."
     cat ${base}.part* > ${base} && rm ${base}.part*
 done
 ```
 
-### 3.3 SLURM Staging (Recommended for Cluster)
+### 3.4 SLURM Staging (Recommended for Cluster)
 
 Stage checkpoints onto local NVMe at job start:
 
@@ -201,40 +265,72 @@ Stage checkpoints onto local NVMe at job start:
 #SBATCH --job-name=horizon_train
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:8
+#SBATCH --gres=gpu:4            # 4× H200 per node
 
 CKPT_DIR=/tmp/horizon_checkpoints
 HDF5_DIR=/tmp/horizon_hdf5
+CFG_DIR=/tmp/horizon_configs
 
-# Stage datasets (one per node, in parallel)
+SERVER="https://imaging-platform.diz-ag.med.ovgu.de"
+ALIAS="ee21adf2-44a6-4a97-a53c-34c889273e90"
+SECRET="dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+
+# ── Stage HDF5 datasets ───────────────────────────────────────────────────────
 srun python scripts/xnatt.py --download-dataset \
     --project temp --resource-label HORIZON_HDF5 \
     --output $HDF5_DIR &
 
-# Stage checkpoints
+# ── Stage checkpoints + configs ───────────────────────────────────────────────
 srun python - << 'PYEOF'
-import xnat
+import xnat, subprocess
 from pathlib import Path
-OUT = Path("/tmp/horizon_checkpoints")
-OUT.mkdir(parents=True, exist_ok=True)
-with xnat.connect(
-    server="https://imaging-platform.diz-ag.med.ovgu.de",
-    user="ee21adf2-44a6-4a97-a53c-34c889273e90",
-    password="dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
-) as session:
+
+SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
+ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
+SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+
+CKPT_DIR = Path("/tmp/horizon_checkpoints")
+CFG_DIR  = Path("/tmp/horizon_configs")
+CKPT_DIR.mkdir(parents=True, exist_ok=True)
+CFG_DIR.mkdir(parents=True, exist_ok=True)
+
+with xnat.connect(server=SERVER, user=ALIAS, password=SECRET) as session:
     res = session.projects["temp"].resources["40121"]
     for f in res.files.values():
-        dest = OUT / f.name
+        name = f.name
+        dest = CFG_DIR / name if name == "model_configs.tar.gz" else CKPT_DIR / name
         if not dest.exists():
+            print(f"  ↓ {name}")
             f.download(str(dest))
+
+# Extract configs
+subprocess.run(["tar", "-xzf", str(CFG_DIR / "model_configs.tar.gz"), "-C", str(CFG_DIR)])
+
+# Reconstruct split files
+for part in sorted(CKPT_DIR.glob("*.part00")):
+    base = str(part).replace(".part00", "")
+    print(f"  ⚙ Reconstructing {part.name.replace('.part00', '')}...")
+    subprocess.run(f"cat {base}.part* > {base}", shell=True)
+    for p in CKPT_DIR.glob(f"{part.stem[:-2]}*.part*"):
+        p.unlink()
+print("Staging complete.")
 PYEOF
 
 wait
-echo "Staging complete."
+echo "All data staged."
 
-# Launch training
-srun torchrun --nnodes=$SLURM_JOB_NUM_NODES --nproc_per_node=8 \
-    scripts/train_full.py --data-dir $HDF5_DIR --ckpt-dir $CKPT_DIR
+# ── Launch 4× H200 distributed training ──────────────────────────────────────
+srun torchrun \
+    --nnodes=$SLURM_JOB_NUM_NODES \
+    --nproc_per_node=4 \
+    --rdzv_backend=c10d \
+    --rdzv_endpoint=$SLURM_NODELIST:29500 \
+    scripts/train_full.py \
+        --data-dir  $HDF5_DIR \
+        --ckpt-dir  $CKPT_DIR \
+        --cfg-dir   $CFG_DIR \
+        --strategy  fsdp \
+        --precision bf16
 ```
 
 ---
@@ -242,14 +338,25 @@ srun torchrun --nnodes=$SLURM_JOB_NUM_NODES --nproc_per_node=8 \
 ## 4. Re-uploading / Updating Checkpoints
 
 ```bash
-# Upload all (resumes automatically — skips already-uploaded files)
-python scripts/upload_checkpoints.py
+# Full env setup (required on this machine)
+export LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH
+PYTHON=/DATA/conda/envs/nukl-to-ct/bin/python
+cd /DATA/horizon_disentangled
+
+# Upload all (resumes automatically — skips already-uploaded files by size)
+$PYTHON scripts/upload_checkpoints.py
 
 # Upload only training checkpoints (skip 74 GB foundation models)
-python scripts/upload_checkpoints.py --only-checkpoints
+$PYTHON scripts/upload_checkpoints.py --only-checkpoints
+
+# Upload only config/tokenizer files
+$PYTHON scripts/upload_checkpoints.py --only-configs
+
+# Upload only model weight files
+$PYTHON scripts/upload_checkpoints.py --only-models
 
 # Dry run (see what would be uploaded)
-python scripts/upload_checkpoints.py --dry-run
+$PYTHON scripts/upload_checkpoints.py --dry-run
 ```
 
 > [!WARNING]
@@ -267,6 +374,11 @@ Download it to inspect what's available:
 
 ```python
 import xnat, json
+
+SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
+ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
+SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+
 with xnat.connect(server=SERVER, user=ALIAS, password=SECRET) as session:
     res = session.projects["temp"].resources["40121"]
     res.files["checkpoints_manifest.json"].download("/tmp/checkpoints_manifest.json")
@@ -277,3 +389,52 @@ with open("/tmp/checkpoints_manifest.json") as f:
         print(entry["remote_name"], "→", entry["size_bytes"]//1e6, "MB",
               f"[{entry['parts']} parts]" if entry.get("split") else "")
 ```
+
+---
+
+## 6. H200 Readiness Gaps
+
+The following are **not yet included** in HORIZON_CHECKPOINTS and are needed
+for the full 4× H200 cluster training:
+
+### 🔴 Gap 1 — Hulu-Med-32B not downloaded (highest priority)
+
+The best open 3D VLM for H200-scale training (61.8 GB, Apache 2.0 license):
+
+```bash
+# On a node with internet access and sufficient disk
+huggingface-cli download ZJU-AI4H/Hulu-Med-32B \
+    --local-dir /DATA/horizon_disentangled/models/Hulu-Med-32B \
+    --repo-type model
+# Then run upload_checkpoints.py after adding it to MODEL_FILES
+```
+
+### 🔴 Gap 2 — STU-Net-H and VoCo-H SSL
+
+| Model | Size | HF Repo |
+|:---|---:|:---|
+| STU-Net-H | ~5.6 GB | `ziyanhuang/STU-Net` |
+| VoCo-H SSL | ~818 MB | `Luffy503/VoCo` |
+
+```bash
+huggingface-cli download ziyanhuang/STU-Net --local-dir /DATA/horizon_disentangled/models/STU-Net
+huggingface-cli download Luffy503/VoCo --local-dir /DATA/horizon_disentangled/models/VoCo-H-SSL
+```
+
+### 🟡 Gap 3 — Training checkpoints are single-GPU H100 scale
+
+Stages 1–4 checkpoints in `checkpoints/` were trained on a single H100 PCIe with small batch
+sizes. After the first 4× H200 FSDP run, these will be superseded by distributed checkpoints.
+The current checkpoints serve as **warm-start initializations** for the cluster run.
+
+---
+
+## 7. HDF5 Dataset (HORIZON_HDF5)
+
+For reference, the companion HDF5 dataset is at:
+
+| Resource | ID | Size | Files |
+|:---|---:|---:|---:|
+| `HORIZON_HDF5` | 40120 | ~23 GB | 16 |
+
+See [`docs/xnat_data_guide.md`](xnat_data_guide.md) for HDF5 access instructions.

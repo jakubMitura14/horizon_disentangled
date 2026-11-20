@@ -131,6 +131,56 @@ MODEL_FILES = [
                                                                                           "MAISI/input_unet3d_v1.pt"),
 ]
 
+# ── Config / tokenizer / architecture files ───────────────────────────────────
+# Small files (<50 MB each) — no splitting needed.
+# These are REQUIRED to instantiate the VLMs and VAEs at inference / training time.
+CONFIG_FILES = [
+    # Med3DVLM-Qwen-2.5-7B — model architecture + tokenizer
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/config.json",                "Med3DVLM/config.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/generation_config.json",     "Med3DVLM/generation_config.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/tokenizer_config.json",      "Med3DVLM/tokenizer_config.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/vocab.json",                 "Med3DVLM/vocab.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/merges.txt",                 "Med3DVLM/merges.txt"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/special_tokens_map.json",    "Med3DVLM/special_tokens_map.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/added_tokens.json",          "Med3DVLM/added_tokens.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/model.safetensors.index.json","Med3DVLM/model.safetensors.index.json"),
+    (BASE / "models/Med3DVLM-Qwen-2.5-7B/modeling.py",                "Med3DVLM/modeling.py"),
+    # BrainGemma3D — model architecture + language model tokenizer
+    (BASE / "models/BrainGemma3D/model_config.json",                               "BrainGemma3D/model_config.json"),
+    (BASE / "models/BrainGemma3D/braingemma3d_architecture.py",                    "BrainGemma3D/braingemma3d_architecture.py"),
+    (BASE / "models/BrainGemma3D/braingemma3d_interpretability.py",                "BrainGemma3D/braingemma3d_interpretability.py"),
+    (BASE / "models/BrainGemma3D/vision_model/config.json",                        "BrainGemma3D/vision_model_config.json"),
+    (BASE / "models/BrainGemma3D/language_model/config.json",                      "BrainGemma3D/language_model_config.json"),
+    (BASE / "models/BrainGemma3D/language_model/generation_config.json",           "BrainGemma3D/language_model_generation_config.json"),
+    (BASE / "models/BrainGemma3D/language_model/model.safetensors.index.json",     "BrainGemma3D/language_model_index.json"),
+    (BASE / "models/BrainGemma3D/language_model/tokenizer_config.json",            "BrainGemma3D/tokenizer_config.json"),
+    (BASE / "models/BrainGemma3D/language_model/special_tokens_map.json",          "BrainGemma3D/special_tokens_map.json"),
+    (BASE / "models/BrainGemma3D/language_model/added_tokens.json",                "BrainGemma3D/added_tokens.json"),
+    (BASE / "models/BrainGemma3D/language_model/tokenizer.json",                   "BrainGemma3D/tokenizer.json"),    # 32 MB — no split needed
+    (BASE / "models/BrainGemma3D/language_model/tokenizer.model",                  "BrainGemma3D/tokenizer.model"),
+    # MedVAE — config + architecture yamls
+    (BASE / "models/MedVAE/config.json",                               "MedVAE/config.json"),
+    (BASE / "models/MedVAE/model_weights/medvae_4x1.yaml",             "MedVAE/medvae_4x1.yaml"),
+    (BASE / "models/MedVAE/model_weights/medvae_4x3.yaml",             "MedVAE/medvae_4x3.yaml"),
+    (BASE / "models/MedVAE/model_weights/medvae_4x4.yaml",             "MedVAE/medvae_4x4.yaml"),
+    (BASE / "models/MedVAE/model_weights/medvae_8x1.yaml",             "MedVAE/medvae_8x1.yaml"),
+    (BASE / "models/MedVAE/model_weights/medvae_8x4.yaml",             "MedVAE/medvae_8x4.yaml"),
+    # Merlin — inference config
+    (BASE / "models/Merlin/config.json",                                "Merlin/config.json"),
+    # VISTA3D — model config + inference scripts
+    (BASE / "models/VISTA3D-CTMR/config.json",                         "VISTA3D/config.json"),
+    (BASE / "models/VISTA3D-CTMR/metadata.json",                       "VISTA3D/metadata.json"),
+    # NV-Generate — config
+    (BASE / "models/NV-Generate-MR-Brain/config.json",                 "NV-Generate/config.json"),
+    # MAISI — inference configs (needed to run generation)
+    (BASE / "models/MAISI/maisi_ct_generative/configs/inference.json",    "MAISI/configs/inference.json"),
+    (BASE / "models/MAISI/maisi_ct_generative/configs/label_dict.json",   "MAISI/configs/label_dict.json"),
+    (BASE / "models/MAISI/maisi_ct_generative/configs/metadata.json",     "MAISI/configs/metadata.json"),
+    # Packed archive with ALL configs (convenient single-file download)
+    # NOTE: Regenerate with: tar -czf /tmp/model_configs.tar.gz -C /DATA/horizon_disentangled/models .
+    # Then upload manually or add path here if the archive is committed to the repo.
+]
+
 
 def split_file(src: Path, remote_name: str) -> list[tuple[Path, str]]:
     """Split a file into 3 GB binary parts. Returns list of (part_path, remote_name)."""
@@ -202,13 +252,21 @@ def main():
     parser = argparse.ArgumentParser(description="Upload Horizon checkpoints to XNAT")
     parser.add_argument("--dry-run", action="store_true", help="Print what would be uploaded without uploading")
     parser.add_argument("--only-checkpoints", action="store_true", help="Only upload experiments/checkpoints/, skip models/")
+    parser.add_argument("--only-configs", action="store_true", help="Only upload config/tokenizer files (CONFIG_FILES)")
+    parser.add_argument("--only-models", action="store_true", help="Only upload model weight files (MODEL_FILES)")
     args = parser.parse_args()
 
     SPLIT_DIR.mkdir(parents=True, exist_ok=True)
 
-    all_files = CHECKPOINT_FILES + ([] if args.only_checkpoints else MODEL_FILES)
+    all_files = CHECKPOINT_FILES + ([] if args.only_checkpoints else MODEL_FILES + CONFIG_FILES)
     # Filter to existing local files only
     all_files = [(lp, rn) for lp, rn in all_files if lp.exists()]
+
+    # Apply selective filters
+    if args.only_configs:
+        all_files = [(lp, rn) for lp, rn in zip([x[0] for x in CONFIG_FILES], [x[1] for x in CONFIG_FILES]) if lp.exists()]
+    elif args.only_models:
+        all_files = [(lp, rn) for lp, rn in MODEL_FILES if lp.exists()]
 
     total_bytes = sum(lp.stat().st_size for lp, _ in all_files)
     log.info("=" * 70)
