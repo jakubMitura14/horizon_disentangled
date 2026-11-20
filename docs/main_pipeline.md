@@ -658,11 +658,17 @@ For multi-node deployment on NVIDIA H200 SXM (141 GB HBM3e) clusters, consult th
 - [x] SuPreM download (6.3 GB, SwinUNETR backbones) & Stage 1 integration
 - [x] Stanford Merlin download (1.5 GB CLIP + Disease prediction)
 - [x] H200 cluster scaling guide + conda environment + readiness benchmark (8/8 passing)
-- [x] Uncropped HDF5 dataset (21.7 GB, 15 files) uploaded to XNAT `temp/HORIZON_HDF5` (ID: 40120)
+- [x] Uncropped HDF5 dataset (21.7 GB, 16 files) uploaded to XNAT `temp/HORIZON_HDF5` (ID: 40120)
   - 8× `breast_ispy2_s0*.h5` (13 GB), `gbm_lumiere.h5` (2.1 GB), 3× `breast_mincrop_s0*.h5` (7.1 GB)
-  - `gbm_tabular_cohorts.h5`, `horizon_master.vds.h5` also present
+  - `gbm_tabular_cohorts.h5`, `horizon_master.vds.h5`, `dataset_manifest.json` also present
   - Tools: `scripts/xnatt.py --upload-dataset` / `--download-dataset`; split helper: `scripts/split_mincrop.py`
   - Access guide: [`docs/xnat_dataset_guide.md`](docs/xnat_dataset_guide.md)
+- [x] All foundation model weights + training checkpoints (76.6 GB) uploaded to XNAT `temp/HORIZON_CHECKPOINTS` (ID: 40121)
+  - 9 training checkpoints (Stages 1–4, GBM + Breast), 57 foundation model files
+  - Models: BrainSegFounder, Merlin, VISTA3D, MedVAE (7 ckpts), VoCo/VoComni-H, SuPreM (17 ckpts), NV-Generate, BrainGemma3D, Med3DVLM-7B, MAISI
+  - Files >3 GB auto-split into binary `.partXX` chunks (nginx limit); reconstructed with `cat *.part* > file`
+  - Upload tool: `scripts/upload_checkpoints.py --only-checkpoints / --dry-run`
+  - Access guide: [`docs/xnat_checkpoints_guide.md`](docs/xnat_checkpoints_guide.md)
 
 #### 📋 Planned — Phase 2 & 3 (Scaling to Multi-GPU SLURM Cluster)
 
