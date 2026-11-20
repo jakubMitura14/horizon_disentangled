@@ -392,55 +392,77 @@ with open("/tmp/checkpoints_manifest.json") as f:
 
 ---
 
-## 6. Additional Models (Downloading → XNAT)
+## 6. Additional Models (Downloaded → Uploading to XNAT)
 
-The following models are currently being downloaded from HuggingFace and will be
-auto-uploaded to HORIZON_CHECKPOINTS by `scripts/upload_new_models.py`:
+All three additional model groups have been fully downloaded from HuggingFace and
+are being uploaded to HORIZON_CHECKPOINTS by `scripts/upload_new_models.py`.
 
-### Hulu-Med-32B (66.4 GB) — ⏳ Downloading
+### Hulu-Med-32B (66.4 GB) ✅ Downloaded
 
 | Remote Name | Parts | Description |
 |:---|:---:|:---|
-| `Hulu-Med-32B/model-00001-of-00013.safetensors` | **2** | Shard 1/13 (~5.1 GB) |
+| `Hulu-Med-32B/model-00001-of-00013.safetensors` | **2** | Shard 1/13 (~5.0 GB) |
 | `Hulu-Med-32B/model-00002-of-00013.safetensors` | **2** | Shard 2/13 |
-| *(11 more weight shards)* | | |
-| `Hulu-Med-32B/config.json` | — | Model config |
-| `Hulu-Med-32B/modeling_hulumed_encoder.py` | — | Custom encoder class |
-| `Hulu-Med-32B/modeling_hulumed_qwen2.py` | — | Custom LM class |
-| `Hulu-Med-32B/tokenizer_config.json` | — | Qwen2 tokenizer |
-| *(all 18 config/tokenizer files included)* | | |
+| `Hulu-Med-32B/model-00003-of-00013.safetensors` | **2** | Shard 3/13 |
+| `Hulu-Med-32B/model-00004-of-00013.safetensors` | **2** | Shard 4/13 |
+| `Hulu-Med-32B/model-00005-of-00013.safetensors` | **2** | Shard 5/13 |
+| `Hulu-Med-32B/model-00006-of-00013.safetensors` | **2** | Shard 6/13 |
+| `Hulu-Med-32B/model-00007-of-00013.safetensors` | **2** | Shard 7/13 |
+| `Hulu-Med-32B/model-00008-of-00013.safetensors` | **2** | Shard 8/13 |
+| `Hulu-Med-32B/model-00009-of-00013.safetensors` | **2** | Shard 9/13 |
+| `Hulu-Med-32B/model-00010-of-00013.safetensors` | **2** | Shard 10/13 |
+| `Hulu-Med-32B/model-00011-of-00013.safetensors` | **2** | Shard 11/13 |
+| `Hulu-Med-32B/model-00012-of-00013.safetensors` | **2** | Shard 12/13 |
+| `Hulu-Med-32B/model-00013-of-00013.safetensors` | **2** | Shard 13/13 (~4.0 GB) |
+| `Hulu-Med-32B/config.json` + 17 more config files | — | All tokenizer/arch/processing configs |
 
 **HuggingFace repo**: `ZJU-AI4H/Hulu-Med-32B` (Apache 2.0)
 
-### STU-Net (15.8 GB) — ⏳ Downloading
+Load with:
+```python
+from transformers import AutoModel, AutoProcessor
+model = AutoModel.from_pretrained(
+    "/path/to/Hulu-Med-32B",
+    trust_remote_code=True, torch_dtype=torch.bfloat16, device_map="auto"
+)
+processor = AutoProcessor.from_pretrained("/path/to/Hulu-Med-32B", trust_remote_code=True)
+```
+
+### STU-Net (15.8 GB) ✅ Downloaded
 
 | Remote Name | Size | Description |
 |:---|---:|:---|
-| `STU-Net/small_ep4k.model` | 467 MB | STU-Net Small (NNUNet format) |
-| `STU-Net/base_ep4k.model` | 1.6 GB | STU-Net Base |
-| `STU-Net/large_ep4k.model` | 4.4 GB | STU-Net Large |
-| `STU-Net/huge_ep4k.model` | ~9.4 GB | **STU-Net Huge** ← 1.4B params |
+| `STU-Net/small_ep4k.model` | 113 MB | STU-Net Small — 14M params |
+| `STU-Net/base_ep4k.model` | 446 MB | STU-Net Base — 58M params |
+| `STU-Net/large_ep4k.model` | 3.3 GB | STU-Net Large — 440M params |
+| `STU-Net/huge_ep4k.model` | **11 GB** | **STU-Net Huge — 1.4B params** ← H200 primary |
 
 **HuggingFace repo**: `ziyanhuang/STU-Net` (Apache 2.0)
 
 > [!NOTE]
-> STU-Net uses NNUNet's `.model` format. Load with:
+> STU-Net uses NNUNet's `.model` checkpoint format. Load with:
 > ```python
 > from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
 > predictor = nnUNetPredictor()
-> predictor.initialize_from_trained_model_folder("/path/to/STU-Net/huge_ep4k.model", ...)
+> predictor.initialize_from_trained_model_folder(
+>     "/path/to/STU-Net/huge_ep4k.model",
+>     use_folds=(0,), checkpoint_name="checkpoint_final.pth"
+> )
 > ```
 
-### VoCo Extended (10.7 GB total) — ⏳ Downloading
+### VoCo / VoComni — Complete Set (10.7 GB) ✅ Downloaded
 
-New files supplementing the already-uploaded `VoCo_B_SSL_head.pt`, `VoComni_H.pt`, `VoComni_L.pt`:
+All VoCo variants now available (previously only B/H/L were present):
 
 | Remote Name | Size | Description |
 |:---|---:|:---|
-| `VoCo/VoCo_H_SSL_head.pt` | 3.40 GB | **VoCo-H SSL projection head** ← H200 primary |
-| `VoCo/VoCo_L_SSL_head.pt` | 862 MB | VoCo-L SSL projection head |
-| `VoCo/VoComni_B.pt` | 436 MB | VoComni-B |
-| `VoCo/VoComni_nnunet.pt` | 436 MB | VoComni NNUNet variant |
+| `VoCo/VoCo_B_SSL_head.pt` | 211 MB | VoCo-B SSL projection head |
+| `VoCo/VoCo_H_SSL_head.pt` | 3.2 GB | **VoCo-H SSL projection head** ← H200 primary |
+| `VoCo/VoCo_L_SSL_head.pt` | 816 MB | VoCo-L SSL projection head |
+| `VoCo/VoComni_B.pt` | 285 MB | VoComni-B backbone |
+| `VoCo/VoComni_H.pt` | 4.4 GB | VoComni-H backbone (1.16B) |
+| `VoCo/VoComni_L.pt` | 1.1 GB | VoComni-L backbone |
+| `VoCo/VoComni_nnunet.pt` | 120 MB | VoComni NNUNet variant |
 
 **HuggingFace repo**: `Luffy503/VoCo` (Apache 2.0)
 
