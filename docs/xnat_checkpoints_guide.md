@@ -392,16 +392,16 @@ with open("/tmp/checkpoints_manifest.json") as f:
 
 ---
 
-## 6. Additional Models (Downloaded → Uploading to XNAT)
+## 6. Additional Models ✅ Complete
 
 All three additional model groups have been fully downloaded from HuggingFace and
-are being uploaded to HORIZON_CHECKPOINTS by `scripts/upload_new_models.py`.
+uploaded to HORIZON_CHECKPOINTS.
 
-### Hulu-Med-32B (66.4 GB) ✅ Downloaded
+### Hulu-Med-32B (66.4 GB) ✅
 
 | Remote Name | Parts | Description |
 |:---|:---:|:---|
-| `Hulu-Med-32B/model-00001-of-00013.safetensors` | **2** | Shard 1/13 (~5.0 GB) |
+| `Hulu-Med-32B/model-00001-of-00013.safetensors` | **2** | Shard 1/13 (~5.2 GB) |
 | `Hulu-Med-32B/model-00002-of-00013.safetensors` | **2** | Shard 2/13 |
 | `Hulu-Med-32B/model-00003-of-00013.safetensors` | **2** | Shard 3/13 |
 | `Hulu-Med-32B/model-00004-of-00013.safetensors` | **2** | Shard 4/13 |
@@ -414,13 +414,15 @@ are being uploaded to HORIZON_CHECKPOINTS by `scripts/upload_new_models.py`.
 | `Hulu-Med-32B/model-00011-of-00013.safetensors` | **2** | Shard 11/13 |
 | `Hulu-Med-32B/model-00012-of-00013.safetensors` | **2** | Shard 12/13 |
 | `Hulu-Med-32B/model-00013-of-00013.safetensors` | **2** | Shard 13/13 (~4.0 GB) |
-| `Hulu-Med-32B/config.json` + 17 more config files | — | All tokenizer/arch/processing configs |
+| `Hulu-Med-32B/config.json` + 17 config files | — | All tokenizer/arch/processing configs |
 
 **HuggingFace repo**: `ZJU-AI4H/Hulu-Med-32B` (Apache 2.0)
 
 Load with:
 ```python
 from transformers import AutoModel, AutoProcessor
+import torch
+
 model = AutoModel.from_pretrained(
     "/path/to/Hulu-Med-32B",
     trust_remote_code=True, torch_dtype=torch.bfloat16, device_map="auto"
@@ -428,7 +430,7 @@ model = AutoModel.from_pretrained(
 processor = AutoProcessor.from_pretrained("/path/to/Hulu-Med-32B", trust_remote_code=True)
 ```
 
-### STU-Net (15.8 GB) ✅ Downloaded
+### STU-Net (15.8 GB) ✅
 
 | Remote Name | Size | Description |
 |:---|---:|:---|
@@ -450,9 +452,9 @@ processor = AutoProcessor.from_pretrained("/path/to/Hulu-Med-32B", trust_remote_
 > )
 > ```
 
-### VoCo / VoComni — Complete Set (10.7 GB) ✅ Downloaded
+### VoCo / VoComni — Complete Set (10.7 GB) ✅
 
-All VoCo variants now available (previously only B/H/L were present):
+All VoCo variants now available:
 
 | Remote Name | Size | Description |
 |:---|---:|:---|
@@ -474,20 +476,20 @@ The current checkpoints serve as **warm-start initializations** for the cluster 
 
 ---
 
-## 7. Re-uploading New Models After Download
+## 7. Re-uploading / Refreshing Models
 
 ```bash
 export LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH
 PYTHON=/DATA/conda/envs/nukl-to-ct/bin/python
 cd /DATA/horizon_disentangled
 
-# Wait for HF downloads to finish, then upload everything
-$PYTHON scripts/upload_new_models.py
+# Original 66-file checkpoint upload (auto-resumes)
+$PYTHON scripts/upload_checkpoints.py
 
-# Upload only what's already downloaded (don't wait)
+# New models upload — Hulu-Med-32B, STU-Net, VoCo (auto-resumes)
 $PYTHON scripts/upload_new_models.py --no-wait
 
-# Dry run
+# Dry run to see what would be uploaded
 $PYTHON scripts/upload_new_models.py --dry-run
 ```
 
