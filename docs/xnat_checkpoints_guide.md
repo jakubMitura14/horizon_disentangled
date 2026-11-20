@@ -392,36 +392,59 @@ with open("/tmp/checkpoints_manifest.json") as f:
 
 ---
 
-## 6. H200 Readiness Gaps
+## 6. Additional Models (Downloading → XNAT)
 
-The following are **not yet included** in HORIZON_CHECKPOINTS and are needed
-for the full 4× H200 cluster training:
+The following models are currently being downloaded from HuggingFace and will be
+auto-uploaded to HORIZON_CHECKPOINTS by `scripts/upload_new_models.py`:
 
-### 🔴 Gap 1 — Hulu-Med-32B not downloaded (highest priority)
+### Hulu-Med-32B (66.4 GB) — ⏳ Downloading
 
-The best open 3D VLM for H200-scale training (61.8 GB, Apache 2.0 license):
+| Remote Name | Parts | Description |
+|:---|:---:|:---|
+| `Hulu-Med-32B/model-00001-of-00013.safetensors` | **2** | Shard 1/13 (~5.1 GB) |
+| `Hulu-Med-32B/model-00002-of-00013.safetensors` | **2** | Shard 2/13 |
+| *(11 more weight shards)* | | |
+| `Hulu-Med-32B/config.json` | — | Model config |
+| `Hulu-Med-32B/modeling_hulumed_encoder.py` | — | Custom encoder class |
+| `Hulu-Med-32B/modeling_hulumed_qwen2.py` | — | Custom LM class |
+| `Hulu-Med-32B/tokenizer_config.json` | — | Qwen2 tokenizer |
+| *(all 18 config/tokenizer files included)* | | |
 
-```bash
-# On a node with internet access and sufficient disk
-huggingface-cli download ZJU-AI4H/Hulu-Med-32B \
-    --local-dir /DATA/horizon_disentangled/models/Hulu-Med-32B \
-    --repo-type model
-# Then run upload_checkpoints.py after adding it to MODEL_FILES
-```
+**HuggingFace repo**: `ZJU-AI4H/Hulu-Med-32B` (Apache 2.0)
 
-### 🔴 Gap 2 — STU-Net-H and VoCo-H SSL
+### STU-Net (15.8 GB) — ⏳ Downloading
 
-| Model | Size | HF Repo |
+| Remote Name | Size | Description |
 |:---|---:|:---|
-| STU-Net-H | ~5.6 GB | `ziyanhuang/STU-Net` |
-| VoCo-H SSL | ~818 MB | `Luffy503/VoCo` |
+| `STU-Net/small_ep4k.model` | 467 MB | STU-Net Small (NNUNet format) |
+| `STU-Net/base_ep4k.model` | 1.6 GB | STU-Net Base |
+| `STU-Net/large_ep4k.model` | 4.4 GB | STU-Net Large |
+| `STU-Net/huge_ep4k.model` | ~9.4 GB | **STU-Net Huge** ← 1.4B params |
 
-```bash
-huggingface-cli download ziyanhuang/STU-Net --local-dir /DATA/horizon_disentangled/models/STU-Net
-huggingface-cli download Luffy503/VoCo --local-dir /DATA/horizon_disentangled/models/VoCo-H-SSL
-```
+**HuggingFace repo**: `ziyanhuang/STU-Net` (Apache 2.0)
 
-### 🟡 Gap 3 — Training checkpoints are single-GPU H100 scale
+> [!NOTE]
+> STU-Net uses NNUNet's `.model` format. Load with:
+> ```python
+> from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
+> predictor = nnUNetPredictor()
+> predictor.initialize_from_trained_model_folder("/path/to/STU-Net/huge_ep4k.model", ...)
+> ```
+
+### VoCo Extended (10.7 GB total) — ⏳ Downloading
+
+New files supplementing the already-uploaded `VoCo_B_SSL_head.pt`, `VoComni_H.pt`, `VoComni_L.pt`:
+
+| Remote Name | Size | Description |
+|:---|---:|:---|
+| `VoCo/VoCo_H_SSL_head.pt` | 3.40 GB | **VoCo-H SSL projection head** ← H200 primary |
+| `VoCo/VoCo_L_SSL_head.pt` | 862 MB | VoCo-L SSL projection head |
+| `VoCo/VoComni_B.pt` | 436 MB | VoComni-B |
+| `VoCo/VoComni_nnunet.pt` | 436 MB | VoComni NNUNet variant |
+
+**HuggingFace repo**: `Luffy503/VoCo` (Apache 2.0)
+
+### 🟡 Note — Training checkpoints are single-GPU H100 scale
 
 Stages 1–4 checkpoints in `checkpoints/` were trained on a single H100 PCIe with small batch
 sizes. After the first 4× H200 FSDP run, these will be superseded by distributed checkpoints.
@@ -429,7 +452,26 @@ The current checkpoints serve as **warm-start initializations** for the cluster 
 
 ---
 
-## 7. HDF5 Dataset (HORIZON_HDF5)
+## 7. Re-uploading New Models After Download
+
+```bash
+export LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH
+PYTHON=/DATA/conda/envs/nukl-to-ct/bin/python
+cd /DATA/horizon_disentangled
+
+# Wait for HF downloads to finish, then upload everything
+$PYTHON scripts/upload_new_models.py
+
+# Upload only what's already downloaded (don't wait)
+$PYTHON scripts/upload_new_models.py --no-wait
+
+# Dry run
+$PYTHON scripts/upload_new_models.py --dry-run
+```
+
+---
+
+## 8. HDF5 Dataset (HORIZON_HDF5)
 
 For reference, the companion HDF5 dataset is at:
 
