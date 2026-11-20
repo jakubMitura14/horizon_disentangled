@@ -3,8 +3,8 @@
 **Server**: `https://imaging-platform.diz-ag.med.ovgu.de`  
 **Project**: `temp`  
 **Resource Label**: `HORIZON_CHECKPOINTS` (ID: 40121)  
-**Upload Tool**: [`scripts/upload_checkpoints.py`](../scripts/upload_checkpoints.py)  
-**Total Size**: ~76.6 GB weights + ~100 MB configs across 100+ XNAT files
+**Upload Tool**: [`scripts/upload_checkpoints.py`](../scripts/upload_checkpoints.py) + [`scripts/upload_new_models.py`](../scripts/upload_new_models.py)  
+**Total Size**: **163.5 GB** across **136 XNAT files** ✅ verified 2026-11-20
 
 > [!NOTE]
 > Files larger than **3 GB** are split into binary `.part00`, `.part01`, … pieces due to the
