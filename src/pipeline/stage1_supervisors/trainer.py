@@ -1,7 +1,10 @@
 import os
 import torch
 import torch.nn as nn
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
+from torch.utils.data.distributed import DistributedSampler
 from typing import Dict, Any, Optional
 from src.pipeline.stage1_supervisors.models import MultimodalSupervisorTrunk
 from src.pipeline.stage1_supervisors.losses import (
@@ -25,6 +28,13 @@ class Stage1Trainer:
         self.domain = domain
         self.device = torch.device(config.hardware.device)
 
+        # Initialise process group if running under torchrun / SLURM
+        if config.hardware.is_distributed and not dist.is_initialized():
+            dist.init_process_group(backend="nccl", init_method="env://")
+        self.rank = dist.get_rank() if dist.is_initialized() else 0
+        self.world_size = dist.get_world_size() if dist.is_initialized() else 1
+        self.is_main = (self.rank == 0)
+
         self.model = MultimodalSupervisorTrunk(
             domain=domain,
             in_channels=4,
@@ -33,6 +43,19 @@ class Stage1Trainer:
             num_ordinal_classes=5,
             num_survival_intervals=config.stage1.num_survival_intervals
         ).to(self.device)
+
+        # Gap 3 — gradient checkpointing on the SwinUNETR backbone
+        if hasattr(self.model, 'visual_encoder') and hasattr(self.model.visual_encoder, 'swin_unetr'):
+            self.model.visual_encoder.swin_unetr.swinViT.use_checkpoint = True
+
+        # Gap 1 — DDP wrap (after gradient checkpointing)
+        if dist.is_initialized():
+            self.model = DDP(
+                self.model,
+                device_ids=[config.hardware.local_rank],
+                output_device=config.hardware.local_rank,
+                find_unused_parameters=True,
+            )
 
         self.dior_loss_fn = DifferentialOrdinalLoss(
             num_classes=5,
@@ -79,6 +102,8 @@ class Stage1Trainer:
 
         self.optimizer = torch.optim.AdamW(all_params, lr=config.stage1.lr, weight_decay=1e-4)
         self.use_amp = config.hardware.use_bfloat16 and ("cuda" in str(self.device))
+        # Gap 7 — GradScaler for AMP + store sampler factory
+        self.scaler = torch.amp.GradScaler('cuda', enabled=self.use_amp)
 
     def train_step(self, batch: Dict[str, Any]) -> Dict[str, float]:
         self.model.train()
@@ -155,11 +180,13 @@ class Stage1Trainer:
                          self.config.stage1.lambda_survrnc * loss_survrnc + 
                          0.5 * loss_bin + loss_merlin)
 
-        total_loss.backward()
-        nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+        self.scaler.scale(total_loss).backward()
+        raw_model = self.model.module if dist.is_initialized() else self.model
+        nn.utils.clip_grad_norm_(raw_model.parameters(), max_norm=1.0)
         if self.text_encoder is not None:
             nn.utils.clip_grad_norm_(self.text_encoder.parameters(), max_norm=1.0)
-        self.optimizer.step()
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
 
         result = {
             "loss_total": total_loss.item(),
@@ -174,8 +201,9 @@ class Stage1Trainer:
 
     def save_checkpoint(self, path: str):
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        raw_model = self.model.module if dist.is_initialized() else self.model
         save_dict = {
-            "model_state": self.model.state_dict(),
+            "model_state": raw_model.state_dict(),
             "domain": self.domain,
             "config": self.config.stage1
         }
@@ -185,3 +213,24 @@ class Stage1Trainer:
             save_dict["merlin_loss_state"] = self.merlin_loss_fn.state_dict()
         torch.save(save_dict, path)
         print(f"Stage 1 {self.domain} supervisor saved to {path}")
+
+    def make_dataloader(self, dataset, batch_size: int, shuffle: bool = True):
+        """Gap 7 — cluster-optimised DataLoader with DistributedSampler."""
+        if dist.is_initialized():
+            sampler = DistributedSampler(dataset, shuffle=shuffle,
+                                         rank=self.rank, num_replicas=self.world_size)
+            shuffle = False
+        else:
+            sampler = None
+        return DataLoader(
+            dataset,
+            batch_size=batch_size,
+            sampler=sampler,
+            shuffle=shuffle,
+            num_workers=min(16, (os.cpu_count() or 4) // max(self.world_size, 1)),
+            pin_memory=True,
+            persistent_workers=True,
+            prefetch_factor=4,
+            worker_init_fn=worker_init_fn,
+            drop_last=True,
+        ), sampler

@@ -17,6 +17,10 @@ class HardwareConfig:
     rank: int = 0
     world_size: int = 1
     local_rank: int = 0
+    # FSDP-2 configuration
+    use_fsdp: bool = False         # Enable for models >400M params (VoComni-H 1.16B)
+    use_fp8: bool = False          # Enable on H200 Hopper (requires transformer_engine)
+    use_compile: bool = True       # torch.compile (default on, suppress_errors=True)
 
     def __post_init__(self):
         # Auto-detect SLURM or torchrun environment

@@ -546,6 +546,14 @@ class PipelineOrchestrator:
         results["stage4"] = self.run_stage4(domain=domain, num_epochs=stage4_epochs)
         results["stage5"] = self.run_stage5(domain=domain)
 
+        # Clean up distributed process group
+        try:
+            import torch.distributed as dist
+            if dist.is_initialized():
+                dist.destroy_process_group()
+        except Exception:
+            pass
+
         total_elapsed = time.time() - t0
         results["total_elapsed_seconds"] = total_elapsed
 

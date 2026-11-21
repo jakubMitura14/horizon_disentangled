@@ -2,14 +2,15 @@
 #SBATCH --job-name=horizon_disentangled
 #SBATCH --output=logs/slurm_%j.out
 #SBATCH --error=logs/slurm_%j.err
-#SBATCH --nodes=1
+#SBATCH --nodes=${SLURM_NODES:-1}
 #SBATCH --ntasks-per-node=4
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:h200:4
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=512G
 #SBATCH --time=72:00:00
-#SBATCH --partition=gpu
+#SBATCH --partition=h200
 #SBATCH --account=horizon
+#SBATCH --constraint=h200
 
 # ═══════════════════════════════════════════════════════════════════════
 # Horizon Disentangled — 4× H200 GPU Training Script
@@ -38,10 +39,15 @@ export JULIA_CUDA_SOFT_MEMORY_LIMIT="60GiB"
 export JULIA_PROJECT="/DATA/horizon_disentangled/src"
 export JULIA_NUM_THREADS=16
 
-# NCCL settings for 4-GPU single-node
+# NCCL settings for H200 cluster (NVLink 4 + NDR InfiniBand)
 export NCCL_IB_DISABLE=0
 export NCCL_NET_GDR_LEVEL=5
 export NCCL_P2P_LEVEL=NVL
+export NCCL_IB_TIMEOUT=60
+export NCCL_ASYNC_ERROR_HANDLING=1
+export NCCL_SOCKET_IFNAME=ib0
+export MASTER_ADDR=${MASTER_ADDR:-$(scontrol show hostnames "$SLURM_JOB_NODELIST" 2>/dev/null | head -n1 || echo localhost)}
+export MASTER_PORT=${MASTER_PORT:-29500}
 
 # Working directory
 cd /DATA/horizon_disentangled
@@ -74,10 +80,10 @@ if [[ "${STAGE}" == "all" ]]; then
     echo "──── Stage 1: Multimodal Supervisors (DDP 4-GPU) ────"
     torchrun \
         --nproc_per_node=4 \
-        --nnodes=1 \
-        --node_rank=0 \
-        --master_addr=localhost \
-        --master_port=29500 \
+        --nnodes="${SLURM_NNODES:-1}" \
+        --node_rank="${SLURM_NODEID:-0}" \
+        --master_addr="${MASTER_ADDR}" \
+        --master_port="${MASTER_PORT}" \
         -m src.pipeline.cli \
         --stage 1 \
         --domain "${DOMAIN}" \
@@ -87,10 +93,10 @@ if [[ "${STAGE}" == "all" ]]; then
     echo "──── Stage 2: Hierarchical Causal VAE (DDP 4-GPU) ────"
     torchrun \
         --nproc_per_node=4 \
-        --nnodes=1 \
-        --node_rank=0 \
-        --master_addr=localhost \
-        --master_port=29501 \
+        --nnodes="${SLURM_NNODES:-1}" \
+        --node_rank="${SLURM_NODEID:-0}" \
+        --master_addr="${MASTER_ADDR}" \
+        --master_port="${MASTER_PORT}" \
         -m src.pipeline.cli \
         --stage 2 \
         --domain "${DOMAIN}" \
@@ -104,8 +110,14 @@ if [[ "${STAGE}" == "all" ]]; then
         --epochs $((EPOCHS / 3))
 
     echo ""
-    echo "──── Stage 4: Biophysical PDE-NJDE (GPU 2 + Julia) ────"
-    CUDA_VISIBLE_DEVICES=2 python -m src.pipeline.cli \
+    echo "──── Stage 4: Biophysical PDE-NJDE (DDP all GPUs) ────"
+    torchrun \
+        --nproc_per_node=4 \
+        --nnodes=1 \
+        --node_rank=0 \
+        --master_addr=localhost \
+        --master_port=29503 \
+        -m src.pipeline.cli \
         --stage 4 \
         --domain "${DOMAIN}" \
         --epochs $((EPOCHS / 2))
@@ -121,10 +133,10 @@ elif [[ "${STAGE}" == "1" ]] || [[ "${STAGE}" == "2" ]]; then
     echo "Running Stage ${STAGE} with DDP (4-GPU)"
     torchrun \
         --nproc_per_node=4 \
-        --nnodes=1 \
-        --node_rank=0 \
-        --master_addr=localhost \
-        --master_port=29500 \
+        --nnodes="${SLURM_NNODES:-1}" \
+        --node_rank="${SLURM_NODEID:-0}" \
+        --master_addr="${MASTER_ADDR}" \
+        --master_port="${MASTER_PORT}" \
         -m src.pipeline.cli \
         --stage "${STAGE}" \
         --domain "${DOMAIN}" \
