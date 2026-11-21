@@ -181,6 +181,8 @@ class Stage1Trainer:
                          0.5 * loss_bin + loss_merlin)
 
         self.scaler.scale(total_loss).backward()
+        # Must unscale before clip_grad_norm_ so norms are in true gradient space
+        self.scaler.unscale_(self.optimizer)
         raw_model = self.model.module if dist.is_initialized() else self.model
         nn.utils.clip_grad_norm_(raw_model.parameters(), max_norm=1.0)
         if self.text_encoder is not None:
@@ -200,6 +202,10 @@ class Stage1Trainer:
         return result
 
     def save_checkpoint(self, path: str):
+        """Only rank-0 writes to disk to prevent file corruption races."""
+        if dist.is_initialized() and dist.get_rank() != 0:
+            dist.barrier()   # non-rank-0 waits until rank-0 finishes writing
+            return
         os.makedirs(os.path.dirname(path), exist_ok=True)
         raw_model = self.model.module if dist.is_initialized() else self.model
         save_dict = {
@@ -213,6 +219,8 @@ class Stage1Trainer:
             save_dict["merlin_loss_state"] = self.merlin_loss_fn.state_dict()
         torch.save(save_dict, path)
         print(f"Stage 1 {self.domain} supervisor saved to {path}")
+        if dist.is_initialized():
+            dist.barrier()   # rank-0 signals all others that write is complete
 
     def make_dataloader(self, dataset, batch_size: int, shuffle: bool = True):
         """Gap 7 — cluster-optimised DataLoader with DistributedSampler."""

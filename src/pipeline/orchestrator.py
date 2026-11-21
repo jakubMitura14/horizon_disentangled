@@ -14,6 +14,7 @@ import json
 import logging
 import torch
 import torch.nn as nn
+import torch.distributed as dist
 from typing import Dict, Any, Optional, List
 
 from src.pipeline.config import PipelineConfig
@@ -90,6 +91,7 @@ class PipelineOrchestrator:
     ) -> Dict[str, Any]:
         """
         Trains Stage 1 Multimodal Supervisors (DIOR + LogisticHazard + SurvRNC).
+        Multi-GPU: DDP gradient sync, DistributedSampler epoch shuffle, rank-0 checkpoint.
         """
         logger.info(f"═══ Stage 1: Multimodal Supervisors [{domain.upper()}] ═══")
         t0 = time.time()
@@ -99,6 +101,11 @@ class PipelineOrchestrator:
 
         all_metrics = []
         for epoch in range(num_epochs):
+            # DistributedSampler must be re-seeded each epoch for correct shuffling
+            # (make_dataloader returns sampler; for synthetic mode we pass None)
+            if hasattr(trainer, '_sampler') and trainer._sampler is not None:
+                trainer._sampler.set_epoch(epoch)
+
             # Generate synthetic batch for demonstration / testing
             B = self.config.stage1.batch_size
             if domain == "gbm":
@@ -110,7 +117,8 @@ class PipelineOrchestrator:
             metrics = trainer.train_step(batch)
             all_metrics.append(metrics)
 
-            if (epoch + 1) % 10 == 0 or epoch == 0:
+            # Only rank-0 logs to avoid duplicate stdout across GPUs
+            if trainer.is_main and ((epoch + 1) % 10 == 0 or epoch == 0):
                 logger.info(
                     f"  Epoch {epoch+1}/{num_epochs} | "
                     f"Loss: {metrics['loss_total']:.4f} | "
@@ -118,7 +126,7 @@ class PipelineOrchestrator:
                     f"SurvRNC: {metrics['loss_survrnc']:.4f}"
                 )
 
-        # Save checkpoint
+        # Save checkpoint — trainer.save_checkpoint already enforces rank-0 only + barrier
         ckpt_path = os.path.join(
             self.config.data.checkpoints_dir,
             f"stage1_{domain}_supervisor.pt"
@@ -135,21 +143,24 @@ class PipelineOrchestrator:
             "elapsed_seconds": elapsed
         }
 
-        # Art. 11: Log model configuration
-        self.audit_logger.log_model_configuration(
-            stage="Stage1_Supervisors",
-            model_name=f"MultimodalSupervisorTrunk_{domain}",
-            config={
-                "feature_dim": self.config.stage1.feature_dim,
-                "num_survival_intervals": self.config.stage1.num_survival_intervals,
-                "batch_size": self.config.stage1.batch_size,
-                "lr": self.config.stage1.lr,
-            },
-            training_metrics=all_metrics[-1],
-            checkpoint_path=ckpt_path
-        )
+        # Art. 11: Log model configuration (rank-0 only)
+        if trainer.is_main:
+            self.audit_logger.log_model_configuration(
+                stage="Stage1_Supervisors",
+                model_name=f"MultimodalSupervisorTrunk_{domain}",
+                config={
+                    "feature_dim": self.config.stage1.feature_dim,
+                    "num_survival_intervals": self.config.stage1.num_survival_intervals,
+                    "batch_size": self.config.stage1.batch_size,
+                    "lr": self.config.stage1.lr,
+                    "world_size": trainer.world_size,
+                },
+                training_metrics=all_metrics[-1],
+                checkpoint_path=ckpt_path
+            )
 
-        logger.info(f"  Stage 1 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.4f}")
+        if trainer.is_main:
+            logger.info(f"  Stage 1 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.4f}")
         return result
 
     # ═══════════════════════════════════════════════════════════════════
@@ -161,6 +172,7 @@ class PipelineOrchestrator:
     ) -> Dict[str, Any]:
         """
         Trains Stage 2 Two-Scale Hierarchical Causal VAE with FactorVAE TC + vCLUB.
+        Multi-GPU: DDP sync, rank-0-only checkpoint/logging.
         """
         logger.info("═══ Stage 2: Hierarchical Causal VAE ═══")
         t0 = time.time()
@@ -172,14 +184,14 @@ class PipelineOrchestrator:
         B = self.config.stage2.batch_size
 
         for epoch in range(num_epochs):
-            # Generate synthetic 3D volume
+            # Each rank generates its own synthetic shard — in real data use make_dataloader + set_epoch
             x = torch.randn(B, 4, 48, 56, 40, device=self.device) * 0.5
-            mask = (torch.rand(B, 2, 48, 56, 40, device=self.device) > 0.85).float()  # 2-ch mask
+            mask = (torch.rand(B, 2, 48, 56, 40, device=self.device) > 0.85).float()
 
             metrics = trainer.train_step(x, mask)
             all_metrics.append(metrics)
 
-            if (epoch + 1) % 10 == 0 or epoch == 0:
+            if trainer.is_main and ((epoch + 1) % 10 == 0 or epoch == 0):
                 logger.info(
                     f"  Epoch {epoch+1}/{num_epochs} | "
                     f"Total: {metrics['loss_total']:.4f} | "
@@ -200,20 +212,21 @@ class PipelineOrchestrator:
             "elapsed_seconds": elapsed
         }
 
-        self.audit_logger.log_model_configuration(
-            stage="Stage2_CausalVAE",
-            model_name="TwoScaleHierarchicalCausalVAE",
-            config={
-                "anatomy_channels": self.config.stage2.anatomy_channels,
-                "disease_channels": self.config.stage2.disease_channels,
-                "beta_tc": self.config.stage2.beta_tc,
-                "gamma_club": self.config.stage2.gamma_club,
-            },
-            training_metrics=all_metrics[-1],
-            checkpoint_path=ckpt_path
-        )
-
-        logger.info(f"  Stage 2 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.4f}")
+        if trainer.is_main:
+            self.audit_logger.log_model_configuration(
+                stage="Stage2_CausalVAE",
+                model_name="TwoScaleHierarchicalCausalVAE",
+                config={
+                    "anatomy_channels": self.config.stage2.anatomy_channels,
+                    "disease_channels": self.config.stage2.disease_channels,
+                    "beta_tc": self.config.stage2.beta_tc,
+                    "gamma_club": self.config.stage2.gamma_club,
+                    "world_size": trainer.world_size,
+                },
+                training_metrics=all_metrics[-1],
+                checkpoint_path=ckpt_path
+            )
+            logger.info(f"  Stage 2 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.4f}")
         return result
 
     # ═══════════════════════════════════════════════════════════════════
@@ -285,18 +298,25 @@ class PipelineOrchestrator:
     ) -> Dict[str, Any]:
         """
         Trains Stage 4 coupled spatial PDE + systemic NJ-ODE dynamics.
+        Multi-GPU: DDP via solver.wrap_for_cluster(), scaler, rank-0 checkpoint.
         """
         logger.info(f"═══ Stage 4: Biophysical PDE-NJDE [{domain.upper()}] ═══")
         t0 = time.time()
 
         solver = ContinuousDiscreteJumpSolver(domain=domain, dt_cfl_days=self.config.stage4.dt_days_cfl)
         solver = solver.to(self.device)
+        # Wrap sub-modules in DDP if running distributed
+        solver.wrap_for_cluster()
         self._stage4_solver = solver
 
         loss_fn = MaskedLeaveOneOutLoss(lambda_phys=self.config.stage4.lambda_phys)
         self._stage4_loss = loss_fn
 
+        # Optimiser covers all parameters including DDP-wrapped sub-modules
         optimizer = torch.optim.AdamW(solver.parameters(), lr=self.config.stage4.lr, weight_decay=1e-4)
+        scaler = torch.amp.GradScaler('cuda', enabled=(self.config.hardware.use_bfloat16 and
+                                                        self.device.type == "cuda"))
+        is_main = (not dist.is_initialized()) or dist.get_rank() == 0
 
         if domain == "gbm":
             grid = self.config.data.brain_latent_grid  # (24, 28, 20)
@@ -309,20 +329,19 @@ class PipelineOrchestrator:
         for epoch in range(num_epochs):
             optimizer.zero_grad()
 
-            # Synthetic initial conditions
+            # Synthetic initial conditions (each rank gets independent sample)
             u_d_0 = torch.rand(B, 8, *grid, device=self.device) * 0.1
             u_d_0[:, 0] = torch.rand(B, *grid, device=self.device) * 0.3  # viable tumor seed
             v_sys_0 = torch.randn(B, 160, device=self.device) * 0.1
             phi = torch.ones(B, 1, *grid, device=self.device)
 
-            # Simple 2-visit schedule with one jump
             schedule = [{"t": 14.0, "type": "radiotherapy", "dose_gy": 2.0, "tmz_dose": 1.0}] if domain == "gbm" else \
                        [{"t": 7.0, "type": "chemotherapy", "drug_vec": torch.zeros(B, 16, device=self.device)}]
             eval_times = [0.0, 30.0]
 
-            traj = solver.forward_trajectory(u_d_0, v_sys_0, phi, schedule, eval_times)
+            with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.config.hardware.use_bfloat16):
+                traj = solver.forward_trajectory(u_d_0, v_sys_0, phi, schedule, eval_times)
 
-            # Ground truth at t=30 (synthetic noise target)
             if 30.0 in traj:
                 u_pred, v_pred = traj[30.0]
                 u_target = u_pred.detach() + torch.randn_like(u_pred) * 0.01
@@ -333,22 +352,29 @@ class PipelineOrchestrator:
                 ood_mask = torch.ones(B, device=self.device)
 
                 loss, loss_metrics = loss_fn(u_pred, u_target, mask_u, v_pred, v_target, mask_v, ood_mask)
-                loss.backward()
+                scaler.scale(loss).backward()
+                scaler.unscale_(optimizer)
                 nn.utils.clip_grad_norm_(solver.parameters(), max_norm=1.0)
-                optimizer.step()
+                scaler.step(optimizer)
+                scaler.update()
                 all_losses.append(loss.item())
 
-                if (epoch + 1) % 10 == 0 or epoch == 0:
+                if is_main and ((epoch + 1) % 10 == 0 or epoch == 0):
                     logger.info(f"  Epoch {epoch+1}/{num_epochs} | Loss: {loss.item():.6f}")
             else:
                 all_losses.append(float('nan'))
 
+        # Rank-0 saves checkpoint; barrier ensures all ranks wait
         ckpt_path = os.path.join(self.config.data.checkpoints_dir, f"stage4_{domain}_dynamics.pt")
-        os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
-        torch.save({
-            "solver_state": solver.state_dict(),
-            "domain": domain,
-        }, ckpt_path)
+        if is_main:
+            os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
+            raw_solver = solver  # solver itself not DDP-wrapped, only sub-modules are
+            torch.save({
+                "solver_state": raw_solver.state_dict(),
+                "domain": domain,
+            }, ckpt_path)
+        if dist.is_initialized():
+            dist.barrier()
 
         elapsed = time.time() - t0
         result = {
@@ -360,18 +386,19 @@ class PipelineOrchestrator:
             "elapsed_seconds": elapsed
         }
 
-        self.audit_logger.log_model_configuration(
-            stage="Stage4_Dynamics",
-            model_name=f"ContinuousDiscreteJumpSolver_{domain}",
-            config={
-                "domain": domain,
-                "dt_cfl_days": self.config.stage4.dt_days_cfl,
-                "lambda_phys": self.config.stage4.lambda_phys,
-            },
-            checkpoint_path=ckpt_path
-        )
-
-        logger.info(f"  Stage 4 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.6f}")
+        if is_main:
+            self.audit_logger.log_model_configuration(
+                stage="Stage4_Dynamics",
+                model_name=f"ContinuousDiscreteJumpSolver_{domain}",
+                config={
+                    "domain": domain,
+                    "dt_cfl_days": self.config.stage4.dt_days_cfl,
+                    "lambda_phys": self.config.stage4.lambda_phys,
+                    "world_size": dist.get_world_size() if dist.is_initialized() else 1,
+                },
+                checkpoint_path=ckpt_path
+            )
+            logger.info(f"  Stage 4 complete in {elapsed:.1f}s | Final loss: {result['final_loss']:.6f}")
         return result
 
     # ═══════════════════════════════════════════════════════════════════

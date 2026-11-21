@@ -122,6 +122,9 @@ class Stage2Trainer:
         # Backward passes
         self.scaler.scale(total_vae_loss).backward(retain_graph=True)
         self.scaler.scale(loss_aux).backward()
+        # Unscale before clip so norms are in true gradient space
+        self.scaler.unscale_(self.optimizer_vae)
+        self.scaler.unscale_(self.optimizer_aux)
         raw_vae = self.vae.module if dist.is_initialized() else self.vae
         raw_dis = self.disentangle.module if dist.is_initialized() else self.disentangle
         nn.utils.clip_grad_norm_(raw_vae.parameters(), max_norm=1.0)
@@ -141,6 +144,10 @@ class Stage2Trainer:
         }
 
     def save_checkpoint(self, path: str):
+        """Only rank-0 writes to disk to prevent file corruption races."""
+        if dist.is_initialized() and dist.get_rank() != 0:
+            dist.barrier()
+            return
         os.makedirs(os.path.dirname(path), exist_ok=True)
         raw_vae = self.vae.module if dist.is_initialized() else self.vae
         raw_dis = self.disentangle.module if dist.is_initialized() else self.disentangle
@@ -150,6 +157,8 @@ class Stage2Trainer:
             "config": self.config.stage2
         }, path)
         print(f"Stage 2 Causal VAE saved to {path}")
+        if dist.is_initialized():
+            dist.barrier()
 
     def make_dataloader(self, dataset, batch_size: int, shuffle: bool = True):
         """Gap 7 — cluster-optimised DataLoader with DistributedSampler."""

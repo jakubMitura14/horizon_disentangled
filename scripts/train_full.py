@@ -280,7 +280,7 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
         num_survival_intervals=config.stage1.num_survival_intervals
     ).to(device)
     
-    # For multi-GPU: model = nn.parallel.DistributedDataParallel(model, device_ids=[local_rank])
+    # DDP: handled by Stage1Trainer when dist is initialized — model is DDP-wrapped there
     
     dior_loss = DifferentialOrdinalLoss(num_classes=5).to(device)
     surv_loss = LogisticHazardLoss(num_intervals=config.stage1.num_survival_intervals).to(device)
@@ -482,9 +482,11 @@ def train_stage2(config, dataloader, num_epochs, device):
                 
                 total = loss_recon + 2.0 * loss_mask + config.stage2.kl_weight * loss_kl + loss_dis
             
+            # BF16 autocast only (no GradScaler) — dual backward with retain_graph
+            # is incompatible with a single scaler; BF16 doesn't overflow like FP16
             total.backward(retain_graph=True)
             loss_aux.backward()
-            
+
             nn.utils.clip_grad_norm_(vae.parameters(), max_norm=1.0)
             nn.utils.clip_grad_norm_(disentangle.parameters(), max_norm=1.0)
             opt_vae.step()
@@ -599,8 +601,11 @@ def train_stage4(config, domain, num_epochs, device):
     logger.info(f"═══ Stage 4: Biophysical PDE-NJDE [{domain.upper()}] ═══")
     
     solver = ContinuousDiscreteJumpSolver(domain=domain, dt_cfl_days=7.0).to(device)
+    # DDP-wrap solver sub-modules if running distributed
+    solver.wrap_for_cluster()
     loss_fn = MaskedLeaveOneOutLoss(lambda_phys=config.stage4.lambda_phys)
     optimizer = torch.optim.AdamW(solver.parameters(), lr=config.stage4.lr, weight_decay=1e-4)
+    s4_scaler = torch.amp.GradScaler('cuda', enabled=True)
     
     if domain == "gbm":
         grid = config.data.brain_latent_grid
@@ -646,9 +651,11 @@ def train_stage4(config, domain, num_epochs, device):
             ood = torch.zeros(B, device=device)
             
             loss, metrics = loss_fn(u_pred, u_target, mask_u, v_pred, v_target, mask_v, ood)
-            loss.backward()
+            s4_scaler.scale(loss).backward()
+            s4_scaler.unscale_(optimizer)
             nn.utils.clip_grad_norm_(solver.parameters(), max_norm=1.0)
-            optimizer.step()
+            s4_scaler.step(optimizer)
+            s4_scaler.update()
             
             if (epoch + 1) % 5 == 0 or epoch == 0:
                 logger.info(
@@ -820,120 +827,151 @@ def main():
     parser.add_argument("--num-workers", type=int, default=2)
     parser.add_argument("--resume-stage", type=int, default=1, help="Stage to resume from (skip earlier stages)")
     args = parser.parse_args()
-    
-    # Setup logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(name)s] %(message)s",
-        handlers=[
-            logging.StreamHandler(sys.stdout),
-            logging.FileHandler("/DATA/horizon_disentangled/artifacts/train_full.log", mode="a"),
-        ]
-    )
-    
-    device = torch.device("cuda:0")
+
+    # ── Distributed process group init (torchrun / SLURM) ──────────────────
+    import torch.distributed as dist
+    from torch.utils.data.distributed import DistributedSampler
+
+    _is_distributed = "RANK" in os.environ and "WORLD_SIZE" in os.environ
+    if _is_distributed:
+        dist.init_process_group(backend="nccl", init_method="env://")
+        local_rank = int(os.environ.get("LOCAL_RANK", 0))
+        rank       = dist.get_rank()
+        world_size = dist.get_world_size()
+        torch.cuda.set_device(local_rank)
+        device = torch.device(f"cuda:{local_rank}")
+    else:
+        rank = 0
+        world_size = 1
+        device = torch.device("cuda:0")
+    is_main = (rank == 0)
+
+    # Setup logging — only rank-0 logs to avoid duplicate stdout
+    if is_main:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(name)s] %(message)s",
+            handlers=[
+                logging.StreamHandler(sys.stdout),
+                logging.FileHandler("/DATA/horizon_disentangled/artifacts/train_full.log", mode="a"),
+            ]
+        )
+    else:
+        logging.basicConfig(level=logging.WARNING)
+
     config = PipelineConfig()
-    
-    logger.info("╔═══════════════════════════════════════════════════════════╗")
-    logger.info("║  Horizon Disentangled — Full Training Run               ║")
-    logger.info(f"║  Domain: {args.domain.upper():8s} | Epochs: {args.epochs:3d} | BS: {args.batch_size:2d}           ║")
-    logger.info(f"║  GPU: {torch.cuda.get_device_name(0):44s}  ║")
-    logger.info(f"║  VRAM: {torch.cuda.get_device_properties(0).total_memory/1e9:.1f} GB                                       ║")
-    logger.info("╚═══════════════════════════════════════════════════════════╝")
-    
+
+    if is_main:
+        logger.info("╔═══════════════════════════════════════════════════════════╗")
+        logger.info("║  Horizon Disentangled — Full Training Run               ║")
+        logger.info(f"║  Domain: {args.domain.upper():8s} | Epochs: {args.epochs:3d} | BS: {args.batch_size:2d}           ║")
+        logger.info(f"║  Distributed: {_is_distributed} | World: {world_size} | Rank: {rank}        ║")
+        logger.info(f"║  GPU: {torch.cuda.get_device_name(device.index or 0):44s}  ║")
+        logger.info(f"║  VRAM: {torch.cuda.get_device_properties(device.index or 0).total_memory/1e9:.1f} GB                                       ║")
+        logger.info("╚═══════════════════════════════════════════════════════════╝")
+
     t0_total = time.time()
-    
-    # Build dataset
-    logger.info(f"Loading {args.domain} data from HDF5 shards (max {args.max_patients} patients)...")
+
+    # Build dataset — each rank sees the full dataset, DistributedSampler shards it
+    if is_main:
+        logger.info(f"Loading {args.domain} data from HDF5 shards (max {args.max_patients} patients)...")
     dataset = HorizonRealDataset(
         hdf5_dir="/DATA/horizon_disentangled/hdf5",
         domain=args.domain,
         max_patients=args.max_patients,
     )
-    
+
+    # DistributedSampler: each GPU gets 1/world_size of data per epoch
+    sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank, shuffle=True) \
+              if _is_distributed else None
     dataloader = DataLoader(
         dataset,
         batch_size=args.batch_size,
-        shuffle=True,
-        num_workers=args.num_workers,
+        sampler=sampler,
+        shuffle=(sampler is None),     # shuffle only when not using DistributedSampler
+        num_workers=min(16, (os.cpu_count() or 4) // max(world_size, 1)),
         pin_memory=True,
         drop_last=True,
         persistent_workers=True if args.num_workers > 0 else False,
+        prefetch_factor=4 if args.num_workers > 0 else None,
     )
-    
-    logger.info(f"Dataset: {len(dataset)} visits, {len(dataloader)} batches per epoch")
-    
+
+    if is_main:
+        logger.info(f"Dataset: {len(dataset)} visits | {len(dataloader)} batches/epoch/GPU | world_size={world_size}")
+
     # Stage 1
     if args.resume_stage <= 1:
+        if sampler is not None:
+            sampler.set_epoch(0)   # initial epoch for DistributedSampler
         torch.cuda.reset_peak_memory_stats()
         model_s1, embeddings = train_stage1(config, dataloader, args.domain, args.epochs, device)
         peak_s1 = torch.cuda.max_memory_allocated() / 1e9
-        logger.info(f"  Stage 1 peak GPU: {peak_s1:.2f} GB")
+        if is_main:
+            logger.info(f"  Stage 1 peak GPU: {peak_s1:.2f} GB")
     else:
         peak_s1 = 0.0
-        logger.info(f"  Stage 1 SKIPPED (resuming from stage {args.resume_stage})")
-    
+        if is_main:
+            logger.info(f"  Stage 1 SKIPPED (resuming from stage {args.resume_stage})")
+
     # Stage 2
     if args.resume_stage <= 2:
+        if sampler is not None:
+            sampler.set_epoch(1)
         torch.cuda.reset_peak_memory_stats()
         vae_s2, latent_bank = train_stage2(config, dataloader, args.epochs, device)
         peak_s2 = torch.cuda.max_memory_allocated() / 1e9
-        logger.info(f"  Stage 2 peak GPU: {peak_s2:.2f} GB")
+        if is_main:
+            logger.info(f"  Stage 2 peak GPU: {peak_s2:.2f} GB")
     else:
         peak_s2 = 0.0
         latent_bank = []
-        logger.info(f"  Stage 2 SKIPPED (resuming from stage {args.resume_stage})")
-    
+        if is_main:
+            logger.info(f"  Stage 2 SKIPPED (resuming from stage {args.resume_stage})")
+
     # Stage 3
     if args.resume_stage <= 3:
         torch.cuda.reset_peak_memory_stats()
         if latent_bank:
             manifold_vae, scorer, scores, flags = train_stage3(config, latent_bank, max(5, args.epochs // 2), device)
             peak_s3 = torch.cuda.max_memory_allocated() / 1e9
-            logger.info(f"  Stage 3 peak GPU: {peak_s3:.2f} GB")
+            if is_main:
+                logger.info(f"  Stage 3 peak GPU: {peak_s3:.2f} GB")
         else:
             peak_s3 = 0.0
-            logger.info(f"  Stage 3 SKIPPED (no latent bank)")
+            if is_main:
+                logger.info(f"  Stage 3 SKIPPED (no latent bank)")
     else:
         peak_s3 = 0.0
-        logger.info(f"  Stage 3 SKIPPED (resuming from stage {args.resume_stage})")
-    
+        if is_main:
+            logger.info(f"  Stage 3 SKIPPED (resuming from stage {args.resume_stage})")
+
     # Stage 4
     torch.cuda.reset_peak_memory_stats()
     solver = train_stage4(config, args.domain, args.epochs, device)
     peak_s4 = torch.cuda.max_memory_allocated() / 1e9
-    logger.info(f"  Stage 4 peak GPU: {peak_s4:.2f} GB")
-    
-    # Stage 5
-    torch.cuda.reset_peak_memory_stats()
-    rankings, report = run_stage5(config, solver, args.domain, device)
-    peak_s5 = torch.cuda.max_memory_allocated() / 1e9
-    logger.info(f"  Stage 5 peak GPU: {peak_s5:.2f} GB")
-    
+    if is_main:
+        logger.info(f"  Stage 4 peak GPU: {peak_s4:.2f} GB")
+
+    # Stage 5 — inference only, rank-0
+    if is_main:
+        torch.cuda.reset_peak_memory_stats()
+        rankings, report = run_stage5(config, solver, args.domain, device)
+        peak_s5 = torch.cuda.max_memory_allocated() / 1e9
+        logger.info(f"  Stage 5 peak GPU: {peak_s5:.2f} GB")
+    else:
+        peak_s5 = 0.0
+
+    if dist.is_initialized():
+        dist.barrier()
+        dist.destroy_process_group()
+
     total_time = time.time() - t0_total
-    
-    logger.info("╔═══════════════════════════════════════════════════════════╗")
-    logger.info(f"║  Training Complete — {total_time:.1f}s total                       ║")
-    logger.info(f"║  Peak GPU per stage: S1={peak_s1:.1f} S2={peak_s2:.1f} S3={peak_s3:.1f} S4={peak_s4:.1f} S5={peak_s5:.1f} GB ║")
-    logger.info("╚═══════════════════════════════════════════════════════════╝")
-    
-    # Print multi-GPU scaling plan
-    logger.info("")
-    logger.info("╔═══════════════════════════════════════════════════════════╗")
-    logger.info("║  Multi-GPU Scaling Plan (4× H200, 141 GB each)          ║")
-    logger.info("╠═══════════════════════════════════════════════════════════╣")
-    logger.info("║ GPU 0: GBM Stages 1-3,5 — full res (192×224×160)        ║")
-    logger.info("║   • BrainSegFounder + AutoencoderKlMaisi (bfloat16)     ║")
-    logger.info("║   • Est. ~30.8 GB active / 110 GB headroom              ║")
-    logger.info("║ GPU 1: Breast Stages 1-3,5 — full res (256×256×64)      ║")
-    logger.info("║   • MedNeXt-v2 + BreastDCEDL ViT (bfloat16)            ║")
-    logger.info("║   • Est. ~34.0 GB active / 107 GB headroom              ║")
-    logger.info("║ GPU 2: Stage 4 Julia SciML + VLM (MedGemma 1.5 4B)     ║")
-    logger.info("║   • OrdinaryDiffEq.jl + ParallelStencil.jl stencils     ║")
-    logger.info("║   • Est. ~24.2 GB active / 117 GB headroom              ║")
-    logger.info("║ GPU 3: Data parallelism / MC sampling / batch overflow  ║")
-    logger.info("║   • 16-draw posterior sampling, gradient accumulation    ║")
-    logger.info("╚═══════════════════════════════════════════════════════════╝")
+
+    if is_main:
+        logger.info("╔═══════════════════════════════════════════════════════════╗")
+        logger.info(f"║  Training Complete — {total_time:.1f}s total                       ║")
+        logger.info(f"║  Peak GPU per stage: S1={peak_s1:.1f} S2={peak_s2:.1f} S3={peak_s3:.1f} S4={peak_s4:.1f} S5={peak_s5:.1f} GB ║")
+        logger.info("╚═══════════════════════════════════════════════════════════╝")
 
 
 if __name__ == "__main__":
