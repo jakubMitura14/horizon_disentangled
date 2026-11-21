@@ -230,6 +230,8 @@ class Stage1Trainer:
             shuffle = False
         else:
             sampler = None
+        # Store sampler on self so orchestrator can call set_epoch each epoch
+        self._sampler = sampler
         return DataLoader(
             dataset,
             batch_size=batch_size,

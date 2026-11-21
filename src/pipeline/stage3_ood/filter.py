@@ -89,6 +89,12 @@ class Stage3OODFilter:
         return tagged_records
 
     def save_checkpoint(self, path: str):
+        """Save checkpoint — rank-0 only to avoid write races on shared filesystems."""
+        import torch.distributed as dist
+        # Non-rank-0 processes wait at the barrier; rank-0 performs the write
+        if dist.is_initialized() and dist.get_rank() != 0:
+            dist.barrier()
+            return
         os.makedirs(os.path.dirname(path), exist_ok=True)
         torch.save({
             "manifold_vae_state": self.manifold_vae.state_dict(),
@@ -100,3 +106,6 @@ class Stage3OODFilter:
             "ref_bank": self.scorer.ref_bank.cpu() if self.scorer.ref_bank is not None else None
         }, path)
         print(f"Stage 3 OOD checkpoint saved to {path}")
+        # Signal all other ranks that the write is complete
+        if dist.is_initialized():
+            dist.barrier()

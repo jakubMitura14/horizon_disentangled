@@ -271,6 +271,13 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
     Multi-GPU strategy: DDP across all 4 GPUs with DistributedSampler.
     Each GPU processes batch_size/4 samples → effective batch = batch_size.
     """
+    import torch.distributed as dist
+    from torch.nn.parallel import DistributedDataParallel as DDP
+    _dist = dist.is_initialized()
+    _rank = dist.get_rank() if _dist else 0
+    _local_rank = int(os.environ.get("LOCAL_RANK", device.index or 0))
+    is_main = (_rank == 0)
+
     logger.info("═══ Stage 1: Multimodal Supervisors ═══")
     
     model = MultimodalSupervisorTrunk(
@@ -280,7 +287,14 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
         num_survival_intervals=config.stage1.num_survival_intervals
     ).to(device)
     
-    # DDP: handled by Stage1Trainer when dist is initialized — model is DDP-wrapped there
+    # Gradient checkpointing on the SwinUNETR backbone to save VRAM
+    if hasattr(model, 'visual_encoder') and hasattr(model.visual_encoder, 'swin_unetr'):
+        model.visual_encoder.swin_unetr.swinViT.use_checkpoint = True
+
+    # DDP-wrap: synchronises gradients across all GPUs in the process group
+    if _dist:
+        model = DDP(model, device_ids=[_local_rank], output_device=_local_rank,
+                    find_unused_parameters=True)
     
     dior_loss = DifferentialOrdinalLoss(num_classes=5).to(device)
     surv_loss = LogisticHazardLoss(num_intervals=config.stage1.num_survival_intervals).to(device)
@@ -310,8 +324,15 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
     scaler = torch.amp.GradScaler('cuda', enabled=True)
     
     embeddings_bank = []
-    
+    # Retrieve sampler from the dataloader if DistributedSampler was set
+    _s1_sampler = getattr(dataloader, 'sampler', None)
+    if not hasattr(_s1_sampler, 'set_epoch'):
+        _s1_sampler = None
+
     for epoch in range(num_epochs):
+        # DistributedSampler: shuffle must differ per epoch so each GPU sees new data
+        if _s1_sampler is not None:
+            _s1_sampler.set_epoch(epoch)
         model.train()
         text_encoder.train()
         epoch_loss = 0.0
@@ -379,27 +400,35 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
         avg_loss = epoch_loss / max(n_batches, 1)
         avg_infonce = epoch_infonce / max(n_batches, 1)
         mem_gb = torch.cuda.max_memory_allocated() / 1e9
-        
-        logger.info(
-            f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
-            f"InfoNCE: {avg_infonce:.4f} | "
-            f"LR: {scheduler.get_last_lr()[0]:.6f} | "
-            f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s | {n_batches} batches"
-        )
-    
-    # Save checkpoint
-    ckpt_path = os.path.join(config.data.checkpoints_dir, f"stage1_{domain}_real.pt")
-    os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
-    torch.save({
-        'model_state': model.state_dict(),
-        'text_encoder_state': text_encoder.state_dict(),
-        'merlin_loss_state': merlin_loss_fn.state_dict(),
-        'optimizer_state': optimizer.state_dict(),
-        'epoch': num_epochs,
-        'domain': domain,
-    }, ckpt_path)
-    logger.info(f"  Stage 1 checkpoint saved: {ckpt_path}")
-    
+
+        if is_main:
+            logger.info(
+                f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
+                f"InfoNCE: {avg_infonce:.4f} | "
+                f"LR: {scheduler.get_last_lr()[0]:.6f} | "
+                f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s | {n_batches} batches"
+            )
+
+    # Save checkpoint — rank-0 only to prevent write races on shared filesystem
+    if _dist:
+        dist.barrier()   # ensure all ranks finish training before rank-0 saves
+    if is_main:
+        ckpt_path = os.path.join(config.data.checkpoints_dir, f"stage1_{domain}_real.pt")
+        os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
+        # Unwrap DDP module for clean state_dict
+        raw_model = model.module if hasattr(model, 'module') else model
+        torch.save({
+            'model_state': raw_model.state_dict(),
+            'text_encoder_state': text_encoder.state_dict(),
+            'merlin_loss_state': merlin_loss_fn.state_dict(),
+            'optimizer_state': optimizer.state_dict(),
+            'epoch': num_epochs,
+            'domain': domain,
+        }, ckpt_path)
+        logger.info(f"  Stage 1 checkpoint saved: {ckpt_path}")
+    if _dist:
+        dist.barrier()   # rank-0 signals write complete
+
     return model, torch.cat(embeddings_bank, dim=0) if embeddings_bank else None
 
 
@@ -411,6 +440,13 @@ def train_stage2(config, dataloader, num_epochs, device):
     With 4× H200 (141 GB each), can process full-resolution volumes 
     without spatial tiling. On single H100, downscale 4× for efficiency.
     """
+    import torch.distributed as dist
+    from torch.nn.parallel import DistributedDataParallel as DDP
+    _dist = dist.is_initialized()
+    _rank = dist.get_rank() if _dist else 0
+    _local_rank = int(os.environ.get("LOCAL_RANK", device.index or 0))
+    is_main = (_rank == 0)
+
     logger.info("═══ Stage 2: Hierarchical Causal VAE ═══")
     
     vae = TwoScaleHierarchicalCausalVAE(
@@ -421,7 +457,7 @@ def train_stage2(config, dataloader, num_epochs, device):
         patient_dim=config.stage2.patient_state_dim,
         style_dim=config.stage2.style_dim
     ).to(device)
-    
+
     disentangle = AsymmetricCausalDisentanglement(
         disease_dim=config.stage2.global_disease_dim,
         patient_dim=config.stage2.patient_state_dim,
@@ -431,14 +467,27 @@ def train_stage2(config, dataloader, num_epochs, device):
         gamma_club=config.stage2.gamma_club,
         alpha_dp=config.stage2.alpha_dp
     ).to(device)
-    
+
+    # DDP-wrap for gradient sync across all GPUs
+    if _dist:
+        vae = DDP(vae, device_ids=[_local_rank], output_device=_local_rank,
+                  find_unused_parameters=True)
+        disentangle = DDP(disentangle, device_ids=[_local_rank], output_device=_local_rank,
+                          find_unused_parameters=True)
+
     opt_vae = torch.optim.AdamW(vae.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
     opt_aux = torch.optim.AdamW(disentangle.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
     scheduler_vae = torch.optim.lr_scheduler.CosineAnnealingLR(opt_vae, T_max=num_epochs)
-    
+
     latent_bank = []
-    
+    # DistributedSampler: must call set_epoch each epoch for correct per-epoch shuffling
+    _s2_sampler = getattr(dataloader, 'sampler', None)
+    if not hasattr(_s2_sampler, 'set_epoch'):
+        _s2_sampler = None
+
     for epoch in range(num_epochs):
+        if _s2_sampler is not None:
+            _s2_sampler.set_epoch(epoch)
         vae.train()
         disentangle.train()
         epoch_loss = 0.0
@@ -495,35 +544,45 @@ def train_stage2(config, dataloader, num_epochs, device):
             epoch_loss += total.item()
             n_batches += 1
             
-            # Collect latents for Stage 3
-            with torch.no_grad():
-                latent_bank.append({
-                    'z_d_glob': out['z_d_glob'].detach().cpu(),
-                    'z_p': out['z_p'].detach().cpu(),
-                    'mu_d': out['mu_d'].detach().cpu(),
-                    'logvar_d': out['logvar_d'].detach().cpu(),
-                })
+            # Collect latents for Stage 3 (rank-0 only to avoid 4× duplication)
+            if is_main:
+                with torch.no_grad():
+                    latent_bank.append({
+                        'z_d_glob': out['z_d_glob'].detach().cpu(),
+                        'z_p': out['z_p'].detach().cpu(),
+                        'mu_d': out['mu_d'].detach().cpu(),
+                        'logvar_d': out['logvar_d'].detach().cpu(),
+                    })
         
         scheduler_vae.step()
         elapsed = time.time() - t0
         avg_loss = epoch_loss / max(n_batches, 1)
         mem_gb = torch.cuda.max_memory_allocated() / 1e9
-        
-        logger.info(
-            f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
-            f"Recon: {loss_recon.item():.4f} | KL: {loss_kl.item():.4f} | "
-            f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s"
-        )
-    
-    ckpt_path = os.path.join(config.data.checkpoints_dir, "stage2_vae_real.pt")
-    os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
-    torch.save({
-        'vae_state': vae.state_dict(),
-        'disentangle_state': disentangle.state_dict(),
-        'epoch': num_epochs,
-    }, ckpt_path)
-    logger.info(f"  Stage 2 checkpoint saved: {ckpt_path}")
-    
+
+        if is_main:
+            logger.info(
+                f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
+                f"Recon: {loss_recon.item():.4f} | KL: {loss_kl.item():.4f} | "
+                f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s"
+            )
+
+    # Save checkpoint — rank-0 only to prevent write races on shared filesystem
+    if _dist:
+        dist.barrier()
+    if is_main:
+        ckpt_path = os.path.join(config.data.checkpoints_dir, "stage2_vae_real.pt")
+        os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
+        raw_vae = vae.module if hasattr(vae, 'module') else vae
+        raw_dis = disentangle.module if hasattr(disentangle, 'module') else disentangle
+        torch.save({
+            'vae_state': raw_vae.state_dict(),
+            'disentangle_state': raw_dis.state_dict(),
+            'epoch': num_epochs,
+        }, ckpt_path)
+        logger.info(f"  Stage 2 checkpoint saved: {ckpt_path}")
+    if _dist:
+        dist.barrier()
+
     return vae, latent_bank
 
 
@@ -901,8 +960,8 @@ def main():
 
     # Stage 1
     if args.resume_stage <= 1:
-        if sampler is not None:
-            sampler.set_epoch(0)   # initial epoch for DistributedSampler
+        # Note: set_epoch is called per-epoch inside train_stage1 via the sampler
+        # stored in dataloader.sampler (DistributedSampler attached above)
         torch.cuda.reset_peak_memory_stats()
         model_s1, embeddings = train_stage1(config, dataloader, args.domain, args.epochs, device)
         peak_s1 = torch.cuda.max_memory_allocated() / 1e9
@@ -915,8 +974,7 @@ def main():
 
     # Stage 2
     if args.resume_stage <= 2:
-        if sampler is not None:
-            sampler.set_epoch(1)
+        # Note: set_epoch is called per-epoch inside train_stage2
         torch.cuda.reset_peak_memory_stats()
         vae_s2, latent_bank = train_stage2(config, dataloader, args.epochs, device)
         peak_s2 = torch.cuda.max_memory_allocated() / 1e9
