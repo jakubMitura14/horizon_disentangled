@@ -82,6 +82,20 @@ class Stage2Trainer:
         # Gradient accumulation support (matches Stage1Trainer interface)
         self.grad_accum_steps = max(1, config.hardware.gradient_accumulation_steps)
         self._accum_step = 0
+        # CosineAnnealingLR with linear warmup — step once per epoch from the train loop
+        _warmup_epochs = max(1, getattr(config.stage2, 'warmup_epochs', 5))
+        _t_max = max(1, getattr(config.stage2, 'num_epochs', 100) - _warmup_epochs)
+        self.warmup_scheduler = torch.optim.lr_scheduler.LinearLR(
+            self.optimizer_vae, start_factor=1e-3, end_factor=1.0, total_iters=_warmup_epochs
+        )
+        self.cosine_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            self.optimizer_vae, T_max=_t_max, eta_min=_lr * 0.01
+        )
+        self.scheduler = torch.optim.lr_scheduler.SequentialLR(
+            self.optimizer_vae,
+            schedulers=[self.warmup_scheduler, self.cosine_scheduler],
+            milestones=[_warmup_epochs],
+        )
 
     def train_step(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> Dict[str, float]:
         import contextlib
@@ -108,39 +122,39 @@ class Stage2Trainer:
             with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.use_amp):
                 out = self.vae(x)
 
-            # 1. Reconstruction Loss
-            loss_recon = F.l1_loss(out["recon"], x)
+                # 1. Reconstruction Loss
+                loss_recon = F.l1_loss(out["recon"], x)
 
-            # 2. Anatomy Loss on healthy parenchyma (1 - mask)
-            if mask is not None:
-                # Binary healthy mask
-                healthy_weight = torch.clamp(1.0 - mask.mean(dim=1, keepdim=True).float(), 0.0, 1.0)
-                loss_anatomy = torch.mean(healthy_weight * torch.abs(out["recon"] - x))
-                
-                # Disease mask loss
-                loss_disease = F.binary_cross_entropy_with_logits(out["mask_pred"], mask.float())
-            else:
-                loss_anatomy = torch.tensor(0.0, device=self.device)
-                loss_disease = torch.tensor(0.0, device=self.device)
+                # 2. Anatomy Loss on healthy parenchyma (1 - mask)
+                if mask is not None:
+                    # Binary healthy mask
+                    healthy_weight = torch.clamp(1.0 - mask.mean(dim=1, keepdim=True).float(), 0.0, 1.0)
+                    loss_anatomy = torch.mean(healthy_weight * torch.abs(out["recon"] - x))
 
-            # 3. Standard Gaussian KL Divergence
-            kl_d = -0.5 * torch.mean(1.0 + out["logvar_d"] - out["mu_d"].pow(2) - out["logvar_d"].exp())
-            kl_p = -0.5 * torch.mean(1.0 + out["logvar_p"] - out["mu_p"].pow(2) - out["logvar_p"].exp())
-            kl_s = -0.5 * torch.mean(1.0 + out["logvar_s"] - out["mu_s"].pow(2) - out["logvar_s"].exp())
-            loss_kl = kl_d + kl_p + kl_s
+                    # Disease mask loss
+                    loss_disease = F.binary_cross_entropy_with_logits(out["mask_pred"], mask.float())
+                else:
+                    loss_anatomy = torch.tensor(0.0, device=self.device)
+                    loss_disease = torch.tensor(0.0, device=self.device)
 
-            # 4. Asymmetric Causal Disentanglement Loss
-            loss_disentangle, loss_aux, metrics_dis = self.disentangle.compute_disentangle_loss(
-                out["z_d_glob"], out["z_p"], out["z_s"], out["z_a"]
-            )
+                # 3. Standard Gaussian KL Divergence
+                kl_d = -0.5 * torch.mean(1.0 + out["logvar_d"] - out["mu_d"].pow(2) - out["logvar_d"].exp())
+                kl_p = -0.5 * torch.mean(1.0 + out["logvar_p"] - out["mu_p"].pow(2) - out["logvar_p"].exp())
+                kl_s = -0.5 * torch.mean(1.0 + out["logvar_s"] - out["mu_s"].pow(2) - out["logvar_s"].exp())
+                loss_kl = kl_d + kl_p + kl_s
 
-            total_vae_loss = (
-                loss_recon +
-                self.config.stage2.lambda_anatomy * loss_anatomy +
-                self.config.stage2.lambda_disease * loss_disease +
-                self.config.stage2.kl_weight * loss_kl +
-                loss_disentangle
-            )
+                # 4. Asymmetric Causal Disentanglement Loss
+                loss_disentangle, loss_aux, metrics_dis = self.disentangle.compute_disentangle_loss(
+                    out["z_d_glob"], out["z_p"], out["z_s"], out["z_a"]
+                )
+
+                total_vae_loss = (
+                    loss_recon +
+                    self.config.stage2.lambda_anatomy * loss_anatomy +
+                    self.config.stage2.lambda_disease * loss_disease +
+                    self.config.stage2.kl_weight * loss_kl +
+                    loss_disentangle
+                )
 
         # Backward passes — scale by 1/grad_accum_steps for correct effective gradient
         # Both backward calls are inside _vae_ctx/_dis_ctx (no_sync on intermediate steps)

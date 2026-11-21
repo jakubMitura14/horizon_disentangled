@@ -111,13 +111,29 @@ class Stage1Trainer:
             self.merlin_loss_fn = None
             all_params = list(self.model.parameters())
 
-        self.optimizer = torch.optim.AdamW(all_params, lr=config.stage1.lr, weight_decay=1e-4)
+        _lr = config.hardware.lr_scaled(config.stage1.lr) if config.hardware.is_distributed else config.stage1.lr
+        self.optimizer = torch.optim.AdamW(all_params, lr=_lr, weight_decay=1e-4)
         self.use_amp = config.hardware.use_bfloat16 and ("cuda" in str(self.device))
         # Gap 7 — GradScaler for AMP + store sampler factory
         self.scaler = torch.amp.GradScaler('cuda', enabled=self.use_amp)
         # Gradient accumulation: effective batch = batch_size * grad_accum_steps * world_size
         self.grad_accum_steps = max(1, config.hardware.gradient_accumulation_steps)
         self._accum_step = 0
+        # CosineAnnealingLR with linear warmup — step once per epoch from the train loop
+        _warmup_epochs = max(1, getattr(config.stage1, 'warmup_epochs', 5))
+        self.warmup_scheduler = torch.optim.lr_scheduler.LinearLR(
+            self.optimizer, start_factor=1e-3, end_factor=1.0, total_iters=_warmup_epochs
+        )
+        self.cosine_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            self.optimizer,
+            T_max=max(1, getattr(config.stage1, 'num_epochs', 100) - _warmup_epochs),
+            eta_min=_lr * 0.01,
+        )
+        self.scheduler = torch.optim.lr_scheduler.SequentialLR(
+            self.optimizer,
+            schedulers=[self.warmup_scheduler, self.cosine_scheduler],
+            milestones=[_warmup_epochs],
+        )
 
     def train_step(self, batch: Dict[str, Any], is_last_accum_step: bool = True) -> Dict[str, float]:
         """Single training micro-step with optional gradient accumulation.
@@ -267,7 +283,7 @@ class Stage1Trainer:
         # Store sampler on self so orchestrator can call set_epoch each epoch
         self._sampler = sampler
         # Use auto-computed workers from HardwareConfig (accounts for world_size)
-        n_workers = getattr(config.hardware, 'dataloader_num_workers', None) or \
+        n_workers = getattr(self.config.hardware, 'dataloader_num_workers', None) or \
                     min(16, (os.cpu_count() or 4) // max(self.world_size, 1))
         pfactor = getattr(config.hardware, 'prefetch_factor', 4)
         return DataLoader(
