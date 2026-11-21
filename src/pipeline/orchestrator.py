@@ -138,6 +138,10 @@ class PipelineOrchestrator:
             metrics = trainer.train_step(batch)
             all_metrics.append(metrics)
 
+            # Step LR scheduler once per epoch (warmup → cosine)
+            if hasattr(trainer, 'scheduler'):
+                trainer.scheduler.step()
+
             # Only rank-0 logs to avoid duplicate stdout across GPUs
             if trainer.is_main and ((epoch + 1) % 10 == 0 or epoch == 0):
                 logger.info(
@@ -211,6 +215,10 @@ class PipelineOrchestrator:
 
             metrics = trainer.train_step(x, mask)
             all_metrics.append(metrics)
+
+            # Step LR scheduler once per epoch (warmup → cosine)
+            if hasattr(trainer, 'scheduler'):
+                trainer.scheduler.step()
 
             if trainer.is_main and ((epoch + 1) % 10 == 0 or epoch == 0):
                 logger.info(
