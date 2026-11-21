@@ -12,6 +12,7 @@ Usage:
 """
 from contextlib import contextmanager, nullcontext
 import torch
+import os
 
 _TE_AVAILABLE = False
 try:
@@ -62,3 +63,26 @@ def linear_te(in_features: int, out_features: int, bias: bool = True) -> torch.n
     if _TE_AVAILABLE:
         return te.Linear(in_features, out_features, bias=bias)
     return torch.nn.Linear(in_features, out_features, bias=bias)
+
+
+def setup_cluster_env():
+    """
+    One-time cluster environment setup. Call at process start before any CUDA ops.
+    Sets optimal CUDA, cuDNN, and NCCL environment variables for H200.
+    """
+    # cuDNN auto-tuner
+    torch.backends.cudnn.benchmark = True
+    # TF32 on Hopper (essentially free, same accuracy as FP32 for 3D convs)
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    # BF16 reduced precision reduction (H200 has native BF16 accumulators)
+    torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = True
+    # Expandable memory segments to avoid fragmentation
+    os.environ.setdefault(
+        "PYTORCH_CUDA_ALLOC_CONF",
+        "backend:cudaMallocAsync,expandable_segments:True"
+    )
+    # Serialize NCCL and compute streams for optimal overlap
+    os.environ.setdefault("CUDA_DEVICE_MAX_CONNECTIONS", "1")
+    # Avoid stream ordering overhead in NCCL
+    os.environ.setdefault("TORCH_NCCL_AVOID_RECORD_STREAMS", "1")

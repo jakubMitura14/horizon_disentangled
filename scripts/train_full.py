@@ -292,37 +292,56 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
         model.visual_encoder.swin_unetr.swinViT.use_checkpoint = True
 
     # DDP-wrap: synchronises gradients across all GPUs in the process group
+    _nccl_bucket_mb = getattr(config.hardware, 'nccl_bucket_cap_mb', 50)
     if _dist:
         model = DDP(model, device_ids=[_local_rank], output_device=_local_rank,
-                    find_unused_parameters=True)
-    
+                    find_unused_parameters=False,
+                    bucket_cap_mb=_nccl_bucket_mb,
+                    gradient_as_bucket_view=True,
+                    static_graph=True)
+
     dior_loss = DifferentialOrdinalLoss(num_classes=5).to(device)
     surv_loss = LogisticHazardLoss(num_intervals=config.stage1.num_survival_intervals).to(device)
     survrnc_loss = SurvRNCLoss(tau=config.stage1.survrnc_tau).to(device)
-    
+
     # === Merlin-style Contrastive Learning ===
     text_encoder = ClinicalTextEncoder(
         num_clinical_tokens=32, token_dim=64,
         hidden_dim=256, out_dim=256, num_heads=4,
         mode="structured",
     ).to(device)
-    
+
     merlin_loss_fn = MerlinMultiTaskLoss(
         visual_dim=config.stage1.feature_dim,
         text_dim=256, num_phenotype_labels=32,
         lambda_infonce=0.5, lambda_bce=0.5,
         proj_dim=256,
     ).to(device)
-    
+
     logger.info(f"  Merlin contrastive learning: ENABLED")
     logger.info(f"  ClinicalTextEncoder params: {sum(p.numel() for p in text_encoder.parameters()):,}")
     logger.info(f"  MerlinMultiTaskLoss params: {sum(p.numel() for p in merlin_loss_fn.parameters()):,}")
-    
+
     all_params = list(model.parameters()) + list(text_encoder.parameters()) + list(merlin_loss_fn.parameters())
-    optimizer = torch.optim.AdamW(all_params, lr=config.stage1.lr, weight_decay=1e-4)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
+
+    # Linear LR scaling rule for DDP: scale lr by effective world size
+    _world_s1 = dist.get_world_size() if dist.is_initialized() else 1
+    _effective_lr_s1 = config.stage1.lr * _world_s1
+    optimizer = torch.optim.AdamW(all_params, lr=_effective_lr_s1, weight_decay=1e-4)
+
+    # Warmup + Cosine Annealing schedule (warmup avoids early divergence at scaled LR)
+    from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
+    _warmup_e = max(1, min(5, num_epochs // 10))
+    _warmup_s1 = LinearLR(optimizer, start_factor=0.1, end_factor=1.0, total_iters=_warmup_e)
+    _cosine_s1 = CosineAnnealingLR(optimizer, T_max=max(1, num_epochs - _warmup_e), eta_min=_effective_lr_s1 * 0.01)
+    scheduler = SequentialLR(optimizer, schedulers=[_warmup_s1, _cosine_s1], milestones=[_warmup_e])
+
     scaler = torch.amp.GradScaler('cuda', enabled=True)
-    
+
+    # Gradient accumulation: accumulate over _grad_accum micro-steps before optimizer.step()
+    _grad_accum = getattr(config.hardware, 'gradient_accumulation_steps', 1)
+    _accum_count = 0
+
     embeddings_bank = []
     # Retrieve sampler from the dataloader if DistributedSampler was set
     _s1_sampler = getattr(dataloader, 'sampler', None)
@@ -335,78 +354,86 @@ def train_stage1(config, dataloader, domain, num_epochs, device):
             _s1_sampler.set_epoch(epoch)
         model.train()
         text_encoder.train()
+        optimizer.zero_grad()
         epoch_loss = 0.0
         epoch_infonce = 0.0
         n_batches = 0
         t0 = time.time()
-        
+
         for batch in dataloader:
-            img = batch['image'].to(device)         # (B, 4, D, H, W) 
-            clin = batch['clinical'].to(device)     # (B, 16)
+            img = batch['image'].to(device, non_blocking=True)         # (B, 4, D, H, W)
+            clin = batch['clinical'].to(device, non_blocking=True)     # (B, 16)
             B = img.size(0)
             has_img = torch.ones(B, dtype=torch.bool, device=device)
-            
+
             # Downscale images to half resolution for upgraded models
             # (upgraded from 0.25× to 0.5× — with SwinUNETR+AutoencoderKL,
-            #  B=4 at 128³ fits ~18 GB, well within H100's 81 GB)
+            #  B=4 at 128³ fits ~18 GB, well within H200's 141 GB)
             img_small = F.interpolate(img, scale_factor=0.5, mode='trilinear', align_corners=False)
-            
+            # Channels-last 3D for 15-20% cuDNN throughput gain on H200
+            img_small = img_small.to(memory_format=torch.channels_last_3d)
+
             targets_ord = torch.randint(0, 5, (B,), device=device)  # Placeholder until labels extracted
             os_weeks = torch.rand(B, device=device) * 100.0 + 10.0
             interval_idx = torch.clamp((os_weeks / 10.0).long(), 0, config.stage1.num_survival_intervals - 1)
             events = torch.randint(0, 2, (B,), device=device)
-            
-            optimizer.zero_grad()
+
             with torch.amp.autocast('cuda', dtype=torch.bfloat16):
                 out = model(img_small, clin, has_image=has_img)
-                
+
                 loss_dior, _ = dior_loss(out['cat_logits'], out['cum_probs'], out['embedding'], targets_ord)
                 loss_surv = surv_loss(out['hazard_logits'], interval_idx, events)
                 loss_rnc = survrnc_loss(out['embedding'], os_weeks, events)
-                
-                # === Merlin Contrastive Loss (NEW) ===
+
+                # === Merlin Contrastive Loss ===
                 text_emb = text_encoder(clin)
-                # Create phenotype targets from clinical features
                 phenotype_targets = (clin > 0).float()
                 if phenotype_targets.size(1) < 32:
                     phenotype_targets = F.pad(phenotype_targets, (0, 32 - phenotype_targets.size(1)), value=0.0)
                 elif phenotype_targets.size(1) > 32:
                     phenotype_targets = phenotype_targets[:, :32]
-                
+
                 loss_merlin, merlin_metrics = merlin_loss_fn(
                     out['embedding'], text_emb,
                     phenotype_targets=phenotype_targets,
                     phenotype_mask=torch.ones_like(phenotype_targets),
                 )
-                
-                total_loss = loss_dior + loss_surv + 0.5 * loss_rnc + loss_merlin
-            
+
+                total_loss = (loss_dior + loss_surv + 0.5 * loss_rnc + loss_merlin) / _grad_accum
+
             scaler.scale(total_loss).backward()
-            scaler.unscale_(optimizer)
-            nn.utils.clip_grad_norm_(all_params, max_norm=1.0)
-            scaler.step(optimizer)
-            scaler.update()
-            
-            epoch_loss += total_loss.item()
+            _accum_count += 1
+
+            if _accum_count % _grad_accum == 0:
+                scaler.unscale_(optimizer)
+                nn.utils.clip_grad_norm_(all_params, max_norm=1.0)
+                scaler.step(optimizer)
+                scaler.update()
+                optimizer.zero_grad()
+                _accum_count = 0
+
+            epoch_loss += total_loss.item() * _grad_accum   # de-normalise for logging
             epoch_infonce += merlin_metrics.get('loss_infonce', 0.0)
             n_batches += 1
-            
-            # Save embeddings for Stage 2/3
-            with torch.no_grad():
-                embeddings_bank.append(out['embedding'].detach().cpu())
-        
+
+            # Save embeddings for Stage 2/3 (rank-0 only to avoid 4× bank duplication)
+            if is_main:
+                with torch.no_grad():
+                    embeddings_bank.append(out['embedding'].detach().cpu())
+
         scheduler.step()
         elapsed = time.time() - t0
         avg_loss = epoch_loss / max(n_batches, 1)
         avg_infonce = epoch_infonce / max(n_batches, 1)
         mem_gb = torch.cuda.max_memory_allocated() / 1e9
+        torch.cuda.reset_peak_memory_stats()   # reset so next epoch shows its own peak
 
         if is_main:
             logger.info(
                 f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
                 f"InfoNCE: {avg_infonce:.4f} | "
                 f"LR: {scheduler.get_last_lr()[0]:.6f} | "
-                f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s | {n_batches} batches"
+                f"GPU peak: {mem_gb:.2f}GB | {elapsed:.1f}s | {n_batches} batches"
             )
 
     # Save checkpoint — rank-0 only to prevent write races on shared filesystem
@@ -469,15 +496,31 @@ def train_stage2(config, dataloader, num_epochs, device):
     ).to(device)
 
     # DDP-wrap for gradient sync across all GPUs
+    _nccl_bucket_mb_s2 = getattr(config.hardware, 'nccl_bucket_cap_mb', 50)
     if _dist:
         vae = DDP(vae, device_ids=[_local_rank], output_device=_local_rank,
-                  find_unused_parameters=True)
+                  find_unused_parameters=False,
+                  bucket_cap_mb=_nccl_bucket_mb_s2,
+                  gradient_as_bucket_view=True,
+                  static_graph=True)
         disentangle = DDP(disentangle, device_ids=[_local_rank], output_device=_local_rank,
-                          find_unused_parameters=True)
+                          find_unused_parameters=False,
+                          bucket_cap_mb=_nccl_bucket_mb_s2,
+                          gradient_as_bucket_view=True,
+                          static_graph=True)
 
-    opt_vae = torch.optim.AdamW(vae.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
-    opt_aux = torch.optim.AdamW(disentangle.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
-    scheduler_vae = torch.optim.lr_scheduler.CosineAnnealingLR(opt_vae, T_max=num_epochs)
+    # Linear LR scaling rule for DDP
+    _world_s2 = dist.get_world_size() if dist.is_initialized() else 1
+    _effective_lr_s2 = config.stage2.lr * _world_s2
+    opt_vae = torch.optim.AdamW(vae.parameters(), lr=_effective_lr_s2, weight_decay=1e-4)
+    opt_aux = torch.optim.AdamW(disentangle.parameters(), lr=_effective_lr_s2, weight_decay=1e-4)
+
+    # Warmup + Cosine Annealing schedule
+    from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
+    _warmup_e2 = max(1, min(5, num_epochs // 10))
+    _warmup_s2 = LinearLR(opt_vae, start_factor=0.1, end_factor=1.0, total_iters=_warmup_e2)
+    _cosine_s2 = CosineAnnealingLR(opt_vae, T_max=max(1, num_epochs - _warmup_e2), eta_min=_effective_lr_s2 * 0.01)
+    scheduler_vae = SequentialLR(opt_vae, schedulers=[_warmup_s2, _cosine_s2], milestones=[_warmup_e2])
 
     latent_bank = []
     # DistributedSampler: must call set_epoch each epoch for correct per-epoch shuffling
@@ -490,47 +533,51 @@ def train_stage2(config, dataloader, num_epochs, device):
             _s2_sampler.set_epoch(epoch)
         vae.train()
         disentangle.train()
+        opt_vae.zero_grad()
+        opt_aux.zero_grad()
         epoch_loss = 0.0
         n_batches = 0
         t0 = time.time()
-        
+
         for batch in dataloader:
-            img = batch['image'].to(device)
-            mask = batch['mask'].to(device)
-            
+            img = batch['image'].to(device, non_blocking=True)
+            mask = batch['mask'].to(device, non_blocking=True)
+
             # Downscale to half resolution for upgraded AutoencoderKL backbone
-            # B=2 at 128³ → ~35 GB (vs 81 GB available)
+            # B=2 at 128³ → ~35 GB (vs 141 GB available on H200)
             img_small = F.interpolate(img, scale_factor=0.5, mode='trilinear', align_corners=False)
             mask_small = F.interpolate(mask, scale_factor=0.5, mode='nearest')
+            # Channels-last 3D for 15-20% cuDNN throughput gain
+            img_small = img_small.to(memory_format=torch.channels_last_3d)
             
             opt_vae.zero_grad()
             opt_aux.zero_grad()
-            
+
             with torch.amp.autocast('cuda', dtype=torch.bfloat16):
                 out = vae(img_small)
-                
+
                 # Reconstruction loss
                 loss_recon = F.l1_loss(out['recon'], img_small)
-                
+
                 # Mask prediction loss (resize mask_pred to match mask_small)
                 mp = out['mask_pred']
                 if mp.shape[2:] != mask_small.shape[2:]:
                     mp = F.interpolate(mp, size=mask_small.shape[2:], mode='trilinear', align_corners=False)
                 loss_mask = F.binary_cross_entropy_with_logits(mp, mask_small)
-                
+
                 # KL divergence
                 kl_d = -0.5 * torch.mean(1 + out['logvar_d'] - out['mu_d'].pow(2) - out['logvar_d'].exp())
                 kl_p = -0.5 * torch.mean(1 + out['logvar_p'] - out['mu_p'].pow(2) - out['logvar_p'].exp())
                 kl_s = -0.5 * torch.mean(1 + out['logvar_s'] - out['mu_s'].pow(2) - out['logvar_s'].exp())
                 loss_kl = kl_d + kl_p + kl_s
-                
+
                 # Disentanglement
                 loss_dis, loss_aux, _ = disentangle.compute_disentangle_loss(
                     out['z_d_glob'], out['z_p'], out['z_s'], out['z_a']
                 )
-                
+
                 total = loss_recon + 2.0 * loss_mask + config.stage2.kl_weight * loss_kl + loss_dis
-            
+
             # BF16 autocast only (no GradScaler) — dual backward with retain_graph
             # is incompatible with a single scaler; BF16 doesn't overflow like FP16
             total.backward(retain_graph=True)
@@ -540,10 +587,10 @@ def train_stage2(config, dataloader, num_epochs, device):
             nn.utils.clip_grad_norm_(disentangle.parameters(), max_norm=1.0)
             opt_vae.step()
             opt_aux.step()
-            
+
             epoch_loss += total.item()
             n_batches += 1
-            
+
             # Collect latents for Stage 3 (rank-0 only to avoid 4× duplication)
             if is_main:
                 with torch.no_grad():
@@ -553,17 +600,18 @@ def train_stage2(config, dataloader, num_epochs, device):
                         'mu_d': out['mu_d'].detach().cpu(),
                         'logvar_d': out['logvar_d'].detach().cpu(),
                     })
-        
+
         scheduler_vae.step()
         elapsed = time.time() - t0
         avg_loss = epoch_loss / max(n_batches, 1)
         mem_gb = torch.cuda.max_memory_allocated() / 1e9
+        torch.cuda.reset_peak_memory_stats()   # reset so next epoch shows its own peak
 
         if is_main:
             logger.info(
                 f"  Epoch {epoch+1}/{num_epochs} | Loss: {avg_loss:.4f} | "
                 f"Recon: {loss_recon.item():.4f} | KL: {loss_kl.item():.4f} | "
-                f"GPU: {mem_gb:.2f}GB | {elapsed:.1f}s"
+                f"GPU peak: {mem_gb:.2f}GB | {elapsed:.1f}s"
             )
 
     # Save checkpoint — rank-0 only to prevent write races on shared filesystem

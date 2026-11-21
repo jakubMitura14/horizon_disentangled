@@ -21,6 +21,14 @@ class HardwareConfig:
     use_fsdp: bool = False         # Enable for models >400M params (VoComni-H 1.16B)
     use_fp8: bool = False          # Enable on H200 Hopper (requires transformer_engine)
     use_compile: bool = True       # torch.compile (default on, suppress_errors=True)
+    # --- Cluster performance tuning ---
+    cudnn_benchmark: bool = True           # auto-tune conv kernels for fixed spatial shapes
+    cuda_graphs: bool = False              # CUDA graph capture for static-shape training loops
+    pin_memory_pool: bool = True           # pre-allocate pinned CPU-GPU transfer buffers
+    nccl_bucket_cap_mb: int = 50           # DDP all-reduce bucket size (25→50 MB for NVLink 4)
+    dataloader_num_workers: int = 0        # 0 = auto-computed in __post_init__
+    prefetch_factor: int = 4               # DataLoader prefetch depth per worker
+    compile_mode: str = "max-autotune"     # torch.compile mode — max-autotune profiles best kernels
 
     def __post_init__(self):
         # Auto-detect SLURM or torchrun environment
@@ -46,6 +54,36 @@ class HardwareConfig:
             if torch.cuda.is_available():
                 self.device = "cuda:0"
                 self.device_id = 0
+
+        # --- Auto-configure GPU performance settings ---
+        if torch.cuda.is_available():
+            # cuDNN auto-tunes fastest conv algorithm per input shape (big win for 3D SwinUNETR)
+            torch.backends.cudnn.benchmark = self.cudnn_benchmark
+            # BF16 matmul: allow reduced-precision accumulation for 2× throughput on H200 TensorCores
+            torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = True
+            # TF32: enabled by default on Ampere+; explicitly set for clarity
+            torch.backends.cuda.matmul.allow_tf32 = True
+            torch.backends.cudnn.allow_tf32 = True
+            # cudaMallocAsync with expandable_segments: avoids OOM from fragmentation
+            if self.cuda_malloc_async:
+                os.environ.setdefault(
+                    "PYTORCH_CUDA_ALLOC_CONF",
+                    "backend:cudaMallocAsync,expandable_segments:True,garbage_collection_threshold:0.8"
+                )
+
+        # Auto-compute dataloader workers: cap at 16, divide by GPUs to avoid CPU contention
+        if self.dataloader_num_workers == 0:
+            cpus = os.cpu_count() or 4
+            self.dataloader_num_workers = min(16, max(1, cpus // max(self.world_size, 1)))
+
+    def lr_scaled(self, base_lr: float) -> float:
+        """Linear LR scaling rule for DDP: lr = base_lr × world_size × grad_accum_steps.
+
+        Keeps effective learning rate consistent regardless of number of GPUs.
+        Uses the standard linear scaling rule (Goyal et al., 2017).
+        Example: base_lr=1e-4, world_size=4 → 4e-4 effective LR.
+        """
+        return base_lr * self.world_size * self.gradient_accumulation_steps
 
 @dataclass
 class DataConfig:

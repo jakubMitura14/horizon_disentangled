@@ -49,12 +49,17 @@ class Stage1Trainer:
             self.model.visual_encoder.swin_unetr.swinViT.use_checkpoint = True
 
         # Gap 1 — DDP wrap (after gradient checkpointing)
+        # bucket_cap_mb=50 (NVLink 4.0 bandwidth ~900 GB/s, larger buckets reduce kernel launches)
+        # gradient_as_bucket_view=True avoids gradient copy → saves ~model_size MB of VRAM
+        # find_unused_parameters=True required: Stage1 has conditional image path
         if dist.is_initialized():
             self.model = DDP(
                 self.model,
                 device_ids=[config.hardware.local_rank],
                 output_device=config.hardware.local_rank,
                 find_unused_parameters=True,
+                bucket_cap_mb=getattr(config.hardware, 'nccl_bucket_cap_mb', 50),
+                gradient_as_bucket_view=True,
             )
 
         # Gap 2/4 — FSDP-2 for >400M-param visual backbone + torch.compile
@@ -110,18 +115,41 @@ class Stage1Trainer:
         self.use_amp = config.hardware.use_bfloat16 and ("cuda" in str(self.device))
         # Gap 7 — GradScaler for AMP + store sampler factory
         self.scaler = torch.amp.GradScaler('cuda', enabled=self.use_amp)
+        # Gradient accumulation: effective batch = batch_size * grad_accum_steps * world_size
+        self.grad_accum_steps = max(1, config.hardware.gradient_accumulation_steps)
+        self._accum_step = 0
 
-    def train_step(self, batch: Dict[str, Any]) -> Dict[str, float]:
+    def train_step(self, batch: Dict[str, Any], is_last_accum_step: bool = True) -> Dict[str, float]:
+        """Single training micro-step with optional gradient accumulation.
+
+        When grad_accum_steps > 1, call train_step() grad_accum_steps times before the
+        optimizer updates. Only the last call (is_last_accum_step=True) steps the optimizer.
+        DDP gradient sync is correctly suppressed on non-last steps via no_sync() to avoid
+        redundant all-reduces on intermediate accumulation steps.
+        """
+        import contextlib
         self.model.train()
         if self.text_encoder is not None:
             self.text_encoder.train()
-        self.optimizer.zero_grad()
+
+        # Zero gradients only at the start of an accumulation window
+        if self._accum_step == 0:
+            self.optimizer.zero_grad(set_to_none=True)
+
+        # Suppress DDP all-reduce on intermediate accumulation steps
+        _is_ddp = dist.is_initialized() and hasattr(self.model, 'no_sync')
+        _sync_ctx = (
+            self.model.no_sync()
+            if (_is_ddp and not is_last_accum_step)
+            else contextlib.nullcontext()
+        )
 
         clinical = batch['clinical'].to(self.device)
         has_img = batch.get('has_baseline_img', torch.zeros(clinical.size(0), dtype=torch.bool)).to(self.device)
         img = batch.get('baseline_img')
         if img is not None:
-            img = img.to(self.device)
+            # H2D copy + channels_last_3d in one pass — avoids a redundant reformat kernel
+            img = img.to(device=self.device, memory_format=torch.channels_last_3d)
 
         # Synthetic/ground truth targets
         B = clinical.size(0)
@@ -132,69 +160,69 @@ class Stage1Trainer:
         interval_idx = torch.clamp((os_weeks / 10.0).long(), 0, self.config.stage1.num_survival_intervals - 1)
         events = torch.where(batch.get('event', torch.zeros(B)).to(self.device) == 1, 1, 0)
 
-        with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.use_amp):
-            out = self.model(img, clinical, has_image=has_img)
-            
-            # 1. DIOR Loss
-            loss_dior, metrics_dior = self.dior_loss_fn(
-                out['cat_logits'], out['cum_probs'], out['embedding'], targets_ord
-            )
+        with _sync_ctx:
+            with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.use_amp):
+                out = self.model(img, clinical, has_image=has_img)
 
-            # 2. Survival Losses
-            loss_surv_lh = self.survival_loss_fn(out['hazard_logits'], interval_idx, events)
-            loss_survrnc = self.survrnc_loss_fn(out['embedding'], os_weeks, events)
-            
-            # 3. Binary Outcome Loss (if available)
-            pcr = batch.get('pcr', -torch.ones(B)).to(self.device)
-            mask_bin = (pcr >= 0)
-            if mask_bin.any():
-                loss_bin = nn.functional.binary_cross_entropy_with_logits(
-                    out['binary_logit'][mask_bin], pcr[mask_bin].float()
+                # 1. DIOR Loss
+                loss_dior, metrics_dior = self.dior_loss_fn(
+                    out['cat_logits'], out['cum_probs'], out['embedding'], targets_ord
                 )
-            else:
-                loss_bin = torch.tensor(0.0, device=self.device)
 
-            # 4. Merlin-style Contrastive Loss (NEW)
-            loss_merlin = torch.tensor(0.0, device=self.device)
-            metrics_merlin = {}
-            
-            if self.use_contrastive and self.text_encoder is not None and img is not None:
-                # Create text embeddings from clinical features
-                text_emb = self.text_encoder(clinical)
-                
-                # Create phenotype targets from clinical features
-                # Binary phenotype labels derived from clinical data
-                # (in production: map to PheWAS/ICD codes from clinical notes)
-                phenotype_targets = (clinical > 0).float()
-                # Pad/truncate to 32 phenotype labels
-                if phenotype_targets.size(1) < 32:
-                    phenotype_targets = torch.nn.functional.pad(
-                        phenotype_targets, (0, 32 - phenotype_targets.size(1)), value=0.0
+                # 2. Survival Losses
+                loss_surv_lh = self.survival_loss_fn(out['hazard_logits'], interval_idx, events)
+                loss_survrnc = self.survrnc_loss_fn(out['embedding'], os_weeks, events)
+
+                # 3. Binary Outcome Loss (if available)
+                pcr = batch.get('pcr', -torch.ones(B)).to(self.device)
+                mask_bin = (pcr >= 0)
+                if mask_bin.any():
+                    loss_bin = nn.functional.binary_cross_entropy_with_logits(
+                        out['binary_logit'][mask_bin], pcr[mask_bin].float()
                     )
-                elif phenotype_targets.size(1) > 32:
-                    phenotype_targets = phenotype_targets[:, :32]
-                
-                phenotype_mask = torch.ones_like(phenotype_targets)
-                
-                loss_merlin, metrics_merlin = self.merlin_loss_fn(
-                    out['embedding'], text_emb,
-                    phenotype_targets=phenotype_targets,
-                    phenotype_mask=phenotype_mask,
-                )
+                else:
+                    loss_bin = torch.tensor(0.0, device=self.device)
 
-            total_loss = (loss_dior + loss_surv_lh + 
-                         self.config.stage1.lambda_survrnc * loss_survrnc + 
-                         0.5 * loss_bin + loss_merlin)
+                # 4. Merlin-style Contrastive Loss
+                loss_merlin = torch.tensor(0.0, device=self.device)
+                metrics_merlin = {}
+
+                if self.use_contrastive and self.text_encoder is not None and img is not None:
+                    text_emb = self.text_encoder(clinical)
+                    phenotype_targets = (clinical > 0).float()
+                    if phenotype_targets.size(1) < 32:
+                        phenotype_targets = torch.nn.functional.pad(
+                            phenotype_targets, (0, 32 - phenotype_targets.size(1)), value=0.0
+                        )
+                    elif phenotype_targets.size(1) > 32:
+                        phenotype_targets = phenotype_targets[:, :32]
+                    phenotype_mask = torch.ones_like(phenotype_targets)
+                    loss_merlin, metrics_merlin = self.merlin_loss_fn(
+                        out['embedding'], text_emb,
+                        phenotype_targets=phenotype_targets,
+                        phenotype_mask=phenotype_mask,
+                    )
+
+                total_loss = (loss_dior + loss_surv_lh +
+                             self.config.stage1.lambda_survrnc * loss_survrnc +
+                             0.5 * loss_bin + loss_merlin)
+
+                # Scale by 1/grad_accum_steps so effective gradient is correct regardless of accum
+                total_loss = total_loss / self.grad_accum_steps
 
         self.scaler.scale(total_loss).backward()
-        # Must unscale before clip_grad_norm_ so norms are in true gradient space
-        self.scaler.unscale_(self.optimizer)
-        raw_model = self.model.module if dist.is_initialized() else self.model
-        nn.utils.clip_grad_norm_(raw_model.parameters(), max_norm=1.0)
-        if self.text_encoder is not None:
-            nn.utils.clip_grad_norm_(self.text_encoder.parameters(), max_norm=1.0)
-        self.scaler.step(self.optimizer)
-        self.scaler.update()
+        self._accum_step += 1
+
+        if is_last_accum_step:
+            # Must unscale before clip_grad_norm_ so norms are in true gradient space
+            self.scaler.unscale_(self.optimizer)
+            raw_model = self.model.module if dist.is_initialized() else self.model
+            nn.utils.clip_grad_norm_(raw_model.parameters(), max_norm=1.0)
+            if self.text_encoder is not None:
+                nn.utils.clip_grad_norm_(self.text_encoder.parameters(), max_norm=1.0)
+            self.scaler.step(self.optimizer)
+            self.scaler.update()
+            self._accum_step = 0
 
         result = {
             "loss_total": total_loss.item(),
@@ -238,15 +266,19 @@ class Stage1Trainer:
             sampler = None
         # Store sampler on self so orchestrator can call set_epoch each epoch
         self._sampler = sampler
+        # Use auto-computed workers from HardwareConfig (accounts for world_size)
+        n_workers = getattr(config.hardware, 'dataloader_num_workers', None) or \
+                    min(16, (os.cpu_count() or 4) // max(self.world_size, 1))
+        pfactor = getattr(config.hardware, 'prefetch_factor', 4)
         return DataLoader(
             dataset,
             batch_size=batch_size,
             sampler=sampler,
             shuffle=shuffle,
-            num_workers=min(16, (os.cpu_count() or 4) // max(self.world_size, 1)),
+            num_workers=n_workers,
             pin_memory=True,
-            persistent_workers=True,
-            prefetch_factor=4,
+            persistent_workers=(n_workers > 0),
+            prefetch_factor=pfactor if n_workers > 0 else None,
             worker_init_fn=worker_init_fn,
             drop_last=True,
         ), sampler

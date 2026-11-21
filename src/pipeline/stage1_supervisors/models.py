@@ -523,13 +523,17 @@ def wrap_model_for_cluster(model: nn.Module, config) -> nn.Module:
     import torch.distributed as dist
     from torch.nn.parallel import DistributedDataParallel as DDP
 
+    # Retrieve compile mode from config (default: max-autotune profiles fastest kernels)
+    compile_mode = getattr(config.hardware, 'compile_mode', 'max-autotune')
+    nccl_bucket_mb = getattr(config.hardware, 'nccl_bucket_cap_mb', 50)
+
     if not dist.is_initialized():
         # Single GPU: just compile
         try:
             import torch._dynamo
             torch._dynamo.config.suppress_errors = True
-            model = torch.compile(model, mode="default", dynamic=True)
-            print("[cluster] torch.compile applied (single GPU, mode=default)")
+            model = torch.compile(model, mode=compile_mode, dynamic=True)
+            print(f"[cluster] torch.compile applied (single GPU, mode={compile_mode})")
         except Exception as e:
             print(f"[cluster] torch.compile skipped: {e}")
         return model
@@ -560,23 +564,24 @@ def wrap_model_for_cluster(model: nn.Module, config) -> nn.Module:
                 sharding_strategy=ShardingStrategy.FULL_SHARD,
                 device_id=torch.cuda.current_device(),
                 use_orig_params=True,  # required for torch.compile compatibility
+                limit_all_gathers=True,  # saves memory by limiting concurrent all-gathers
+                forward_prefetch=True,    # overlap forward all-gather with compute
             )
             print(f"[cluster] FSDP-2 applied to {n_params/1e9:.2f}B param model")
         except ImportError as e:
             print(f"[cluster] FSDP unavailable, falling back to DDP: {e}")
             model = DDP(model, device_ids=[torch.cuda.current_device()],
-                       find_unused_parameters=True)
-    else:
-        model = DDP(model, device_ids=[torch.cuda.current_device()],
-                   find_unused_parameters=True)
-        print(f"[cluster] DDP applied to {n_params/1e6:.0f}M param model")
+                       find_unused_parameters=False,
+                       bucket_cap_mb=nccl_bucket_mb,
+                       gradient_as_bucket_view=True,
+                       static_graph=True)
 
     # Gap 4 — torch.compile after distribution wrapper
     try:
         import torch._dynamo
         torch._dynamo.config.suppress_errors = True
-        model = torch.compile(model, mode="default", dynamic=True, fullgraph=False)
-        print("[cluster] torch.compile applied (mode=default)")
+        model = torch.compile(model, mode=compile_mode, dynamic=True, fullgraph=False)
+        print(f"[cluster] torch.compile applied (mode={compile_mode})")
     except Exception as e:
         print(f"[cluster] torch.compile skipped: {e}")
 

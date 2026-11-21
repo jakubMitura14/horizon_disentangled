@@ -66,18 +66,39 @@ class PipelineOrchestrator:
         os.makedirs(self.config.data.artifacts_dir, exist_ok=True)
 
         self._setup_logging()
+        self._setup_cluster_perf()
+
+    def _setup_cluster_perf(self):
+        """Apply global cluster performance settings once at pipeline start."""
+        if torch.cuda.is_available():
+            # cuDNN auto-tuner: benchmarks conv algorithms on first call
+            torch.backends.cudnn.benchmark = True
+            # BF16 reduced precision for matmul accumulation
+            torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = True
+            # TF32 for Ampere+ (H200 is Hopper — TF32 is free)
+            torch.backends.cuda.matmul.allow_tf32 = True
+            torch.backends.cudnn.allow_tf32 = True
+            # Expandable memory segments avoid fragmentation
+            os.environ.setdefault(
+                "PYTORCH_CUDA_ALLOC_CONF",
+                "backend:cudaMallocAsync,expandable_segments:True"
+            )
 
     def _setup_logging(self):
+        # Only rank-0 logs to stdout/file in distributed mode
+        is_main = not (dist.is_initialized() and dist.get_rank() != 0)
+        level = logging.INFO if is_main else logging.WARNING
+        handlers = []
+        if is_main:
+            handlers.append(logging.StreamHandler(sys.stdout))
+            handlers.append(logging.FileHandler(
+                os.path.join(self.config.data.artifacts_dir, "pipeline.log"),
+                mode="a"
+            ))
         logging.basicConfig(
-            level=logging.INFO,
+            level=level,
             format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-            handlers=[
-                logging.StreamHandler(sys.stdout),
-                logging.FileHandler(
-                    os.path.join(self.config.data.artifacts_dir, "pipeline.log"),
-                    mode="a"
-                )
-            ]
+            handlers=handlers if handlers else [logging.StreamHandler(sys.stdout)]
         )
 
     # ═══════════════════════════════════════════════════════════════════

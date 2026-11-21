@@ -42,6 +42,8 @@ JOB1=$(sbatch \
     --time=24:00:00 \
     --partition="${PARTITION}" \
     --account="${ACCOUNT}" \
+    --signal=B:SIGTERM@120 \
+    --requeue \
     --wrap="bash scripts/slurm_train_4gpu.sh 1 ${DOMAIN} ${EPOCHS}")
 echo "Stage 1 submitted: Job ${JOB1}"
 
@@ -60,6 +62,8 @@ JOB2=$(sbatch \
     --time=24:00:00 \
     --partition="${PARTITION}" \
     --account="${ACCOUNT}" \
+    --signal=B:SIGTERM@120 \
+    --requeue \
     --wrap="bash scripts/slurm_train_4gpu.sh 2 ${DOMAIN} ${EPOCHS}")
 echo "Stage 2 submitted: Job ${JOB2} (after ${JOB1})"
 
@@ -78,10 +82,12 @@ JOB3=$(sbatch \
     --time=4:00:00 \
     --partition="${PARTITION}" \
     --account="${ACCOUNT}" \
+    --signal=B:SIGTERM@120 \
+    --requeue \
     --wrap="bash scripts/slurm_train_4gpu.sh 3 ${DOMAIN} $((EPOCHS / 3))")
 echo "Stage 3 submitted: Job ${JOB3} (after ${JOB2})"
 
-# Stage 4: GPU 2 (Julia SciML)
+# Stage 4: DDP 4 GPUs (upgraded from single-GPU to full DDP)
 JOB4=$(sbatch \
     --parsable \
     --dependency=afterok:${JOB3} \
@@ -89,13 +95,15 @@ JOB4=$(sbatch \
     --output="logs/stage4_${DOMAIN}_%j.out" \
     --error="logs/stage4_${DOMAIN}_%j.err" \
     --nodes="${NODES_PER_JOB:-1}" \
-    --ntasks-per-node=1 \
-    --gres=gpu:1 \
+    --ntasks-per-node=4 \
+    --gres=gpu:h200:4 \
     --cpus-per-task=16 \
-    --mem=256G \
+    --mem=512G \
     --time=24:00:00 \
     --partition="${PARTITION}" \
     --account="${ACCOUNT}" \
+    --signal=B:SIGTERM@120 \
+    --requeue \
     --wrap="bash scripts/slurm_train_4gpu.sh 4 ${DOMAIN} $((EPOCHS / 2))")
 echo "Stage 4 submitted: Job ${JOB4} (after ${JOB3})"
 
@@ -114,6 +122,8 @@ JOB5=$(sbatch \
     --time=4:00:00 \
     --partition="${PARTITION}" \
     --account="${ACCOUNT}" \
+    --signal=B:SIGTERM@120 \
+    --requeue \
     --wrap="bash scripts/slurm_train_4gpu.sh 5 ${DOMAIN} 0")
 echo "Stage 5 submitted: Job ${JOB5} (after ${JOB4})"
 

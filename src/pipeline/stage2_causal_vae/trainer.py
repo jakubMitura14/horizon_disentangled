@@ -50,40 +50,63 @@ class Stage2Trainer:
         ).to(self.device)
 
         # Gap 1 — DDP wrap
+        # static_graph=True: VAE/Disentangle forward is fully deterministic (no unused params)
+        # Enables comm/compute overlap that torch.compile expects; bucket_cap_mb=50 for NVLink
         if dist.is_initialized():
             self.vae = DDP(
                 self.vae,
                 device_ids=[config.hardware.local_rank],
                 output_device=config.hardware.local_rank,
-                find_unused_parameters=True,
+                find_unused_parameters=False,
+                static_graph=True,
+                bucket_cap_mb=getattr(config.hardware, 'nccl_bucket_cap_mb', 50),
+                gradient_as_bucket_view=True,
             )
             self.disentangle = DDP(
                 self.disentangle,
                 device_ids=[config.hardware.local_rank],
                 output_device=config.hardware.local_rank,
-                find_unused_parameters=True,
+                find_unused_parameters=False,
+                static_graph=True,
+                bucket_cap_mb=getattr(config.hardware, 'nccl_bucket_cap_mb', 50),
+                gradient_as_bucket_view=True,
             )
 
         self.uq_manager = LatentUncertaintyManager(num_mc_samples=config.stage2.mc_posterior_samples)
 
-        self.optimizer_vae = torch.optim.AdamW(self.vae.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
-        self.optimizer_aux = torch.optim.AdamW(self.disentangle.parameters(), lr=config.stage2.lr, weight_decay=1e-4)
+        _lr = config.hardware.lr_scaled(config.stage2.lr) if config.hardware.is_distributed else config.stage2.lr
+        self.optimizer_vae = torch.optim.AdamW(self.vae.parameters(), lr=_lr, weight_decay=1e-4)
+        self.optimizer_aux = torch.optim.AdamW(self.disentangle.parameters(), lr=_lr, weight_decay=1e-4)
         self.use_amp = config.hardware.use_bfloat16 and ("cuda" in str(self.device))
         self.scaler = torch.amp.GradScaler('cuda', enabled=self.use_amp)
+        # Gradient accumulation support (matches Stage1Trainer interface)
+        self.grad_accum_steps = max(1, config.hardware.gradient_accumulation_steps)
+        self._accum_step = 0
 
     def train_step(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> Dict[str, float]:
+        import contextlib
         self.vae.train()
         self.disentangle.train()
 
-        x = x.to(self.device)
+        # H2D copy + channels_last_3d in one pass for 3D volumes
+        x = x.to(device=self.device, memory_format=torch.channels_last_3d) if x.dim() == 5 else x.to(self.device)
         if mask is not None:
             mask = mask.to(self.device)
 
-        self.optimizer_vae.zero_grad()
-        self.optimizer_aux.zero_grad()
+        # Gradient accumulation: zero_grad only at the start of each cycle
+        if self._accum_step == 0:
+            self.optimizer_vae.zero_grad(set_to_none=True)
+            self.optimizer_aux.zero_grad(set_to_none=True)
 
-        with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.use_amp):
-            out = self.vae(x)
+        # Suppress DDP all-reduce on intermediate accumulation steps
+        _is_ddp = dist.is_initialized()
+        _is_last = (self._accum_step + 1) % self.grad_accum_steps == 0
+        _vae_ctx = (self.vae.no_sync() if (_is_ddp and not _is_last) else contextlib.nullcontext())
+        _dis_ctx = (self.disentangle.no_sync() if (_is_ddp and not _is_last) else contextlib.nullcontext())
+
+        with _vae_ctx, _dis_ctx:
+            with torch.amp.autocast('cuda', dtype=torch.bfloat16, enabled=self.use_amp):
+                out = self.vae(x)
 
             # 1. Reconstruction Loss
             loss_recon = F.l1_loss(out["recon"], x)
@@ -119,19 +142,24 @@ class Stage2Trainer:
                 loss_disentangle
             )
 
-        # Backward passes
-        self.scaler.scale(total_vae_loss).backward(retain_graph=True)
-        self.scaler.scale(loss_aux).backward()
-        # Unscale before clip so norms are in true gradient space
-        self.scaler.unscale_(self.optimizer_vae)
-        self.scaler.unscale_(self.optimizer_aux)
-        raw_vae = self.vae.module if dist.is_initialized() else self.vae
-        raw_dis = self.disentangle.module if dist.is_initialized() else self.disentangle
-        nn.utils.clip_grad_norm_(raw_vae.parameters(), max_norm=1.0)
-        nn.utils.clip_grad_norm_(raw_dis.parameters(), max_norm=1.0)
-        self.scaler.step(self.optimizer_vae)
-        self.scaler.step(self.optimizer_aux)
-        self.scaler.update()
+        # Backward passes — scale by 1/grad_accum_steps for correct effective gradient
+        # Both backward calls are inside _vae_ctx/_dis_ctx (no_sync on intermediate steps)
+        self.scaler.scale(total_vae_loss / self.grad_accum_steps).backward(retain_graph=True)
+        self.scaler.scale(loss_aux / self.grad_accum_steps).backward()
+
+        self._accum_step += 1
+        if self._accum_step % self.grad_accum_steps == 0:
+            self._accum_step = 0
+            # Unscale before clip so norms are in true gradient space
+            self.scaler.unscale_(self.optimizer_vae)
+            self.scaler.unscale_(self.optimizer_aux)
+            raw_vae = self.vae.module if dist.is_initialized() else self.vae
+            raw_dis = self.disentangle.module if dist.is_initialized() else self.disentangle
+            nn.utils.clip_grad_norm_(raw_vae.parameters(), max_norm=1.0)
+            nn.utils.clip_grad_norm_(raw_dis.parameters(), max_norm=1.0)
+            self.scaler.step(self.optimizer_vae)
+            self.scaler.step(self.optimizer_aux)
+            self.scaler.update()
 
         return {
             "loss_total": total_vae_loss.item(),
@@ -168,14 +196,18 @@ class Stage2Trainer:
             shuffle = False
         else:
             sampler = None
+        # Use auto-computed workers from HardwareConfig (accounts for world_size)
+        n_workers = getattr(self.config.hardware, 'dataloader_num_workers', None) or \
+                    min(16, (os.cpu_count() or 4) // max(self.world_size, 1))
+        pfactor = getattr(self.config.hardware, 'prefetch_factor', 4)
         return DataLoader(
             dataset,
             batch_size=batch_size,
             sampler=sampler,
             shuffle=shuffle,
-            num_workers=min(16, (os.cpu_count() or 4) // max(self.world_size, 1)),
+            num_workers=n_workers,
             pin_memory=True,
-            persistent_workers=True,
-            prefetch_factor=4,
+            persistent_workers=(n_workers > 0),
+            prefetch_factor=pfactor if n_workers > 0 else None,
             drop_last=True,
         ), sampler

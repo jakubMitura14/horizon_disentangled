@@ -34,7 +34,13 @@ class ContinuousDiscreteJumpSolver(nn.Module):
         self.systemic_ode = SystemicNeuralJumpODE()
 
     def wrap_for_cluster(self) -> 'ContinuousDiscreteJumpSolver':
-        """Gap 6: Wrap spatial PDE and systemic ODE sub-modules in DDP."""
+        """Gap 6: Wrap spatial PDE and systemic ODE sub-modules in DDP.
+        
+        Optimisations:
+          - bucket_cap_mb=50: larger all-reduce buckets for NVLink 4 bandwidth
+          - gradient_as_bucket_view=True: saves one copy per bucket
+          - static_graph=True: enables comm/compute overlap via NCCL stream pipelining
+        """
         if not dist.is_initialized():
             return self
         local_rank = dist.get_rank() % torch.cuda.device_count()
@@ -42,13 +48,19 @@ class ContinuousDiscreteJumpSolver(nn.Module):
             self.spatial_pde,
             device_ids=[local_rank],
             output_device=local_rank,
-            find_unused_parameters=True,
+            find_unused_parameters=False,
+            bucket_cap_mb=50,
+            gradient_as_bucket_view=True,
+            static_graph=True,
         )
         self.systemic_ode = DDP(
             self.systemic_ode,
             device_ids=[local_rank],
             output_device=local_rank,
-            find_unused_parameters=True,
+            find_unused_parameters=False,
+            bucket_cap_mb=50,
+            gradient_as_bucket_view=True,
+            static_graph=True,
         )
         return self
 
@@ -64,29 +76,27 @@ class ContinuousDiscreteJumpSolver(nn.Module):
         Gap 6: Run B patient trajectories in parallel by vectorising over batch.
         On H200: B=64 patients × 4 GPUs = 256 simultaneous trajectories per step.
         Monte Carlo noise for uncertainty quantification.
+
+        Optimised: all n_monte_carlo draws for each patient are batched into a
+        SINGLE forward_trajectory call instead of n_monte_carlo serial calls.
+        This achieves full GPU utilisation at all times.
         """
         results = []
         for i in range(u_d_0.size(0)):
-            # Add Gaussian noise for Monte Carlo ensemble
-            u_i = u_d_0[i:i+1].expand(n_monte_carlo, -1, -1, -1, -1)
-            noise = torch.randn_like(u_i) * 0.05
-            u_i = u_i + noise
+            # Expand and corrupt — process ALL Monte Carlo draws in ONE batched call
+            u_i = u_d_0[i:i+1].expand(n_monte_carlo, -1, -1, -1, -1).clone()
+            u_i = u_i + torch.randn_like(u_i) * 0.05
 
-            v_i = v_sys_0[i:i+1].expand(n_monte_carlo, -1)
-
+            v_i = v_sys_0[i:i+1].expand(n_monte_carlo, -1).clone()
             phi_dummy = torch.zeros_like(u_i[:, 0:1])
-            c_drug = torch.zeros(n_monte_carlo, 16, device=u_i.device)
 
-            traj_mc = []
-            for mc in range(n_monte_carlo):
-                traj = self.forward_trajectory(
-                    u_i[mc:mc+1], v_i[mc:mc+1],
-                    phi_dummy[mc:mc+1],
-                    event_schedules[i] if i < len(event_schedules) else [],
-                    eval_timestamps
-                )
-                traj_mc.append(traj)
-            results.append(traj_mc)
+            # Single batched trajectory — O(1) forward calls per patient
+            traj = self.forward_trajectory(
+                u_i, v_i, phi_dummy,
+                event_schedules[i] if i < len(event_schedules) else [],
+                eval_timestamps
+            )
+            results.append(traj)
         return results
 
     def step_rk4(
@@ -118,6 +128,7 @@ class ContinuousDiscreteJumpSolver(nn.Module):
         v_next = v_sys + (dt / 6.0) * (k1_v + 2.0 * k2_v + 2.0 * k3_v + k4_v)
         return u_next, v_next
 
+    @torch.compiler.disable  # dynamic while-loop confuses inductor; disable tracing
     def integrate_interval(
         self,
         u_d_start: torch.Tensor,
