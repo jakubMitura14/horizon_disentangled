@@ -57,6 +57,12 @@ class Stage1Trainer:
                 find_unused_parameters=True,
             )
 
+        # Gap 2/4 — FSDP-2 for >400M-param visual backbone + torch.compile
+        # Only applied when explicitly requested (use_fsdp=True in HardwareConfig)
+        # or when the model has >400M params in a distributed setting.
+        from src.pipeline.stage1_supervisors.models import wrap_model_for_cluster
+        self.model = wrap_model_for_cluster(self.model, config)
+
         self.dior_loss_fn = DifferentialOrdinalLoss(
             num_classes=5,
             lambda_ord=config.stage1.lambda_ord,
