@@ -97,3 +97,4 @@ external_sources/
 verification_data/
 manifests/
 artifacts/
+.xnat_splits/

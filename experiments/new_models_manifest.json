@@ -1,0 +1,279 @@
+{
+  "resource": "HORIZON_CHECKPOINTS",
+  "resource_id": "40121",
+  "project": "temp",
+  "upload_timestamp": "2026-11-20T17:13:44Z",
+  "models": [
+    "Hulu-Med-32B",
+    "STU-Net",
+    "VoCo-extended"
+  ],
+  "files": [
+    {
+      "remote_name": "Hulu-Med-32B/config.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/config.json",
+      "size_bytes": 1281,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/configuration.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/configuration.json",
+      "size_bytes": 73,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/configuration_hulumed_encoder.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/configuration_hulumed_encoder.py",
+      "size_bytes": 1743,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/configuration_hulumed_qwen2.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/configuration_hulumed_qwen2.py",
+      "size_bytes": 3226,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/generation_config.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/generation_config.json",
+      "size_bytes": 243,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/image_processing_hulumed.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/image_processing_hulumed.py",
+      "size_bytes": 22547,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/added_tokens.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/added_tokens.json",
+      "size_bytes": 684,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/chat_template.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/chat_template.json",
+      "size_bytes": 2128,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/merges.txt",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/merges.txt",
+      "size_bytes": 1671853,
+      "split": false
+    },
+    {
+      "remote_name": "STU-Net/small_ep4k.model",
+      "local_path": "/DATA/horizon_disentangled/models/STU-Net/small_ep4k.model",
+      "size_bytes": 117497661,
+      "split": false
+    },
+    {
+      "remote_name": "STU-Net/base_ep4k.model",
+      "local_path": "/DATA/horizon_disentangled/models/STU-Net/base_ep4k.model",
+      "size_bytes": 466715133,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00004-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00004-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00004-of-00013.safetensors.part* > model-00004-of-00013.safetensors"
+    },
+    {
+      "remote_name": "STU-Net/large_ep4k.model",
+      "local_path": "/DATA/horizon_disentangled/models/STU-Net/large_ep4k.model",
+      "size_bytes": 3522877789,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat large_ep4k.model.part* > large_ep4k.model"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00002-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00002-of-00013.safetensors",
+      "size_bytes": 5285039920,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00002-of-00013.safetensors.part* > model-00002-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00003-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00003-of-00013.safetensors",
+      "size_bytes": 5159175000,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00003-of-00013.safetensors.part* > model-00003-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00006-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00006-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00006-of-00013.safetensors.part* > model-00006-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00007-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00007-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00007-of-00013.safetensors.part* > model-00007-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00001-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00001-of-00013.safetensors",
+      "size_bytes": 5174846592,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00001-of-00013.safetensors.part* > model-00001-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00005-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00005-of-00013.safetensors",
+      "size_bytes": 5285039992,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00005-of-00013.safetensors.part* > model-00005-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00008-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00008-of-00013.safetensors",
+      "size_bytes": 5285039992,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00008-of-00013.safetensors.part* > model-00008-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/modeling_hulumed_encoder.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/modeling_hulumed_encoder.py",
+      "size_bytes": 21717,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/modeling_hulumed_qwen2.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/modeling_hulumed_qwen2.py",
+      "size_bytes": 19715,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model.safetensors.index.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model.safetensors.index.json",
+      "size_bytes": 107719,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/preprocessor_config.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/preprocessor_config.json",
+      "size_bytes": 562,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/processing_hulumed.py",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/processing_hulumed.py",
+      "size_bytes": 36409,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/processor_config.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/processor_config.json",
+      "size_bytes": 207,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/tokenizer_config.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/tokenizer_config.json",
+      "size_bytes": 6945,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/special_tokens_map.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/special_tokens_map.json",
+      "size_bytes": 613,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/vocab.json",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/vocab.json",
+      "size_bytes": 3383407,
+      "split": false
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00009-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00009-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00009-of-00013.safetensors.part* > model-00009-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00010-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00010-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00010-of-00013.safetensors.part* > model-00010-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00011-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00011-of-00013.safetensors",
+      "size_bytes": 5285039992,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00011-of-00013.safetensors.part* > model-00011-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00012-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00012-of-00013.safetensors",
+      "size_bytes": 5159175016,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00012-of-00013.safetensors.part* > model-00012-of-00013.safetensors"
+    },
+    {
+      "remote_name": "Hulu-Med-32B/model-00013-of-00013.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Hulu-Med-32B/model-00013-of-00013.safetensors",
+      "size_bytes": 3987208792,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00013-of-00013.safetensors.part* > model-00013-of-00013.safetensors"
+    },
+    {
+      "remote_name": "VoCo/VoComni_B.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoComni_B.pt",
+      "size_bytes": 298654672,
+      "split": false
+    },
+    {
+      "remote_name": "VoCo/VoComni_nnunet.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoComni_nnunet.pt",
+      "size_bytes": 124920555,
+      "split": false
+    },
+    {
+      "remote_name": "STU-Net/huge_ep4k.model",
+      "local_path": "/DATA/horizon_disentangled/models/STU-Net/huge_ep4k.model",
+      "size_bytes": 11658916889,
+      "split": true,
+      "parts": 4,
+      "reconstruct_cmd": "cat huge_ep4k.model.part* > huge_ep4k.model"
+    },
+    {
+      "remote_name": "VoCo/VoCo_H_SSL_head.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoCo_H_SSL_head.pt",
+      "size_bytes": 3396694308,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat VoCo_H_SSL_head.pt.part* > VoCo_H_SSL_head.pt"
+    },
+    {
+      "remote_name": "VoCo/VoCo_L_SSL_head.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoCo_L_SSL_head.pt",
+      "size_bytes": 855586916,
+      "split": false
+    }
+  ]
+}

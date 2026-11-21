@@ -1,0 +1,424 @@
+{
+  "resource": "HORIZON_CHECKPOINTS",
+  "resource_id": "40121",
+  "project": "temp",
+  "upload_timestamp": "2026-11-20T15:36:29Z",
+  "files": [
+    {
+      "remote_name": "checkpoints/stage1_breast_real.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage1_breast_real.pt",
+      "size_bytes": 1014444159,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage1_gbm_real.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage1_gbm_real.pt",
+      "size_bytes": 474797977,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage1_gbm_supervisor.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage1_gbm_supervisor.pt",
+      "size_bytes": 313007703,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage2_causal_vae.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage2_causal_vae.pt",
+      "size_bytes": 161653811,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage2_vae_real.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage2_vae_real.pt",
+      "size_bytes": 161652569,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage3_ood_filter.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage3_ood_filter.pt",
+      "size_bytes": 904076,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage4_breast_real.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage4_breast_real.pt",
+      "size_bytes": 15247813,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage4_gbm_dynamics.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage4_gbm_dynamics.pt",
+      "size_bytes": 15396167,
+      "split": false
+    },
+    {
+      "remote_name": "checkpoints/stage4_gbm_real.pt",
+      "local_path": "/DATA/horizon_disentangled/experiments/checkpoints/stage4_gbm_real.pt",
+      "size_bytes": 15395903,
+      "split": false
+    },
+    {
+      "remote_name": "BrainSegFounder/model_weights_ATLAS-finetune.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainSegFounder/model_weights_ATLAS-finetune.pt",
+      "size_bytes": 409292395,
+      "split": false
+    },
+    {
+      "remote_name": "BrainSegFounder/model_weights_ATLAS-pretrain.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainSegFounder/model_weights_ATLAS-pretrain.pt",
+      "size_bytes": 237624533,
+      "split": false
+    },
+    {
+      "remote_name": "BrainSegFounder/model_weights_BRATS-finetune.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainSegFounder/model_weights_BRATS-finetune.pt",
+      "size_bytes": 256365127,
+      "split": false
+    },
+    {
+      "remote_name": "BrainSegFounder/model_weights_BRATS-pretrain.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainSegFounder/model_weights_BRATS-pretrain.pt",
+      "size_bytes": 263325189,
+      "split": false
+    },
+    {
+      "remote_name": "BrainSegFounder/model_weights_UKB-pretrain.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainSegFounder/model_weights_UKB-pretrain.pt",
+      "size_bytes": 236888205,
+      "split": false
+    },
+    {
+      "remote_name": "Merlin/merlin_clip_epoch99.pt",
+      "local_path": "/DATA/horizon_disentangled/models/Merlin/i3_resnet_clinical_longformer_best_clip_04-02-2024_23-21-36_epoch_99.pt",
+      "size_bytes": 1084889630,
+      "split": false
+    },
+    {
+      "remote_name": "Merlin/merlin_disease_prediction.pt",
+      "local_path": "/DATA/horizon_disentangled/models/Merlin/resnet_clinical_longformer_five_year_disease_prediction.pt",
+      "size_bytes": 474766166,
+      "split": false
+    },
+    {
+      "remote_name": "VISTA3D/model.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VISTA3D-CTMR/vista3d_pretrained_model/model.pt",
+      "size_bytes": 871950375,
+      "split": false
+    },
+    {
+      "remote_name": "VISTA3D/model.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/VISTA3D-CTMR/vista3d_pretrained_model/model.safetensors",
+      "size_bytes": 871892040,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_4x_1c_2D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_4x_1c_2D.ckpt",
+      "size_bytes": 221345538,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_4x_1c_3D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_4x_1c_3D.ckpt",
+      "size_bytes": 644085658,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_4x_3c_2D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_4x_3c_2D.ckpt",
+      "size_bytes": 223784534,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_4x_4c_2D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_4x_4c_2D.ckpt",
+      "size_bytes": 221359223,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_8x_1c_2D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_8x_1c_2D.ckpt",
+      "size_bytes": 334673798,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_8x_1c_3D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_8x_1c_3D.ckpt",
+      "size_bytes": 983906794,
+      "split": false
+    },
+    {
+      "remote_name": "MedVAE/vae_8x_4c_2D.ckpt",
+      "local_path": "/DATA/horizon_disentangled/models/MedVAE/model_weights/vae_8x_4c_2D.ckpt",
+      "size_bytes": 337998486,
+      "split": false
+    },
+    {
+      "remote_name": "VoCo/VoCo_B_SSL_head.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoCo_B_SSL_head.pt",
+      "size_bytes": 220245988,
+      "split": false
+    },
+    {
+      "remote_name": "VoCo/VoComni_H.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoComni_H.pt",
+      "size_bytes": 4650986176,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat VoComni_H.pt.part* > VoComni_H.pt"
+    },
+    {
+      "remote_name": "VoCo/VoComni_L.pt",
+      "local_path": "/DATA/horizon_disentangled/models/VoCo/VoComni_L.pt",
+      "size_bytes": 1169173584,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/noisy_supervised_suprem_swinunetr_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/noisy_supervised_suprem_swinunetr_2100.pth",
+      "size_bytes": 758911849,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/repro_self_supervised_nv_swin_unetr_1000.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/repro_self_supervised_nv_swin_unetr_1000.pth",
+      "size_bytes": 236831629,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/repro_self_supervised_nv_swin_unetr_3000.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/repro_self_supervised_nv_swin_unetr_3000.pth",
+      "size_bytes": 236831885,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/repro_self_supervised_nv_swin_unetr_5050.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/repro_self_supervised_nv_swin_unetr_5050.pth",
+      "size_bytes": 236831885,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/repro_self_supervised_nv_swin_unetr_7000.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/repro_self_supervised_nv_swin_unetr_7000.pth",
+      "size_bytes": 236831885,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/self_supervised_models_genesis_unet_620.pt",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/self_supervised_models_genesis_unet_620.pt",
+      "size_bytes": 152639120,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/self_supervised_nv_swin_unetr_50000.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/self_supervised_nv_swin_unetr_50000.pth",
+      "size_bytes": 753973445,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/self_supervised_nv_swin_unetr_5050.pt",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/self_supervised_nv_swin_unetr_5050.pt",
+      "size_bytes": 256349766,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/self_supervised_unimiss_nnunet_small_5022.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/self_supervised_unimiss_nnunet_small_5022.pth",
+      "size_bytes": 1050159114,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/self_supervised_unimiss_nnunet_tiny_5022.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/self_supervised_unimiss_nnunet_tiny_5022.pth",
+      "size_bytes": 672755586,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_clip_driven_universal_swin_unetr_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_clip_driven_universal_swin_unetr_2100.pth",
+      "size_bytes": 758907945,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_clip_driven_universal_unet_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_clip_driven_universal_unet_2100.pth",
+      "size_bytes": 77792727,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_dodnet_unet_920.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_dodnet_unet_920.pth",
+      "size_bytes": 69342611,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_med3D_residual_unet_1623.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_med3D_residual_unet_1623.pth",
+      "size_bytes": 341330267,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_suprem_segresnet_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_suprem_segresnet_2100.pth",
+      "size_bytes": 56500623,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_suprem_swinunetr_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_suprem_swinunetr_2100.pth",
+      "size_bytes": 758911849,
+      "split": false
+    },
+    {
+      "remote_name": "SuPreM/supervised_suprem_unet_2100.pth",
+      "local_path": "/DATA/horizon_disentangled/models/SuPreM/supervised_suprem_unet_2100.pth",
+      "size_bytes": 233188229,
+      "split": false
+    },
+    {
+      "remote_name": "NV-Generate/diff_unet_3d_rflow-mr-brain_v0.pt",
+      "local_path": "/DATA/horizon_disentangled/models/NV-Generate-MR-Brain/models/diff_unet_3d_rflow-mr-brain_v0.pt",
+      "size_bytes": 2166642065,
+      "split": false
+    },
+    {
+      "remote_name": "NV-Generate/diff_unet_3d_rflow-mr-brain_v1.pt",
+      "local_path": "/DATA/horizon_disentangled/models/NV-Generate-MR-Brain/models/diff_unet_3d_rflow-mr-brain_v1.pt",
+      "size_bytes": 2166644881,
+      "split": false
+    },
+    {
+      "remote_name": "BrainGemma3D/projector_vis_scale.pt",
+      "local_path": "/DATA/horizon_disentangled/models/BrainGemma3D/projector_vis_scale.pt",
+      "size_bytes": 19018325,
+      "split": false
+    },
+    {
+      "remote_name": "BrainGemma3D/vision_model.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/BrainGemma3D/vision_model/model.safetensors",
+      "size_bytes": 3513309984,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat vision_model.safetensors.part* > vision_model.safetensors"
+    },
+    {
+      "remote_name": "BrainGemma3D/language_model-00001-of-00002.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/BrainGemma3D/language_model/model-00001-of-00002.safetensors",
+      "size_bytes": 4961251128,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat language_model-00001-of-00002.safetensors.part* > language_model-00001-of-00002.safetensors"
+    },
+    {
+      "remote_name": "BrainGemma3D/language_model-00002-of-00002.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/BrainGemma3D/language_model/model-00002-of-00002.safetensors",
+      "size_bytes": 3639025872,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat language_model-00002-of-00002.safetensors.part* > language_model-00002-of-00002.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/mm_projector.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/mm_projector.safetensors",
+      "size_bytes": 2363174904,
+      "split": false
+    },
+    {
+      "remote_name": "Med3DVLM/vision_encoder.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/vision_encoder.safetensors",
+      "size_bytes": 36590016,
+      "split": false
+    },
+    {
+      "remote_name": "Med3DVLM/model-00001-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00001-of-00007.safetensors",
+      "size_bytes": 4970981488,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00001-of-00007.safetensors.part* > model-00001-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00002-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00002-of-00007.safetensors",
+      "size_bytes": 4778622352,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00002-of-00007.safetensors.part* > model-00002-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00003-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00003-of-00007.safetensors",
+      "size_bytes": 4932743960,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00003-of-00007.safetensors.part* > model-00003-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00004-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00004-of-00007.safetensors",
+      "size_bytes": 4932743992,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00004-of-00007.safetensors.part* > model-00004-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00005-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00005-of-00007.safetensors",
+      "size_bytes": 4998852296,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00005-of-00007.safetensors.part* > model-00005-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00006-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00006-of-00007.safetensors",
+      "size_bytes": 3924909896,
+      "split": true,
+      "parts": 2,
+      "reconstruct_cmd": "cat model-00006-of-00007.safetensors.part* > model-00006-of-00007.safetensors"
+    },
+    {
+      "remote_name": "Med3DVLM/model-00007-of-00007.safetensors",
+      "local_path": "/DATA/horizon_disentangled/models/Med3DVLM-Qwen-2.5-7B/model-00007-of-00007.safetensors",
+      "size_bytes": 2174283904,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/autoencoder.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/autoencoder.pt",
+      "size_bytes": 83831868,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/diffusion_unet.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/diffusion_unet.pt",
+      "size_bytes": 2166600232,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/mask_generation_diffusion_unet.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/mask_generation_diffusion_unet.pt",
+      "size_bytes": 788941780,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/controlnet.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/controlnet.pt",
+      "size_bytes": 288255799,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/controlnet_20datasets.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/controlnet-20datasets-e20wl100fold0bc_noi_dia_fsize_current.pt",
+      "size_bytes": 278366962,
+      "split": false
+    },
+    {
+      "remote_name": "MAISI/input_unet3d_v1.pt",
+      "local_path": "/DATA/horizon_disentangled/models/MAISI/maisi_ct_generative/models/input_unet3d_data-all_steps1000size512ddpm_random_current_inputx_v1.pt",
+      "size_bytes": 685298858,
+      "split": false
+    }
+  ]
+}
