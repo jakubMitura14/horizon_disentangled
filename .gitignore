@@ -98,4 +98,4 @@ external_sources/
 verification_data/
 manifests/
 artifacts/
-.xnat_splits/
+.xnat_splits/experiments/stability_phase_*_snapshot_*.json

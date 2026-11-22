@@ -885,7 +885,7 @@ def main():
                         help="Save checkpoint every N epochs")
     parser.add_argument("--snapshot-interval", type=int, default=50,
                         help="Save JSON snapshot every N epochs")
-    parser.add_argument("--batch-b", type=int, default=36,
+    parser.add_argument("--batch-b", type=int, default=32,
                         help="Phase B batch size")
     parser.add_argument("--batch-c", type=int, default=24,
                         help="Phase C batch size")

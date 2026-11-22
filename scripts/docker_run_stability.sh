@@ -36,7 +36,7 @@ case "$ACTION" in
                 --hours "$HOURS" \
                 --checkpoint-interval 50 \
                 --snapshot-interval 50 \
-                --batch-b 36 \
+                --batch-b 32 \
                 --batch-c 24 \
                 --data-dir "$WORKSPACE/data/synthetic_stability" \
                 --ckpt-dir "experiments/stability_checkpoints" \
