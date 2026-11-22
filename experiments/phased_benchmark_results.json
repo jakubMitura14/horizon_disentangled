@@ -1,0 +1,167 @@
+{
+  "gpu": "NVIDIA H100 PCIe",
+  "gpu_mem_gb": 79.2,
+  "timestamp": "2026-11-22T14:31:08Z",
+  "phases": {
+    "B": {
+      "loss_history": [
+        {
+          "epoch": 1,
+          "loss": -0.38186869472265245,
+          "time_s": 2.9426918029785156,
+          "throughput_vol_per_s": 54.371986844851435
+        },
+        {
+          "epoch": 2,
+          "loss": -0.6073316134512424,
+          "time_s": 2.3101072311401367,
+          "throughput_vol_per_s": 69.2608541470316
+        },
+        {
+          "epoch": 3,
+          "loss": -1.3429992496967316,
+          "time_s": 2.299429178237915,
+          "throughput_vol_per_s": 69.58248660765898
+        },
+        {
+          "epoch": 4,
+          "loss": -2.1829779863357546,
+          "time_s": 2.2996819019317627,
+          "throughput_vol_per_s": 69.57483983571724
+        },
+        {
+          "epoch": 5,
+          "loss": -3.4481178283691407,
+          "time_s": 2.3071682453155518,
+          "throughput_vol_per_s": 69.34908207273665
+        },
+        {
+          "epoch": 6,
+          "loss": -5.277110624313354,
+          "time_s": 2.2840452194213867,
+          "throughput_vol_per_s": 70.05115250762528
+        },
+        {
+          "epoch": 7,
+          "loss": -7.202163362503052,
+          "time_s": 2.2945659160614014,
+          "throughput_vol_per_s": 69.7299645567116
+        },
+        {
+          "epoch": 8,
+          "loss": -10.506665802001953,
+          "time_s": 2.2974188327789307,
+          "throughput_vol_per_s": 69.64337443271756
+        },
+        {
+          "epoch": 9,
+          "loss": -15.762319087982178,
+          "time_s": 2.315019369125366,
+          "throughput_vol_per_s": 69.11389258071277
+        },
+        {
+          "epoch": 10,
+          "loss": -23.163890838623047,
+          "time_s": 2.329329013824463,
+          "throughput_vol_per_s": 68.68930883117292
+        }
+      ],
+      "loss_start": -0.38186869472265245,
+      "loss_end": -23.163890838623047,
+      "loss_dropped": true,
+      "loss_drop_pct": 231638908486.2,
+      "mem_peak_gb": 29.21,
+      "gpu_summary": {
+        "label": "Phase B",
+        "n_samples": 29,
+        "mem_used_gb_mean": 34.66180209455819,
+        "mem_used_gb_peak": 41.41058349609375,
+        "gpu_util_pct_mean": 76.58620689655173,
+        "gpu_util_pct_peak": 100.0,
+        "gpu_util_pct_min": 0.0
+      },
+      "total_time_s": 23.67945671081543
+    },
+    "C": {
+      "loss_history": [
+        {
+          "epoch": 1,
+          "loss": 15.233196544647218,
+          "time_s": 10.079956293106079,
+          "throughput_traj_per_s": 3.968271174683262
+        },
+        {
+          "epoch": 2,
+          "loss": 4.106915235519409,
+          "time_s": 9.440635204315186,
+          "throughput_traj_per_s": 4.237003033621779
+        },
+        {
+          "epoch": 3,
+          "loss": 2.8593770027160645,
+          "time_s": 9.42535662651062,
+          "throughput_traj_per_s": 4.243871249125188
+        },
+        {
+          "epoch": 4,
+          "loss": 12.912912750244141,
+          "time_s": 9.532576084136963,
+          "throughput_traj_per_s": 4.196137502281622
+        },
+        {
+          "epoch": 5,
+          "loss": 2.7977271556854246,
+          "time_s": 9.79636836051941,
+          "throughput_traj_per_s": 4.083145766670535
+        },
+        {
+          "epoch": 6,
+          "loss": 2.4651959419250487,
+          "time_s": 9.503044605255127,
+          "throughput_traj_per_s": 4.209177338584756
+        },
+        {
+          "epoch": 7,
+          "loss": 4.745794868469238,
+          "time_s": 9.472145080566406,
+          "throughput_traj_per_s": 4.222908291604009
+        },
+        {
+          "epoch": 8,
+          "loss": 21.968439197540285,
+          "time_s": 9.462465047836304,
+          "throughput_traj_per_s": 4.227228295986831
+        },
+        {
+          "epoch": 9,
+          "loss": 4.730947637557984,
+          "time_s": 9.818536281585693,
+          "throughput_traj_per_s": 4.073926994089591
+        },
+        {
+          "epoch": 10,
+          "loss": 4.0931319236755375,
+          "time_s": 9.517241954803467,
+          "throughput_traj_per_s": 4.202898296581766
+        }
+      ],
+      "loss_start": 15.233196544647218,
+      "loss_end": 4.0931319236755375,
+      "loss_dropped": true,
+      "loss_drop_pct": 73.1,
+      "mem_peak_gb": 15.59,
+      "gpu_summary": {
+        "label": "Phase C",
+        "n_samples": 97,
+        "mem_used_gb_mean": 30.474029855629833,
+        "mem_used_gb_peak": 30.50628662109375,
+        "gpu_util_pct_mean": 53.81443298969072,
+        "gpu_util_pct_peak": 97.0,
+        "gpu_util_pct_min": 0.0
+      },
+      "total_time_s": 96.04832553863525
+    }
+  },
+  "all_losses_converging": true,
+  "total_time_s": 119.72778224945068
+}

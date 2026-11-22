@@ -250,13 +250,16 @@ def train_phase_b(
                     raw_vae_ref = raw_vae_ref._orig_mod
                 enc = raw_vae_ref.encode_from_cached(z_vae)
                 recon, mask_pred = raw_vae_ref.decode(enc["z_a"], enc["u_d"], enc["z_s"])
-                if recon.shape[2:] != z_vae.shape[2:]:
-                    recon = torch.nn.functional.interpolate(recon, size=z_vae.shape[2:], mode="trilinear", align_corners=False)
+                # Recon loss: compare decoded output against anatomy z_a
+                # (decoder outputs in_channels dims, same as z_a channels)
+                z_a_target = enc["z_a"].detach()
+                if recon.shape[2:] != z_a_target.shape[2:]:
+                    recon = torch.nn.functional.interpolate(recon, size=z_a_target.shape[2:], mode="trilinear", align_corners=False)
                 out = enc
                 out["recon"] = recon
                 out["mask_pred"] = mask_pred
 
-                loss_recon = torch.nn.functional.mse_loss(out["recon"], z_vae.detach())
+                loss_recon = torch.nn.functional.mse_loss(out["recon"], z_a_target)
                 kl_d = -0.5 * torch.mean(1 + out["logvar_d"] - out["mu_d"].pow(2) - out["logvar_d"].exp())
                 kl_p = -0.5 * torch.mean(1 + out["logvar_p"] - out["mu_p"].pow(2) - out["logvar_p"].exp())
                 kl_s = -0.5 * torch.mean(1 + out["logvar_s"] - out["mu_s"].pow(2) - out["logvar_s"].exp())
