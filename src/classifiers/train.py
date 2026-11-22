@@ -13,10 +13,10 @@ from tqdm import tqdm
 import numpy as np
 
 # Local imports
-from encoder import ImageEncoder3D, MultiModalEncoder
-from ordinal_loss import CoralLoss, CoralPredictor, OrdinalHead, RegressionHead
-from dataset import ProstateCancerDataset, collate_fn
-from encode_labels import NUM_T_CLASSES, NUM_GLEASON_CLASSES
+from .encoder import ImageEncoder3D, MultiModalEncoder
+from .ordinal_loss import CoralLoss, CoralPredictor, OrdinalHead, RegressionHead
+from .dataset import ProstateCancerDataset, collate_fn
+from .encode_labels import NUM_T_CLASSES, NUM_GLEASON_CLASSES
 
 
 class MultiTaskClassifier(nn.Module):
