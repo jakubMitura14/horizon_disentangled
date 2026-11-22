@@ -24,7 +24,7 @@
       64
     ],
     "peak_vram_gb": 1.13,
-    "latency_s": 0.168
+    "latency_s": 0.189
   },
   "test_3_fsdp2_sharding": {
     "status": "PASS",
@@ -38,8 +38,8 @@
     "status": "PASS",
     "global_batch_size": 64,
     "negative_pool_size": 2048,
-    "loss": 3.0122,
-    "latency_s": 0.158,
+    "loss": 2.9288,
+    "latency_s": 0.153,
     "peak_vram_gb": 0.07
   },
   "test_5_spectral_pde": {
@@ -51,14 +51,14 @@
     ],
     "total_voxels": 107520,
     "parallel_trajectories": 16,
-    "latency_10_days_s": 0.027,
-    "ms_per_step": 2.75,
+    "latency_10_days_s": 0.024,
+    "ms_per_step": 2.44,
     "peak_vram_gb": 0.39
   },
   "test_6_io_prefetch": {
     "status": "PASS",
     "batches": 8,
-    "throughput_mb_s": 1111.7,
-    "transfer_time_s": 0.23
+    "throughput_mb_s": 1091.3,
+    "transfer_time_s": 0.235
   }
 }

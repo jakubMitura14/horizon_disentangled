@@ -24,7 +24,7 @@
       768
     ],
     "embedding_norm": 27.712,
-    "latency_s": 1.702,
+    "latency_s": 2.684,
     "peak_vram_gb": 1.6
   },
   "test_3_vocomni_1.16B": {
@@ -37,8 +37,8 @@
       2,
       2
     ],
-    "load_time_s": 6.04,
-    "inference_latency_s": 0.07,
+    "load_time_s": 9.69,
+    "inference_latency_s": 0.075,
     "peak_vram_gb": 2.42
   },
   "test_4_vista3d": {
@@ -48,7 +48,7 @@
       768
     ],
     "norm": 27.712,
-    "latency_s": 1.421,
+    "latency_s": 1.933,
     "peak_vram_gb": 1.03
   },
   "test_5_medvae": {
@@ -70,7 +70,7 @@
     "compression_ratio": "64x spatial",
     "mse": 1.9e-05,
     "psnr_db": 47.13,
-    "latency_s": 1.846,
+    "latency_s": 1.806,
     "peak_vram_gb": 1.69
   },
   "test_6_stage2_disentanglement": {
@@ -101,8 +101,8 @@
       1,
       32
     ],
-    "counterfactual_style_diff": 0.0136,
-    "latency_s": 1.648,
+    "counterfactual_style_diff": 0.0206,
+    "latency_s": 1.896,
     "peak_vram_gb": 1.42
   },
   "test_7_stage4_pde": {
@@ -114,9 +114,9 @@
       60.0
     ],
     "initial_tumor_mass": 51.2,
-    "post_rt_tumor_mass": 660.75,
-    "cell_kill_pct": -1190.5,
-    "simulation_time_s": 0.095
+    "post_rt_tumor_mass": 3747.4,
+    "cell_kill_pct": -7219.1,
+    "simulation_time_s": 0.127
   },
   "test_8_vlm_report": {
     "status": "PASS",
@@ -124,7 +124,7 @@
     "category": "Stable_Disease",
     "concordance_rate": 0.875,
     "hallucination_flagged": false,
-    "generation_time_s": 41.44,
+    "generation_time_s": 53.14,
     "peak_vram_gb": 5.45
   }
 }
