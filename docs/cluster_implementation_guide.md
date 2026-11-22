@@ -1208,7 +1208,7 @@ import xnat, h5py
 
 with xnat.connect(
     server="https://your-xnat-server.org",
-    user="ee21adf2-44a6-4a97-a53c-34c889273e90",
+    user="<YOUR_ALIAS>",  # see scripts/xnat_credentials.txt
 ) as session:
     project = session.projects['HORIZON_DISENTANGLED']
     subject = project.subjects['HORIZON_HDF5']
@@ -1386,7 +1386,7 @@ class DataHarmonisationPipeline:
 import xnat, shutil, os
 
 XNAT_CREDENTIALS = {
-    "alias":  "ee21adf2-44a6-4a97-a53c-34c889273e90",
+    "alias":  "<YOUR_ALIAS>",  # see scripts/xnat_credentials.txt
     # secret stored in environment variable XNAT_SECRET, never hardcoded
 }
 

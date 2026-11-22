@@ -17,7 +17,7 @@ experiments/checkpoints/
 *.bin
 
 # Raw source data
-data/
+/data/
 
 # ============================================================
 # Python

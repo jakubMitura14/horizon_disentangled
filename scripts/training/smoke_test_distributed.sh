@@ -67,7 +67,7 @@ import torch.distributed as dist
 s3_src = open('src/pipeline/stage3_ood/filter.py').read()
 assert 'dist.get_rank() != 0' in s3_src, 'FAIL: Stage3 no rank-0 guard'
 
-tf_src = open('scripts/train_full.py').read()
+tf_src = open('scripts/training/train_full.py').read()
 idx1, idx2 = tf_src.index('def train_stage1'), tf_src.index('def train_stage2')
 seg1 = tf_src[idx1:idx2]
 assert 'DDP(model' in seg1,              'FAIL: train_stage1 not DDP-wrapped'
@@ -118,7 +118,7 @@ echo "--- [3/3] train_full.py distributed smoke test (${NPROC} GPU(s)) ---"
 ${TORCHRUN} \
     --nproc_per_node="${NPROC}" \
     --master_port=29502 \
-    scripts/train_full.py \
+    scripts/training/train_full.py \
         --domain "${DOMAIN}" \
         --epochs "${EPOCHS}" \
         --batch-size "${BATCH}" \

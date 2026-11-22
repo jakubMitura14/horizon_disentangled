@@ -3,7 +3,7 @@
 **Server**: `https://imaging-platform.diz-ag.med.ovgu.de`  
 **Project**: `temp`  
 **Resource Label**: `HORIZON_CHECKPOINTS` (ID: 40121)  
-**Upload Tool**: [`scripts/upload_checkpoints.py`](../scripts/upload_checkpoints.py) + [`scripts/upload_new_models.py`](../scripts/upload_new_models.py)  
+**Upload Tool**: [`scripts/setup/upload_checkpoints.py`](../scripts/setup/upload_checkpoints.py) + [`scripts/setup/upload_new_models.py`](../scripts/setup/upload_new_models.py)  
 **Total Size**: **163.5 GB** across **136 XNAT files** ✅ verified 2026-11-20
 
 > [!NOTE]
@@ -176,8 +176,8 @@ Same credentials as the HDF5 dataset resource:
 
 ```ini
 server = https://imaging-platform.diz-ag.med.ovgu.de
-alias  = ee21adf2-44a6-4a97-a53c-34c889273e90
-secret = dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0
+alias  = <YOUR_ALIAS>   # see scripts/xnat_credentials.txt
+secret = <YOUR_SECRET>   # see scripts/xnat_credentials.txt
 ```
 
 ---
@@ -191,8 +191,8 @@ import xnat
 from pathlib import Path
 
 SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
-ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+ALIAS  = "<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+SECRET = "<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 OUT    = Path("/tmp/horizon_checkpoints")
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -214,8 +214,8 @@ import xnat
 from pathlib import Path
 
 SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
-ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+ALIAS  = "<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+SECRET = "<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 OUT    = Path("/tmp/horizon_configs")
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -272,11 +272,11 @@ HDF5_DIR=/tmp/horizon_hdf5
 CFG_DIR=/tmp/horizon_configs
 
 SERVER="https://imaging-platform.diz-ag.med.ovgu.de"
-ALIAS="ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET="dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+ALIAS="<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+SECRET="<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 
 # ── Stage HDF5 datasets ───────────────────────────────────────────────────────
-srun python scripts/xnatt.py --download-dataset \
+srun python scripts/data/xnat_download.py --download-dataset \
     --project temp --resource-label HORIZON_HDF5 \
     --output $HDF5_DIR &
 
@@ -286,8 +286,8 @@ import xnat, subprocess
 from pathlib import Path
 
 SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
-ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+ALIAS  = "<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+SECRET = "<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 
 CKPT_DIR = Path("/tmp/horizon_checkpoints")
 CFG_DIR  = Path("/tmp/horizon_configs")
@@ -325,7 +325,7 @@ srun torchrun \
     --nproc_per_node=4 \
     --rdzv_backend=c10d \
     --rdzv_endpoint=$SLURM_NODELIST:29500 \
-    scripts/train_full.py \
+    scripts/training/train_full.py \
         --data-dir  $HDF5_DIR \
         --ckpt-dir  $CKPT_DIR \
         --cfg-dir   $CFG_DIR \
@@ -344,19 +344,19 @@ PYTHON=/DATA/conda/envs/nukl-to-ct/bin/python
 cd /DATA/horizon_disentangled
 
 # Upload all (resumes automatically — skips already-uploaded files by size)
-$PYTHON scripts/upload_checkpoints.py
+$PYTHON scripts/setup/upload_checkpoints.py
 
 # Upload only training checkpoints (skip 74 GB foundation models)
-$PYTHON scripts/upload_checkpoints.py --only-checkpoints
+$PYTHON scripts/setup/upload_checkpoints.py --only-checkpoints
 
 # Upload only config/tokenizer files
-$PYTHON scripts/upload_checkpoints.py --only-configs
+$PYTHON scripts/setup/upload_checkpoints.py --only-configs
 
 # Upload only model weight files
-$PYTHON scripts/upload_checkpoints.py --only-models
+$PYTHON scripts/setup/upload_checkpoints.py --only-models
 
 # Dry run (see what would be uploaded)
-$PYTHON scripts/upload_checkpoints.py --dry-run
+$PYTHON scripts/setup/upload_checkpoints.py --dry-run
 ```
 
 > [!WARNING]
@@ -376,8 +376,8 @@ Download it to inspect what's available:
 import xnat, json
 
 SERVER = "https://imaging-platform.diz-ag.med.ovgu.de"
-ALIAS  = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+ALIAS  = "<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+SECRET = "<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 
 with xnat.connect(server=SERVER, user=ALIAS, password=SECRET) as session:
     res = session.projects["temp"].resources["40121"]
@@ -484,13 +484,13 @@ PYTHON=/DATA/conda/envs/nukl-to-ct/bin/python
 cd /DATA/horizon_disentangled
 
 # Original 66-file checkpoint upload (auto-resumes)
-$PYTHON scripts/upload_checkpoints.py
+$PYTHON scripts/setup/upload_checkpoints.py
 
 # New models upload — Hulu-Med-32B, STU-Net, VoCo (auto-resumes)
-$PYTHON scripts/upload_new_models.py --no-wait
+$PYTHON scripts/setup/upload_new_models.py --no-wait
 
 # Dry run to see what would be uploaded
-$PYTHON scripts/upload_new_models.py --dry-run
+$PYTHON scripts/setup/upload_new_models.py --dry-run
 ```
 
 ---

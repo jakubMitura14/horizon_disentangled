@@ -6,8 +6,8 @@
 # 5-stage pipeline across a cluster with 4× H200 GPUs per node.
 #
 # Usage:
-#   bash scripts/slurm_pipeline_cluster.sbatch gbm 100
-#   bash scripts/slurm_pipeline_cluster.sbatch breast 200
+#   bash scripts/training/slurm_pipeline_cluster.sbatch gbm 100
+#   bash scripts/training/slurm_pipeline_cluster.sbatch breast 200
 # ═══════════════════════════════════════════════════════════════════════
 
 set -euo pipefail
@@ -44,7 +44,7 @@ JOB1=$(sbatch \
     --account="${ACCOUNT}" \
     --signal=B:SIGTERM@120 \
     --requeue \
-    --wrap="bash scripts/slurm_train_4gpu.sh 1 ${DOMAIN} ${EPOCHS}")
+    --wrap="bash scripts/training/slurm_train_4gpu.sh 1 ${DOMAIN} ${EPOCHS}")
 echo "Stage 1 submitted: Job ${JOB1}"
 
 # Stage 2: DDP across 4 GPUs (depends on Stage 1)
@@ -64,7 +64,7 @@ JOB2=$(sbatch \
     --account="${ACCOUNT}" \
     --signal=B:SIGTERM@120 \
     --requeue \
-    --wrap="bash scripts/slurm_train_4gpu.sh 2 ${DOMAIN} ${EPOCHS}")
+    --wrap="bash scripts/training/slurm_train_4gpu.sh 2 ${DOMAIN} ${EPOCHS}")
 echo "Stage 2 submitted: Job ${JOB2} (after ${JOB1})"
 
 # Stage 3: Single GPU, lightweight
@@ -84,7 +84,7 @@ JOB3=$(sbatch \
     --account="${ACCOUNT}" \
     --signal=B:SIGTERM@120 \
     --requeue \
-    --wrap="bash scripts/slurm_train_4gpu.sh 3 ${DOMAIN} $((EPOCHS / 3))")
+    --wrap="bash scripts/training/slurm_train_4gpu.sh 3 ${DOMAIN} $((EPOCHS / 3))")
 echo "Stage 3 submitted: Job ${JOB3} (after ${JOB2})"
 
 # Stage 4: DDP 4 GPUs (upgraded from single-GPU to full DDP)
@@ -104,7 +104,7 @@ JOB4=$(sbatch \
     --account="${ACCOUNT}" \
     --signal=B:SIGTERM@120 \
     --requeue \
-    --wrap="bash scripts/slurm_train_4gpu.sh 4 ${DOMAIN} $((EPOCHS / 2))")
+    --wrap="bash scripts/training/slurm_train_4gpu.sh 4 ${DOMAIN} $((EPOCHS / 2))")
 echo "Stage 4 submitted: Job ${JOB4} (after ${JOB3})"
 
 # Stage 5: Counterfactual Synthesis & Reporting
@@ -124,7 +124,7 @@ JOB5=$(sbatch \
     --account="${ACCOUNT}" \
     --signal=B:SIGTERM@120 \
     --requeue \
-    --wrap="bash scripts/slurm_train_4gpu.sh 5 ${DOMAIN} 0")
+    --wrap="bash scripts/training/slurm_train_4gpu.sh 5 ${DOMAIN} 0")
 echo "Stage 5 submitted: Job ${JOB5} (after ${JOB4})"
 
 echo ""

@@ -4,13 +4,13 @@
 **Project**: `temp`  
 **Resource Label**: `HORIZON_HDF5`  
 **Dataset Size**: ~22 GB (Native Uncropped Multimodal 3D Volumetric Datasets)  
-**Synchronization Tool**: [scripts/xnatt.py](file:///DATA/horizon_disentangled/scripts/xnatt.py)  
+**Synchronization Tool**: [scripts/data/xnat_download.py](file:///DATA/horizon_disentangled/scripts/data/xnat_download.py)  
 **Credentials Configuration**: [scripts/xnat_credentials.txt](file:///DATA/horizon_disentangled/scripts/xnat_credentials.txt)
 
 > [!NOTE]
 > `breast_mincrop.h5` (6.7 GB) exceeded the nginx 4 GB upload limit and was split into three shards:
 > `breast_mincrop_s00.h5` (360 patients), `breast_mincrop_s01.h5` (360 patients), `breast_mincrop_s02.h5` (361 patients).
-> To regenerate shards locally, run: `python scripts/split_mincrop.py`
+> To regenerate shards locally, run: `python scripts/data/split_mincrop.py`
 
 ---
 
@@ -36,7 +36,7 @@ flowchart TD
 
     subgraph Cluster_Deployment ["SLURM Compute Cluster Node"]
         direction TB
-        CLI["scripts/xnatt.py --download-dataset"]
+        CLI["scripts/data/xnat_download.py --download-dataset"]
         NVME["Local NVMe Burst Buffer (/tmp/horizon_hdf5)"]
         H200["8× NVIDIA H200 SXM (141 GB HBM3e)"]
     end
@@ -52,7 +52,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`gbm_lumiere.h5`** | 2.1 GB | Glioblastoma | 91 patients (longitudinal) | MRI: `(4, 256, 256, 192)`<br/>Mask: `(2, 256, 256, 192)` | Native 4-channel MRI (FLAIR, T1w, T1ce, T2w) + viable/necrotic tumor masks. |
 | **`breast_mincrop_s00.h5`** | 2.1 GB | Breast DCE | 360 patients (DUKE_001–DUKE_362) | DCE: `(3, 256, 256, 28–64)`<br/>Mask: `(1, 256, 256, 28–64)` | Shard 0 of 3: 3 kinetic phases (PE2, PE6, SER) + 3D whole-breast parenchyma segmentations. |
-| **`breast_mincrop_s01.h5`** | 2.2 GB | Breast DCE | 360 patients (DUKE_363–DUKE_722) | DCE: `(3, 256, 256, 28–64)`<br/>Mask: `(1, 256, 256, 28–64)` | Shard 1 of 3. Same schema as s00. Regenerate all shards with `python scripts/split_mincrop.py`. |
+| **`breast_mincrop_s01.h5`** | 2.2 GB | Breast DCE | 360 patients (DUKE_363–DUKE_722) | DCE: `(3, 256, 256, 28–64)`<br/>Mask: `(1, 256, 256, 28–64)` | Shard 1 of 3. Same schema as s00. Regenerate all shards with `python scripts/data/split_mincrop.py`. |
 | **`breast_mincrop_s02.h5`** | 2.8 GB | Breast DCE | 361 patients (DUKE_723–SPY1_1239) | DCE: `(3, 256, 256, 28–64)`<br/>Mask: `(1, 256, 256, 28–64)` | Shard 2 of 3. Includes DUKE_723–SPY1 cohort, larger 512×512 patients. |
 | **`breast_ispy2_s00.h5`** | 1.3 GB | Breast Trial | I-SPY 2 Shard 0 | DCE: `(3, 256, 256, 64)` | Longitudinal neoadjuvant chemotherapy trial scans (T0, T1, T2, T3). |
 | **`breast_ispy2_s01.h5`** | 1.7 GB | Breast Trial | I-SPY 2 Shard 1 | DCE: `(3, 256, 256, 64)` | Multi-center ACRIN 6698 trial protocols and pathological complete response (pCR). |
@@ -74,8 +74,8 @@ Authentication uses pre-configured token credentials loaded from [scripts/xnat_c
 
 ```ini
 server = https://imaging-platform.diz-ag.med.ovgu.de
-alias = ee21adf2-44a6-4a97-a53c-34c889273e90
-secret = dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0
+alias = <YOUR_ALIAS>
+secret = <YOUR_SECRET>
 project = temp
 ```
 
@@ -91,7 +91,7 @@ project = temp
 To download and sync the entire uncropped HDF5 dataset from XNAT into a target directory (such as local node NVMe storage `/tmp/horizon_hdf5` or shared scratch):
 
 ```bash
-python scripts/xnatt.py --download-dataset \
+python scripts/data/xnat_download.py --download-dataset \
     --project temp \
     --resource-label HORIZON_HDF5 \
     --output /tmp/horizon_hdf5
@@ -111,8 +111,8 @@ import xnat
 from pathlib import Path
 
 server = "https://imaging-platform.diz-ag.med.ovgu.de"
-alias = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-secret = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+alias = "<YOUR_ALIAS>"  # from scripts/xnat_credentials.txt
+secret = "<YOUR_SECRET>"  # from scripts/xnat_credentials.txt
 
 with xnat.connect(server=server, user=alias, password=secret) as session:
     project = session.projects["temp"]
@@ -170,7 +170,7 @@ print(f"Loaded MRI tensor: {mri_tensor.shape}, {mri_tensor.dtype} on {mri_tensor
 
 To prevent shared network filesystem (NFS/Lustre) thrashing and lock contention when scaling across multiple nodes and GPUs, stage the dataset from XNAT into the local high-speed NVMe burst buffer (`/tmp/horizon_hdf5`) on each node during job startup.
 
-In your SLURM submission script (`scripts/slurm_pipeline_cluster.sbatch`):
+In your SLURM submission script (`scripts/training/slurm_pipeline_cluster.sbatch`):
 
 ```bash
 #!/bin/bash
@@ -182,7 +182,7 @@ In your SLURM submission script (`scripts/slurm_pipeline_cluster.sbatch`):
 
 # Step 1: Stage dataset from XNAT onto local NVMe SSD of every compute node in parallel
 echo "Staging uncropped HDF5 dataset from XNAT onto local NVMe (/tmp/horizon_hdf5)..."
-srun --ntasks-per-node=1 python scripts/xnatt.py --download-dataset \
+srun --ntasks-per-node=1 python scripts/data/xnat_download.py --download-dataset \
     --project temp \
     --resource-label HORIZON_HDF5 \
     --output /tmp/horizon_hdf5
@@ -191,7 +191,7 @@ srun --ntasks-per-node=1 python scripts/xnatt.py --download-dataset \
 srun torchrun \
     --nnodes=$SLURM_JOB_NUM_NODES \
     --nproc_per_node=8 \
-    scripts/train_full.py \
+    scripts/training/train_full.py \
     --domain gbm \
     --data-dir /tmp/horizon_hdf5 \
     --batch-size 8 \
@@ -205,7 +205,7 @@ srun torchrun \
 If new patient shards or derived latent features are generated (e.g. Stage 2 compressed representations), upload them back to the `temp` project with a single command:
 
 ```bash
-python scripts/xnatt.py --upload-dataset \
+python scripts/data/xnat_download.py --upload-dataset \
     --input /DATA/horizon_disentangled/hdf5 \
     --project temp \
     --resource-label HORIZON_HDF5
@@ -216,7 +216,7 @@ python scripts/xnatt.py --upload-dataset \
 > Files larger than ~3.5 GB must be split before uploading.  
 > To split `breast_mincrop.h5` into 3 shards (`_s00`, `_s01`, `_s02`), run:
 > ```bash
-> python scripts/split_mincrop.py
+> python scripts/data/split_mincrop.py
 > ```
 > The script outputs `breast_mincrop_s00.h5` (2.1 GB), `_s01.h5` (2.2 GB), `_s02.h5` (2.8 GB) into `/DATA/horizon_disentangled/hdf5/`.
 > These can be downloaded and merged back via HDF5 external links or by iterating patient groups across shards.

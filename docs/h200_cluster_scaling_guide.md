@@ -369,7 +369,7 @@ srun torchrun \
     --rdzv_id=$SLURM_JOB_ID \
     --rdzv_backend=c10d \
     --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-    scripts/train_full.py \
+    scripts/training/train_full.py \
     --domain gbm \
     --epochs 50 \
     --batch-size 8 \

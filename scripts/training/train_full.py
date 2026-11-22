@@ -8,7 +8,7 @@ Usage:
   cd /DATA/horizon_disentangled
   HDF5_PLUGIN_PATH=/DATA/conda/envs/nukl-to-ct/lib/python3.10/site-packages/hdf5plugin/plugins \
   LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH \
-  /DATA/conda/envs/nukl-to-ct/bin/python scripts/train_full.py \
+  /DATA/conda/envs/nukl-to-ct/bin/python scripts/training/train_full.py \
     --domain breast --epochs 10 --batch-size 4
 """
 import os

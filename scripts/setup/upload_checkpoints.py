@@ -32,8 +32,21 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ── Config ────────────────────────────────────────────────────────────────────
-ALIAS    = "ee21adf2-44a6-4a97-a53c-34c889273e90"
-SECRET   = "dEowoHHC1em1UwN70C4WG23I0mjn0Js1APpdPrCzbQJAN8p6P5ljrkuzik9k8AI0"
+# Credentials loaded from scripts/xnat_credentials.txt
+def _load_creds():
+    creds_path = Path(__file__).resolve().parent.parent / "xnat_credentials.txt"
+    creds = {}
+    for line in creds_path.read_text().splitlines():
+        line = line.strip()
+        if line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        creds[k.strip()] = v.strip()
+    return creds
+
+_creds = _load_creds()
+ALIAS    = _creds.get("alias", "")
+SECRET   = _creds.get("secret", "")
 SERVER   = "https://imaging-platform.diz-ag.med.ovgu.de"
 PROJECT  = "temp"
 RESOURCE = "HORIZON_CHECKPOINTS"
