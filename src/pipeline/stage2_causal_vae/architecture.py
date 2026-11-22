@@ -278,7 +278,20 @@ class TwoScaleHierarchicalCausalVAE(nn.Module):
         """Full encoding pipeline: L1 anatomy + L2 disease + global latents."""
         # Level 1: Per-channel AutoencoderKL encoding
         per_ch_z = self.encode_per_channel(x)  # (B, C_in*4, D/4, H/4, W/4)
-        
+        return self.encode_from_cached(per_ch_z)
+
+    def encode_from_cached(self, per_ch_z: torch.Tensor) -> Dict[str, Any]:
+        """Encode from pre-computed per-channel VAE latents (Phase B uses this).
+
+        This skips encode_per_channel() and starts from cross_seq_fusion,
+        allowing Phase B to operate on cached MedVAE features from Phase A HDF5.
+
+        Args:
+            per_ch_z: (B, C_in*latent_ch, D/4, H/4, W/4) cached encoder output.
+
+        Returns:
+            Dict with z_a, u_d, z_d_glob, z_p, z_s and mu/logvar for each.
+        """
         # Cross-sequence fusion
         feat_l1 = self.cross_seq_fusion(per_ch_z)  # (B, l2_ch//2, D/4, H/4, W/4)
         z_a = self.to_za(feat_l1)  # (B, 4, D/4, H/4, W/4)
