@@ -1,32 +1,39 @@
 #!/usr/bin/env python
-"""48-Hour Stability & Convergence Test — All Pipeline Components.
+"""48-Hour Stability & Convergence Test — Docker & Long-Term Resumable Version.
 
-Runs Phase B (VAE disentanglement) and Phase C (NJDE dynamics) for extended
-training to verify:
-  1. All loss components converge monotonically (no divergence)
-  2. No GPU memory leaks over time (VRAM stable across epochs)
-  3. No NaN/Inf in losses or gradients
-  4. Throughput is stable (no progressive slowdown)
-  5. Checkpoint save/load round-trip works
+Features for Docker deployment & long-term operation:
+  1. Auto-Resume: Automatically resumes training from the latest checkpoint
+     (Phase B or Phase C), restoring model weights, optimizer state, scheduler state,
+     AMP scaler state, epoch counter, best loss, and accumulated training time.
+  2. Signal Handling (SIGTERM / SIGINT): Gracefully intercepts Docker shutdown
+     signals, finishes the current epoch, saves complete checkpoints, and exits cleanly.
+  3. Continuous Run Extension: Can be extended past 48 hours (e.g. 72h, 96h, 120h)
+     by updating the target hours; automatically accounts for cumulative training time.
+  4. Numbered Milestone Checkpoints: Produces regular latest checkpoints plus
+     permanent numbered milestones (e.g. phase_b_epoch_00300.pt) and final checkpoints.
+  5. Atomic Checkpointing: Writes to .tmp file then renames, preventing corruptions.
+  6. Persistent Dataset Storage: Reuses pre-generated synthetic datasets across restarts.
+  7. Automated Anomaly Detection: Tracks VRAM drift, NaN/Inf losses, gradient norms,
+     and throughput degradation with periodic JSON snapshot exports.
 
-The script allocates ~24 hours per phase:
-  Phase B (VAE): ~26s/epoch × ~3300 epochs ≈ 24h
-  Phase C (ODE): ~15s/epoch × ~5760 epochs ≈ 24h
+Usage (Host):
+    python scripts/training/stability_48h.py --hours 48 --resume
 
-Logs comprehensive metrics every epoch and writes periodic JSON snapshots.
-Designed to run unattended for 48 hours with automatic detection of anomalies.
-
-Usage:
-    cd /DATA/horizon_disentangled
-    nohup LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH \
-        /DATA/conda/envs/nukl-to-ct/bin/python scripts/training/stability_48h.py \
-        --hours 48 2>&1 | tee experiments/stability_48h.log &
-
-Environment variables:
-    STABILITY_PHASE_B_HOURS: hours for Phase B (default: 24)
-    STABILITY_PHASE_C_HOURS: hours for Phase C (default: 24)
-    STABILITY_CHECKPOINT_INTERVAL: checkpoint every N epochs (default: 100)
-    STABILITY_SNAPSHOT_INTERVAL: JSON snapshot every N epochs (default: 50)
+Usage (Docker with auto-restart):
+    docker run -d --name horizon_disentangled_trainer \
+        --restart unless-stopped \
+        --gpus all \
+        --ipc=host \
+        -u 1000:1000 \
+        -v /etc/passwd:/etc/passwd:ro \
+        -v /etc/group:/etc/group:ro \
+        -v /DATA:/DATA \
+        -w /DATA/horizon_disentangled \
+        -e LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH \
+        -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+        -e PYTHONUNBUFFERED=1 \
+        ubuntu:22.04 \
+        /DATA/conda/envs/nukl-to-ct/bin/python scripts/training/stability_48h.py --hours 48 --resume
 """
 import os
 import sys
@@ -41,7 +48,6 @@ import signal
 import traceback
 from datetime import datetime, timedelta
 from pathlib import Path
-from collections import deque
 
 import numpy as np
 import h5py
@@ -57,11 +63,37 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler("/DATA/horizon_disentangled/experiments/stability_48h.log",
-                            mode="a"),
+        logging.FileHandler("/DATA/horizon_disentangled/experiments/stability_48h.log", mode="a"),
     ]
 )
 logger = logging.getLogger("stability_48h")
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Graceful Shutdown & Signal Handling
+# ═══════════════════════════════════════════════════════════════════════════
+
+_shutdown_requested = False
+
+def _signal_handler(signum, frame):
+    global _shutdown_requested
+    try:
+        sig_name = signal.Signals(signum).name
+    except Exception:
+        sig_name = str(signum)
+    logger.info(f"Signal {sig_name} ({signum}) received! Graceful shutdown requested after current epoch...")
+    _shutdown_requested = True
+
+signal.signal(signal.SIGTERM, _signal_handler)
+signal.signal(signal.SIGINT, _signal_handler)
+
+
+def atomic_save_checkpoint(ckpt_data: dict, ckpt_path: str):
+    """Saves checkpoint atomically using a temporary file to avoid corruption."""
+    os.makedirs(os.path.dirname(os.path.abspath(ckpt_path)), exist_ok=True)
+    tmp_path = ckpt_path + ".tmp"
+    torch.save(ckpt_data, tmp_path)
+    os.replace(tmp_path, ckpt_path)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -228,38 +260,29 @@ Z_VAE_SHAPE = (16, 32, 32, 16)  # (C_in*4, D/4, H/4, W/4)
 U_D_SHAPE = (8, 32, 32, 16)     # 8 channels × 32×32×16
 
 def create_phase_a_hdf5(path: str):
-    """Create synthetic Phase A encoder features HDF5.
-    
-    Uses the same HDF5 structure as EncoderFeatureDataset expects:
-    patients/{uid}/visits/{vk}/z_vae_per_channel, h_visual
-    """
+    """Create synthetic Phase A encoder features HDF5."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     logger.info(f"Creating synthetic Phase A HDF5: {N_PATIENTS} patients × {N_VISITS} visits")
     logger.info(f"  z_vae shape per visit: {Z_VAE_SHAPE}")
     with h5py.File(path, "w") as f:
         for pid in range(N_PATIENTS):
             uid = f"patient_{pid:04d}"
             p_grp = f.create_group(f"patients/{uid}")
-            p_grp.create_dataset("clinical",
-                                 data=np.random.randn(16).astype(np.float32))
+            p_grp.create_dataset("clinical", data=np.random.randn(16).astype(np.float32))
             for v in range(N_VISITS):
                 vk = f"visit_{v}"
                 grp = p_grp.create_group(f"visits/{vk}")
-                grp.create_dataset("h_visual",
-                                   data=np.random.randn(768).astype(np.float16))
-                grp.create_dataset("z_vae_per_channel",
-                                   data=np.random.randn(*Z_VAE_SHAPE).astype(np.float16))
+                grp.create_dataset("h_visual", data=np.random.randn(768).astype(np.float16))
+                grp.create_dataset("z_vae_per_channel", data=np.random.randn(*Z_VAE_SHAPE).astype(np.float16))
                 t_days = [0.0, 21.0, 84.0, 168.0][v] if v < 4 else float(v * 42)
                 grp.attrs["t_days"] = t_days
                 grp.attrs["domain"] = "breast"
-    logger.info(f"  Phase A HDF5: {os.path.getsize(path)/(1024**2):.1f} MB")
+    logger.info(f"  Phase A HDF5 created: {os.path.getsize(path)/(1024**2):.1f} MB")
 
 
 def create_phase_b_hdf5(path: str):
-    """Create synthetic Phase B latent decomposition HDF5.
-    
-    Uses the same HDF5 structure as LatentTrajectoryDataset expects:
-    patients/{uid}/visits/{vk}/u_d, v_sys_init, z_a, z_d_glob, z_p, z_s, ...
-    """
+    """Create synthetic Phase B latent decomposition HDF5."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     logger.info(f"Creating synthetic Phase B HDF5: {N_PATIENTS} patients × {N_VISITS} visits")
     logger.info(f"  u_d shape per visit: {U_D_SHAPE}")
     with h5py.File(path, "w") as f:
@@ -282,23 +305,21 @@ def create_phase_b_hdf5(path: str):
                 grp.create_dataset("v_sys_init", data=np.random.randn(160).astype(np.float32))
                 t_days = [0.0, 21.0, 84.0, 168.0][v] if v < 4 else float(v * 42)
                 grp.attrs["t_days"] = t_days
-    logger.info(f"  Phase B HDF5: {os.path.getsize(path)/(1024**2):.1f} MB")
+    logger.info(f"  Phase B HDF5 created: {os.path.getsize(path)/(1024**2):.1f} MB")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Phase B — Extended VAE Training Loop
+# Phase B — Extended VAE Training Loop with Auto-Resume
 # ═══════════════════════════════════════════════════════════════════════════
 
 def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
                           batch_size: int = 36, lr: float = 2e-4,
                           grad_accum_steps: int = 2,
-                          checkpoint_interval: int = 100,
+                          checkpoint_interval: int = 50,
                           snapshot_interval: int = 50,
-                          ckpt_dir: str = "experiments/stability_checkpoints"):
-    """Run Phase B VAE training for up to max_hours.
-    
-    Returns loss history and anomaly detector summary.
-    """
+                          ckpt_dir: str = "experiments/stability_checkpoints",
+                          resume: bool = True):
+    """Run Phase B VAE training for up to max_hours with seamless auto-resume."""
     from src.pipeline.phase_b_latents import EncoderFeatureDataset, _worker_init_fn
     from src.pipeline.stage2_causal_vae.architecture import TwoScaleHierarchicalCausalVAE
     from src.pipeline.stage2_causal_vae.disentanglement import AsymmetricCausalDisentanglement
@@ -349,17 +370,52 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
     monitor = GPUMonitor(interval=5.0)
     monitor.start()
 
-    deadline = time.time() + max_hours * 3600
-    epoch = 0
-    loss_history = []
-    best_loss = float("inf")
     ckpt_path = os.path.join(ckpt_dir, "phase_b_latest.pt")
+    start_epoch = 0
+    cumulative_time_s = 0.0
+    best_loss = float("inf")
+    loss_history = []
 
+    # Auto-resume if checkpoint exists
+    if resume and os.path.exists(ckpt_path):
+        try:
+            logger.info(f"Phase B: Loading checkpoint for resume from {ckpt_path}...")
+            ckpt = torch.load(ckpt_path, map_location=device)
+            vae.load_state_dict(ckpt["vae_state"])
+            disentangle.load_state_dict(ckpt["disentangle_state"])
+            if "optimizer_vae_state" in ckpt:
+                optimizer_vae.load_state_dict(ckpt["optimizer_vae_state"])
+            if "optimizer_aux_state" in ckpt:
+                optimizer_aux.load_state_dict(ckpt["optimizer_aux_state"])
+            if "scheduler_vae_state" in ckpt:
+                scheduler_vae.load_state_dict(ckpt["scheduler_vae_state"])
+            if "scheduler_aux_state" in ckpt:
+                scheduler_aux.load_state_dict(ckpt["scheduler_aux_state"])
+            if "scaler_state" in ckpt:
+                scaler.load_state_dict(ckpt["scaler_state"])
+            start_epoch = ckpt.get("epoch", 0)
+            best_loss = ckpt.get("best_loss", float("inf"))
+            cumulative_time_s = ckpt.get("cumulative_time_s", start_epoch * 25.7)
+            loss_history = ckpt.get("loss_history", [])
+            logger.info(f"  Successfully resumed Phase B at epoch {start_epoch}, "
+                        f"cumulative time {cumulative_time_s/3600:.2f}h, best loss {best_loss:.4f}")
+        except Exception as e:
+            logger.error(f"Failed to load checkpoint {ckpt_path}: {e}. Starting fresh.")
+
+    remaining_s = max(0.0, max_hours * 3600 - cumulative_time_s)
+    if remaining_s <= 0.0 and start_epoch > 0:
+        logger.info(f"Phase B target duration ({max_hours:.1f}h) already reached "
+                    f"(cumulative: {cumulative_time_s/3600:.2f}h). Skipping to Phase C.")
+        monitor.stop()
+        return loss_history, detector.summary(), ckpt_path
+
+    deadline = time.time() + remaining_s
+    epoch = start_epoch
     logger.info(f"Phase B: training until {datetime.fromtimestamp(deadline).isoformat()} "
-                f"({max_hours:.1f} hours)")
+                f"({remaining_s/3600:.1f}h remaining of {max_hours:.1f}h target)")
 
     try:
-        while time.time() < deadline:
+        while time.time() < deadline and not _shutdown_requested:
             epoch += 1
             epoch_loss = 0.0
             epoch_loss_recon = 0.0
@@ -389,14 +445,13 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
                     kl_s = -0.5 * torch.mean(1 + enc["logvar_s"] - enc["mu_s"].pow(2) - enc["logvar_s"].exp())
                     loss_kl = kl_d + kl_p + kl_s
 
-                    kl_weight = min(1.0, epoch / 100.0)  # KL warmup
+                    kl_weight = min(1.0, epoch / 100.0)
 
                     loss_disent, loss_aux, _ = disentangle.compute_disentangle_loss(
                         enc["z_d_glob"], enc["z_p"], enc["z_s"], enc["z_a"]
                     )
                     total_loss = loss_recon + kl_weight * 1e-3 * loss_kl + loss_disent
 
-                # Combined backward — no retain_graph needed
                 scaler.scale((total_loss + loss_aux) / grad_accum_steps).backward()
 
                 if (batch_idx + 1) % grad_accum_steps == 0 or (batch_idx + 1) == len(loader):
@@ -419,6 +474,7 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
 
             avg_loss = epoch_loss / max(n_batches, 1)
             elapsed = time.time() - t0
+            cumulative_time_s += elapsed
             throughput = len(dataset) / elapsed
             mem_gb = torch.cuda.memory_allocated(0) / (1024**3)
             mem_peak_gb = torch.cuda.max_memory_allocated(0) / (1024**3)
@@ -439,19 +495,16 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
             }
             loss_history.append(loss_entry)
 
-            # Update LR schedulers
             scheduler_vae.step()
             scheduler_aux.step()
 
-            # Anomaly detection
             ok = detector.record(epoch, avg_loss, mem_gb, throughput, max_grad_norm)
             if not ok:
                 logger.error(f"Phase B: NaN detected at epoch {epoch}, stopping.")
                 break
 
-            # Logging
             if epoch <= 5 or epoch % 10 == 0:
-                hours_left = (deadline - time.time()) / 3600
+                hours_left = max(0.0, (deadline - time.time()) / 3600)
                 logger.info(
                     f"  B[{epoch:>5d}] loss={avg_loss:.4f} "
                     f"(recon={epoch_loss_recon/max(n_batches,1):.4f} "
@@ -463,13 +516,12 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
                     f"{hours_left:.1f}h left"
                 )
 
-            # Best model tracking
             if avg_loss < best_loss:
                 best_loss = avg_loss
 
-            # Periodic checkpoint
-            if epoch % checkpoint_interval == 0:
-                torch.save({
+            # Checkpointing
+            if epoch % checkpoint_interval == 0 or _shutdown_requested:
+                ckpt_data = {
                     "epoch": epoch,
                     "vae_state": vae.state_dict(),
                     "disentangle_state": disentangle.state_dict(),
@@ -479,14 +531,23 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
                     "scheduler_aux_state": scheduler_aux.state_dict(),
                     "scaler_state": scaler.state_dict(),
                     "best_loss": best_loss,
-                }, ckpt_path)
+                    "cumulative_time_s": cumulative_time_s,
+                    "loss_history": loss_history[-200:],
+                }
+                atomic_save_checkpoint(ckpt_data, ckpt_path)
                 logger.info(f"  B[{epoch}] checkpoint saved → {ckpt_path}")
 
-            # Periodic JSON snapshot
+                # Save numbered milestone every 100 epochs
+                if epoch % 100 == 0:
+                    milestone_path = os.path.join(ckpt_dir, f"phase_b_epoch_{epoch:05d}.pt")
+                    atomic_save_checkpoint(ckpt_data, milestone_path)
+                    logger.info(f"  B[{epoch}] milestone checkpoint saved → {milestone_path}")
+
             if epoch % snapshot_interval == 0:
                 snapshot = {
                     "phase": "B",
                     "epoch": epoch,
+                    "cumulative_time_h": round(cumulative_time_s / 3600, 2),
                     "detector_summary": detector.summary(),
                     "recent_losses": loss_history[-snapshot_interval:],
                     "timestamp": datetime.now().isoformat(),
@@ -494,6 +555,10 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
                 snap_path = f"experiments/stability_phase_b_snapshot_e{epoch}.json"
                 with open(snap_path, "w") as f:
                     json.dump(snapshot, f, indent=2, default=str)
+
+            if _shutdown_requested:
+                logger.info(f"Phase B: Graceful shutdown requested at epoch {epoch}. Exiting loop.")
+                break
 
     except KeyboardInterrupt:
         logger.info(f"Phase B interrupted at epoch {epoch}")
@@ -503,33 +568,40 @@ def run_phase_b_extended(encoder_h5_path: str, max_hours: float = 24.0,
 
     monitor.stop()
 
-    # Save final checkpoint
-    torch.save({
+    # Save final complete checkpoint
+    final_ckpt_data = {
         "epoch": epoch,
         "vae_state": vae.state_dict(),
         "disentangle_state": disentangle.state_dict(),
+        "optimizer_vae_state": optimizer_vae.state_dict(),
+        "optimizer_aux_state": optimizer_aux.state_dict(),
+        "scheduler_vae_state": scheduler_vae.state_dict(),
+        "scheduler_aux_state": scheduler_aux.state_dict(),
+        "scaler_state": scaler.state_dict(),
         "best_loss": best_loss,
-    }, ckpt_path)
-    logger.info(f"Phase B final checkpoint: epoch {epoch}, best_loss={best_loss:.6f}")
+        "cumulative_time_s": cumulative_time_s,
+        "loss_history": loss_history[-200:],
+    }
+    atomic_save_checkpoint(final_ckpt_data, ckpt_path)
+    final_path = os.path.join(ckpt_dir, "phase_b_final.pt")
+    atomic_save_checkpoint(final_ckpt_data, final_path)
+    logger.info(f"Phase B final checkpoint saved → {final_path} (epoch {epoch}, best_loss={best_loss:.6f})")
 
     return loss_history, detector.summary(), ckpt_path
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Phase C — Extended NJDE Dynamics Training Loop
+# Phase C — Extended NJDE Dynamics Training Loop with Auto-Resume
 # ═══════════════════════════════════════════════════════════════════════════
 
 def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
                           batch_size: int = 24, lr: float = 5e-4,
                           grad_accum_steps: int = 3,
-                          checkpoint_interval: int = 100,
+                          checkpoint_interval: int = 50,
                           snapshot_interval: int = 50,
-                          ckpt_dir: str = "experiments/stability_checkpoints"):
-    """Run Phase C NJDE training for up to max_hours.
-    
-    Uses vectorised ODE integration across the full batch — no per-sample loop.
-    No frozen decoder loaded (saves ~1 GB VRAM).
-    """
+                          ckpt_dir: str = "experiments/stability_checkpoints",
+                          resume: bool = True):
+    """Run Phase C NJDE training for up to max_hours with seamless auto-resume."""
     from src.pipeline.phase_c_dynamics import (
         LatentTrajectoryDataset, _trajectory_collate_fn, _worker_init_fn
     )
@@ -538,7 +610,6 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
     device = torch.device("cuda")
     os.makedirs(ckpt_dir, exist_ok=True)
 
-    # Dataset & Loader
     dataset = LatentTrajectoryDataset(latent_h5_path, min_visits=2)
     loader = DataLoader(
         dataset, batch_size=batch_size, shuffle=True,
@@ -550,7 +621,6 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
     logger.info(f"Phase C: {len(dataset)} trajectories, {len(loader)} batches/epoch, "
                 f"batch={batch_size}, grad_accum={grad_accum_steps}, lr={lr}")
 
-    # Solver: breast domain
     solver = ContinuousDiscreteJumpSolver(domain="breast", dt_cfl_days=7.0).to(device)
     n_params = sum(p.numel() for p in solver.parameters()) / 1e6
     logger.info(f"  Solver: {n_params:.1f}M params")
@@ -558,7 +628,6 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
     optimizer = torch.optim.AdamW(solver.parameters(), lr=lr, weight_decay=1e-5)
     scaler = torch.amp.GradScaler("cuda", enabled=True)
 
-    # LR scheduler: cosine with warmup
     warmup_epochs = 20
     def lr_lambda(epoch):
         if epoch < warmup_epochs:
@@ -570,17 +639,46 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
     monitor = GPUMonitor(interval=5.0)
     monitor.start()
 
-    deadline = time.time() + max_hours * 3600
-    epoch = 0
-    loss_history = []
-    best_loss = float("inf")
     ckpt_path = os.path.join(ckpt_dir, "phase_c_latest.pt")
+    start_epoch = 0
+    cumulative_time_s = 0.0
+    best_loss = float("inf")
+    loss_history = []
 
+    if resume and os.path.exists(ckpt_path):
+        try:
+            logger.info(f"Phase C: Loading checkpoint for resume from {ckpt_path}...")
+            ckpt = torch.load(ckpt_path, map_location=device)
+            solver.load_state_dict(ckpt["solver_state"])
+            if "optimizer_state" in ckpt:
+                optimizer.load_state_dict(ckpt["optimizer_state"])
+            if "scheduler_state" in ckpt:
+                scheduler.load_state_dict(ckpt["scheduler_state"])
+            if "scaler_state" in ckpt:
+                scaler.load_state_dict(ckpt["scaler_state"])
+            start_epoch = ckpt.get("epoch", 0)
+            best_loss = ckpt.get("best_loss", float("inf"))
+            cumulative_time_s = ckpt.get("cumulative_time_s", start_epoch * 2.6)
+            loss_history = ckpt.get("loss_history", [])
+            logger.info(f"  Successfully resumed Phase C at epoch {start_epoch}, "
+                        f"cumulative time {cumulative_time_s/3600:.2f}h, best loss {best_loss:.6f}")
+        except Exception as e:
+            logger.error(f"Failed to load checkpoint {ckpt_path}: {e}. Starting fresh.")
+
+    remaining_s = max(0.0, max_hours * 3600 - cumulative_time_s)
+    if remaining_s <= 0.0 and start_epoch > 0:
+        logger.info(f"Phase C target duration ({max_hours:.1f}h) already reached "
+                    f"(cumulative: {cumulative_time_s/3600:.2f}h). Finishing Phase C.")
+        monitor.stop()
+        return loss_history, detector.summary()
+
+    deadline = time.time() + remaining_s
+    epoch = start_epoch
     logger.info(f"Phase C: training until {datetime.fromtimestamp(deadline).isoformat()} "
-                f"({max_hours:.1f} hours)")
+                f"({remaining_s/3600:.1f}h remaining of {max_hours:.1f}h target)")
 
     try:
-        while time.time() < deadline:
+        while time.time() < deadline and not _shutdown_requested:
             epoch += 1
             epoch_loss = 0.0
             epoch_loss_u = 0.0
@@ -600,7 +698,6 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
                 B, T, C, D, H, W = u_d.shape
 
                 with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                    # ═══ VECTORISED ODE integration across full batch ═══
                     total_traj_loss = torch.tensor(0.0, device=device)
                     n_valid = 0
                     total_loss_u = 0.0
@@ -668,6 +765,7 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
             avg_loss_u = epoch_loss_u / max(n_batches, 1)
             avg_loss_v = epoch_loss_v / max(n_batches, 1)
             elapsed = time.time() - t0
+            cumulative_time_s += elapsed
             throughput = len(dataset) / elapsed
             mem_gb = torch.cuda.memory_allocated(0) / (1024**3)
             mem_peak_gb = torch.cuda.max_memory_allocated(0) / (1024**3)
@@ -695,7 +793,7 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
                 break
 
             if epoch <= 5 or epoch % 10 == 0:
-                hours_left = (deadline - time.time()) / 3600
+                hours_left = max(0.0, (deadline - time.time()) / 3600)
                 logger.info(
                     f"  C[{epoch:>5d}] loss={avg_loss:.6f} "
                     f"(u={avg_loss_u:.6f} v={avg_loss_v:.6f}) | "
@@ -708,21 +806,30 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
             if avg_loss < best_loss:
                 best_loss = avg_loss
 
-            if epoch % checkpoint_interval == 0:
-                torch.save({
+            if epoch % checkpoint_interval == 0 or _shutdown_requested:
+                ckpt_data = {
                     "epoch": epoch,
                     "solver_state": solver.state_dict(),
                     "optimizer_state": optimizer.state_dict(),
                     "scheduler_state": scheduler.state_dict(),
                     "scaler_state": scaler.state_dict(),
                     "best_loss": best_loss,
-                }, ckpt_path)
+                    "cumulative_time_s": cumulative_time_s,
+                    "loss_history": loss_history[-200:],
+                }
+                atomic_save_checkpoint(ckpt_data, ckpt_path)
                 logger.info(f"  C[{epoch}] checkpoint saved → {ckpt_path}")
+
+                if epoch % 100 == 0:
+                    milestone_path = os.path.join(ckpt_dir, f"phase_c_epoch_{epoch:05d}.pt")
+                    atomic_save_checkpoint(ckpt_data, milestone_path)
+                    logger.info(f"  C[{epoch}] milestone checkpoint saved → {milestone_path}")
 
             if epoch % snapshot_interval == 0:
                 snapshot = {
                     "phase": "C",
                     "epoch": epoch,
+                    "cumulative_time_h": round(cumulative_time_s / 3600, 2),
                     "detector_summary": detector.summary(),
                     "recent_losses": loss_history[-snapshot_interval:],
                     "timestamp": datetime.now().isoformat(),
@@ -730,6 +837,10 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
                 snap_path = f"experiments/stability_phase_c_snapshot_e{epoch}.json"
                 with open(snap_path, "w") as f:
                     json.dump(snapshot, f, indent=2, default=str)
+
+            if _shutdown_requested:
+                logger.info(f"Phase C: Graceful shutdown requested at epoch {epoch}. Exiting loop.")
+                break
 
     except KeyboardInterrupt:
         logger.info(f"Phase C interrupted at epoch {epoch}")
@@ -739,12 +850,20 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
 
     monitor.stop()
 
-    torch.save({
+    final_ckpt_data = {
         "epoch": epoch,
         "solver_state": solver.state_dict(),
+        "optimizer_state": optimizer.state_dict(),
+        "scheduler_state": scheduler.state_dict(),
+        "scaler_state": scaler.state_dict(),
         "best_loss": best_loss,
-    }, ckpt_path)
-    logger.info(f"Phase C final checkpoint: epoch {epoch}, best_loss={best_loss:.6f}")
+        "cumulative_time_s": cumulative_time_s,
+        "loss_history": loss_history[-200:],
+    }
+    atomic_save_checkpoint(final_ckpt_data, ckpt_path)
+    final_path = os.path.join(ckpt_dir, "phase_c_final.pt")
+    atomic_save_checkpoint(final_ckpt_data, final_path)
+    logger.info(f"Phase C final checkpoint saved → {final_path} (epoch {epoch}, best_loss={best_loss:.6f})")
 
     return loss_history, detector.summary()
 
@@ -755,14 +874,14 @@ def run_phase_c_extended(latent_h5_path: str, max_hours: float = 24.0,
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="48-Hour Stability Test")
+    parser = argparse.ArgumentParser(description="48-Hour Stability Test (Resumable & Docker-Ready)")
     parser.add_argument("--hours", type=float, default=48.0,
                         help="Total hours to run (split equally between phases)")
     parser.add_argument("--phase-b-hours", type=float, default=None,
                         help="Hours for Phase B (overrides --hours split)")
     parser.add_argument("--phase-c-hours", type=float, default=None,
                         help="Hours for Phase C (overrides --hours split)")
-    parser.add_argument("--checkpoint-interval", type=int, default=100,
+    parser.add_argument("--checkpoint-interval", type=int, default=50,
                         help="Save checkpoint every N epochs")
     parser.add_argument("--snapshot-interval", type=int, default=50,
                         help="Save JSON snapshot every N epochs")
@@ -770,6 +889,16 @@ def main():
                         help="Phase B batch size")
     parser.add_argument("--batch-c", type=int, default=24,
                         help="Phase C batch size")
+    parser.add_argument("--data-dir", type=str,
+                        default="/DATA/horizon_disentangled/data/synthetic_stability",
+                        help="Directory for synthetic HDF5 datasets")
+    parser.add_argument("--ckpt-dir", type=str,
+                        default="experiments/stability_checkpoints",
+                        help="Directory for model checkpoints")
+    parser.add_argument("--resume", action="store_true", default=True,
+                        help="Resume from latest checkpoints if present")
+    parser.add_argument("--no-resume", action="store_false", dest="resume",
+                        help="Do not resume from existing checkpoints")
     parser.add_argument("--skip-phase-b", action="store_true",
                         help="Skip Phase B, run Phase C only")
     parser.add_argument("--skip-phase-c", action="store_true",
@@ -782,7 +911,6 @@ def main():
     torch.manual_seed(42)
     np.random.seed(42)
 
-    # CUDA optimisations
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     torch.backends.cudnn.benchmark = True
@@ -794,14 +922,16 @@ def main():
     gpu_sms = torch.cuda.get_device_properties(0).multi_processor_count
 
     logger.info("=" * 70)
-    logger.info("48-HOUR STABILITY & CONVERGENCE TEST")
+    logger.info("48-HOUR STABILITY & CONVERGENCE TEST (RESUMABLE & DOCKER-READY)")
     logger.info("=" * 70)
     logger.info(f"GPU: {gpu_name} ({gpu_mem_gb:.1f} GB, {gpu_sms} SMs)")
-    logger.info(f"Total run time: {args.hours:.1f}h (Phase B: {phase_b_hours:.1f}h, Phase C: {phase_c_hours:.1f}h)")
+    logger.info(f"Target duration: {args.hours:.1f}h (Phase B: {phase_b_hours:.1f}h, Phase C: {phase_c_hours:.1f}h)")
     logger.info(f"Checkpoint interval: every {args.checkpoint_interval} epochs")
     logger.info(f"Snapshot interval: every {args.snapshot_interval} epochs")
+    logger.info(f"Auto-resume: {args.resume}")
+    logger.info(f"Data directory: {args.data_dir}")
+    logger.info(f"Checkpoint directory: {args.ckpt_dir}")
     logger.info(f"Start time: {datetime.now().isoformat()}")
-    logger.info(f"Expected end: {(datetime.now() + timedelta(hours=args.hours)).isoformat()}")
 
     results = {
         "gpu": gpu_name,
@@ -811,20 +941,25 @@ def main():
         "phases": {},
     }
 
-    # Create synthetic data
-    tmpdir = tempfile.mkdtemp(prefix="stability_48h_")
-    encoder_h5 = os.path.join(tmpdir, "encoder_features.h5")
-    latent_h5 = os.path.join(tmpdir, "latent_decomposition.h5")
-
-    create_phase_a_hdf5(encoder_h5)
-    create_phase_b_hdf5(latent_h5)
-
-    ckpt_dir = "experiments/stability_checkpoints"
-    os.makedirs(ckpt_dir, exist_ok=True)
+    os.makedirs(args.data_dir, exist_ok=True)
+    os.makedirs(args.ckpt_dir, exist_ok=True)
     os.makedirs("experiments", exist_ok=True)
 
+    encoder_h5 = os.path.join(args.data_dir, "encoder_features.h5")
+    latent_h5 = os.path.join(args.data_dir, "latent_decomposition.h5")
+
+    if not os.path.exists(encoder_h5):
+        create_phase_a_hdf5(encoder_h5)
+    else:
+        logger.info(f"Reusing existing Phase A HDF5: {encoder_h5} ({os.path.getsize(encoder_h5)/(1024**2):.1f} MB)")
+
+    if not os.path.exists(latent_h5):
+        create_phase_b_hdf5(latent_h5)
+    else:
+        logger.info(f"Reusing existing Phase B HDF5: {latent_h5} ({os.path.getsize(latent_h5)/(1024**2):.1f} MB)")
+
     # ─── Phase B ──────────────────────────────────────────────────────
-    if not args.skip_phase_b:
+    if not args.skip_phase_b and not _shutdown_requested:
         logger.info("=" * 70)
         logger.info("PHASE B: Extended VAE Training")
         logger.info("=" * 70)
@@ -839,7 +974,8 @@ def main():
             batch_size=args.batch_b, lr=2e-4, grad_accum_steps=2,
             checkpoint_interval=args.checkpoint_interval,
             snapshot_interval=args.snapshot_interval,
-            ckpt_dir=ckpt_dir,
+            ckpt_dir=args.ckpt_dir,
+            resume=args.resume,
         )
         phase_b_elapsed = time.time() - phase_b_start
 
@@ -854,13 +990,12 @@ def main():
             "mem_drift_gb": phase_b_summary.get("mem_drift_gb") or 0.0,
         }
 
-        logger.info(f"Phase B complete: {len(phase_b_history)} epochs in {phase_b_elapsed/3600:.2f}h")
+        logger.info(f"Phase B complete: {len(phase_b_history)} epochs recorded in {phase_b_elapsed/3600:.2f}h")
         logger.info(f"  Loss: {phase_b_history[0]['loss']:.4f} → {phase_b_history[-1]['loss']:.4f}" if phase_b_history else "  Loss: N/A")
         logger.info(f"  Converged: {phase_b_summary.get('loss_converged', False)}")
         logger.info(f"  Memory drift: {(phase_b_summary.get('mem_drift_gb') or 0.0):.3f} GB")
         logger.info(f"  Alerts: {phase_b_summary.get('n_alerts', 0)}")
 
-        # Cleanup Phase B
         gc.collect()
         gc.collect()
         torch.cuda.empty_cache()
@@ -869,10 +1004,10 @@ def main():
         gc.collect()
         time.sleep(5)
     else:
-        logger.info("Phase B: SKIPPED")
+        logger.info("Phase B: SKIPPED or Shutdown requested")
 
     # ─── Phase C ──────────────────────────────────────────────────────
-    if not args.skip_phase_c:
+    if not args.skip_phase_c and not _shutdown_requested:
         logger.info("=" * 70)
         logger.info("PHASE C: Extended NJDE Dynamics Training")
         logger.info("=" * 70)
@@ -887,7 +1022,8 @@ def main():
             batch_size=args.batch_c, lr=5e-4, grad_accum_steps=3,
             checkpoint_interval=args.checkpoint_interval,
             snapshot_interval=args.snapshot_interval,
-            ckpt_dir=ckpt_dir,
+            ckpt_dir=args.ckpt_dir,
+            resume=args.resume,
         )
         phase_c_elapsed = time.time() - phase_c_start
 
@@ -902,13 +1038,13 @@ def main():
             "mem_drift_gb": phase_c_summary.get("mem_drift_gb") or 0.0,
         }
 
-        logger.info(f"Phase C complete: {len(phase_c_history)} epochs in {phase_c_elapsed/3600:.2f}h")
+        logger.info(f"Phase C complete: {len(phase_c_history)} epochs recorded in {phase_c_elapsed/3600:.2f}h")
         logger.info(f"  Loss: {phase_c_history[0]['loss']:.6f} → {phase_c_history[-1]['loss']:.6f}" if phase_c_history else "  Loss: N/A")
         logger.info(f"  Converged: {phase_c_summary.get('loss_converged', False)}")
         logger.info(f"  Memory drift: {(phase_c_summary.get('mem_drift_gb') or 0.0):.3f} GB")
         logger.info(f"  Alerts: {phase_c_summary.get('n_alerts', 0)}")
     else:
-        logger.info("Phase C: SKIPPED")
+        logger.info("Phase C: SKIPPED or Shutdown requested")
 
     # ─── Final Report ─────────────────────────────────────────────────
     results["end_time"] = datetime.now().isoformat()
@@ -918,7 +1054,7 @@ def main():
     )
     results["all_converged"] = all(
         results["phases"][p].get("converged", False) for p in results["phases"]
-    )
+    ) if results["phases"] else False
     results["total_alerts"] = sum(
         results["phases"][p].get("n_alerts", 0) for p in results["phases"]
     )
@@ -928,29 +1064,24 @@ def main():
     )
 
     logger.info("=" * 70)
-    logger.info("48-HOUR STABILITY TEST — FINAL REPORT")
+    logger.info("STABILITY TEST — FINAL REPORT")
     logger.info("=" * 70)
-    logger.info(f"Total run time: {results['total_time_h']:.2f} hours")
+    logger.info(f"Total session run time: {results['total_time_h']:.2f} hours")
     logger.info(f"All phases converging: {'✅ YES' if results['all_converged'] else '❌ NO'}")
     logger.info(f"Memory leak detected: {'❌ YES' if results['memory_leak_detected'] else '✅ NO'}")
     logger.info(f"Total alerts: {results['total_alerts']}")
 
     for p in sorted(results["phases"].keys()):
         ph = results["phases"][p]
-        logger.info(f"  Phase {p}: {ph['total_epochs']} epochs in {ph['total_time_h']:.1f}h | "
+        logger.info(f"  Phase {p}: {ph['total_epochs']} epochs | "
                      f"loss {ph.get('loss_start', '?')} → {ph.get('loss_end', '?')} | "
                      f"mem drift {(ph.get('mem_drift_gb') or 0.0):.3f} GB | "
                      f"{ph.get('n_alerts', 0)} alerts")
 
-    # Save final results
     out_path = "experiments/stability_48h_results.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2, default=str)
     logger.info(f"Results saved → {out_path}")
-
-    # Cleanup temp files
-    import shutil
-    shutil.rmtree(tmpdir, ignore_errors=True)
 
     return results
 

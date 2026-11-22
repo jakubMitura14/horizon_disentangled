@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  stability_trainer:
+    container_name: horizon_stability_trainer
+    image: ubuntu:22.04
+    restart: unless-stopped
+    ipc: host
+    user: "1000:1000"
+    working_dir: /DATA/horizon_disentangled
+    environment:
+      - LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:$LD_LIBRARY_PATH
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - /DATA:/DATA
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: >
+      /DATA/conda/envs/nukl-to-ct/bin/python scripts/training/stability_48h.py
+      --hours 48
+      --checkpoint-interval 50
+      --snapshot-interval 50
+      --batch-b 36
+      --batch-c 24
+      --data-dir /DATA/horizon_disentangled/data/synthetic_stability
+      --ckpt-dir experiments/stability_checkpoints
+      --resume
+    stop_grace_period: 45s
