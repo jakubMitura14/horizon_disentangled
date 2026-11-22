@@ -1,3 +1,16 @@
+"""Stage 2 — Causal Disentanglement Losses.
+
+Enforces statistical independence between latent factors using:
+- FactorVAE Total Correlation (TC) discriminator: separates biological
+  latents [Z_D, Z_P] from scanner style Z_S
+- Variational CLUB (vCLUB): upper-bounds mutual information I(Z_D; Z_S),
+  I(Z_A; Z_S), and I(Z_D; Z_P) for asymmetric causal structure
+
+Key classes:
+    FactorVAEDiscriminator: Binary classifier for joint vs. factorized distributions.
+    VariationalCLUB: Contrastive log-ratio upper bound on mutual information.
+    AsymmetricCausalDisentanglement: Composite loss combining TC + vCLUB penalties.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

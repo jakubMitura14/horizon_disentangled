@@ -1,3 +1,17 @@
+"""Stage 2 — Latent Uncertainty Quantification and Export.
+
+Manages epistemic and aleatoric uncertainty propagation through the VAE
+latent space. Generates Monte Carlo posterior draws and exports disentangled
+latent representations to Zstandard-compressed HDF5 for downstream stages.
+
+Key classes:
+    LatentUncertaintyManager: MC sampling + HDF5 latent store export.
+
+Example:
+    >>> from src.pipeline.stage2_causal_vae.uncertainty import LatentUncertaintyManager
+    >>> uq = LatentUncertaintyManager(num_mc_samples=16)
+    >>> stats = uq.compute_posterior_stats(mu_d, logvar_d, mu_p, logvar_p)
+"""
 import os
 import h5py
 import hdf5plugin

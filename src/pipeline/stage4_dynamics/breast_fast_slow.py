@@ -1,3 +1,19 @@
+"""Stage 4 — Breast Cancer Fast-Slow Biophysical PDE.
+
+Dual-timescale biophysical model for breast cancer treatment response:
+- Slow timeline (days): tumor cellularity evolution, vascular remodeling,
+  and neoadjuvant chemotherapy shocks over a 168-day treatment course
+- Fast timeline (minutes): intra-scan gadolinium washout modeled via
+  closed-form Extended Tofts pharmacokinetics under bi-exponential Weinmann AIF
+
+Key classes:
+    BreastFastSlowBiophysicalPDE: Coarse-grid PDE engine for breast cancer.
+    ExtendedToftsObservationOperator: Analytically differentiable PK forward model.
+
+Example:
+    >>> pde = BreastFastSlowBiophysicalPDE()
+    >>> du_dt = pde.forward_continuous_deriv(u_d, v_sys, c_drug)
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

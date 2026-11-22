@@ -1,3 +1,20 @@
+"""Stage 1 — Loss Functions for Multimodal Supervisors.
+
+Implements the multi-objective training losses for Stage 1:
+- DIOR: Differential Ordinal Learning (CE + cumulative ordinal + adjacency + pairwise)
+- LogisticHazard: Discrete hazard survival NLL for right-censored data
+- SurvRNC: Survival Rank-N-Contrast contrastive regularizer (MICCAI 2024)
+- MerlinInfoNCE: Symmetric image-text InfoNCE contrastive loss (Nature 2026)
+- MerlinMultiTaskLoss: Combined InfoNCE + BCE phenotype prediction
+
+Key classes:
+    DifferentialOrdinalLoss: 4-component DIOR loss with pairwise alignment.
+    LogisticHazardLoss: Discrete-time survival negative log-likelihood.
+    SurvRNCLoss: Censoring-aware contrastive survival ranking.
+    MerlinInfoNCELoss: Symmetric InfoNCE with learnable temperature.
+    ClinicalTextEncoder: Attention-pooled clinical text encoder.
+    MerlinMultiTaskLoss: Combined contrastive + phenotype multi-task loss.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

@@ -1,3 +1,21 @@
+"""Stage 5 — Agentic Treatment-Choice Helper.
+
+Ranks guideline-eligible treatment regimens by simulating posterior
+counterfactual trajectory draws and scoring each by uncertainty-penalized
+time-to-progression (TTP):
+
+    Score(I_m) = E[TTP(I_m)] − λ_unc · SD[TTP(I_m)]
+
+Supports GBM (RT fractionation schedules) and breast cancer (I-SPY 2
+neoadjuvant chemotherapy arms).
+
+Key classes:
+    AgenticTreatmentHelper: Counterfactual ranking engine.
+
+Example:
+    >>> helper = AgenticTreatmentHelper(domain='gbm', num_posterior_draws=16)
+    >>> rankings = helper.rank_interventions(u_d_0, v_sys_0, z_a_0, z_s, sigma2)
+"""
 import numpy as np
 import torch
 from typing import Dict, Any, List, Optional

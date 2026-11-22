@@ -1,3 +1,14 @@
+"""Stage 4 — Masked Leave-One-Out Trajectory Loss.
+
+Implements the masked trajectory supervision loss (Eq. 16) for training the
+continuous-discrete jump solver. Evaluates MSE only over valid observed
+spatial slots (M_U) and systemic slots (M_v), ignoring unobserved modalities
+and down-weighting OOD-flagged visits. Includes optional biophysical
+regularization (L_SER for breast, L_LQ for GBM).
+
+Key classes:
+    MaskedLeaveOneOutLoss: Masked MSE + biophysical regularization.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

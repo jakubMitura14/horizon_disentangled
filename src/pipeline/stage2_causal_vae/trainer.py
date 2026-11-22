@@ -1,3 +1,18 @@
+"""Stage 2 — Trainer for Hierarchical Causal VAE.
+
+DDP-aware training with dual optimizers (VAE reconstruction + auxiliary
+disentanglement networks). Features gradient accumulation, GradScaler,
+and linear warmup → cosine annealing schedule.
+
+Key classes:
+    Stage2Trainer: Trains TwoScaleHierarchicalCausalVAE with
+        AsymmetricCausalDisentanglement and LatentUncertaintyManager.
+
+Example:
+    >>> from src.pipeline.stage2_causal_vae.trainer import Stage2Trainer
+    >>> trainer = Stage2Trainer(config)
+    >>> metrics = trainer.train_step(x, mask)
+"""
 import os
 import torch
 import torch.nn as nn
@@ -13,7 +28,16 @@ from src.pipeline.stage2_causal_vae.uncertainty import LatentUncertaintyManager
 from src.pipeline.config import PipelineConfig
 
 class Stage2Trainer:
-    """Trainer for Stage 2 Hierarchical Causal VAE Disentanglement."""
+    """Trainer for Stage 2 Hierarchical Causal VAE Disentanglement.
+
+    DDP-aware training loop with dual optimizers:
+    - Main optimizer: VAE reconstruction (encoder + decoder + uncertainty)
+    - Auxiliary optimizer: disentanglement networks (TC discriminator + vCLUB)
+
+    Features gradient accumulation, GradScaler for mixed-precision stability,
+    and a linear warmup → cosine annealing schedule. Wraps sub-modules in DDP
+    with H200-optimized bucket sizes (50 MB) and static_graph=True.
+    """
     def __init__(self, config: PipelineConfig):
         self.config = config
         self.device = torch.device(config.hardware.device)

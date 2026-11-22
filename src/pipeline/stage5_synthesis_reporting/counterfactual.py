@@ -1,3 +1,18 @@
+"""Stage 5 — Counterfactual Trajectory Simulator.
+
+Simulates "what-if" patient trajectories under candidate clinical
+interventions by running the Stage 4 continuous-discrete jump solver
+with alternative event schedules. Optionally decodes warped anatomy
+back to 3D imaging volumes via the Stage 2 VAE decoder.
+
+Key classes:
+    CounterfactualSimulator: Runs candidate regimen trajectories and
+        returns tumor volume curves and optional decoded 3D volumes.
+
+Example:
+    >>> sim = CounterfactualSimulator(domain='gbm', solver=solver, vae=vae)
+    >>> result = sim.simulate_regimen(u_d_0, v_sys_0, z_a_0, z_s_ref, schedule)
+"""
 import torch
 import torch.nn as nn
 from typing import Dict, Any, List, Optional, Tuple

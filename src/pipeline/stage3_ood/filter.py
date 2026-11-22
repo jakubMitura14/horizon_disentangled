@@ -1,3 +1,18 @@
+"""Stage 3 — OOD Detection and Data Filtering Pipeline.
+
+Orchestrates Normality Manifold VAE training, OOD scorer calibration,
+and patient-level visit tagging. Integrates with the EU AI Act audit
+logger for OOD event record-keeping (Art. 12).
+
+Key classes:
+    Stage3OODFilter: Trains VAE, calibrates scorer, and tags patient visits.
+
+Example:
+    >>> from src.pipeline.stage3_ood.filter import Stage3OODFilter
+    >>> ood_filter = Stage3OODFilter(config)
+    >>> ood_filter.train_manifold(clean_latents)
+    >>> tagged = ood_filter.filter_and_tag_patients(patient_latents)
+"""
 import os
 import torch
 import torch.nn as nn

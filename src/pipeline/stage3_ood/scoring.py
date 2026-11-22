@@ -1,3 +1,17 @@
+"""Stage 3 — OOD Scoring and Thresholding.
+
+Computes the composite OOD score S_OOD combining z-scored VAE reconstruction
+error with z-scored k-NN (k=15) latent distance against a clean reference bank.
+Threshold is set at the 95th percentile of the calibration set.
+
+Key classes:
+    OODScorer: Calibration + scoring engine for latent OOD detection.
+
+Example:
+    >>> scorer = OODScorer(manifold_vae, k_neighbors=15)
+    >>> scorer.calibrate(clean_latents, device)
+    >>> scores, flags = scorer.score(test_latents)
+"""
 import torch
 import torch.nn as nn
 import numpy as np

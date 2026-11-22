@@ -1,3 +1,22 @@
+"""Stage 4 — Continuous-Discrete Jump Integrator.
+
+Unified solver coupling spatial biophysical PDEs on the coarse latent grid
+with the systemic Neural Jump ODE. Uses RK4 integration with CFL-bounded
+sub-stepping, interrupted by discrete clinical event shocks (surgery,
+radiotherapy, chemotherapy) at scheduled timestamps.
+
+Supports DDP via wrap_for_cluster() which wraps sub-modules individually,
+allowing the outer solver to remain unwrapped for flexible trajectory logic.
+
+Key classes:
+    ContinuousDiscreteJumpSolver: Main integrator with forward_trajectory().
+
+Example:
+    >>> solver = ContinuousDiscreteJumpSolver(domain='gbm', dt_cfl_days=7.0)
+    >>> solver = solver.to(device)
+    >>> solver.wrap_for_cluster()
+    >>> traj = solver.forward_trajectory(u_d_0, v_sys_0, phi, schedule, eval_times)
+"""
 import torch
 import torch.nn as nn
 from typing import Dict, Any, List, Optional, Tuple, Callable
@@ -49,8 +68,10 @@ class ContinuousDiscreteJumpSolver(nn.Module):
             device_ids=[local_rank],
             output_device=local_rank,
             find_unused_parameters=False,
+            # H200: 50MB bucket size matches NVLink 4.0 bandwidth for optimal AllReduce overlap
             bucket_cap_mb=50,
             gradient_as_bucket_view=True,
+            # H200: static_graph enables NCCL stream pipelining for comm/compute overlap
             static_graph=True,
         )
         self.systemic_ode = DDP(

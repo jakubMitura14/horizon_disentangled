@@ -1,3 +1,13 @@
+"""Stage 3 — Normality Manifold VAE.
+
+4-layer residual MLP VAE (V_OOD) trained on clean purified latent vectors
+zeta_i = [mu_D^glob (64), mu_P (32), log_var_D (64), q_stage1 (5)] = 165-D.
+Reconstruction error provides the first component of the OOD score.
+
+Key classes:
+    NormalityManifoldVAE: Encoder-decoder with 32-D bottleneck.
+    ResBlockMLP: Residual MLP block with LayerNorm and GELU.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

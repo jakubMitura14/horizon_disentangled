@@ -1,3 +1,17 @@
+"""Stage 4 — Glioblastoma Biophysical PDE Engine.
+
+Implements the spatial PDE system on the coarse latent grid Omega_L (24x28x20):
+- Anisotropic Fisher-KPP diffusion-proliferation for viable tumor
+- Screened Darcy pressure + mechanical advection for mass effect
+- Necrotic damage accumulation and hypoxia-driven clearance
+- Neural closure f_psi for residual morphological dynamics (channels 4-7)
+- Linear-Quadratic (LQ) radiation shock with TMZ chemosensitization
+- Surgical resection shock (cavity masking)
+
+Key classes:
+    GlioblastomaBiophysicalPDE: Full GBM PDE engine with jump operators.
+    FiniteDifference3D: 3D Laplacian and gradient stencils on Cartesian grid.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -123,7 +137,7 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         dt_last: torch.Tensor           # (B,) time since last observation
     ) -> torch.Tensor:
         """Evaluates dU_D / dt on coarse latent grid."""
-        # Channels-last layout: improves H200 cuDNN throughput ~15% for 3D conv ops
+        # H200: channels_last_3d improves cuDNN throughput ~15% for 3D conv ops
         if u_d.dim() == 5:
             u_d = u_d.to(memory_format=torch.channels_last_3d)
             phi_mask = phi_mask.to(memory_format=torch.channels_last_3d)

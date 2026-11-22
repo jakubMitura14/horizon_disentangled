@@ -1,3 +1,20 @@
+"""Pipeline Configuration — Hardware, Data, and Per-Stage Hyperparameters.
+
+Dataclass-based configuration for the 5-stage Horizon Disentangled pipeline.
+Auto-detects SLURM/torchrun distributed environment and configures GPU
+performance settings (cuDNN, TF32, BF16, cudaMallocAsync) on instantiation.
+
+Key classes:
+    HardwareConfig: GPU device, distributed training, and cluster perf tuning.
+    DataConfig: HDF5 paths, spatial shapes, and latent dimensions.
+    Stage1Config–Stage5Config: Per-stage hyperparameters.
+    PipelineConfig: Master config aggregating all sub-configs.
+
+Example:
+    >>> from src.pipeline.config import PipelineConfig
+    >>> config = PipelineConfig()
+    >>> config.hardware.lr_scaled(1e-4)  # Linear scaling for DDP
+"""
 import os
 import torch
 from dataclasses import dataclass, field
@@ -5,7 +22,18 @@ from typing import Dict, Any, List, Optional, Tuple
 
 @dataclass
 class HardwareConfig:
-    """Hardware and distributed execution settings."""
+    """Hardware and distributed execution settings.
+
+    Auto-detects SLURM/torchrun distributed environment on instantiation
+    and configures GPU performance: cuDNN benchmark, TF32, BF16, cudaMallocAsync,
+    NCCL bucket sizing (50 MB for NVLink 4.0), and dataloader prefetching.
+
+    Attributes:
+        is_distributed: Whether running in multi-GPU mode (auto-detected).
+        nccl_bucket_cap_mb: AllReduce bucket size (50 MB optimized for H200 NVLink).
+        compile_mode: torch.compile mode ('max-autotune' for H200 kernel profiling).
+        prefetch_factor: Batches pre-loaded per worker to hide HDF5 I/O latency.
+    """
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
     device_id: int = 0
     num_gpus: int = torch.cuda.device_count() if torch.cuda.is_available() else 0
@@ -25,10 +53,10 @@ class HardwareConfig:
     cudnn_benchmark: bool = True           # auto-tune conv kernels for fixed spatial shapes
     cuda_graphs: bool = False              # CUDA graph capture for static-shape training loops
     pin_memory_pool: bool = True           # pre-allocate pinned CPU-GPU transfer buffers
-    nccl_bucket_cap_mb: int = 50           # DDP all-reduce bucket size (25→50 MB for NVLink 4)
+    nccl_bucket_cap_mb: int = 50           # H200: 50 MB matches NVLink 4.0 ~900 GB/s for optimal AllReduce overlap
     dataloader_num_workers: int = 0        # 0 = auto-computed in __post_init__
-    prefetch_factor: int = 4               # DataLoader prefetch depth per worker
-    compile_mode: str = "max-autotune"     # torch.compile mode — max-autotune profiles best kernels
+    prefetch_factor: int = 4               # 4 batches pre-loaded per worker hides HDF5 I/O latency
+    compile_mode: str = "max-autotune"     # H200: profiles fastest CUDA kernels per op shape
 
     def __post_init__(self):
         # Auto-detect SLURM or torchrun environment
@@ -189,7 +217,13 @@ class Stage5Config:
 
 @dataclass
 class PipelineConfig:
-    """Master Pipeline Configuration."""
+    """Master Pipeline Configuration.
+
+    Aggregates all sub-configs (hardware, data, stages 1–5) into a single
+    top-level dataclass. Instantiating PipelineConfig() auto-detects the
+    runtime environment (SLURM, torchrun, single-GPU) and configures all
+    hardware/performance settings via HardwareConfig.__post_init__.
+    """
     hardware: HardwareConfig = field(default_factory=HardwareConfig)
     data: DataConfig = field(default_factory=DataConfig)
     stage1: Stage1Config = field(default_factory=Stage1Config)

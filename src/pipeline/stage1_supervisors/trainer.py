@@ -1,3 +1,20 @@
+"""Stage 1 — Trainer for Multimodal Supervisors.
+
+DDP-aware training loop with:
+- Gradient accumulation with correct no_sync() suppression
+- GradScaler for mixed-precision (BF16) training
+- Linear warmup → cosine annealing LR schedule
+- Merlin-style contrastive learning (ClinicalTextEncoder + InfoNCE)
+- Rank-0-only checkpoint saving with dist.barrier() synchronization
+
+Key classes:
+    Stage1Trainer: Full training loop for MultimodalSupervisorTrunk.
+
+Example:
+    >>> from src.pipeline.stage1_supervisors.trainer import Stage1Trainer
+    >>> trainer = Stage1Trainer(config, domain='gbm')
+    >>> metrics = trainer.train_step(batch)
+"""
 import os
 import torch
 import torch.nn as nn

@@ -1,3 +1,18 @@
+"""Stage 5 — Latent Rectified Flow Refiner.
+
+Refines coarse VAE-decoded anatomy volumes along straight-line flow paths
+using 15–25 Euler integration steps. Starting from a noisy interpolant at
+τ_0 = 0.35, the velocity network v_θ(z_τ, τ, c) iteratively restores
+sharp anatomical gradients lost during VAE quantization.
+
+Key classes:
+    LatentRectifiedFlowRefiner: Flow-based volume refinement module.
+    FlowVelocityNet: 3D convolutional velocity field predictor.
+
+Example:
+    >>> refiner = LatentRectifiedFlowRefiner(channels=4, num_steps=20)
+    >>> z_refined = refiner.refine_latent(z_coarse, condition)
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

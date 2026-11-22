@@ -1,3 +1,16 @@
+"""Stage 5 — Anatomical Spatial Warper.
+
+Warps baseline anatomy Z_A(t_0) using a 3D displacement field Φ(x, t)
+derived from integrated Darcy velocity to render mass effect, ventricular
+compression, and midline shift in counterfactual volumes.
+
+Key classes:
+    AnatomicalSpatialWarper: Differentiable 3D grid-sample warping module.
+
+Example:
+    >>> warper = AnatomicalSpatialWarper(mode='bilinear')
+    >>> warped_za = warper(z_a, displacement_field)
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

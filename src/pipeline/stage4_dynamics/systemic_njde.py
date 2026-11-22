@@ -1,3 +1,18 @@
+"""Stage 4 — Systemic Neural Jump ODE.
+
+Continuous-time latent dynamics model for the canonical systemic state vector
+v_sys ∈ ℝ^160, conditioned on spatial disease summaries and time-since-last-
+observation. Uses a 4-layer ResNet drift network with skip connections and
+discrete observation-update shocks at measurement timestamps.
+
+Key classes:
+    SystemicNeuralJumpODE: NJ-ODE with drift + observation jump networks.
+    ResMLPBlock: Residual MLP block used in the drift network.
+
+Example:
+    >>> ode = SystemicNeuralJumpODE(systemic_dim=160)
+    >>> dv = ode.forward_drift(v_sys, u_d_pooled, dt_last)
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
