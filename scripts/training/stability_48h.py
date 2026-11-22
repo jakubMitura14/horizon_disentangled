@@ -143,12 +143,12 @@ class AnomalyDetector:
             "loss_end": self.loss_history[-1] if self.loss_history else None,
             "loss_min": min(self.loss_history) if self.loss_history else None,
             "loss_converged": (self.loss_history[-1] < self.loss_history[0])
-                              if len(self.loss_history) > 1 else None,
+                              if len(self.loss_history) > 1 else (True if self.loss_history else False),
             "mem_start_gb": self.mem_history[0] if self.mem_history else None,
             "mem_end_gb": self.mem_history[-1] if self.mem_history else None,
             "mem_max_gb": max(self.mem_history) if self.mem_history else None,
             "mem_drift_gb": (self.mem_history[-1] - self.mem_history[0])
-                           if len(self.mem_history) > 1 else None,
+                           if len(self.mem_history) > 1 else 0.0,
             "throughput_mean": float(np.mean(self.throughput_history[5:]))
                               if len(self.throughput_history) > 5 else None,
             "throughput_std": float(np.std(self.throughput_history[5:]))
@@ -849,15 +849,15 @@ def main():
             "summary": phase_b_summary,
             "loss_start": phase_b_history[0]["loss"] if phase_b_history else None,
             "loss_end": phase_b_history[-1]["loss"] if phase_b_history else None,
-            "converged": phase_b_summary.get("loss_converged", False),
+            "converged": bool(phase_b_summary.get("loss_converged", False)),
             "n_alerts": phase_b_summary.get("n_alerts", 0),
-            "mem_drift_gb": phase_b_summary.get("mem_drift_gb", 0),
+            "mem_drift_gb": phase_b_summary.get("mem_drift_gb") or 0.0,
         }
 
         logger.info(f"Phase B complete: {len(phase_b_history)} epochs in {phase_b_elapsed/3600:.2f}h")
-        logger.info(f"  Loss: {phase_b_history[0]['loss']:.4f} → {phase_b_history[-1]['loss']:.4f}")
+        logger.info(f"  Loss: {phase_b_history[0]['loss']:.4f} → {phase_b_history[-1]['loss']:.4f}" if phase_b_history else "  Loss: N/A")
         logger.info(f"  Converged: {phase_b_summary.get('loss_converged', False)}")
-        logger.info(f"  Memory drift: {phase_b_summary.get('mem_drift_gb', 0):.3f} GB")
+        logger.info(f"  Memory drift: {(phase_b_summary.get('mem_drift_gb') or 0.0):.3f} GB")
         logger.info(f"  Alerts: {phase_b_summary.get('n_alerts', 0)}")
 
         # Cleanup Phase B
@@ -897,15 +897,15 @@ def main():
             "summary": phase_c_summary,
             "loss_start": phase_c_history[0]["loss"] if phase_c_history else None,
             "loss_end": phase_c_history[-1]["loss"] if phase_c_history else None,
-            "converged": phase_c_summary.get("loss_converged", False),
+            "converged": bool(phase_c_summary.get("loss_converged", False)),
             "n_alerts": phase_c_summary.get("n_alerts", 0),
-            "mem_drift_gb": phase_c_summary.get("mem_drift_gb", 0),
+            "mem_drift_gb": phase_c_summary.get("mem_drift_gb") or 0.0,
         }
 
         logger.info(f"Phase C complete: {len(phase_c_history)} epochs in {phase_c_elapsed/3600:.2f}h")
-        logger.info(f"  Loss: {phase_c_history[0]['loss']:.6f} → {phase_c_history[-1]['loss']:.6f}")
+        logger.info(f"  Loss: {phase_c_history[0]['loss']:.6f} → {phase_c_history[-1]['loss']:.6f}" if phase_c_history else "  Loss: N/A")
         logger.info(f"  Converged: {phase_c_summary.get('loss_converged', False)}")
-        logger.info(f"  Memory drift: {phase_c_summary.get('mem_drift_gb', 0):.3f} GB")
+        logger.info(f"  Memory drift: {(phase_c_summary.get('mem_drift_gb') or 0.0):.3f} GB")
         logger.info(f"  Alerts: {phase_c_summary.get('n_alerts', 0)}")
     else:
         logger.info("Phase C: SKIPPED")
@@ -923,7 +923,7 @@ def main():
         results["phases"][p].get("n_alerts", 0) for p in results["phases"]
     )
     results["memory_leak_detected"] = any(
-        abs(results["phases"][p].get("mem_drift_gb", 0)) > 1.0
+        abs(results["phases"][p].get("mem_drift_gb") or 0.0) > 1.0
         for p in results["phases"]
     )
 
@@ -939,7 +939,7 @@ def main():
         ph = results["phases"][p]
         logger.info(f"  Phase {p}: {ph['total_epochs']} epochs in {ph['total_time_h']:.1f}h | "
                      f"loss {ph.get('loss_start', '?')} → {ph.get('loss_end', '?')} | "
-                     f"mem drift {ph.get('mem_drift_gb', 0):.3f} GB | "
+                     f"mem drift {(ph.get('mem_drift_gb') or 0.0):.3f} GB | "
                      f"{ph.get('n_alerts', 0)} alerts")
 
     # Save final results
