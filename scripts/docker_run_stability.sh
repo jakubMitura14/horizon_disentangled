@@ -68,6 +68,46 @@ case "$ACTION" in
         $0 start "$NEW_HOURS"
         ;;
 
+    resume)
+        MORE_HOURS="${2:-24}"
+        echo "=== Resuming $CONTAINER_NAME for at least $MORE_HOURS additional hours ==="
+        docker rm -f "$CONTAINER_NAME" 2>/dev/null || true
+
+        # Current progress: Phase B completed 24.0h. Phase C completed 16.3h.
+        # To guarantee Phase C runs for at least MORE_HOURS from now:
+        # Target Phase C: 16.3 + MORE_HOURS + 1.0 (safety cushion) = ~42.0h
+        TARGET_B="24.0"
+        TARGET_C="42.0"
+
+        docker run -d \
+            --name "$CONTAINER_NAME" \
+            --restart unless-stopped \
+            --gpus all \
+            --ipc=host \
+            -u 1000:1000 \
+            -v /etc/passwd:/etc/passwd:ro \
+            -v /etc/group:/etc/group:ro \
+            -v /DATA:/DATA \
+            -w "$WORKSPACE" \
+            -e LD_LIBRARY_PATH=/DATA/conda/envs/nukl-to-ct/lib:\$LD_LIBRARY_PATH \
+            -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+            -e PYTHONUNBUFFERED=1 \
+            "$IMAGE_NAME" \
+            $CONDA_PY scripts/training/stability_48h.py \
+                --phase-b-hours "$TARGET_B" \
+                --phase-c-hours "$TARGET_C" \
+                --checkpoint-interval 50 \
+                --snapshot-interval 50 \
+                --batch-b 32 \
+                --batch-c 24 \
+                --data-dir "$WORKSPACE/data/synthetic_stability" \
+                --ckpt-dir "experiments/stability_checkpoints" \
+                --resume
+
+        echo "Container $CONTAINER_NAME resumed successfully (Target Phase C: $TARGET_C hours, ~25.7h remaining from now)."
+        docker ps --filter "name=$CONTAINER_NAME"
+        ;;
+
     status)
         echo "=== Container Status ==="
         docker ps -a --filter "name=$CONTAINER_NAME"
@@ -88,7 +128,7 @@ case "$ACTION" in
         ;;
 
     *)
-        echo "Usage: $0 {start [hours]|stop|restart [hours]|extend <new_hours>|status|logs}"
+        echo "Usage: $0 {start [hours]|stop|restart [hours]|extend <new_hours>|resume [more_hours]|status|logs}"
         exit 1
         ;;
 esac
