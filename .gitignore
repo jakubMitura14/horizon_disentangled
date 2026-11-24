@@ -52,6 +52,10 @@ lightning_logs/
 logs/
 wandb/
 mlruns/
+experiments/stability_phase_*_snapshot_*.json
+experiments/pdf_text_*.txt
+.xnat_splits/
+
 
 # ============================================================
 # Credentials — never commit
