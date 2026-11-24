@@ -86,8 +86,8 @@ def parse_args():
     parser.add_argument("--vae-scale", type=str, choices=["medium", "heavy", "max"], default="heavy",
                         help="VAE capacity: medium=199M, heavy=756M, max=756M+compile")
     # Phase C scaling
-    parser.add_argument("--batch-c", type=int, default=48,
-                        help="Phase C batch size (default: 48, was 12)")
+    parser.add_argument("--batch-c", type=int, default=24,
+                        help="Phase C batch size (default: 24, was 12)")
     # General
     parser.add_argument("--num-workers", type=int, default=8)
     parser.add_argument("--profile-type", type=str, choices=["torch", "nsys", "minimal"], default="torch")
@@ -599,8 +599,9 @@ def main():
             n_steps=args.max_steps,
             profile_type=args.profile_type,
         )
-        # Clear GPU memory between phases
+        # Aggressive GPU memory cleanup between phases
         torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
         import gc; gc.collect()
 
     # Phase B
@@ -615,8 +616,16 @@ def main():
             output_dir=args.output_dir,
             profile_type=args.profile_type,
         )
+        # Aggressive cleanup — Phase B's 756M model must be fully freed before Phase C
+        import gc
+        torch.cuda.synchronize()
         torch.cuda.empty_cache()
-        import gc; gc.collect()
+        gc.collect()
+        gc.collect()
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+        freed_gb = torch.cuda.memory_allocated() / (1024**3)
+        logger.info(f"Post Phase B cleanup: {freed_gb:.2f} GB still allocated")
 
     # Phase C
     if "C" in selected_phases:

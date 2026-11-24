@@ -81,7 +81,7 @@ echo ""
 echo ">>> Launching High-Occupancy Profiler..."
 echo "    Phase A: Heavy encoder, batch=16, vol=(4,128,128,64)"
 echo "    Phase B: 756M VAE, batch=32, grad_accum=2, eff_batch=64"
-echo "    Phase C: ODE solver, batch=48"
+echo "    Phase C: ODE solver, batch=24"
 echo ""
 
 python3 scripts/training/profile_high_occupancy.py \
@@ -94,7 +94,7 @@ python3 scripts/training/profile_high_occupancy.py \
     --batch-b 32 \
     --grad-accum-b 2 \
     --vae-scale heavy \
-    --batch-c 48 \
+    --batch-c 24 \
     --max-steps 10 \
     --num-workers 8
 
