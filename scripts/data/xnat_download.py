@@ -782,7 +782,7 @@ def download_dataset(creds, output_dir="/DATA/horizon_disentangled/hdf5", projec
     t_start = time.time()
     for i, f in enumerate(remote_files, 1):
         target_file = output_path / f.name
-        f_size = f.size
+        f_size = int(f.size) if f.size else 0
         f_size_mb = f_size / (1024**2) if f_size else 0
 
         if not overwrite and target_file.exists() and target_file.stat().st_size == f_size:
