@@ -1,0 +1,2379 @@
+{
+  "gpu": "NVIDIA H100 PCIe",
+  "gpu_mem_gb": 79.2,
+  "total_hours_requested": 48.0,
+  "start_time": "2026-11-22T18:22:42.164700",
+  "phases": {
+    "B": {
+      "total_epochs": 9513,
+      "total_time_h": 21.13,
+      "summary": {
+        "total_epochs": 9512,
+        "loss_start": -64094204.0,
+        "loss_end": -2.3503578094880425e+18,
+        "loss_min": -3.8968131898858015e+18,
+        "loss_converged": true,
+        "mem_start_gb": 2.2902798652648926,
+        "mem_end_gb": 2.2902798652648926,
+        "mem_max_gb": 2.2902798652648926,
+        "mem_drift_gb": 0.0,
+        "throughput_mean": 40.10696988960452,
+        "throughput_std": 0.9144445544046975,
+        "grad_norm_mean": Infinity,
+        "alerts": [
+          {
+            "epoch": 6534,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6534: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6656,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6656: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6703,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6703: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6812,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6812: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6839,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6839: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6845,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6845: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6866,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6866: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6868,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6868: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6906,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6906: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6915,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6915: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6916,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6916: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6979,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6979: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 6984,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 6984: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7015,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7015: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7017,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7017: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7027,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7027: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7029,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7029: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7061,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7061: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7078,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7078: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7100,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7100: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7110,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7110: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7132,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7132: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7145,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7145: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7155,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7155: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7176,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7176: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7183,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7183: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7211,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7211: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7228,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7228: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7256,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7256: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7264,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7264: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7267,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7267: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7282,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7282: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7292,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7292: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7306,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7306: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7319,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7319: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7352,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7352: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7355,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7355: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7359,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7359: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7365,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7365: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7366,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7366: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7377,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7377: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7388,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7388: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7432,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7432: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7454,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7454: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7456,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7456: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7458,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7458: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7463,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7463: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7471,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7471: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7475,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7475: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7486,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7486: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7491,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7491: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7514,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7514: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7521,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7521: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7522,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7522: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7544,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7544: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7557,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7557: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7566,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7566: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7576,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7576: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7590,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7590: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7593,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7593: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7597,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7597: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7608,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7608: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7613,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7613: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7638,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7638: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7639,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7639: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7642,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7642: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7666,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7666: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7673,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7673: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7677,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7677: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7679,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7679: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7682,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7682: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7686,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7686: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7729,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7729: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7755,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7755: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7770,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7770: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7775,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7775: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7777,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7777: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7778,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7778: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7795,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7795: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7800,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7800: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7802,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7802: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7820,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7820: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7826,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7826: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7828,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7828: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7833,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7833: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7836,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7836: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7843,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7843: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7845,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7845: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7863,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7863: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7865,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7865: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7887,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7887: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7898,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7898: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7929,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7929: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7932,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7932: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7934,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7934: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7935,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7935: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7939,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7939: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7947,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7947: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7953,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7953: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7954,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7954: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7967,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7967: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7980,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7980: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7982,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7982: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7988,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7988: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7994,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7994: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 7997,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 7997: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8012,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8012: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8013,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8013: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8021,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8021: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8030,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8030: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8031,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8031: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8034,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8034: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8039,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8039: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8041,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8041: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8042,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8042: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8047,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8047: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8057,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8057: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8069,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8069: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8072,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8072: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8076,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8076: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8092,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8092: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8095,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8095: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8108,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8108: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8110,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8110: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8112,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8112: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8119,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8119: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8129,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8129: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8136,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8136: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8137,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8137: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8139,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8139: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8142,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8142: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8144,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8144: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8146,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8146: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8149,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8149: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8150,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8150: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8156,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8156: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8158,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8158: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8162,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8162: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8164,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8164: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8176,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8176: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8205,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8205: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8206,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8206: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8210,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8210: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8215,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8215: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8220,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8220: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8224,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8224: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8230,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8230: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8238,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8238: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8242,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8242: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8252,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8252: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8258,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8258: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8264,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8264: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8266,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8266: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8267,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8267: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8282,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8282: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8285,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8285: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8297,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8297: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8302,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8302: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8306,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8306: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8314,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8314: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8318,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8318: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8322,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8322: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8325,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8325: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8334,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8334: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8350,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8350: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8353,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8353: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8361,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8361: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8364,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8364: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8372,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8372: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8377,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8377: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8379,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8379: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8383,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8383: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8390,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8390: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8398,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8398: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8408,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8408: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8418,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8418: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8423,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8423: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8429,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8429: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8430,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8430: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8440,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8440: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8442,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8442: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8452,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8452: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8458,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8458: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8459,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8459: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8476,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8476: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8493,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8493: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8496,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8496: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8498,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8498: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8503,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8503: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8507,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8507: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8508,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8508: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8512,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8512: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8513,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8513: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8517,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8517: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8519,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8519: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8521,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8521: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8533,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8533: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8544,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8544: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8546,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8546: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8554,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8554: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8567,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8567: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8571,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8571: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8579,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8579: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8586,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8586: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8595,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8595: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8602,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8602: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8607,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8607: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8612,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8612: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8616,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8616: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8623,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8623: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8626,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8626: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8629,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8629: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8630,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8630: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8637,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8637: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8638,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8638: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8640,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8640: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8643,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8643: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8647,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8647: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8649,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8649: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8656,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8656: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8663,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8663: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8668,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8668: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8674,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8674: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8675,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8675: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8682,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8682: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8695,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8695: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8698,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8698: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8699,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8699: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8702,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8702: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8719,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8719: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8726,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8726: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8727,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8727: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8728,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8728: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8730,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8730: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8731,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8731: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8735,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8735: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8736,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8736: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8739,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8739: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8741,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8741: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8747,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8747: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8748,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8748: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8761,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8761: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8763,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8763: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8770,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8770: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8772,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8772: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8774,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8774: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8779,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8779: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8780,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8780: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8781,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8781: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8785,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8785: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8793,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8793: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8802,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8802: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8836,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8836: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8842,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8842: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8843,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8843: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8844,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8844: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8845,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8845: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8858,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8858: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8862,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8862: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8872,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8872: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8883,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8883: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8887,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8887: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8890,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8890: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8895,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8895: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8897,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8897: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8902,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8902: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8905,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8905: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8906,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8906: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8909,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8909: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8910,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8910: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8912,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8912: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8913,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8913: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8918,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8918: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8920,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8920: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8925,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8925: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8930,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8930: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8942,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8942: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8945,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8945: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8947,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8947: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8949,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8949: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8957,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8957: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8969,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8969: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8973,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8973: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8976,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8976: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8990,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8990: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 8992,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 8992: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9000,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9000: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9004,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9004: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9008,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9008: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9015,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9015: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9019,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9019: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9025,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9025: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9041,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9041: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9054,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9054: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9055,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9055: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9057,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9057: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9066,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9066: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9072,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9072: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9075,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9075: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9078,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9078: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9082,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9082: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9085,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9085: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9089,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9089: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9092,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9092: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9093,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9093: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9098,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9098: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9103,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9103: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9107,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9107: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9110,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9110: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9111,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9111: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9113,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9113: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9114,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9114: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9122,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9122: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9128,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9128: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9129,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9129: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9133,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9133: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9134,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9134: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9135,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9135: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9139,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9139: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9144,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9144: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9148,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9148: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9150,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9150: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9155,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9155: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9164,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9164: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9172,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9172: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9177,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9177: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9180,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9180: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9201,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9201: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9205,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9205: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9217,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9217: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9219,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9219: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9223,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9223: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9226,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9226: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9228,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9228: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9234,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9234: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9238,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9238: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9239,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9239: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9244,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9244: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9259,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9259: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9260,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9260: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9279,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9279: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9283,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9283: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9285,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9285: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9286,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9286: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9304,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9304: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9310,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9310: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9316,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9316: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9320,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9320: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9322,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9322: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9329,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9329: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9341,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9341: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9343,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9343: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9344,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9344: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9347,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9347: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9348,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9348: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9349,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9349: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9352,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9352: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9353,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9353: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9355,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9355: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9360,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9360: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9363,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9363: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9365,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9365: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9370,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9370: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9380,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9380: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9381,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9381: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9384,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9384: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9388,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9388: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9389,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9389: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9392,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9392: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9394,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9394: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9400,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9400: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9424,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9424: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9431,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9431: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9441,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9441: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9460,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9460: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9461,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9461: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9464,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9464: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9467,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9467: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9477,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9477: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9482,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9482: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9487,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9487: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9490,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9490: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9505,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9505: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9506,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9506: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9509,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9509: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9511,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9511: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9519,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9519: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9525,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9525: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9530,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9530: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9535,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9535: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9542,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9542: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9543,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9543: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9548,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9548: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9553,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9553: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9554,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9554: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9560,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9560: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9563,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9563: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9570,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9570: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9577,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9577: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9584,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9584: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9589,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9589: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9591,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9591: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9596,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9596: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9598,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9598: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9612,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9612: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9621,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9621: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9624,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9624: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9625,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9625: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9630,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9630: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9631,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9631: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9634,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9634: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9635,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9635: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9638,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9638: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9645,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9645: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9649,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9649: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9653,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9653: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9655,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9655: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9657,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9657: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9670,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9670: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9672,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9672: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9673,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9673: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9675,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9675: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9680,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9680: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9686,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9686: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9702,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9702: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9705,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9705: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9707,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9707: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9715,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9715: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9719,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9719: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9734,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9734: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9735,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9735: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9742,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9742: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9752,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9752: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9753,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9753: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9754,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9754: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9756,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9756: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9757,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9757: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9758,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9758: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9762,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9762: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9771,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9771: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9777,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9777: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9778,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9778: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9788,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9788: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9790,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9790: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9795,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9795: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9809,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9809: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9826,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9826: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9829,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9829: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9834,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9834: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9848,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9848: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9852,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9852: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9858,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9858: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9860,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9860: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9863,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9863: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9868,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9868: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9873,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9873: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9877,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9877: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9880,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9880: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9888,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9888: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9895,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9895: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9898,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9898: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9907,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9907: NaN/Inf grad_norm = inf"
+          },
+          {
+            "epoch": 9910,
+            "type": "nan_grad",
+            "msg": "[ALERT] Phase_B epoch 9910: NaN/Inf grad_norm = inf"
+          }
+        ],
+        "n_alerts": 463
+      },
+      "loss_start": -63307772.0,
+      "loss_end": -2.3503578094880425e+18,
+      "converged": true,
+      "n_alerts": 463,
+      "mem_drift_gb": 0.0
+    },
+    "C": {
+      "total_epochs": 22700,
+      "total_time_h": 16.29,
+      "summary": {
+        "total_epochs": 22690,
+        "loss_start": 2.6635947227478027,
+        "loss_end": 0.9801376660664877,
+        "loss_min": 0.978510320186615,
+        "loss_converged": true,
+        "mem_start_gb": 2.405170440673828,
+        "mem_end_gb": 2.405170440673828,
+        "mem_max_gb": 2.405170440673828,
+        "mem_drift_gb": 0.0,
+        "throughput_mean": 30.978869741421466,
+        "throughput_std": 0.46261666399626017,
+        "grad_norm_mean": 0.47760275352398185,
+        "alerts": [],
+        "n_alerts": 0
+      },
+      "loss_start": 4.339576,
+      "loss_end": 0.980138,
+      "converged": true,
+      "n_alerts": 0,
+      "mem_drift_gb": 0.0
+    }
+  },
+  "end_time": "2026-11-24T07:47:59.807442",
+  "total_time_h": 37.42,
+  "all_converged": true,
+  "total_alerts": 463,
+  "memory_leak_detected": false
+}
