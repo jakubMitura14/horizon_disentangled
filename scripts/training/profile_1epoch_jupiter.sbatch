@@ -12,7 +12,7 @@
 # Horizon Disentangled — 1-Epoch Multi-Phase Profiling on JUPITER Booster
 #
 # Cluster: JUPITER Booster (FZJ) — 4× NVIDIA GH200 Grace-Hopper per node
-# GPU Memory: 480 GB HBM3 (96 GB unified + 384 GB Grace CPU ARM Memory)
+# GPU Memory: 95 GB HBM3 per GH200 GPU (120 GB model, ~95 GB usable CUDA)
 # Interconnect: NVLink-C2C (900 GB/s bidirectional per GPU)
 #
 # Profiles Phase A (3D Vision Encoder), Phase B (199M Causal VAE), and
@@ -44,7 +44,7 @@ elif [ -f "/e/project1/numedai-scale/mitura1/venvs/activate_lymph.sh" ]; then
 fi
 
 # ─── CUDA / PyTorch Optimization ────────────────────────────────────────
-export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
+export PYTORCH_ALLOC_CONF="expandable_segments:True"
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-72}
 export CUDA_DEVICE_ORDER=PCI_BUS_ID
 
@@ -107,8 +107,8 @@ python3 scripts/training/profile_1epoch_all_phases.py \
     --output-dir "$OUTPUT_DIR" \
     --profile-type torch \
     --phases A,B,C \
-    --batch-b 48 \
-    --batch-c 32 \
+    --batch-b 16 \
+    --batch-c 12 \
     --max-steps 10 \
     --num-workers 8
 
