@@ -85,6 +85,15 @@ class SystemicNeuralJumpODE(nn.Module):
         h = self.drift_res3(h)
         return self.drift_out(h)
 
+    def forward(
+        self,
+        v_sys: torch.Tensor,
+        u_d_pooled: torch.Tensor,
+        dt_last: torch.Tensor,
+    ) -> torch.Tensor:
+        """Forward pass delegating to forward_drift (required for DDP wrapping)."""
+        return self.forward_drift(v_sys, u_d_pooled, dt_last)
+
     def apply_observation_update(
         self,
         v_sys: torch.Tensor,

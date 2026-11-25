@@ -211,6 +211,16 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         phys_deriv = torch.cat([du_v, du_d, du_e, dp, torch.zeros_like(u_d[:, 4:])], dim=1)
         return phys_deriv + 0.1 * f_psi
 
+    def forward(
+        self,
+        u_d: torch.Tensor,
+        v_sys: torch.Tensor,
+        phi_mask: torch.Tensor,
+        dt_last: torch.Tensor,
+    ) -> torch.Tensor:
+        """Forward pass delegating to forward_continuous_deriv (required for DDP wrapping)."""
+        return self.forward_continuous_deriv(u_d, v_sys, phi_mask, dt_last)
+
     def apply_resection_jump(
         self,
         u_d: torch.Tensor,

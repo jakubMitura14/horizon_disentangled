@@ -130,14 +130,14 @@ class ContinuousDiscreteJumpSolver(nn.Module):
         dt: float
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Performs a single Runge-Kutta 4th-order step of size dt."""
-        # Helper to compute derivatives
+        # Helper to compute derivatives (call __call__ so DDP hooks execute)
         def eval_derivs(u, v):
             u_pool = u.mean(dim=(-3, -2, -1))
-            dv = self.systemic_ode.forward_drift(v, u_pool, dt_last)
+            dv = self.systemic_ode(v, u_pool, dt_last)
             if self.domain == "gbm":
-                du = self.spatial_pde.forward_continuous_deriv(u, v, phi_mask, dt_last)
+                du = self.spatial_pde(u, v, phi_mask, dt_last)
             else:
-                du = self.spatial_pde.forward_continuous_deriv(u, v, c_drug)
+                du = self.spatial_pde(u, v, c_drug)
             return du, dv
 
         k1_u, k1_v = eval_derivs(u_d, v_sys)
@@ -215,13 +215,14 @@ class ContinuousDiscreteJumpSolver(nn.Module):
                 t_last_obs = t_target
             elif ev_type == 'jump':
                 jtype = ev_data['type']
+                pde_mod = self.spatial_pde.module if isinstance(self.spatial_pde, DDP) else self.spatial_pde
                 if jtype == 'resection' and self.domain == 'gbm':
                     cavity = ev_data.get('cavity_mask', torch.zeros_like(u_curr[:, 0:1]))
-                    u_curr = self.spatial_pde.apply_resection_jump(u_curr, cavity)
+                    u_curr = pde_mod.apply_resection_jump(u_curr, cavity)
                 elif jtype == 'radiotherapy' and self.domain == 'gbm':
                     dose = ev_data.get('dose_gy', 2.0)
                     tmz = ev_data.get('tmz_dose', 1.0)
-                    u_curr = self.spatial_pde.apply_radiotherapy_lq_jump(u_curr, v_curr, dose, tmz)
+                    u_curr = pde_mod.apply_radiotherapy_lq_jump(u_curr, v_curr, dose, tmz)
                 elif jtype == 'chemotherapy' and self.domain == 'breast':
                     drug_vec = ev_data.get('drug_vec', torch.zeros((u_curr.size(0), 16), device=u_curr.device))
                     # Ensure drug_vec is 2D (B, 16) — may come as 1D (16,) from regimen defs
@@ -230,6 +231,6 @@ class ContinuousDiscreteJumpSolver(nn.Module):
                     elif drug_vec.device != u_curr.device:
                         drug_vec = drug_vec.to(u_curr.device)
                     c_drug_curr = drug_vec
-                    u_curr = self.spatial_pde.apply_chemotherapy_jump(u_curr, v_curr, drug_vec)
+                    u_curr = pde_mod.apply_chemotherapy_jump(u_curr, v_curr, drug_vec)
 
         return trajectory_out

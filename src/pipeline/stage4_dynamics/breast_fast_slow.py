@@ -181,6 +181,15 @@ class BreastFastSlowBiophysicalPDE(nn.Module):
 
         return phys_deriv + 0.1 * f_psi
 
+    def forward(
+        self,
+        u_d: torch.Tensor,
+        v_sys: torch.Tensor,
+        c_drug: torch.Tensor,
+    ) -> torch.Tensor:
+        """Forward pass delegating to forward_continuous_deriv (required for DDP wrapping)."""
+        return self.forward_continuous_deriv(u_d, v_sys, c_drug)
+
     def apply_chemotherapy_jump(
         self,
         u_d: torch.Tensor,
