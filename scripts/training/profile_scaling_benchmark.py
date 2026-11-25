@@ -292,6 +292,7 @@ def benchmark_phase_b(
     use_compile: bool = True,
     vae_channels: Tuple[int, ...] = (256, 512, 1024),
     latent_input_shape: Tuple[int, ...] = (16, 32, 32, 16),
+    l2_channels: int = 512,
     device: str = "cuda",
 ) -> Dict[str, Any]:
     """Benchmark Phase B: 756M VAE with FSDP and torch.compile.
@@ -321,7 +322,7 @@ def benchmark_phase_b(
         global_disease_dim=128,
         patient_dim=64,
         style_dim=64,
-        l2_channels=512,
+        l2_channels=l2_channels,
         backbone="monai",
     ).to(device).to(torch.bfloat16)
 
@@ -754,6 +755,7 @@ def parse_args():
                         help="Phase A volume shape C,D,H,W (use 4,256,256,192 for zero-cropping)")
     parser.add_argument("--latent-input-shape", type=str, default="16,32,32,16",
                         help="Phase B latent input shape C,D,H,W (use 16,64,64,48 for zero-cropping)")
+    parser.add_argument("--l2-channels", type=int, default=512, help="Phase B Level-2 channels (256 avoids 40.5GB conv3d workspace at 256x256x192)")
     parser.add_argument("--pde-shape", type=str, default="24,28,20",
                         help="Phase C PDE grid D,H,W (use 48,56,40 for 4mm high-res)")
     parser.add_argument("--dx-mm", type=float, default=8.0, help="Phase C grid spacing in mm (4.0 for 48,56,40)")
@@ -838,6 +840,7 @@ def main():
                 use_fsdp=args.use_fsdp,
                 use_compile=(args.use_compile and not args.no_compile_b),
                 latent_input_shape=latent_input_shape,
+                l2_channels=args.l2_channels,
                 device=device,
             )
         gpu_cleanup()

@@ -74,7 +74,7 @@ echo ">>> Phase B: 756M CausalVAE on full native (16, 64, 64, 48) -> (256, 256, 
 $COMMON_TORCHRUN --master_port=29502 --rdzv_id="${JOB_ID}_B" --rdzv_endpoint="${MASTER_ADDR}:29502" \
     scripts/training/profile_scaling_benchmark.py \
     --ngpus 4 --phases B \
-    --latent-input-shape 16,64,64,48 --batch-b 1 --grad-accum-b 16 \
+    --latent-input-shape 16,64,64,48 --l2-channels 256 --batch-b 3 --grad-accum-b 4 \
     --max-steps 8 --use-fsdp --no-compile-b \
     --output-dir "$OUTPUT_BASE" --run-label "phase_b_native"
 
