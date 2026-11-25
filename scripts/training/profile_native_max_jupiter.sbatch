@@ -74,8 +74,8 @@ torchrun \
     --vol-shape 4,256,256,192 \
     --batch-a 2 \
     --latent-input-shape 16,64,64,48 \
-    --batch-b 6 \
-    --grad-accum-b 2 \
+    --batch-b 4 \
+    --grad-accum-b 4 \
     --no-compile-b \
     --pde-shape 48,56,40 \
     --dx-mm 4.0 \
