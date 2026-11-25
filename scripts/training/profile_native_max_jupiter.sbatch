@@ -11,11 +11,12 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # Horizon Disentangled — Zero-Cropping & High-Occupancy 4× GH200 Benchmark
 #
-# Eliminates sub-volume cropping and saturates 95 GB GH200 VRAM:
-#   Phase A: VoComni-H (feature_size=192, ~1.03B params) + FSDP FULL_SHARD
+# Runs each phase in its own torchrun process (matching phased production training)
+# to eliminate cross-phase CUDA allocator fragmentation:
+#   Phase A: VoComni-H (feature_size=192, 998.9M params) + FSDP FULL_SHARD + compile
 #            Full native 3D volume (4, 256, 256, 192), batch=2/gpu (8 global)
 #   Phase B: 756M CausalVAE + FSDP FULL_SHARD
-#            Full native 4x latent (16, 64, 64, 48), batch=10/gpu (40 global)
+#            Full native 4x latent (16, 64, 64, 48)->(256, 256, 192), batch=2/gpu, accum=8
 #   Phase C: Spectral cuFFT GBM Solver on 4mm high-res grid (48, 56, 40)
 #            batch=40/gpu (160 trajectories/step across 4 GPUs)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -59,34 +60,34 @@ echo "════════════════════════�
 
 unset CUDA_VISIBLE_DEVICES
 
-torchrun \
-    --nnodes=1 \
-    --nproc_per_node=4 \
-    --master_addr="$MASTER_ADDR" \
-    --master_port="$MASTER_PORT" \
-    --rdzv_id="$JOB_ID" \
-    --rdzv_backend=c10d \
-    --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
+COMMON_TORCHRUN="torchrun --nnodes=1 --nproc_per_node=4 --master_addr=${MASTER_ADDR} --rdzv_backend=c10d"
+
+echo ">>> Phase A: VoComni-H (998.9M) on full native (4, 256, 256, 192)"
+$COMMON_TORCHRUN --master_port=29501 --rdzv_id="${JOB_ID}_A" --rdzv_endpoint="${MASTER_ADDR}:29501" \
     scripts/training/profile_scaling_benchmark.py \
-    --ngpus 4 \
-    --phases A,B,C \
-    --feature-size 192 \
-    --vol-shape 4,256,256,192 \
-    --batch-a 2 \
-    --latent-input-shape 16,64,64,48 \
-    --batch-b 2 \
-    --grad-accum-b 8 \
-    --no-compile-b \
-    --pde-shape 48,56,40 \
-    --dx-mm 4.0 \
-    --batch-c 40 \
-    --max-steps 8 \
-    --use-fsdp \
-    --use-compile \
-    --use-spectral \
-    --output-dir "$OUTPUT_BASE" \
-    --run-label "4gpu_native_max"
+    --ngpus 4 --phases A \
+    --feature-size 192 --vol-shape 4,256,256,192 --batch-a 2 \
+    --max-steps 8 --use-fsdp --use-compile \
+    --output-dir "$OUTPUT_BASE" --run-label "phase_a_native"
+
+echo ">>> Phase B: 756M CausalVAE on full native (16, 64, 64, 48) -> (256, 256, 192)"
+$COMMON_TORCHRUN --master_port=29502 --rdzv_id="${JOB_ID}_B" --rdzv_endpoint="${MASTER_ADDR}:29502" \
+    scripts/training/profile_scaling_benchmark.py \
+    --ngpus 4 --phases B \
+    --latent-input-shape 16,64,64,48 --batch-b 2 --grad-accum-b 8 \
+    --max-steps 8 --use-fsdp --no-compile-b \
+    --output-dir "$OUTPUT_BASE" --run-label "phase_b_native"
+
+echo ">>> Phase C: Spectral GBM Solver on 4mm high-res (48, 56, 40), batch=40/gpu"
+$COMMON_TORCHRUN --master_port=29503 --rdzv_id="${JOB_ID}_C" --rdzv_endpoint="${MASTER_ADDR}:29503" \
+    scripts/training/profile_scaling_benchmark.py \
+    --ngpus 4 --phases C \
+    --pde-shape 48,56,40 --dx-mm 4.0 --batch-c 40 \
+    --max-steps 8 --use-spectral \
+    --output-dir "$OUTPUT_BASE" --run-label "phase_c_native"
 
 echo ""
 echo "✓ Zero-cropping max-occupancy benchmark complete!"
-cat "$OUTPUT_BASE/4gpu_native_max/scaling_results.json" || true
+cat "$OUTPUT_BASE/phase_a_native/scaling_results.json" || true
+cat "$OUTPUT_BASE/phase_b_native/scaling_results.json" || true
+cat "$OUTPUT_BASE/phase_c_native/scaling_results.json" || true
