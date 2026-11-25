@@ -62,12 +62,12 @@ unset CUDA_VISIBLE_DEVICES
 
 COMMON_TORCHRUN="torchrun --nnodes=1 --nproc_per_node=4 --master_addr=${MASTER_ADDR} --rdzv_backend=c10d"
 
-echo ">>> Phase A: VoComni-H (998.9M) on full native (4, 256, 256, 192), batch=3/gpu"
+echo ">>> Phase A: VoComni-H (998.9M) on full native (4, 256, 256, 192), batch=2/gpu"
 $COMMON_TORCHRUN --master_port=29501 --rdzv_id="${JOB_ID}_A" --rdzv_endpoint="${MASTER_ADDR}:29501" \
     scripts/training/profile_scaling_benchmark.py \
     --ngpus 4 --phases A \
-    --feature-size 192 --vol-shape 4,256,256,192 --batch-a 3 \
-    --max-steps 8 --use-fsdp \
+    --feature-size 192 --vol-shape 4,256,256,192 --batch-a 2 \
+    --max-steps 8 --use-fsdp --use-compile \
     --output-dir "$OUTPUT_BASE" --run-label "phase_a_native"
 
 echo ">>> Phase B: 747M CausalVAE on full native (16, 64, 64, 48) -> (256, 256, 192), batch=4/gpu"
