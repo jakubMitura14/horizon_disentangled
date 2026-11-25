@@ -71,7 +71,7 @@ class SpectralLaplacian3D(nn.Module):
         if u.dtype not in (torch.float32, torch.float64, torch.complex64, torch.complex128):
             u = u.float()  # FFT requires fp32+
         u_fft = torch.fft.rfftn(u, dim=(-3, -2, -1))
-        lap_fft = u_fft * self.lap_multiplier
+        lap_fft = u_fft * self.lap_multiplier.float()
         result = torch.fft.irfftn(lap_fft, s=u.shape[-3:], dim=(-3, -2, -1))
         return result.to(orig_dtype)
 
@@ -121,9 +121,9 @@ class SpectralGradient3D(nn.Module):
         u_fft = torch.fft.rfftn(u, dim=(-3, -2, -1))
 
         # Multiply by j*k_i in Fourier space (complex multiplication)
-        grad_z_fft = 1j * self.kz * u_fft
-        grad_y_fft = 1j * self.ky * u_fft
-        grad_x_fft = 1j * self.kx * u_fft
+        grad_z_fft = 1j * self.kz.float() * u_fft
+        grad_y_fft = 1j * self.ky.float() * u_fft
+        grad_x_fft = 1j * self.kx.float() * u_fft
 
         s = u.shape[-3:]
         grad_z = torch.fft.irfftn(grad_z_fft, s=s, dim=(-3, -2, -1)).to(orig_dtype)

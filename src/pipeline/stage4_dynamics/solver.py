@@ -68,6 +68,7 @@ class ContinuousDiscreteJumpSolver(nn.Module):
             device_ids=[local_rank],
             output_device=local_rank,
             find_unused_parameters=False,
+            broadcast_buffers=False,  # RK4 calls forward() 4x/step; constant wavenumber buffers must not be overwritten in-place
             # H200: 50MB bucket size matches NVLink 4.0 bandwidth for optimal AllReduce overlap
             bucket_cap_mb=50,
             gradient_as_bucket_view=True,
@@ -79,6 +80,7 @@ class ContinuousDiscreteJumpSolver(nn.Module):
             device_ids=[local_rank],
             output_device=local_rank,
             find_unused_parameters=False,
+            broadcast_buffers=False,
             bucket_cap_mb=50,
             gradient_as_bucket_view=True,
             static_graph=True,
