@@ -289,56 +289,29 @@ def benchmark_phase_b(
     if is_main_rank():
         logger.info(f"  VAE params: {n_params / 1e6:.1f}M")
 
-    # torch.compile — only when NOT using FSDP (Dynamo + FSDP + Conv3d has stride compat issues)
-    if use_compile and not (use_fsdp and dist.is_initialized()):
+    # torch.compile — only in single-GPU mode (FSDP/DDP + Dynamo has Conv3d stride issues)
+    if use_compile and not dist.is_initialized():
         try:
             vae = torch.compile(vae, mode="max-autotune", dynamic=False, fullgraph=False)
             if is_main_rank():
-                logger.info("  torch.compile applied to VAE (single-GPU or DDP mode)")
+                logger.info("  torch.compile applied to VAE (single-GPU mode)")
         except Exception as e:
             if is_main_rank():
                 logger.warning(f"  torch.compile failed: {e}")
-    elif use_compile and use_fsdp and dist.is_initialized():
+    elif use_compile and dist.is_initialized():
         if is_main_rank():
-            logger.info("  torch.compile skipped for Phase B (FSDP + Dynamo Conv3d stride incompatibility)")
+            logger.info("  torch.compile skipped for Phase B in distributed mode (Conv3d stride compat)")
 
-    # FSDP wrapping
-    if use_fsdp and dist.is_initialized():
-        import functools
-        from torch.distributed.fsdp import (
-            FullyShardedDataParallel as FSDP,
-            ShardingStrategy,
-            MixedPrecision,
-        )
-        from torch.distributed.fsdp.wrap import size_based_auto_wrap_policy
-
-        mp_policy = MixedPrecision(
-            param_dtype=torch.bfloat16,
-            reduce_dtype=torch.float32,
-            buffer_dtype=torch.bfloat16,
-        )
-        wrap_policy = functools.partial(
-            size_based_auto_wrap_policy, min_num_params=10_000_000
-        )
-        vae = FSDP(
-            vae,
-            auto_wrap_policy=wrap_policy,
-            mixed_precision=mp_policy,
-            sharding_strategy=ShardingStrategy.FULL_SHARD,
-            device_id=torch.cuda.current_device(),
-            use_orig_params=True,
-            limit_all_gathers=True,
-            forward_prefetch=True,
-        )
-        if is_main_rank():
-            logger.info("  FSDP applied (FULL_SHARD, bf16 params, fp32 reduce)")
-    elif dist.is_initialized():
+    # Distributed wrapping — use DDP (not FSDP) since 756M model fits in 95GB VRAM
+    # FSDP's parameter flattening breaks Conv3d weight shapes in MONAI AutoencoderKL
+    if dist.is_initialized():
         from torch.nn.parallel import DistributedDataParallel as DDP
         local_rank = int(os.environ.get("LOCAL_RANK", 0))
-        vae = DDP(vae, device_ids=[local_rank], static_graph=True,
+        vae = DDP(vae, device_ids=[local_rank],
+                  find_unused_parameters=True,  # VAE has conditional paths
                   gradient_as_bucket_view=True, bucket_cap_mb=50)
         if is_main_rank():
-            logger.info("  DDP applied (no FSDP)")
+            logger.info(f"  DDP applied (756M model fits per-GPU, FSDP skipped due to Conv3d compat)")
 
     optimizer = torch.optim.AdamW(vae.parameters(), lr=1e-4)
     vae.train()
