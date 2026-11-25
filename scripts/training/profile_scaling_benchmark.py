@@ -739,7 +739,7 @@ def main():
         logger.info(f"  Device: {device}")
         if torch.cuda.is_available():
             logger.info(f"  GPU: {torch.cuda.get_device_name(local_rank)}")
-            logger.info(f"  VRAM: {torch.cuda.get_device_properties(local_rank).total_mem / 1e9:.1f} GB")
+            logger.info(f"  VRAM: {torch.cuda.get_device_properties(local_rank).total_memory / 1e9:.1f} GB")
         logger.info(f"{'═' * 70}")
 
     run_label = args.run_label or f"{world_size}gpu"
