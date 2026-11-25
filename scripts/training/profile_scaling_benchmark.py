@@ -289,7 +289,23 @@ def benchmark_phase_b(
     if is_main_rank():
         logger.info(f"  VAE params: {n_params / 1e6:.1f}M")
 
-    # FSDP wrapping
+    # torch.compile BEFORE FSDP — compile individual sub-modules to avoid
+    # weight-shape conflicts when FSDP flattens parameters
+    if use_compile:
+        try:
+            # Compile encode and decode paths separately (not the whole model)
+            # This avoids FSDP + compile conflicts on Conv3d weight shapes
+            if hasattr(vae, 'cross_seq_fusion'):
+                vae.cross_seq_fusion = torch.compile(vae.cross_seq_fusion, mode="max-autotune", dynamic=False)
+            if hasattr(vae, 'l2_down'):
+                vae.l2_down = torch.compile(vae.l2_down, mode="max-autotune", dynamic=False)
+            if is_main_rank():
+                logger.info("  torch.compile applied to VAE sub-modules (pre-FSDP)")
+        except Exception as e:
+            if is_main_rank():
+                logger.warning(f"  torch.compile failed: {e}")
+
+    # FSDP wrapping (after compile on sub-modules)
     if use_fsdp and dist.is_initialized():
         import functools
         from torch.distributed.fsdp import (
@@ -327,16 +343,6 @@ def benchmark_phase_b(
         if is_main_rank():
             logger.info("  DDP applied (no FSDP)")
 
-    # torch.compile on the VAE
-    if use_compile:
-        try:
-            vae = torch.compile(vae, mode="max-autotune", dynamic=False, fullgraph=False)
-            if is_main_rank():
-                logger.info("  torch.compile applied to VAE")
-        except Exception as e:
-            if is_main_rank():
-                logger.warning(f"  torch.compile failed: {e}")
-
     optimizer = torch.optim.AdamW(vae.parameters(), lr=1e-4)
     vae.train()
 
@@ -348,8 +354,9 @@ def benchmark_phase_b(
     for _ in range(2):
         x = torch.randn(*input_shape, device=device, dtype=torch.bfloat16)
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-            enc = vae.module.encode_from_cached(x) if hasattr(vae, 'module') else vae.encode_from_cached(x)
-            # Reconstruction loss on z_a
+            # Access underlying model through FSDP/DDP wrapper
+            inner = vae.module if hasattr(vae, 'module') else vae
+            enc = inner.encode_from_cached(x)
             loss = enc["z_a"].mean() + enc["mu_d"].mean()
         loss.backward()
         optimizer.zero_grad(set_to_none=True)
@@ -365,12 +372,9 @@ def benchmark_phase_b(
     for step in range(n_steps):
         x = torch.randn(*input_shape, device=device, dtype=torch.bfloat16)
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-            if hasattr(vae, 'module'):
-                enc = vae.module.encode_from_cached(x)
-                recon, mask = vae.module.decode(enc["z_a"], enc["u_d"], enc["z_s"])
-            else:
-                enc = vae.encode_from_cached(x)
-                recon, mask = vae.decode(enc["z_a"], enc["u_d"], enc["z_s"])
+            inner = vae.module if hasattr(vae, 'module') else vae
+            enc = inner.encode_from_cached(x)
+            recon, mask = inner.decode(enc["z_a"], enc["u_d"], enc["z_s"])
 
             # Combined loss
             recon_loss = F.mse_loss(recon, torch.zeros_like(recon))
