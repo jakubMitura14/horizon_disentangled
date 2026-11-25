@@ -62,27 +62,27 @@ unset CUDA_VISIBLE_DEVICES
 
 COMMON_TORCHRUN="torchrun --nnodes=1 --nproc_per_node=4 --master_addr=${MASTER_ADDR} --rdzv_backend=c10d"
 
-echo ">>> Phase A: VoComni-H (998.9M) on full native (4, 256, 256, 192)"
+echo ">>> Phase A: VoComni-H (998.9M) on full native (4, 256, 256, 192), batch=3/gpu"
 $COMMON_TORCHRUN --master_port=29501 --rdzv_id="${JOB_ID}_A" --rdzv_endpoint="${MASTER_ADDR}:29501" \
     scripts/training/profile_scaling_benchmark.py \
     --ngpus 4 --phases A \
-    --feature-size 192 --vol-shape 4,256,256,192 --batch-a 2 \
-    --max-steps 8 --use-fsdp --use-compile \
+    --feature-size 192 --vol-shape 4,256,256,192 --batch-a 3 \
+    --max-steps 8 --use-fsdp \
     --output-dir "$OUTPUT_BASE" --run-label "phase_a_native"
 
-echo ">>> Phase B: 756M CausalVAE on full native (16, 64, 64, 48) -> (256, 256, 192)"
+echo ">>> Phase B: 747M CausalVAE on full native (16, 64, 64, 48) -> (256, 256, 192), batch=4/gpu"
 $COMMON_TORCHRUN --master_port=29502 --rdzv_id="${JOB_ID}_B" --rdzv_endpoint="${MASTER_ADDR}:29502" \
     scripts/training/profile_scaling_benchmark.py \
     --ngpus 4 --phases B \
-    --latent-input-shape 16,64,64,48 --l2-channels 256 --batch-b 3 --grad-accum-b 4 \
+    --latent-input-shape 16,64,64,48 --l2-channels 256 --batch-b 4 --grad-accum-b 4 \
     --max-steps 8 --use-fsdp --no-compile-b \
     --output-dir "$OUTPUT_BASE" --run-label "phase_b_native"
 
-echo ">>> Phase C: Spectral GBM Solver on 4mm high-res (48, 56, 40), batch=40/gpu"
+echo ">>> Phase C: Spectral GBM Solver on 4mm high-res (48, 56, 40), batch=56/gpu"
 $COMMON_TORCHRUN --master_port=29503 --rdzv_id="${JOB_ID}_C" --rdzv_endpoint="${MASTER_ADDR}:29503" \
     scripts/training/profile_scaling_benchmark.py \
     --ngpus 4 --phases C \
-    --pde-shape 48,56,40 --dx-mm 4.0 --batch-c 40 \
+    --pde-shape 48,56,40 --dx-mm 4.0 --batch-c 56 \
     --max-steps 8 --use-spectral \
     --output-dir "$OUTPUT_BASE" --run-label "phase_c_native"
 

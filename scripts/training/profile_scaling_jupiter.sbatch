@@ -74,10 +74,10 @@ echo "════════════════════════�
 # STEP 1: Single GPU Baseline
 # ═══════════════════════════════════════════════════════════════════════════════
 echo ""
-echo "▶▶▶ STEP 1: Single GPU Baseline (all 3 phases)"
-echo "    Phase A: SwinUNETR, batch=8"
-echo "    Phase B: 756M VAE (no FSDP, no compile), batch=32"
-echo "    Phase C: FD Laplacian (no spectral), batch=24"
+echo "▶▶▶ STEP 1: Single GPU Baseline (all 3 phases, apples-to-apples)"
+echo "    Phase A: SwinUNETR-48, batch=8"
+echo "    Phase B: 756M VAE (eager), batch=32"
+echo "    Phase C: Spectral Laplacian (4mm 48x56x40), batch=56"
 echo ""
 
 export CUDA_VISIBLE_DEVICES=0
@@ -87,9 +87,12 @@ python3 scripts/training/profile_scaling_benchmark.py \
     --phases A,B,C \
     --batch-a 8 \
     --batch-b 32 \
-    --batch-c 24 \
+    --pde-shape 48,56,40 \
+    --dx-mm 4.0 \
+    --batch-c 56 \
     --grad-accum-b 2 \
     --max-steps 10 \
+    --use-spectral \
     --output-dir "$OUTPUT_BASE" \
     --run-label "1gpu_baseline" \
     --run-spectral-micro
@@ -99,13 +102,13 @@ echo "✓ Single GPU baseline complete."
 echo ""
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# STEP 2: 4-GPU with FSDP + compile + spectral
+# STEP 2: 4-GPU with FSDP + spectral (same compile=False for true scaling ratio)
 # ═══════════════════════════════════════════════════════════════════════════════
 echo ""
-echo "▶▶▶ STEP 2: 4-GPU Scaling (FSDP + compile + spectral)"
-echo "    Phase A: SwinUNETR + DDP, batch=8/gpu"
-echo "    Phase B: 756M VAE + FSDP + compile, batch=32/gpu"
-echo "    Phase C: Spectral Laplacian + DDP, batch=24/gpu"
+echo "▶▶▶ STEP 2: 4-GPU Scaling (FSDP + spectral, apples-to-apples)"
+echo "    Phase A: SwinUNETR-48 + DDP, batch=8/gpu"
+echo "    Phase B: 756M VAE + FSDP, batch=32/gpu"
+echo "    Phase C: Spectral Laplacian (4mm 48x56x40) + DDP, batch=56/gpu"
 echo ""
 
 unset CUDA_VISIBLE_DEVICES
@@ -123,14 +126,15 @@ torchrun \
     --phases A,B,C \
     --batch-a 8 \
     --batch-b 32 \
-    --batch-c 24 \
+    --pde-shape 48,56,40 \
+    --dx-mm 4.0 \
+    --batch-c 56 \
     --grad-accum-b 2 \
     --max-steps 10 \
     --use-fsdp \
-    --use-compile \
     --use-spectral \
     --output-dir "$OUTPUT_BASE" \
-    --run-label "4gpu_fsdp_compile_spectral"
+    --run-label "4gpu_fsdp_spectral"
 
 echo ""
 echo "✓ 4-GPU scaling benchmark complete."
@@ -146,7 +150,7 @@ import json, os, sys
 
 base = '$OUTPUT_BASE'
 f1 = os.path.join(base, '1gpu_baseline', 'scaling_results.json')
-f4 = os.path.join(base, '4gpu_fsdp_compile_spectral', 'scaling_results.json')
+f4 = os.path.join(base, '4gpu_fsdp_spectral', 'scaling_results.json')
 
 if not os.path.exists(f1) or not os.path.exists(f4):
     print('ERROR: Missing result files')
