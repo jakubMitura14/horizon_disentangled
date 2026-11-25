@@ -20,6 +20,7 @@ Backbone options:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.checkpoint import checkpoint as grad_checkpoint
 from typing import Dict, Any, Tuple, Optional
 from monai.networks.nets import AutoencoderKL
 import logging
@@ -234,10 +235,16 @@ class TwoScaleHierarchicalCausalVAE(nn.Module):
             nn.GELU(),
         )
         
+        # Depthwise-separable final conv: avoids 20+ GiB im2col workspace
+        # from Conv3d(C, C, k=3) at full (256, 256, 192) resolution.
+        # DW k=3 (groups=C) workspace = C × 27 × D×H×W × 2 / C = 27 × D×H×W × 2 ≈ 0.63 GiB
+        # vs standard k=3 workspace = C × 27 × D×H×W × 2 ≈ 20.25 GiB (at C=32)
+        final_ch = l2_channels // 8
         self.final_conv = nn.Sequential(
-            nn.Conv3d(l2_channels // 8, l2_channels // 8, kernel_size=3, padding=1),
+            nn.Conv3d(final_ch, final_ch, kernel_size=3, padding=1, groups=final_ch, bias=False),  # DW
+            nn.Conv3d(final_ch, final_ch, kernel_size=1, bias=True),  # PW
             nn.GELU(),
-            nn.Conv3d(l2_channels // 8, in_channels, kernel_size=1),
+            nn.Conv3d(final_ch, in_channels, kernel_size=1),
         )
 
         # Mask prediction head (multi-compartment)
@@ -321,25 +328,44 @@ class TwoScaleHierarchicalCausalVAE(nn.Module):
             "mu_s": mu_s, "logvar_s": logvar_s,
         }
 
-    def decode(self, z_a: torch.Tensor, u_d: torch.Tensor, z_s: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Decode from latents to reconstruction + mask prediction."""
-        # Upsample U_D to match Z_A spatial shape
+    def _decode_stage1(self, z_a: torch.Tensor, u_d: torch.Tensor, z_s: torch.Tensor) -> torch.Tensor:
+        """First decode stage: fuse + first upsample (checkpointable)."""
         u_d_up = self.ud_upsample(u_d)
-        
         if u_d_up.shape[2:] != z_a.shape[2:]:
             u_d_up = F.interpolate(u_d_up, size=z_a.shape[2:], mode="trilinear", align_corners=False)
-
-        # Fuse Z_A + U_D with AdaGN conditioning on Z_S
         fused = torch.cat([z_a, u_d_up], dim=1)
         h = self.fuse_conv(fused)
         h = F.gelu(self.adagn1(h, z_s))
+        return h
 
-        # Progressive upsampling
+    def _decode_stage2(self, h: torch.Tensor, z_s: torch.Tensor) -> torch.Tensor:
+        """Second decode stage: dec_up1 + adagn2 (checkpointable)."""
         h = self.dec_up1(h)
         h = F.gelu(self.adagn2(h, z_s))
+        return h
+
+    def _decode_stage3(self, h: torch.Tensor) -> torch.Tensor:
+        """Third decode stage: dec_up2 + final_conv (checkpointable)."""
         h = self.dec_up2(h)
-        recon = self.final_conv(h)
-        
+        return self.final_conv(h)
+
+    def decode(self, z_a: torch.Tensor, u_d: torch.Tensor, z_s: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Decode from latents to reconstruction + mask prediction.
+
+        Uses gradient checkpointing on decoder stages to reduce peak VRAM
+        by not storing intermediate activations during forward pass.
+        """
+        use_ckpt = self.training and torch.is_grad_enabled()
+
+        if use_ckpt:
+            h = grad_checkpoint(self._decode_stage1, z_a, u_d, z_s, use_reentrant=False)
+            h = grad_checkpoint(self._decode_stage2, h, z_s, use_reentrant=False)
+            recon = grad_checkpoint(self._decode_stage3, h, use_reentrant=False)
+        else:
+            h = self._decode_stage1(z_a, u_d, z_s)
+            h = self._decode_stage2(h, z_s)
+            recon = self._decode_stage3(h)
+
         # Mask prediction from U_D
         mask_pred = self.mask_head(u_d)
         return recon, mask_pred
