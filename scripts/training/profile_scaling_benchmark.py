@@ -289,23 +289,20 @@ def benchmark_phase_b(
     if is_main_rank():
         logger.info(f"  VAE params: {n_params / 1e6:.1f}M")
 
-    # torch.compile BEFORE FSDP — compile individual sub-modules to avoid
-    # weight-shape conflicts when FSDP flattens parameters
-    if use_compile:
+    # torch.compile — only when NOT using FSDP (Dynamo + FSDP + Conv3d has stride compat issues)
+    if use_compile and not (use_fsdp and dist.is_initialized()):
         try:
-            # Compile encode and decode paths separately (not the whole model)
-            # This avoids FSDP + compile conflicts on Conv3d weight shapes
-            if hasattr(vae, 'cross_seq_fusion'):
-                vae.cross_seq_fusion = torch.compile(vae.cross_seq_fusion, mode="max-autotune", dynamic=False)
-            if hasattr(vae, 'l2_down'):
-                vae.l2_down = torch.compile(vae.l2_down, mode="max-autotune", dynamic=False)
+            vae = torch.compile(vae, mode="max-autotune", dynamic=False, fullgraph=False)
             if is_main_rank():
-                logger.info("  torch.compile applied to VAE sub-modules (pre-FSDP)")
+                logger.info("  torch.compile applied to VAE (single-GPU or DDP mode)")
         except Exception as e:
             if is_main_rank():
                 logger.warning(f"  torch.compile failed: {e}")
+    elif use_compile and use_fsdp and dist.is_initialized():
+        if is_main_rank():
+            logger.info("  torch.compile skipped for Phase B (FSDP + Dynamo Conv3d stride incompatibility)")
 
-    # FSDP wrapping (after compile on sub-modules)
+    # FSDP wrapping
     if use_fsdp and dist.is_initialized():
         import functools
         from torch.distributed.fsdp import (
