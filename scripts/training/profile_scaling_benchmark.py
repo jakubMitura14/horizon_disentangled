@@ -140,13 +140,15 @@ def benchmark_phase_a(
     vol_shape: Tuple[int, ...] = (4, 128, 128, 64),
     feature_size: int = 48,
     n_steps: int = 10,
+    use_fsdp: bool = False,
     use_compile: bool = False,
     device: str = "cuda",
 ) -> Dict[str, Any]:
-    """Benchmark Phase A with the real SwinUNETR encoder.
+    """Benchmark Phase A with the real SwinUNETR / VoComni-H encoder.
 
-    Uses the production SwinUNETREncoder from models.py with randomly
-    initialized weights (no need to download 163GB of checkpoints for profiling).
+    Supports both SwinUNETR-48 (64.4M) and VoComni-H (feature_size=192, ~1.03B+).
+    When distributed and (use_fsdp or n_params > 400M), wraps in FSDP FULL_SHARD
+    using SwinTransformerBlock auto-wrap policy.
     """
     from src.pipeline.stage1_supervisors.models import SwinUNETREncoder
 
@@ -171,12 +173,44 @@ def benchmark_phase_a(
     if is_main_rank():
         logger.info(f"  Encoder params: {n_params / 1e6:.1f}M")
 
-    # DDP wrap if distributed
+    # FSDP (for >400M VoComni-H) or DDP wrap if distributed
     if dist.is_initialized():
-        from torch.nn.parallel import DistributedDataParallel as DDP
-        local_rank = int(os.environ.get("LOCAL_RANK", 0))
-        encoder = DDP(encoder, device_ids=[local_rank], static_graph=True,
-                      gradient_as_bucket_view=True, bucket_cap_mb=50)
+        if use_fsdp and n_params > 400_000_000:
+            import functools
+            from torch.distributed.fsdp import (
+                FullyShardedDataParallel as FSDP,
+                ShardingStrategy,
+                MixedPrecision,
+            )
+            from torch.distributed.fsdp.wrap import transformer_auto_wrap_policy
+            from monai.networks.nets.swin_unetr import SwinTransformerBlock
+
+            mp_policy = MixedPrecision(
+                param_dtype=torch.bfloat16,
+                reduce_dtype=torch.float32,
+                buffer_dtype=torch.bfloat16,
+            )
+            wrap_policy = functools.partial(
+                transformer_auto_wrap_policy,
+                transformer_layer_cls={SwinTransformerBlock},
+            )
+            encoder = FSDP(
+                encoder,
+                auto_wrap_policy=wrap_policy,
+                mixed_precision=mp_policy,
+                sharding_strategy=ShardingStrategy.FULL_SHARD,
+                device_id=torch.cuda.current_device(),
+                use_orig_params=True,
+                limit_all_gathers=True,
+                forward_prefetch=True,
+            )
+            if is_main_rank():
+                logger.info("  FSDP applied to Phase A encoder (FULL_SHARD, SwinTransformerBlock)")
+        else:
+            from torch.nn.parallel import DistributedDataParallel as DDP
+            local_rank = int(os.environ.get("LOCAL_RANK", 0))
+            encoder = DDP(encoder, device_ids=[local_rank], static_graph=True,
+                          gradient_as_bucket_view=True, bucket_cap_mb=50)
 
     # torch.compile (mode="default" avoids 25GB CUDA Graph private pool retention & 13-min autotuning)
     if use_compile:
@@ -257,6 +291,7 @@ def benchmark_phase_b(
     use_fsdp: bool = True,
     use_compile: bool = True,
     vae_channels: Tuple[int, ...] = (256, 512, 1024),
+    latent_input_shape: Tuple[int, ...] = (16, 32, 32, 16),
     device: str = "cuda",
 ) -> Dict[str, Any]:
     """Benchmark Phase B: 756M VAE with FSDP and torch.compile.
@@ -349,8 +384,8 @@ def benchmark_phase_b(
     vae.train()
 
     # Input shape: simulating cached MedVAE features from Phase A
-    # per_ch_z shape: (B, 16, 32, 32, 16) — 4 channels × 4 latent channels
-    input_shape = (batch_size, 16, 32, 32, 16)
+    # Default: (B, 16, 32, 32, 16); zero-cropped 256x256x192: (B, 16, 64, 64, 48)
+    input_shape = (batch_size, *latent_input_shape)
 
     # Warmup
     for _ in range(2):
@@ -429,6 +464,8 @@ def benchmark_phase_c(
     n_steps: int = 10,
     use_spectral: bool = True,
     domain: str = "gbm",
+    pde_shape: Optional[Tuple[int, int, int]] = None,
+    dx_mm: float = 8.0,
     device: str = "cuda",
 ) -> Dict[str, Any]:
     """Benchmark Phase C: ODE solver with spectral Laplacian.
@@ -451,26 +488,21 @@ def benchmark_phase_c(
     torch.cuda.reset_peak_memory_stats()
 
     solver = ContinuousDiscreteJumpSolver(domain=domain, dt_cfl_days=7.0)
+    latent_shape = pde_shape or ((24, 28, 20) if domain == "gbm" else (32, 32, 16))
 
-    # Enable spectral Laplacian on PDE sub-modules
-    if use_spectral:
-        pde = solver.spatial_pde
-        if hasattr(pde, 'use_spectral'):
-            # Already configured via constructor — but re-create with spectral=True
-            pass
-        # Recreate with spectral enabled
-        if domain == "gbm":
-            from src.pipeline.stage4_dynamics.gbm_biophysical import GlioblastomaBiophysicalPDE
-            solver.spatial_pde = GlioblastomaBiophysicalPDE(use_spectral=True)
-            latent_shape = (24, 28, 20)
-        else:
-            from src.pipeline.stage4_dynamics.breast_fast_slow import BreastFastSlowBiophysicalPDE
-            solver.spatial_pde = BreastFastSlowBiophysicalPDE(use_spectral=True)
-            latent_shape = (32, 32, 16)
-        if is_main_rank():
-            logger.info("  Spectral cuFFT Laplacian enabled")
+    # Configure PDE with custom spatial shape, dx_mm, and optional spectral Laplacian
+    if domain == "gbm":
+        from src.pipeline.stage4_dynamics.gbm_biophysical import GlioblastomaBiophysicalPDE
+        solver.spatial_pde = GlioblastomaBiophysicalPDE(
+            latent_shape=latent_shape, dx_mm=dx_mm, use_spectral=use_spectral
+        )
     else:
-        latent_shape = (24, 28, 20) if domain == "gbm" else (32, 32, 16)
+        from src.pipeline.stage4_dynamics.breast_fast_slow import BreastFastSlowBiophysicalPDE
+        solver.spatial_pde = BreastFastSlowBiophysicalPDE(
+            latent_shape=latent_shape, dx_mm=dx_mm, use_spectral=use_spectral
+        )
+    if use_spectral and is_main_rank():
+        logger.info(f"  Spectral cuFFT Laplacian enabled (shape={latent_shape}, dx={dx_mm}mm)")
 
     solver = solver.to(device).to(torch.bfloat16)
 
@@ -716,7 +748,14 @@ def parse_args():
     parser.add_argument("--batch-c", type=int, default=24, help="Phase C batch size")
     parser.add_argument("--grad-accum-b", type=int, default=2, help="Phase B grad accumulation")
     parser.add_argument("--max-steps", type=int, default=10, help="Steps per phase")
-    parser.add_argument("--feature-size", type=int, default=48, help="SwinUNETR feature_size")
+    parser.add_argument("--feature-size", type=int, default=48, help="SwinUNETR feature_size (192 for VoComni-H)")
+    parser.add_argument("--vol-shape", type=str, default="4,128,128,64",
+                        help="Phase A volume shape C,D,H,W (use 4,256,256,192 for zero-cropping)")
+    parser.add_argument("--latent-input-shape", type=str, default="16,32,32,16",
+                        help="Phase B latent input shape C,D,H,W (use 16,64,64,48 for zero-cropping)")
+    parser.add_argument("--pde-shape", type=str, default="24,28,20",
+                        help="Phase C PDE grid D,H,W (use 48,56,40 for 4mm high-res)")
+    parser.add_argument("--dx-mm", type=float, default=8.0, help="Phase C grid spacing in mm (4.0 for 48,56,40)")
     parser.add_argument("--output-dir", type=str,
                         default="/e/scratch/numedai-scale/mitura1/horizon_profiling/scaling")
     parser.add_argument("--run-label", type=str, default=None,
@@ -770,14 +809,19 @@ def main():
 
     selected_phases = [p.strip().upper() for p in args.phases.split(",")]
 
+    vol_shape = tuple(int(x) for x in args.vol_shape.split(","))
+    latent_input_shape = tuple(int(x) for x in args.latent_input_shape.split(","))
+    pde_shape = tuple(int(x) for x in args.pde_shape.split(","))
+
     # Phase A
     if "A" in selected_phases:
-        with phase_timer("Phase A: SwinUNETR Encoder"):
+        with phase_timer("Phase A: SwinUNETR / VoComni-H Encoder"):
             results["phases"]["A"] = benchmark_phase_a(
                 batch_size=args.batch_a,
-                vol_shape=(4, 128, 128, 64),
+                vol_shape=vol_shape,
                 feature_size=args.feature_size,
                 n_steps=args.max_steps,
+                use_fsdp=args.use_fsdp,
                 use_compile=args.use_compile,
                 device=device,
             )
@@ -792,6 +836,7 @@ def main():
                 n_steps=args.max_steps,
                 use_fsdp=args.use_fsdp,
                 use_compile=args.use_compile,
+                latent_input_shape=latent_input_shape,
                 device=device,
             )
         gpu_cleanup()
@@ -803,6 +848,8 @@ def main():
                 batch_size=args.batch_c,
                 n_steps=args.max_steps,
                 use_spectral=args.use_spectral,
+                pde_shape=pde_shape,
+                dx_mm=args.dx_mm,
                 device=device,
             )
         gpu_cleanup()
