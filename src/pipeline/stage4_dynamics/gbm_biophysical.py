@@ -59,7 +59,8 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         kappa_darcy: float = 0.02,
         mu_screening: float = 0.1,
         gamma_pressure: float = 0.03,
-        k_clear: float = 0.05
+        k_clear: float = 0.05,
+        use_spectral: bool = False
     ):
         super().__init__()
         self.latent_shape = latent_shape
@@ -69,6 +70,13 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         self.mu_s = mu_screening
         self.gamma_p = gamma_pressure
         self.k_clear = k_clear
+        self.use_spectral = use_spectral
+
+        # Spectral Laplacian (cuFFT) — optional replacement for FD stencils
+        if use_spectral:
+            from src.pipeline.stage4_dynamics.spectral_laplacian import SpectralLaplacian3D, SpectralGradient3D
+            self.spectral_lap = SpectralLaplacian3D(spatial_shape=latent_shape, dx_mm=dx_mm)
+            self.spectral_grad = SpectralGradient3D(spatial_shape=latent_shape, dx_mm=dx_mm)
 
         # Neural closure f_psi for residual dynamics — deeper 3-layer ResNet
         self.neural_closure = nn.Sequential(
@@ -156,13 +164,21 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         flux_z = phi_mask * u_v * v_z
         flux_y = phi_mask * u_v * v_y
         flux_x = phi_mask * u_v * v_x
-        gz_fz, _, _ = FiniteDifference3D.gradient(flux_z, self.dx)
-        _, gy_fy, _ = FiniteDifference3D.gradient(flux_y, self.dx)
-        _, _, gx_fx = FiniteDifference3D.gradient(flux_x, self.dx)
+        if self.use_spectral:
+            gz_fz, _, _ = self.spectral_grad(flux_z)
+            _, gy_fy, _ = self.spectral_grad(flux_y)
+            _, _, gx_fx = self.spectral_grad(flux_x)
+        else:
+            gz_fz, _, _ = FiniteDifference3D.gradient(flux_z, self.dx)
+            _, gy_fy, _ = FiniteDifference3D.gradient(flux_y, self.dx)
+            _, _, gx_fx = FiniteDifference3D.gradient(flux_x, self.dx)
         div_advect_v = gz_fz + gy_fy + gx_fx
 
         # 2. Anisotropic Infiltration Diffusion: D_w * div(phi_tau * grad(u_v))
-        lap_v = FiniteDifference3D.laplacian(u_v, self.dx)
+        if self.use_spectral:
+            lap_v = self.spectral_lap(u_v)
+        else:
+            lap_v = FiniteDifference3D.laplacian(u_v, self.dx)
         diff_v = self.diff_w * phi_tau * lap_v
 
         # 3. Logistic Proliferation: rho * u_v * (1 - u_v - u_d)
@@ -176,7 +192,10 @@ class GlioblastomaBiophysicalPDE(nn.Module):
         du_d = 0.01 * phi_mask * u_v * (u_v + u_d_dam) - self.k_clear * phi_mask * u_d_dam
 
         # 6. Edema du_e / dt
-        lap_e = FiniteDifference3D.laplacian(u_e, self.dx)
+        if self.use_spectral:
+            lap_e = self.spectral_lap(u_e)
+        else:
+            lap_e = FiniteDifference3D.laplacian(u_e, self.dx)
         du_e = 0.02 * phi_tau * lap_e + 0.02 * phi_mask * (u_v + 0.5 * u_d_dam) - 0.03 * phi_mask * u_e
 
         # 7. Pressure update dp / dt

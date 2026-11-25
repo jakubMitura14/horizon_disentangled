@@ -19,6 +19,7 @@ from src.pipeline.stage4_dynamics.breast_fast_slow import BreastFastSlowBiophysi
 from src.pipeline.stage4_dynamics.systemic_njde import SystemicNeuralJumpODE
 from src.pipeline.stage4_dynamics.solver import ContinuousDiscreteJumpSolver
 from src.pipeline.stage4_dynamics.masked_loss import MaskedLeaveOneOutLoss
+from src.pipeline.stage4_dynamics.spectral_laplacian import SpectralLaplacian3D, SpectralGradient3D
 
 __all__ = [
     "GlioblastomaBiophysicalPDE",
@@ -27,5 +28,7 @@ __all__ = [
     "ExtendedToftsObservationOperator",
     "SystemicNeuralJumpODE",
     "ContinuousDiscreteJumpSolver",
-    "MaskedLeaveOneOutLoss"
+    "MaskedLeaveOneOutLoss",
+    "SpectralLaplacian3D",
+    "SpectralGradient3D",
 ]

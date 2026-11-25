@@ -102,12 +102,19 @@ class BreastFastSlowBiophysicalPDE(nn.Module):
         self,
         latent_shape: Tuple[int, int, int] = (32, 32, 16),
         dx_mm: float = 8.0,
-        diff_b_default: float = 0.02
+        diff_b_default: float = 0.02,
+        use_spectral: bool = False
     ):
         super().__init__()
         self.latent_shape = latent_shape
         self.dx = dx_mm
         self.diff_b = diff_b_default
+        self.use_spectral = use_spectral
+
+        # Spectral Laplacian (cuFFT) — optional replacement for FD stencils
+        if use_spectral:
+            from src.pipeline.stage4_dynamics.spectral_laplacian import SpectralLaplacian3D
+            self.spectral_lap = SpectralLaplacian3D(spatial_shape=latent_shape, dx_mm=dx_mm)
 
         self.tofts_op = ExtendedToftsObservationOperator()
 
@@ -149,8 +156,11 @@ class BreastFastSlowBiophysicalPDE(nn.Module):
         v_p = torch.sigmoid(u_d[:, 3:4]) * 0.3
 
         # Diffusion term
-        from src.pipeline.stage4_dynamics.gbm_biophysical import FiniteDifference3D
-        lap_uc = FiniteDifference3D.laplacian(u_c, self.dx)
+        if self.use_spectral:
+            lap_uc = self.spectral_lap(u_c)
+        else:
+            from src.pipeline.stage4_dynamics.gbm_biophysical import FiniteDifference3D
+            lap_uc = FiniteDifference3D.laplacian(u_c, self.dx)
         diff_term = self.diff_b * lap_uc
 
         # Proliferation: logistic expansion
