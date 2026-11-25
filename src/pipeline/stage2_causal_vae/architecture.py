@@ -344,14 +344,17 @@ class TwoScaleHierarchicalCausalVAE(nn.Module):
         mask_pred = self.mask_head(u_d)
         return recon, mask_pred
 
-    def forward(self, x: torch.Tensor) -> Dict[str, Any]:
-        enc = self.encode(x)
-        recon, mask_pred = self.decode(enc["z_a"], enc["u_d"], enc["z_s"])
-        
-        if recon.shape[2:] != x.shape[2:]:
-            recon = F.interpolate(recon, size=x.shape[2:], mode="trilinear", align_corners=False)
-        if mask_pred.shape[2:] != x.shape[2:]:
-            mask_pred = F.interpolate(mask_pred, size=x.shape[2:], mode="trilinear", align_corners=False)
+    def forward(self, x: torch.Tensor, cached: bool = False) -> Dict[str, Any]:
+        if cached:
+            enc = self.encode_from_cached(x)
+            recon, mask_pred = self.decode(enc["z_a"], enc["u_d"], enc["z_s"])
+        else:
+            enc = self.encode(x)
+            recon, mask_pred = self.decode(enc["z_a"], enc["u_d"], enc["z_s"])
+            if recon.shape[2:] != x.shape[2:]:
+                recon = F.interpolate(recon, size=x.shape[2:], mode="trilinear", align_corners=False)
+            if mask_pred.shape[2:] != x.shape[2:]:
+                mask_pred = F.interpolate(mask_pred, size=x.shape[2:], mode="trilinear", align_corners=False)
 
         enc["recon"] = recon
         enc["mask_pred"] = mask_pred

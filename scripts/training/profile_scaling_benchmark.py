@@ -88,6 +88,11 @@ def is_main_rank():
 
 def gpu_cleanup():
     """Aggressive GPU memory cleanup between phases."""
+    try:
+        import torch._dynamo
+        torch._dynamo.reset()
+    except Exception:
+        pass
     gc.collect()
     gc.collect()
     torch.cuda.synchronize()
@@ -173,12 +178,12 @@ def benchmark_phase_a(
         encoder = DDP(encoder, device_ids=[local_rank], static_graph=True,
                       gradient_as_bucket_view=True, bucket_cap_mb=50)
 
-    # torch.compile
+    # torch.compile (mode="default" avoids 25GB CUDA Graph private pool retention & 13-min autotuning)
     if use_compile:
         try:
-            encoder = torch.compile(encoder, mode="max-autotune", dynamic=False)
+            encoder = torch.compile(encoder, mode="default", dynamic=False)
             if is_main_rank():
-                logger.info("  torch.compile applied to encoder")
+                logger.info("  torch.compile (mode=default) applied to encoder")
         except Exception as e:
             if is_main_rank():
                 logger.warning(f"  torch.compile failed: {e}")
@@ -289,29 +294,56 @@ def benchmark_phase_b(
     if is_main_rank():
         logger.info(f"  VAE params: {n_params / 1e6:.1f}M")
 
-    # torch.compile — only in single-GPU mode (FSDP/DDP + Dynamo has Conv3d stride issues)
-    if use_compile and not dist.is_initialized():
-        try:
-            vae = torch.compile(vae, mode="max-autotune", dynamic=False, fullgraph=False)
-            if is_main_rank():
-                logger.info("  torch.compile applied to VAE (single-GPU mode)")
-        except Exception as e:
-            if is_main_rank():
-                logger.warning(f"  torch.compile failed: {e}")
-    elif use_compile and dist.is_initialized():
-        if is_main_rank():
-            logger.info("  torch.compile skipped for Phase B in distributed mode (Conv3d stride compat)")
+    # FSDP wrapping (call vae(x, cached=True) so FSDP.forward() unshards parameters!)
+    if use_fsdp and dist.is_initialized():
+        import functools
+        from torch.distributed.fsdp import (
+            FullyShardedDataParallel as FSDP,
+            ShardingStrategy,
+            MixedPrecision,
+        )
+        from torch.distributed.fsdp.wrap import size_based_auto_wrap_policy
 
-    # Distributed wrapping — use DDP (not FSDP) since 756M model fits in 95GB VRAM
-    # FSDP's parameter flattening breaks Conv3d weight shapes in MONAI AutoencoderKL
-    if dist.is_initialized():
+        mp_policy = MixedPrecision(
+            param_dtype=torch.bfloat16,
+            reduce_dtype=torch.float32,
+            buffer_dtype=torch.bfloat16,
+        )
+        wrap_policy = functools.partial(
+            size_based_auto_wrap_policy, min_num_params=10_000_000
+        )
+        vae = FSDP(
+            vae,
+            auto_wrap_policy=wrap_policy,
+            mixed_precision=mp_policy,
+            sharding_strategy=ShardingStrategy.FULL_SHARD,
+            device_id=torch.cuda.current_device(),
+            use_orig_params=True,
+            limit_all_gathers=True,
+            forward_prefetch=True,
+        )
+        if is_main_rank():
+            logger.info("  FSDP applied (FULL_SHARD, bf16 params, fp32 reduce, use_orig_params=True)")
+    elif dist.is_initialized():
         from torch.nn.parallel import DistributedDataParallel as DDP
         local_rank = int(os.environ.get("LOCAL_RANK", 0))
         vae = DDP(vae, device_ids=[local_rank],
-                  find_unused_parameters=True,  # VAE has conditional paths
+                  find_unused_parameters=True,
                   gradient_as_bucket_view=True, bucket_cap_mb=50)
         if is_main_rank():
-            logger.info(f"  DDP applied (756M model fits per-GPU, FSDP skipped due to Conv3d compat)")
+            logger.info("  DDP applied")
+
+    # torch.compile after FSDP/DDP wrapping
+    if use_compile:
+        try:
+            import torch._dynamo
+            torch._dynamo.config.suppress_errors = True
+            vae = torch.compile(vae, mode="default", dynamic=False, fullgraph=False)
+            if is_main_rank():
+                logger.info("  torch.compile (mode=default) applied to VAE")
+        except Exception as e:
+            if is_main_rank():
+                logger.warning(f"  torch.compile failed: {e}")
 
     optimizer = torch.optim.AdamW(vae.parameters(), lr=1e-4)
     vae.train()
@@ -324,10 +356,11 @@ def benchmark_phase_b(
     for _ in range(2):
         x = torch.randn(*input_shape, device=device, dtype=torch.bfloat16)
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-            # Access underlying model through FSDP/DDP wrapper
-            inner = vae.module if hasattr(vae, 'module') else vae
-            enc = inner.encode_from_cached(x)
-            loss = enc["z_a"].mean() + enc["mu_d"].mean()
+            enc = vae(x, cached=True)
+            recon = enc["recon"]
+            recon_loss = F.mse_loss(recon, torch.zeros_like(recon))
+            kl_loss = -0.5 * torch.mean(1 + enc["logvar_d"] - enc["mu_d"]**2 - enc["logvar_d"].exp())
+            loss = (recon_loss + 0.01 * kl_loss) / grad_accum
         loss.backward()
         optimizer.zero_grad(set_to_none=True)
 
@@ -342,11 +375,8 @@ def benchmark_phase_b(
     for step in range(n_steps):
         x = torch.randn(*input_shape, device=device, dtype=torch.bfloat16)
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-            inner = vae.module if hasattr(vae, 'module') else vae
-            enc = inner.encode_from_cached(x)
-            recon, mask = inner.decode(enc["z_a"], enc["u_d"], enc["z_s"])
-
-            # Combined loss
+            enc = vae(x, cached=True)
+            recon = enc["recon"]
             recon_loss = F.mse_loss(recon, torch.zeros_like(recon))
             kl_loss = -0.5 * torch.mean(1 + enc["logvar_d"] - enc["mu_d"]**2 - enc["logvar_d"].exp())
             loss = (recon_loss + 0.01 * kl_loss) / grad_accum
