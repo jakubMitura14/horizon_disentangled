@@ -72,7 +72,7 @@ torchrun \
     --phases A,B,C \
     --feature-size 192 \
     --vol-shape 4,256,256,192 \
-    --batch-a 3 \
+    --batch-a 2 \
     --latent-input-shape 16,64,64,48 \
     --batch-b 6 \
     --grad-accum-b 2 \
