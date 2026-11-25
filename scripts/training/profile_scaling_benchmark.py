@@ -89,8 +89,8 @@ def is_main_rank():
 def gpu_cleanup():
     """Aggressive GPU memory cleanup between phases."""
     try:
-        import torch._dynamo
-        torch._dynamo.reset()
+        from torch import _dynamo
+        _dynamo.reset()
     except Exception:
         pass
     gc.collect()
@@ -336,8 +336,8 @@ def benchmark_phase_b(
     # torch.compile after FSDP/DDP wrapping
     if use_compile:
         try:
-            import torch._dynamo
-            torch._dynamo.config.suppress_errors = True
+            from torch import _dynamo
+            _dynamo.config.suppress_errors = True
             vae = torch.compile(vae, mode="default", dynamic=False, fullgraph=False)
             if is_main_rank():
                 logger.info("  torch.compile (mode=default) applied to VAE")
