@@ -277,7 +277,7 @@ def benchmark_phase_b(
         anatomy_channels=4,
         disease_channels=8,
         vae_channels=vae_channels,
-        num_res_blocks=3,
+        vae_num_res_blocks=3,
         global_disease_dim=128,
         patient_dim=64,
         style_dim=64,
