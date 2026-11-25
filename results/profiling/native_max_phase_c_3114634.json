@@ -1,0 +1,35 @@
+{
+  "run_label": "phase_c_native",
+  "ngpus": 4,
+  "device": "NVIDIA GH200 120GB",
+  "config": {
+    "use_fsdp": false,
+    "use_compile": false,
+    "use_spectral": true,
+    "batch_a": 8,
+    "batch_b": 32,
+    "batch_c": 56,
+    "grad_accum_b": 2,
+    "max_steps": 8
+  },
+  "phases": {
+    "C": {
+      "phase": "C",
+      "model": "Spectral-GBM-Solver",
+      "params_M": 3.8,
+      "batch_size": 56,
+      "ngpus": 4,
+      "use_spectral": true,
+      "n_steps": 8,
+      "elapsed_s": 26.022,
+      "throughput_traj_s": 68.86,
+      "peak_vram_gb": 79.14,
+      "occupancy_pct": 83.3,
+      "latent_shape": [
+        48,
+        56,
+        40
+      ]
+    }
+  }
+}
