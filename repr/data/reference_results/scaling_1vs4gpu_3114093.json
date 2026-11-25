@@ -1,0 +1,173 @@
+{
+  "1gpu": {
+    "run_label": "1gpu_baseline",
+    "ngpus": 1,
+    "device": "NVIDIA GH200 120GB",
+    "config": {
+      "use_fsdp": false,
+      "use_compile": false,
+      "use_spectral": true,
+      "batch_a": 8,
+      "batch_b": 32,
+      "batch_c": 56,
+      "grad_accum_b": 2,
+      "max_steps": 10
+    },
+    "phases": {
+      "A": {
+        "phase": "A",
+        "model": "SwinUNETR-48",
+        "params_M": 64.4,
+        "batch_size": 8,
+        "ngpus": 1,
+        "n_steps": 10,
+        "elapsed_s": 2.904,
+        "throughput_vol_s": 27.54,
+        "peak_vram_gb": 22.7,
+        "occupancy_pct": 23.9,
+        "vol_shape": [
+          4,
+          128,
+          128,
+          64
+        ]
+      },
+      "B": {
+        "phase": "B",
+        "model": "CausalVAE-256-512-1024",
+        "params_M": 756.1,
+        "batch_size": 32,
+        "effective_batch": 64,
+        "grad_accum": 2,
+        "ngpus": 1,
+        "use_fsdp": false,
+        "use_compile": false,
+        "n_steps": 10,
+        "elapsed_s": 14.782,
+        "throughput_vol_s": 21.65,
+        "peak_vram_gb": 73.56,
+        "occupancy_pct": 77.4
+      },
+      "C": {
+        "phase": "C",
+        "model": "Spectral-GBM-Solver",
+        "params_M": 3.8,
+        "batch_size": 56,
+        "ngpus": 1,
+        "use_spectral": true,
+        "n_steps": 10,
+        "elapsed_s": 32.39,
+        "throughput_traj_s": 17.29,
+        "peak_vram_gb": 79.13,
+        "occupancy_pct": 83.3,
+        "latent_shape": [
+          48,
+          56,
+          40
+        ]
+      }
+    },
+    "spectral_vs_fd": {
+      "fd_time_ms": 0.349,
+      "spectral_time_ms": 0.294,
+      "speedup": 1.19,
+      "n_iters": 100,
+      "shape": "32x8x24x28x20"
+    }
+  },
+  "4gpu": {
+    "run_label": "4gpu_fsdp_spectral",
+    "ngpus": 4,
+    "device": "NVIDIA GH200 120GB",
+    "config": {
+      "use_fsdp": true,
+      "use_compile": false,
+      "use_spectral": true,
+      "batch_a": 8,
+      "batch_b": 32,
+      "batch_c": 56,
+      "grad_accum_b": 2,
+      "max_steps": 10
+    },
+    "phases": {
+      "A": {
+        "phase": "A",
+        "model": "SwinUNETR-48",
+        "params_M": 64.4,
+        "batch_size": 8,
+        "ngpus": 4,
+        "n_steps": 10,
+        "elapsed_s": 2.974,
+        "throughput_vol_s": 107.59,
+        "peak_vram_gb": 22.88,
+        "occupancy_pct": 24.1,
+        "vol_shape": [
+          4,
+          128,
+          128,
+          64
+        ]
+      },
+      "B": {
+        "phase": "B",
+        "model": "CausalVAE-256-512-1024",
+        "params_M": 756.1,
+        "batch_size": 32,
+        "effective_batch": 64,
+        "grad_accum": 2,
+        "ngpus": 4,
+        "use_fsdp": true,
+        "use_compile": false,
+        "n_steps": 10,
+        "elapsed_s": 15.113,
+        "throughput_vol_s": 84.7,
+        "peak_vram_gb": 72.48,
+        "occupancy_pct": 76.3
+      },
+      "C": {
+        "phase": "C",
+        "model": "Spectral-GBM-Solver",
+        "params_M": 3.8,
+        "batch_size": 56,
+        "ngpus": 4,
+        "use_spectral": true,
+        "n_steps": 10,
+        "elapsed_s": 32.64,
+        "throughput_traj_s": 68.63,
+        "peak_vram_gb": 79.14,
+        "occupancy_pct": 83.3,
+        "latent_shape": [
+          48,
+          56,
+          40
+        ]
+      }
+    }
+  },
+  "scaling": {
+    "A": {
+      "speedup": 3.91,
+      "efficiency_pct": 97.7,
+      "throughput_1gpu": 27.54,
+      "throughput_4gpu": 107.59,
+      "vram_1gpu_gb": 22.7,
+      "vram_4gpu_per_gpu_gb": 22.88
+    },
+    "B": {
+      "speedup": 3.91,
+      "efficiency_pct": 97.8,
+      "throughput_1gpu": 21.65,
+      "throughput_4gpu": 84.7,
+      "vram_1gpu_gb": 73.56,
+      "vram_4gpu_per_gpu_gb": 72.48
+    },
+    "C": {
+      "speedup": 3.97,
+      "efficiency_pct": 99.2,
+      "throughput_1gpu": 17.29,
+      "throughput_4gpu": 68.63,
+      "vram_1gpu_gb": 79.13,
+      "vram_4gpu_per_gpu_gb": 79.14
+    }
+  }
+}

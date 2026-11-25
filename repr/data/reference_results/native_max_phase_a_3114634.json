@@ -1,0 +1,35 @@
+{
+  "run_label": "phase_a_native",
+  "ngpus": 4,
+  "device": "NVIDIA GH200 120GB",
+  "config": {
+    "use_fsdp": true,
+    "use_compile": true,
+    "use_spectral": false,
+    "batch_a": 2,
+    "batch_b": 32,
+    "batch_c": 24,
+    "grad_accum_b": 2,
+    "max_steps": 8
+  },
+  "phases": {
+    "A": {
+      "phase": "A",
+      "model": "SwinUNETR-192",
+      "params_M": 998.9,
+      "batch_size": 2,
+      "ngpus": 4,
+      "n_steps": 8,
+      "elapsed_s": 5.933,
+      "throughput_vol_s": 10.79,
+      "peak_vram_gb": 50.16,
+      "occupancy_pct": 52.8,
+      "vol_shape": [
+        4,
+        256,
+        256,
+        192
+      ]
+    }
+  }
+}

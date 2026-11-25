@@ -1,0 +1,172 @@
+{
+    "description": "Phased pipeline hyperparameter configuration",
+    "version": "1.0",
+    "domain": "breast",
+
+    "phase_a": {
+        "description": "Frozen pretrained encoder feature extraction",
+        "encoders": {
+            "visual_encoder": {
+                "selected": "suprem",
+                "options": {
+                    "suprem": {
+                        "weights": "models/SuPreM/supervised_suprem_swinunetr_2100.pth",
+                        "feature_size": 48,
+                        "depths": [2, 2, 2, 2],
+                        "in_channels": 3,
+                        "feature_dim": 768,
+                        "notes": "2100 CT volumes, general anatomy, good breast baseline"
+                    },
+                    "suprem_ssl": {
+                        "weights": "models/SuPreM/self_supervised_nv_swin_unetr_50000.pth",
+                        "feature_size": 48,
+                        "depths": [2, 2, 2, 2],
+                        "in_channels": 1,
+                        "feature_dim": 768,
+                        "notes": "50K CTs self-supervised, single channel"
+                    },
+                    "vocomni_h": {
+                        "weights": "models/VoCo/VoComni_H.pt",
+                        "feature_size": 192,
+                        "depths": [2, 2, 2, 2],
+                        "in_channels": 3,
+                        "feature_dim": 3072,
+                        "notes": "1.16B params, 160K CTs, highest capacity"
+                    },
+                    "vocomni_l": {
+                        "weights": "models/VoCo/VoComni_L.pt",
+                        "feature_size": 48,
+                        "depths": [2, 2, 2, 2],
+                        "in_channels": 3,
+                        "feature_dim": 768,
+                        "notes": "Lighter VoCo, same arch as SuPreM"
+                    },
+                    "brainsegfounder_brats": {
+                        "weights": "models/BrainSegFounder/model_weights_BRATS-pretrain.pt",
+                        "feature_size": 48,
+                        "depths": [2, 2, 6, 2],
+                        "in_channels": 4,
+                        "feature_dim": 768,
+                        "notes": "Brain-specific, 4ch native, good for GBM"
+                    },
+                    "vista3d_ctmr": {
+                        "weights": "models/VISTA3D-CTMR/model.pt",
+                        "feature_size": 48,
+                        "depths": [2, 2, 2, 2],
+                        "in_channels": 3,
+                        "feature_dim": 768,
+                        "notes": "CT+MR multi-organ segmentation"
+                    }
+                }
+            },
+            "vae_encoder": {
+                "selected": "medvae_4_1_3d",
+                "options": {
+                    "medvae_4_1_3d": {
+                        "spatial_downsample": 4,
+                        "params_M": 160,
+                        "latent_channels": 4,
+                        "notes": "4× downsample, MIT license, ~160M params"
+                    },
+                    "medvae_8_1_3d": {
+                        "spatial_downsample": 8,
+                        "params_M": 245,
+                        "latent_channels": 4,
+                        "notes": "8× downsample, more compressed, ~245M params"
+                    },
+                    "monai_autoencoderkl": {
+                        "spatial_downsample": 4,
+                        "params_M": 42,
+                        "latent_channels": 4,
+                        "notes": "MONAI built-in, trained from scratch, lightest"
+                    }
+                }
+            }
+        },
+        "batch_size": 8,
+        "dtype": "bfloat16",
+        "storage_dtype": "float16",
+        "compression": "gzip",
+        "compression_level": 4
+    },
+
+    "phase_b": {
+        "description": "Causal VAE Level 2 disentanglement on cached features",
+        "training": {
+            "epochs": 100,
+            "lr": 2e-4,
+            "weight_decay": 1e-4,
+            "warmup_epochs": 5,
+            "batch_size": 16,
+            "gradient_accumulation_steps": 1
+        },
+        "vae_level2": {
+            "l2_channels": 64,
+            "convnext_blocks": 2,
+            "disease_spatial_channels": 8,
+            "disease_global_dim": 64,
+            "patient_dim": 32,
+            "style_dim": 32
+        },
+        "disentanglement": {
+            "beta_tc": 1.5,
+            "gamma_club": 1.0,
+            "alpha_dp": 0.5,
+            "kl_weight": 1e-3,
+            "lambda_anatomy": 2.0,
+            "lambda_disease": 2.0
+        },
+        "ood": {
+            "bottleneck_dim": 32,
+            "k_neighbors": 15,
+            "ood_percentile_threshold": 95.0
+        }
+    },
+
+    "phase_c": {
+        "description": "NJDE longitudinal dynamics on cached latents",
+        "training": {
+            "epochs": 50,
+            "lr": 1e-3,
+            "weight_decay": 1e-5,
+            "warmup_epochs": 3,
+            "batch_size": 32,
+            "n_monte_carlo": 16,
+            "gradient_accumulation_steps": 1
+        },
+        "njde": {
+            "systemic_dim": 160,
+            "spatial_channels": 8,
+            "hidden_dim": 512,
+            "res_blocks": 3,
+            "dropout": 0.1
+        },
+        "pde": {
+            "latent_shape": [32, 32, 16],
+            "dx_mm": 8.0,
+            "dt_days_cfl": 7.0,
+            "diff_b": 0.02
+        },
+        "counterfactual": {
+            "n_treatment_arms": 13,
+            "n_posterior_draws": 16,
+            "uncertainty_penalty_lambda": 0.5,
+            "eval_timestamps_weeks": [0, 3, 12, 24]
+        },
+        "decoder": {
+            "mode": "frozen",
+            "checkpoint_key": "vae_state",
+            "notes": "Loaded eval-only for reconstruction plausibility loss, no gradient"
+        }
+    },
+
+    "cluster": {
+        "gpus_per_node": 4,
+        "gpu_type": "H200",
+        "vram_per_gpu_gb": 141,
+        "precision": "bf16",
+        "nccl_bucket_cap_mb": 50,
+        "compile_mode": "max-autotune",
+        "fsdp_threshold_params_M": 400
+    }
+}

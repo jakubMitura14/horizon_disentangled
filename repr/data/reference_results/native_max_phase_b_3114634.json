@@ -1,0 +1,33 @@
+{
+  "run_label": "phase_b_native",
+  "ngpus": 4,
+  "device": "NVIDIA GH200 120GB",
+  "config": {
+    "use_fsdp": true,
+    "use_compile": false,
+    "use_spectral": false,
+    "batch_a": 8,
+    "batch_b": 4,
+    "batch_c": 24,
+    "grad_accum_b": 4,
+    "max_steps": 8
+  },
+  "phases": {
+    "B": {
+      "phase": "B",
+      "model": "CausalVAE-256-512-1024",
+      "params_M": 746.7,
+      "batch_size": 4,
+      "effective_batch": 16,
+      "grad_accum": 4,
+      "ngpus": 4,
+      "use_fsdp": true,
+      "use_compile": false,
+      "n_steps": 8,
+      "elapsed_s": 9.002,
+      "throughput_vol_s": 14.22,
+      "peak_vram_gb": 66.16,
+      "occupancy_pct": 69.6
+    }
+  }
+}
