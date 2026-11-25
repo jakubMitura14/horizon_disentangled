@@ -742,6 +742,7 @@ def parse_args():
     parser.add_argument("--phases", type=str, default="A,B,C", help="Phases to benchmark")
     parser.add_argument("--use-fsdp", action="store_true", help="Use FSDP for Phase B")
     parser.add_argument("--use-compile", action="store_true", help="Use torch.compile")
+    parser.add_argument("--no-compile-b", action="store_true", help="Skip torch.compile for Phase B (avoids 40.5GB conv3d im2col workspace at 256x256x192)")
     parser.add_argument("--use-spectral", action="store_true", help="Use spectral Laplacian")
     parser.add_argument("--batch-a", type=int, default=8, help="Phase A batch size")
     parser.add_argument("--batch-b", type=int, default=32, help="Phase B batch size")
@@ -835,7 +836,7 @@ def main():
                 grad_accum=args.grad_accum_b,
                 n_steps=args.max_steps,
                 use_fsdp=args.use_fsdp,
-                use_compile=args.use_compile,
+                use_compile=(args.use_compile and not args.no_compile_b),
                 latent_input_shape=latent_input_shape,
                 device=device,
             )
