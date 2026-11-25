@@ -62,13 +62,18 @@ class SpectralLaplacian3D(nn.Module):
 
         Args:
             u: (B, C, D, H, W) tensor on the spatial grid.
+                Supports bf16/fp16 inputs (auto-cast to fp32 for FFT, cast back).
 
         Returns:
-            ∇²u: (B, C, D, H, W) spectral Laplacian, same shape as input.
+            ∇²u: (B, C, D, H, W) spectral Laplacian, same shape and dtype as input.
         """
+        orig_dtype = u.dtype
+        if u.dtype not in (torch.float32, torch.float64, torch.complex64, torch.complex128):
+            u = u.float()  # FFT requires fp32+
         u_fft = torch.fft.rfftn(u, dim=(-3, -2, -1))
         lap_fft = u_fft * self.lap_multiplier
-        return torch.fft.irfftn(lap_fft, s=u.shape[-3:], dim=(-3, -2, -1))
+        result = torch.fft.irfftn(lap_fft, s=u.shape[-3:], dim=(-3, -2, -1))
+        return result.to(orig_dtype)
 
 
 class SpectralGradient3D(nn.Module):
@@ -105,10 +110,14 @@ class SpectralGradient3D(nn.Module):
 
         Args:
             u: (B, C, D, H, W) tensor.
+                Supports bf16/fp16 inputs (auto-cast to fp32 for FFT, cast back).
 
         Returns:
-            (grad_z, grad_y, grad_x): Each (B, C, D, H, W).
+            (grad_z, grad_y, grad_x): Each (B, C, D, H, W), same dtype as input.
         """
+        orig_dtype = u.dtype
+        if u.dtype not in (torch.float32, torch.float64, torch.complex64, torch.complex128):
+            u = u.float()
         u_fft = torch.fft.rfftn(u, dim=(-3, -2, -1))
 
         # Multiply by j*k_i in Fourier space (complex multiplication)
@@ -117,8 +126,8 @@ class SpectralGradient3D(nn.Module):
         grad_x_fft = 1j * self.kx * u_fft
 
         s = u.shape[-3:]
-        grad_z = torch.fft.irfftn(grad_z_fft, s=s, dim=(-3, -2, -1))
-        grad_y = torch.fft.irfftn(grad_y_fft, s=s, dim=(-3, -2, -1))
-        grad_x = torch.fft.irfftn(grad_x_fft, s=s, dim=(-3, -2, -1))
+        grad_z = torch.fft.irfftn(grad_z_fft, s=s, dim=(-3, -2, -1)).to(orig_dtype)
+        grad_y = torch.fft.irfftn(grad_y_fft, s=s, dim=(-3, -2, -1)).to(orig_dtype)
+        grad_x = torch.fft.irfftn(grad_x_fft, s=s, dim=(-3, -2, -1)).to(orig_dtype)
 
         return grad_z, grad_y, grad_x
